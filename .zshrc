@@ -73,6 +73,7 @@ ZSH_THEME="robbyrussell"
 plugins=(
   git
   # kubectl
+  zsh-autosuggestions
   docker
   docker-compose
 )
