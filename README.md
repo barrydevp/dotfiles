@@ -5,8 +5,8 @@
 ```bash
 echo ".cfg" >> .gitignore
 git clone --bare git@github.com:barrydevp/dotfiles.git $HOME/dotfiles
-alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-dotfiles config --local status.showUntrackedFiles no
-dotfiles checkout"
+alias dotfile='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+dotfile config --local status.showUntrackedFiles no
+dotfile checkout"
 exec zsh
 ```
