@@ -1,7 +1,8 @@
 # ZSH CONFIG STRUCTURE
 
 ### The order of calling init is shown as below
----
+
+```c
 zsh
   - init.zsh // init zsh config was called from .zshrc
   - declare.zsh // declare variable, local, global -> Standard: local variable with prefix "__"
@@ -14,4 +15,4 @@ zsh
   - func
      - init.zsh // init the function
      *.sh // functions
----
+```
