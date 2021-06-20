@@ -2,14 +2,20 @@
 export MYCONFIG=$HOME/.config
 export MYLOCAL=$HOME/.local
 
-### CONFIG FILE ###
-export ZSHC=$MYCONFIG/zsh
+### DECLARE ###
+source $MYCONFIG/zsh/declare.zsh
 
 ### LOAD ENV ###
-source $ZSHC/env.zsh
+source $__ZSH_CONFIG_DIR/env.zsh
 
 ### LOAD ALIAS ###
-source $ZSHC/alias.zsh
+source $__ZSH_CONFIG_DIR/alias.zsh
+
+### SETTING ###
+source $__ZSH_CONFIG_DIR/setting.zsh
+
+### KEYBINDING ###
+source $__ZSH_CONFIG_DIR/keybinding.zsh
 
 ### LOAD FUNC ###
-source $ZSHC/func/init.zsh
+source $__ZSH_CONFIG_DIR/func/init.zsh

@@ -1,5 +1,4 @@
-__FUNCDIR=$ZSHC/func
-
+# Declares load functions
 funcs=(
   shellbenchmark
 )

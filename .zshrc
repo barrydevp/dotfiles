@@ -78,13 +78,13 @@ plugins=(
   docker-compose
 )
 
-source $ZSH/oh-my-zsh.sh
-
 if [[ -f $HOME/.config/zsh/init.zsh ]]; then
   source $HOME/.config/zsh/init.zsh
 else
   echo "Cannot load $HOME/.config/zsh/init.zsh" 
 fi
+
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 

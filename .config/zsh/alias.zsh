@@ -18,3 +18,7 @@ alias \
 ### Dotfiles ###
 alias \
   dotfile='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
+
+### Neovim ###
+alias \
+  nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR"

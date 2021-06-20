@@ -61,11 +61,15 @@ opt("o", "cmdheight", 1)
 
 opt("o", "updatetime", 250) -- update interval for gitsigns
 opt("o", "clipboard", "unnamedplus")
-opt("o", "timeoutlen", 200)
+opt("o", "timeoutlen", 500)
 
 -- for indenline
 opt("b", "expandtab", true)
 opt("b", "shiftwidth", 2)
+opt("b", "tabstop", 2)
+opt("b", "softtabstop", 2)
+opt("b", "smartindent", true)
+require('settings.indent')
 
 local M = {}
 

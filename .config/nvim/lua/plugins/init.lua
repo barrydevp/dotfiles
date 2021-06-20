@@ -24,6 +24,8 @@ return require("packer").startup(
         use "glepnir/galaxyline.nvim"
         use "windwp/nvim-autopairs"
         use "alvan/vim-closetag"
+
+        -- comment
         use "terrortylor/nvim-comment"
 
         -- snippet support
