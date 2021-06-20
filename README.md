@@ -7,6 +7,6 @@ echo ".cfg" >> .gitignore
 git clone --bare git@github.com:barrydevp/dotfiles.git $HOME/dotfiles
 alias dotfile='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 dotfile config --local status.showUntrackedFiles no
-dotfile checkout"
+dotfile checkout
 exec zsh
 ```
