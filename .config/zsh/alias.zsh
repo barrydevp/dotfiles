@@ -21,4 +21,4 @@ alias \
 
 ### Neovim ###
 alias \
-  nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR"
+  nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
