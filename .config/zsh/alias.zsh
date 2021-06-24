@@ -11,7 +11,7 @@ alias \
 
 ### ZSH ###
 alias \
-  zshc="$EDITOR $HOME/.zshrc" \
+  zshc="cd $__ZSH_CONFIG_DIR && $EDITOR $HOME/.zshrc" \
   zshs="exec zsh"
   # zshs="source $ZSHC/init.zsh"
 
