@@ -11,7 +11,7 @@ alias \
 
 ### ZSH ###
 alias \
-  zshc="$EDITOR $HOME/.zshrc" \
+  zshc="cd $__ZSH_CONFIG_DIR && $EDITOR $HOME/.zshrc" \
   zshs="exec zsh"
   # zshs="source $ZSHC/init.zsh"
 
@@ -22,3 +22,7 @@ alias \
 ### Neovim ###
 alias \
   nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
+
+### Webstorm ###
+alias webstorm="open -na "WebStorm.app" --args ."
+alias w="webstorm ."

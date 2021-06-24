@@ -5,6 +5,9 @@ export MYLOCAL=$HOME/.local
 ### DECLARE ###
 source $MYCONFIG/zsh/declare.zsh
 
+### LOAD LOCAL ENV ###
+[[ -f $__ZSH_CONFIG_DIR/local.zsh ]] && source $__ZSH_CONFIG_DIR/local.zsh
+
 ### LOAD ENV ###
 source $__ZSH_CONFIG_DIR/env.zsh
 
@@ -19,3 +22,4 @@ source $__ZSH_CONFIG_DIR/keybinding.zsh
 
 ### LOAD FUNC ###
 source $__ZSH_CONFIG_DIR/func/init.zsh
+

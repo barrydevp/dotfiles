@@ -11,7 +11,7 @@ require "lua-nvim-bufferline"
 require "lua-galaxyline"
 
 require("colorizer").setup()
-require("neoscroll").setup() -- smooth scroll
+-- require("neoscroll").setup() -- smooth scroll
 
 -- lsp stuff
 require "lua-lspconfig"
