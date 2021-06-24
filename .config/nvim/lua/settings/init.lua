@@ -52,6 +52,7 @@ opt("o", "termguicolors", true)
 opt("w", "number", true)
 opt("w", "relativenumber", true)
 opt("o", "numberwidth", 2)
+opt("o", "scrolloff", 5)
 opt("w", "cul", true)
 
 opt("o", "mouse", "a")
