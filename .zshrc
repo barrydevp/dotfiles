@@ -111,3 +111,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias luamake=/home/barry/.config/lang-server/lua/3rd/luamake/luamake

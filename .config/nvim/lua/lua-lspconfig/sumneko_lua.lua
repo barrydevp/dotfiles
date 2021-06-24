@@ -4,8 +4,8 @@ local lspconf = require("lspconfig")
 
 USER = "/home/" .. vim.fn.expand("$USER")
 
-local sumneko_root_path = USER .. "/.config/lua-language-server"
-local sumneko_binary = USER .. "/.config/lua-language-server/bin/Linux/lua-language-server"
+local sumneko_root_path = USER .. "/.config/lang-server/lua"
+local sumneko_binary = USER .. "/.config/lang-server/lua/bin/Linux/lua-language-server"
 
 lspconf.sumneko_lua.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},

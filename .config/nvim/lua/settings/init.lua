@@ -15,7 +15,7 @@ base16(base16.themes["onedark"], true)
 
 -- blankline, indent
 
-local indent = 2
+-- local indent = 2
 
 g.indentLine_enabled = 1
 g.indent_blankline_char = "▏"
@@ -49,8 +49,8 @@ opt("o", "ignorecase", true)
 opt("o", "splitbelow", true)
 opt("o", "splitright", true)
 opt("o", "termguicolors", true)
-opt("w", "number", true)
-opt("w", "relativenumber", true)
+opt("o", "number", true)
+opt("o", "relativenumber", true)
 opt("o", "numberwidth", 2)
 opt("w", "cul", true)
 
