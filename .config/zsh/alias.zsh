@@ -22,3 +22,7 @@ alias \
 ### Neovim ###
 alias \
   nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
+
+### Webstorm ###
+alias webstorm="open -na "WebStorm.app" --args ."
+alias w="webstorm ."

@@ -46,7 +46,15 @@ end
 local lspconf = require("lspconfig")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
-local servers = {"html", "cssls", "tsserver", "pyright", "bashls", "clangd", "ccls", "gopls"}
+local servers = {
+    "html",
+    "cssls",
+    "tsserver",
+    "pyright",
+    "bashls",
+    "clangd",
+    "gopls"
+}
 
 for _, lang in ipairs(servers) do
     lspconf[lang].setup {
