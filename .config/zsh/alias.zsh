@@ -29,3 +29,9 @@ alias w="webstorm ."
 
 ### fnm ###
 
+### exa, the Change Directory (cd) alternative ###
+alias \
+  ls="exa --icons --group-directories-first" \
+  ll="exa -lgh --icons --group-directories-first" \
+  la="exa -lgha --icons --group-directories-first"
+
