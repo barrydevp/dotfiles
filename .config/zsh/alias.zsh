@@ -26,3 +26,6 @@ alias \
 ### Webstorm ###
 alias webstorm="open -na "WebStorm.app" --args ."
 alias w="webstorm ."
+
+### fnm ###
+

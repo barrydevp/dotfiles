@@ -1,6 +1,7 @@
 # Declares load functions
 funcs=(
   shellbenchmark
+  fnm
 )
 
 for func in $funcs; do
