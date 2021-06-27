@@ -5,13 +5,13 @@
 # Gradients
 # Gradient 1
 gradient = vertical
-start_color = STARTCOLOR1 100
-end_color = STARTCOLOR2 100
+start_color = #f48ee8 100
+end_color = #fa74b2 100
 
 # Gradient 2
 gradient = vertical
-start_color = STARTCOLOR1 82
-end_color = STARTCOLOR2 82
+start_color = #f48ee8 82
+end_color = #fa74b2 82
 
 #-------------------------------------
 # Backgrounds
@@ -284,7 +284,7 @@ execp_icon_h = 0
 #-------------------------------------
 # Button 1
 button = new
-button_text = STARTMENU
+button_text = 
 button_tooltip = Right click to open File Manager
 button_lclick_command = ~/.config/rofi/scripts/appsmenu.sh
 button_rclick_command = ~/.scripts/default-apps/launch filemanager

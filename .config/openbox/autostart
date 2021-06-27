@@ -14,16 +14,20 @@ source "$HOME"/.owl4ce_var
 # Compositor
 picom -b &> /dev/null
 
-# Authentication Agent - PolicyKit
-if command -v lxpolkit &> /dev/null; then
-    lxpolkit &> /dev/null &
-elif [ -x "/usr/libexec/polkit-gnome-authentication-agent-1" ]; then
-    /usr/libexec/polkit-gnome-authentication-agent-1 &> /dev/null &
-fi
+# # Authentication Agent - PolicyKit
+# if command -v lxpolkit &> /dev/null; then
+#     lxpolkit &> /dev/null &
+# elif [ -x "/usr/libexec/polkit-gnome-authentication-agent-1" ]; then
+#     /usr/libexec/polkit-gnome-authentication-agent-1 &> /dev/null &
+# fi
 
-# Sessions Autolock
-xautolock -time "$AUTOLOCK_MINUTE" -locker "$($DEFAPPS_EXEC -g lockscreen)" -detectsleep -resetsaver -corners 00-- -cornersize 1000 \
--notifier "$EXNOTIFY_SEND -i ${ICON_GLADIENT_DIR}/lock.png 'Lockscreen' 'Will be locked in 5s from now'" -notify 5 &> /dev/null &
+# # Sessions Autolock
+# xautolock -time "$AUTOLOCK_MINUTE" -locker "$($DEFAPPS_EXEC -g lockscreen)" -detectsleep -resetsaver -corners 00-- -cornersize 1000 \
+# -notifier "$EXNOTIFY_SEND -i ${ICON_GLADIENT_DIR}/lock.png 'Lockscreen' 'Will be locked in 5s from now'" -notify 5 &> /dev/null &
 
 # Start MPD player (+notification-sender)
-"$MPD_TCD"
+# "$MPD_TCD"
+
+# Setting repeat key
+xset r rate 280 25
+

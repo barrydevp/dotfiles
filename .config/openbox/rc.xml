@@ -32,7 +32,7 @@
   </placement>
   <theme>
     <name>Fleon</name>
-    <titleLayout>LIMC</titleLayout>
+    <titleLayout>CIML</titleLayout>
     <!-- available characters are NDSLIMC, each can occur at most once. N: window icon L: window label (AKA title). I: iconify M: maximize C: close S: shade (roll up/down) D: omnipresent (on all desktops). -->
     <keepBorder>yes</keepBorder>
     <animateIconify>yes</animateIconify>
@@ -125,9 +125,9 @@
   </resize>
   <!-- You can reserve a portion of your screen where windows will not cover when they are maximized, or when they are initially placed. Many programs reserve space automatically, but you can use this in other cases. -->
   <margins>
-    <top>40</top>
+    <top>10</top>
     <bottom>10</bottom>
-    <left>10</left>
+    <left>55</left>
     <right>10</right>
   </margins>
   <dock>
@@ -366,7 +366,7 @@
     <keybind key="W-f">
       <action name="ToggleFullscreen"/>
     </keybind>
-    <keybind key="W-x">
+    <keybind key="W-w">
       <action name="ToggleMaximize"/>
     </keybind>
     <keybind key="W-z">
@@ -432,7 +432,7 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute">
-        <command>bash -c '~/.scripts/default-apps/launch myterminal'</command>
+        <command>bash -c '~/.scripts/default-apps/launch alacritty'</command>
       </action>
     </keybind>
     <keybind key="W-e">

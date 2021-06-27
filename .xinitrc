@@ -4,8 +4,6 @@
 #
 # Executed by startx (run your window manager from here)
 
-xset r rate 300 25
-
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
