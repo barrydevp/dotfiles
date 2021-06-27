@@ -32,7 +32,7 @@
   </placement>
   <theme>
     <name>Fleon</name>
-    <titleLayout>CIML</titleLayout>
+    <titleLayout>LIMC</titleLayout>
     <!-- available characters are NDSLIMC, each can occur at most once. N: window icon L: window label (AKA title). I: iconify M: maximize C: close S: shade (roll up/down) D: omnipresent (on all desktops). -->
     <keepBorder>yes</keepBorder>
     <animateIconify>yes</animateIconify>
@@ -125,9 +125,9 @@
   </resize>
   <!-- You can reserve a portion of your screen where windows will not cover when they are maximized, or when they are initially placed. Many programs reserve space automatically, but you can use this in other cases. -->
   <margins>
-    <top>10</top>
+    <top>40</top>
     <bottom>10</bottom>
-    <left>55</left>
+    <left>10</left>
     <right>10</right>
   </margins>
   <dock>

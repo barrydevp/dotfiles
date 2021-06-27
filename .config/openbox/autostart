@@ -29,5 +29,5 @@ picom -b &> /dev/null
 # "$MPD_TCD"
 
 # Setting repeat key
-xset r rate 280 25
+xset r rate 300 25
 

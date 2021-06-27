@@ -128,7 +128,7 @@ border_color_pressed = #a1a8b9 0
 
 #-------------------------------------
 # Panel
-panel_items = PTPEPPPPPPP:SC
+panel_items = PTPPPPPPP:SC
 panel_size = 100% 45
 panel_margin = 0 0
 panel_padding = 7 7 7
@@ -169,7 +169,7 @@ taskbar_always_show_all_desktop_tasks = 0
 taskbar_name_padding = 6 0
 taskbar_name_background_id = 3
 taskbar_name_active_background_id = 3
-taskbar_name_font = Iosevka 8
+taskbar_name_font = Iosevka Bold 10
 taskbar_name_font_color = #f9f9f9 100
 taskbar_name_active_font_color = #f9f9f9 100
 taskbar_distribute_size = 0
@@ -182,7 +182,7 @@ task_text = 1
 task_icon = 0
 task_centered = 1
 urgent_nb_of_blink = 3
-task_maximum_size = 17 17
+task_maximum_size = 30 30
 task_padding = 0 0 0
 task_font = Sans 0
 task_tooltip = 1
@@ -267,28 +267,28 @@ separator_style = empty
 separator_size = 0
 separator_padding = 1 0
 
-#-------------------------------------
-# Executor 1
-execp = new
-execp_command = ~/.scripts/music-controller icon
-execp_interval = 1
-execp_has_icon = 0
-execp_cache_icon = 0
-execp_continuous = 0
-execp_markup = 0
-execp_tooltip = Toggle play/pause │Switch music player between mpd and spotify │Open Menu │Scroll to change current song
-execp_lclick_command = ~/.scripts/music-controller toggle
-execp_rclick_command = ~/.config/rofi/scripts/$(~/.scripts/default-apps/launch -g musicpl).sh
-execp_mclick_command = ~/.scripts/music-controller switchpl
-execp_uwheel_command = ~/.scripts/music-controller prev
-execp_dwheel_command = ~/.scripts/music-controller next
-execp_font = Material 17
-execp_font_color = #f0a6f4 100
-execp_padding = 3 0
-execp_background_id = 6
-execp_centered = 1
-execp_icon_w = 0
-execp_icon_h = 0
+# #-------------------------------------
+# # Executor 1
+# execp = new
+# execp_command = ~/.scripts/music-controller icon
+# execp_interval = 1
+# execp_has_icon = 0
+# execp_cache_icon = 0
+# execp_continuous = 0
+# execp_markup = 0
+# execp_tooltip = Toggle play/pause │Switch music player between mpd and spotify │Open Menu │Scroll to change current song
+# execp_lclick_command = ~/.scripts/music-controller toggle
+# execp_rclick_command = ~/.config/rofi/scripts/$(~/.scripts/default-apps/launch -g musicpl).sh
+# execp_mclick_command = ~/.scripts/music-controller switchpl
+# execp_uwheel_command = ~/.scripts/music-controller prev
+# execp_dwheel_command = ~/.scripts/music-controller next
+# execp_font = Material 17
+# execp_font_color = #f0a6f4 100
+# execp_padding = 3 0
+# execp_background_id = 6
+# execp_centered = 1
+# execp_icon_w = 0
+# execp_icon_h = 0
 
 #-------------------------------------
 # Button 1
@@ -307,22 +307,22 @@ button_background_id = 5
 button_centered = 1
 button_max_icon_size = 0
 
-#-------------------------------------
-# Button 2
-button = new
-button_text = 
-button_tooltip = Ncmpcpp │Ncmpcpp - Single Album Art │Ncmpcpp - Album Art
-button_lclick_command = ~/.ncmpcpp/launch
-button_rclick_command = ~/.ncmpcpp/launch albumart
-button_mclick_command = ~/.ncmpcpp/launch single-albumart
-button_uwheel_command = 
-button_dwheel_command = 
-button_font = Material 17
-button_font_color = #c6a6f4 100
-button_padding = 4 0
-button_background_id = 6
-button_centered = 1
-button_max_icon_size = 0
+# #-------------------------------------
+# # Button 2
+# button = new
+# button_text = 
+# button_tooltip = Ncmpcpp │Ncmpcpp - Single Album Art │Ncmpcpp - Album Art
+# button_lclick_command = ~/.ncmpcpp/launch
+# button_rclick_command = ~/.ncmpcpp/launch albumart
+# button_mclick_command = ~/.ncmpcpp/launch single-albumart
+# button_uwheel_command = 
+# button_dwheel_command = 
+# button_font = Material 17
+# button_font_color = #c6a6f4 100
+# button_padding = 4 0
+# button_background_id = 6
+# button_centered = 1
+# button_max_icon_size = 0
 
 #-------------------------------------
 # Button 3
