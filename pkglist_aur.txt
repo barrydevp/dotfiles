@@ -1,0 +1,5 @@
+ibus-bamboo
+neovim-nightly-bin
+picom-git
+postman-bin
+touchpad-indicator-git
