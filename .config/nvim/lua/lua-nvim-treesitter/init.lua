@@ -9,7 +9,9 @@ ts_config.setup {
         "lua",
         "json",
         "python",
-        "go"
+        "go",
+        "yaml",
+        "toml"
     },
     highlight = {
         enable = true,

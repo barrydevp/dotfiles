@@ -16,6 +16,18 @@ font:
     family: JetBrainsMono Nerd Font
     style: Medium
 
+  bold:
+    family: JetBrainsMono Nerd Font
+    style: Bold
+
+  italic:
+    family: JetBrainsMono Nerd Font
+    style: Italic
+
+  bold_italic:
+    family: JetBrainsMono Nerd Font
+    style: Bold Italic
+
   size: 9.5
 
 selection:
@@ -23,7 +35,7 @@ selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
    # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
+  save_to_clipboard: true
   
 key_bindings:
   - { key: T,   mods: Alt, action: SpawnNewInstance }
@@ -32,6 +44,7 @@ key_bindings:
   - { key: Q,        mods: Alt, action: Quit }
   - { key: W,        mods: Alt, action: Quit }
   - { key: Return,        mods: Alt, action: ToggleFullscreen }
+
 # Colors (iTerm 2 default theme)
 colors:
   # Default colors
@@ -60,3 +73,52 @@ colors:
     magenta: '0xa47de9'
     cyan:    '0x99faf2'
     white:   '0xffffff'
+
+# colors:
+#   primary:
+#     background: '#2e3440'
+#     foreground: '#d8dee9'
+#     dim_foreground: '#a5abb6'
+#   cursor:
+#     text: '#2e3440'
+#     cursor: '#d8dee9'
+#   vi_mode_cursor:
+#     text: '#2e3440'
+#     cursor: '#d8dee9'
+#   selection:
+#     text: CellForeground
+#     background: '#4c566a'
+#   search:
+#     matches:
+#       foreground: CellBackground
+#       background: '#88c0d0'
+#     bar:
+#       background: '#434c5e'
+#       foreground: '#d8dee9'
+#   normal:
+#     black: '#3b4252'
+#     red: '#bf616a'
+#     green: '#a3be8c'
+#     yellow: '#ebcb8b'
+#     blue: '#81a1c1'
+#     magenta: '#b48ead'
+#     cyan: '#88c0d0'
+#     white: '#e5e9f0'
+#   bright:
+#     black: '#4c566a'
+#     red: '#bf616a'
+#     green: '#a3be8c'
+#     yellow: '#ebcb8b'
+#     blue: '#81a1c1'
+#     magenta: '#b48ead'
+#     cyan: '#8fbcbb'
+#     white: '#eceff4'
+#   dim:
+#     black: '#373e4d'
+#     red: '#94545d'
+#     green: '#809575'
+#     yellow: '#b29e75'
+#     blue: '#68809a'
+#     magenta: '#8c738c'
+#     cyan: '#6d96a5'
+#     white: '#aeb3bb'

@@ -9,4 +9,4 @@ export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 ibus-daemon -drx
 setxkbmap -option ctrl:nocaps
-#set r rate 100 25
+. "$HOME/.cargo/env"
