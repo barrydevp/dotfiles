@@ -16,7 +16,7 @@ font:
     family: JetBrainsMono Nerd Font
     style: Medium
 
-  size: 10
+  size: 9.5
 
 selection:
    # This string contains all characters that are used as separators for "semantic words" in Alacritty.
