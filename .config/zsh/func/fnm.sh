@@ -3,6 +3,6 @@ fnmu() {
 }
 
 fnmi() {
-  fnm install $(fnm list-remote | fzf | awk '${print $1}')
+  fnm install $(fnm list-remote | fzf | awk '{print $1}')
 }
 
