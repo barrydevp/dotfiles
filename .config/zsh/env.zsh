@@ -17,3 +17,6 @@ else
   export EDITOR='nvim'
 fi
 
+### Your.rentals #
+export COMPOSE_PROJECT_NAME=yr
+
