@@ -1,5 +1,10 @@
+brave-bin
+fnm-bin
 ibus-bamboo
 neovim-nightly-bin
+obmenu-generator
 picom-git
 postman-bin
+qt5-styleplugins
 touchpad-indicator-git
+yay

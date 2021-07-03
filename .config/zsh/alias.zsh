@@ -35,3 +35,6 @@ alias \
   ll="exa -lgh --icons --group-directories-first" \
   la="exa -lgha --icons --group-directories-first"
 
+alias \
+  cdyr="cd $HOME/yr"
+
