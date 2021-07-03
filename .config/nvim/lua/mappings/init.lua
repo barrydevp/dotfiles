@@ -17,6 +17,8 @@ map("v", "x", [=[ "_x ]=], opt)
 map("n", "<M-l>", [[<Cmd>vnew term://zsh <CR>]], opt) -- over right
 map("n", "<M-j>", [[<Cmd> split term://zsh | resize 10 <CR>]], opt) --  bottom
 map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- newtab
+-- exit from terminal buffer
+map("t", "<C-[><C-[>", "<C-\\><C-n>", {silent = true, noremap = true})
 
 -- COPY EVERYTHING in the file--
 map("n", "<C-a>", [[ <Cmd> %y+<CR>]], opt)

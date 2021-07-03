@@ -45,7 +45,7 @@ vim.api.nvim_set_keymap('n', ',', '<NOP>', {noremap = true, silent = true})
 vim.g.mapleader = ','
 
 -- no hl
-vim.api.nvim_set_keymap('n', '<leader>h', ':set hlsearch!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>h', ':nohl<CR>', {noremap = true, silent = true})
 
 -- explorer
 vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
@@ -64,7 +64,7 @@ local mappings = {
     -- ["f"] = "Find File",
     ["h"] = "No Highlight",
     l = {
-        name = "+LSP",
+        name = "LSP/LangServer",
         -- a = {"<cmd>Lspsaga code_action<cr>", "Code Action"},
         -- A = {"<cmd>Lspsaga range_code_action<cr>", "Selected Action"},
         -- d = {"<cmd>Telescope lsp_document_diagnostics<cr>", "Document Diagnostics"},
@@ -84,13 +84,14 @@ local mappings = {
     },
 
     f = {
-        name = "Telescope",
+        name = "Telescope/Find",
         f = {"<cmd>Telescope find_files<cr>", "Find File"},
         g = {"<cmd>Telescope live_grep<cr>", "Live grep"},
         b = {"<cmd>Telescope buffers<cr>", "Find buffers"},
         h = {"<cmd>Telescope help_tags<cr>", "Help tags"},
         m = {"<cmd>Telescope marks<cr>", "Marks"},
         r = {"<cmd>Telescope oldfiles<cr>", "Open Recent File"},
+        c = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
     },
 
     -- s = {
