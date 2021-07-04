@@ -92,7 +92,6 @@ vim
 w3m
 wget
 which
-wine
 wireless_tools
 xautolock
 xclip
