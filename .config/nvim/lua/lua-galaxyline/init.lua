@@ -1,78 +1,19 @@
 local gl = require("galaxyline")
 local gls = gl.section
-
-gl.short_line_list = {" "} -- keeping this table { } as empty will show inactive statuslines
-
-local colors = {
-    bg = "#1e222a",
-    line_bg = "#1e222a",
-    fg = "#D8DEE9",
-    green = "#BBE67E",
-    orange = "#FF8800",
-    red = "#DF8890",
-    lightbg = "#282c34",
-    nord = "#81A1C1",
-    greenYel = "#EBCB8B"
-}
-
-gls.left[1] = {
-    leftRounded = {
-        provider = function()
-            return ""
-        end,
-        highlight = {colors.nord, colors.bg}
-    }
-}
-
-gls.left[2] = {
-    statusIcon = {
-        provider = function()
-            return "   "
-        end,
-        highlight = {colors.bg, colors.nord},
-        separator = " ",
-        separator_highlight = {colors.lightbg, colors.lightbg}
-    }
-}
-
-gls.left[3] = {
-    FileIcon = {
-        provider = "FileIcon",
-        condition = buffer_not_empty,
-        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.lightbg}
-    }
-}
-
-gls.left[4] = {
-    FileName = {
-        provider = {"FileName", "FileSize"},
-        condition = buffer_not_empty,
-        highlight = {colors.fg, colors.lightbg}
-    }
-}
-
-gls.left[5] = {
-    teech = {
-        provider = function()
-            return ""
-        end,
-        separator = " ",
-        highlight = {colors.lightbg, colors.bg}
-    }
-}
-local gl = require("galaxyline")
-local gls = gl.section
 local condition = require("galaxyline.condition")
 
 gl.short_line_list = {" "}
 
-local colors = require "themes/onedark"
+local global_theme = "themes/" .. vim.g.custom_theme
+local colors = require(global_theme)
 
 gls.left[1] = {
-  FirstElement = {
-    provider = function() return '▋' end,
-    highlight = { colors.nord_blue, colors.nord_blue }
-  },
+    FirstElement = {
+        provider = function()
+            return "▋"
+        end,
+        highlight = {colors.nord_blue, colors.nord_blue}
+    }
 }
 
 gls.left[2] = {
@@ -186,18 +127,18 @@ gls.right[2] = {
         provider = function()
             return " "
         end,
-        condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.grey_fg2, colors.lightbg},
-        separator = "",
-        separator_highlight = {colors.lightbg, colors.statusline_bg}
+        condition = require("galaxyline.condition").check_git_workspace,
+        highlight = {colors.grey_fg2, colors.statusline_bg},
+        separator = " ",
+        separator_highlight = {colors.statusline_bg, colors.statusline_bg}
     }
 }
 
 gls.right[3] = {
     GitBranch = {
         provider = "GitBranch",
-        condition = require("galaxyline.provider_vcs").check_git_workspace,
-        highlight = {colors.grey_fg2, colors.lightbg}
+        condition = require("galaxyline.condition").check_git_workspace,
+        highlight = {colors.grey_fg2, colors.statusline_bg}
     }
 }
 
@@ -206,9 +147,9 @@ gls.right[4] = {
         provider = function()
             return " "
         end,
-        highlight = {colors.statusline_bg, colors.red},
+        highight = {colors.statusline_bg, colors.red},
         separator = " ",
-        separator_highlight = {colors.red, colors.lightbg}
+        separator_highlight = {colors.red, colors.statusline_bg}
     }
 }
 
@@ -229,7 +170,7 @@ gls.right[5] = {
             if current_Mode == nil then
                 return "  Terminal "
             else
-               return "  " .. current_Mode .. " "
+                return "  " .. current_Mode .. " "
             end
         end,
         highlight = {colors.red, colors.lightbg}
@@ -263,5 +204,5 @@ gls.right[7] = {
         end,
         highlight = {colors.green, colors.lightbg}
     }
-} 
+}
 
