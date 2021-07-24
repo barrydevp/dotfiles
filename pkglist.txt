@@ -29,6 +29,7 @@ flex
 fzf
 gcc
 git
+gnu-netcat
 go
 grub
 gsimplecal
@@ -53,6 +54,7 @@ nasm
 neofetch
 net-tools
 networkmanager
+nginx
 nitrogen
 ntfs-3g
 openbox
@@ -66,11 +68,14 @@ pritunl-client-electron
 pritunl-client-electron-numix-theme
 pulseaudio
 pulseaudio-alsa
+qpdfview
+redis
 ripgrep
 rofi
 rsync
 rxvt-unicode
 scrot
+smartmontools
 starship
 strace
 sudo
@@ -86,6 +91,7 @@ tumbler
 unzip
 viewnior
 vim
+vlc
 w3m
 wget
 which
