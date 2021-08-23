@@ -1,6 +1,6 @@
 require "bufferline".setup {
     options = {
-        offsets = {{filetype = "NvimTree", text = "Explorer", padding = 1}},
+        offsets = {{filetype = "NvimTree", text = "Explorer", padding = 2}},
         buffer_close_icon = "",
         modified_icon = "",
         close_icon = "",
@@ -13,8 +13,7 @@ require "bufferline".setup {
         enforce_regular_tabs = false,
         view = "multiwindow",
         show_buffer_close_icons = true,
-        separator_style = "thin",
-        mappings = "true"
+        separator_style = "thin"
     }
 }
 
@@ -28,4 +27,16 @@ map("n", "<S-x>", [[<Cmd>bdelete<CR>]], opt) -- close tab
 -- move between tabs
 map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
 map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+map("n", "gb", "[[<Cmd>BufferLinePick<CR>]]", opt)
+
+-- BufferLineGotoBuffer
+map("n", "<leader>1", "[[<Cmd>BufferLineGoToBuffer 1<CR>]]", opt)
+map("n", "<leader>2", "[[<Cmd>BufferLineGoToBuffer 2<CR>]]", opt)
+map("n", "<leader>3", "[[<Cmd>BufferLineGoToBuffer 3<CR>]]", opt)
+map("n", "<leader>4", "[[<Cmd>BufferLineGoToBuffer 4<CR>]]", opt)
+map("n", "<leader>5", "[[<Cmd>BufferLineGoToBuffer 5<CR>]]", opt)
+map("n", "<leader>6", "[[<Cmd>BufferLineGoToBuffer 6<CR>]]", opt)
+map("n", "<leader>7", "[[<Cmd>BufferLineGoToBuffer 7<CR>]]", opt)
+map("n", "<leader>8", "[[<Cmd>BufferLineGoToBuffer 8<CR>]]", opt)
+map("n", "<leader>9", "[[<Cmd>BufferLineGoToBuffer 9<CR>]]", opt)
 

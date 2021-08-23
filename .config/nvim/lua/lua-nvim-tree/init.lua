@@ -3,7 +3,7 @@ local g = vim.g
 vim.o.termguicolors = true
 
 g.nvim_tree_side = "left"
-g.nvim_tree_width = 25
+g.nvim_tree_width = 35 
 g.nvim_tree_ignore = {".git", ".cache"}
 g.nvim_tree_auto_open = 0
 g.nvim_tree_auto_close = 0
@@ -86,7 +86,7 @@ vim.g.nvim_tree_bindings = {
   { key = "gy",                           cb = tree_cb("copy_absolute_path") },
   { key = "[c",                           cb = tree_cb("prev_git_item") },
   { key = "]c",                           cb = tree_cb("next_git_item") },
-  { key = "-",                            cb = tree_cb("dir_up") },
+  { key = {"-", "<C-[>"},                 cb = tree_cb("dir_up") },
   { key = "q",                            cb = tree_cb("close") },
   { key = "g?",                           cb = tree_cb("toggle_help") },
 }

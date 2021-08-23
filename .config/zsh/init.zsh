@@ -8,6 +8,9 @@ source $MYCONFIG/zsh/declare.zsh
 ### LOAD LOCAL ENV ###
 [[ -f $__ZSH_CONFIG_DIR/local.zsh ]] && source $__ZSH_CONFIG_DIR/local.zsh
 
+### LOAD PRIVATE ENV ###
+[[ -f $__ZSH_CONFIG_DIR/_pri_env.zsh ]] && source $__ZSH_CONFIG_DIR/_pri_env.zsh
+
 ### LOAD ENV ###
 source $__ZSH_CONFIG_DIR/env.zsh
 

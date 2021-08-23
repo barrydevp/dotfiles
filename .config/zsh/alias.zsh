@@ -35,6 +35,11 @@ alias \
   ll="exa -lgh --icons --group-directories-first" \
   la="exa -lgha --icons --group-directories-first"
 
+### lazygit ###
 alias \
-  cdyr="cd $HOME/yr"
+  lg="lazygit"
+
+### Your.rentals
+alias \
+  cdyr="cd $HOME/yr" \
 

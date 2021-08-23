@@ -28,7 +28,7 @@ font:
     family: JetBrainsMono Nerd Font
     style: Bold Italic
 
-  size: 9.5
+  size: 11.5
 
 selection:
    # This string contains all characters that are used as separators for "semantic words" in Alacritty.
@@ -38,12 +38,12 @@ selection:
   save_to_clipboard: true
   
 key_bindings:
-  - { key: T,   mods: Alt, action: SpawnNewInstance }
-  - { key: V,        mods: Alt, action: Paste }
-  - { key: C,        mods: Alt, action: Copy }
-  - { key: Q,        mods: Alt, action: Quit }
-  - { key: W,        mods: Alt, action: Quit }
-  - { key: Return,        mods: Alt, action: ToggleFullscreen }
+  - { key: T,   mods: Command, action: SpawnNewInstance }
+  - { key: V,        mods: Command, action: Paste }
+  - { key: C,        mods: Command, action: Copy }
+  - { key: Q,        mods: Command, action: Quit }
+  - { key: W,        mods: Command, action: Quit }
+  - { key: Return,        mods: Command, action: ToggleFullscreen }
 
 # Colors (iTerm 2 default theme)
 colors:

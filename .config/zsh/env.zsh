@@ -1,14 +1,20 @@
-### PATH ###
-export PATH=/usr/local/bin:$MYLOCAL/bin:$HOME/go/bin:$HOME/.fnm:$PATH
-
 ### GOLANG ###
-# export GOPATH=$HOME/Desktop/Dev/go # don't forget to change your path correctly!
-# export GOROOT=/usr/local/go
-# export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go # don't forget to change your path correctly!
+export PATH=:$PATH
 
 ### RustLang ###
 export CARGO_PATH="$HOME/.cargo"
 export PATH=$CARGO_PATH/bin:$PATH
+
+### FNM PATH ###
+export FNM_PATH=$HOME/.fnm
+
+### System ###
+export USRLOCAL_PATH=/usr/local/bin
+
+### PATH ###
+export PATH=$USRLOCAL_PATH:$MYLOCAL/bin:$GOROOT/bin:$GOPATH/bin:$FNM_PATH:$PATH
 
 ### EDITOR ###
 if [[ -n $SSH_CONNECTION ]]; then
@@ -16,7 +22,4 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
-
-### Your.rentals #
-export COMPOSE_PROJECT_NAME=yr
 

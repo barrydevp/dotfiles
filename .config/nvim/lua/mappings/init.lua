@@ -72,3 +72,9 @@ map('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
 vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
 vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 
+-- resize windows
+-- map('n', '<A-j>', ':resize -2', {noremap = true, silent = true})
+-- map('n', '<A-k>', ':resize +2', {noremap = true, silent = true})
+-- map('n', '<A-h>', ':vertical resize -2', {noremap = true, silent = true})
+-- map('n', '<A-l>', ':vertical resize +2', {noremap = true, silent = true})
+

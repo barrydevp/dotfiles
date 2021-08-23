@@ -86,11 +86,12 @@ local mappings = {
     f = {
         name = "Telescope/Find",
         f = {"<cmd>Telescope find_files<cr>", "Find File"},
-        g = {"<cmd>Telescope live_grep<cr>", "Live grep"},
+        t = {"<cmd>Telescope live_grep<cr>", "Live grep"},
         b = {"<cmd>Telescope buffers<cr>", "Find buffers"},
         h = {"<cmd>Telescope help_tags<cr>", "Help tags"},
         m = {"<cmd>Telescope marks<cr>", "Marks"},
         r = {"<cmd>Telescope oldfiles<cr>", "Open Recent File"},
+        R = {"<cmd>Telescope registers<cr>", "Registers"},
         c = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
     },
 

@@ -46,6 +46,12 @@ return require("packer").startup(
                 require("lspkind").init()
             end
         }
+        use {
+            "ray-x/lsp_signature.nvim",
+        }
+        use {
+            'glepnir/lspsaga.nvim',
+        }
         use "sbdchd/neoformat"
         -- use "nvim-lua/plenary.nvim"
 
@@ -94,6 +100,16 @@ return require("packer").startup(
         -- use "hrsh7th/vim-vsnip"
         -- use "rafamadriz/friendly-snippets"
 
+        -- typo
+        -- use {
+        --   "blackCauldron7/surround.nvim",
+        --   config = function()
+        --     require("surround").setup({})
+        --   end
+        -- }
+        use {
+          "tpope/vim-surround"
+        }
         -- misc
         use "tweekmonster/startuptime.vim"
         -- use "907th/vim-auto-save"

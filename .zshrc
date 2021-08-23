@@ -116,7 +116,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias luamake=/home/barry/.config/lang-server/lua/3rd/luamake/luamake
+#alias luamake=/home/barry/.config/lang-server/lua/3rd/luamake/luamake
 
 # starship bootstrap
 eval "$(starship init zsh)"
@@ -125,19 +125,19 @@ eval "$(starship init zsh)"
 # eval "$(pyenv init -)"
 
 # Color toys aliases
-alias 256colors2="${HOME}/.color-toys/256colors2.pl"
-alias bloks="${HOME}/.color-toys/bloks"
-alias colortest="${HOME}/.color-toys/colortest"
-alias colortest-slim="${HOME}/.color-toys/colortest-slim"
-alias colorview="${HOME}/.color-toys/colorview"
-alias colorbars="${HOME}/.color-toys/colorbars"
-alias panes="${HOME}/.color-toys/panes"
-alias pipes1="${HOME}/.color-toys/pipes1"
-alias pipes2="${HOME}/.color-toys/pipes2"
-alias pipes2-slim="${HOME}/.color-toys/pipes2-slim"
+#alias 256colors2="${HOME}/.color-toys/256colors2.pl"
+#alias bloks="${HOME}/.color-toys/bloks"
+#alias colortest="${HOME}/.color-toys/colortest"
+#alias colortest-slim="${HOME}/.color-toys/colortest-slim"
+#alias colorview="${HOME}/.color-toys/colorview"
+#alias colorbars="${HOME}/.color-toys/colorbars"
+#alias panes="${HOME}/.color-toys/panes"
+#alias pipes1="${HOME}/.color-toys/pipes1"
+#alias pipes2="${HOME}/.color-toys/pipes2"
+#alias pipes2-slim="${HOME}/.color-toys/pipes2-slim"
 
 # GPG Dialog
-export GPG_TTY="$(tty)"
+#export GPG_TTY="$(tty)"
 
 # BAT Theme (cat replacement)
-export BAT_THEME="base16"
+#export BAT_THEME="base16"
