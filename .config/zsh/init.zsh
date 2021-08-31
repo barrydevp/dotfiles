@@ -1,6 +1,7 @@
 ### GLOBAL ###
 export MYCONFIG=$HOME/.config
 export MYLOCAL=$HOME/.local
+export __ARCH=$(uname)
 
 ### DECLARE ###
 source $MYCONFIG/zsh/declare.zsh

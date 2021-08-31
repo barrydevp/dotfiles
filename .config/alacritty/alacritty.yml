@@ -2,7 +2,7 @@
 
 # Setup term for programs to be able to use it
 env:
-  TERM: alacritty
+  TERM: xterm-256color
   
 window:
   # Spread additional padding evenly around the terminal content.
@@ -28,7 +28,7 @@ font:
     family: JetBrainsMono Nerd Font
     style: Bold Italic
 
-  size: 11.5
+  size: 12
 
 selection:
    # This string contains all characters that are used as separators for "semantic words" in Alacritty.

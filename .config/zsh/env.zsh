@@ -1,5 +1,7 @@
 ### GOLANG ###
-export GOROOT=/usr/local/go
+if [[ $__ARCH = 'Darwin' ]]; then
+  export GOROOT=/usr/local/go
+fi
 export GOPATH=$HOME/go # don't forget to change your path correctly!
 export PATH=:$PATH
 
