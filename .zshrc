@@ -119,7 +119,7 @@ fi
 #alias luamake=/home/barry/.config/lang-server/lua/3rd/luamake/luamake
 
 # starship bootstrap
-eval "$(starship init zsh)"
+starship --version 1> /dev/null && eval "$(starship init zsh)"
 
 # pyenv automatically init
 # eval "$(pyenv init -)"
