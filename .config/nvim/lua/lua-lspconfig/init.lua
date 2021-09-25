@@ -161,6 +161,7 @@ local servers = {
     -- "clangd",
     "ccls",
     "gopls",
+    "jdtls",
 }
 
 for _, lang in ipairs(servers) do

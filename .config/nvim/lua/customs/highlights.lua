@@ -37,7 +37,7 @@ end
 -- Comments
 fg("Comment", grey_fg .. " gui=italic")
 
-cmd "hi clear CursorLine" -- disable cusror line
+-- cmd "hi clear CursorLine" -- disable cusror line
 fg("cursorlinenr", white) -- line number
 
 -- same it bg, so it doesn't appear

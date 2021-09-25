@@ -59,7 +59,7 @@ local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 -- default mappings
 vim.g.nvim_tree_bindings = {
   { key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit") },
-  { key = {"<2-RightMouse>", "<C-]>"},    cb = tree_cb("cd") },
+  { key = {"<2-RightMouse>", "gd"},       cb = tree_cb("cd") },
   { key = "<C-v>",                        cb = tree_cb("vsplit") },
   { key = "<C-x>",                        cb = tree_cb("split") },
   { key = "<C-t>",                        cb = tree_cb("tabnew") },
@@ -86,7 +86,7 @@ vim.g.nvim_tree_bindings = {
   { key = "gy",                           cb = tree_cb("copy_absolute_path") },
   { key = "[c",                           cb = tree_cb("prev_git_item") },
   { key = "]c",                           cb = tree_cb("next_git_item") },
-  { key = {"-", "<C-[>"},                 cb = tree_cb("dir_up") },
+  { key = {"-", "gs"},                    cb = tree_cb("dir_up") },
   { key = "q",                            cb = tree_cb("close") },
   { key = "g?",                           cb = tree_cb("toggle_help") },
 }

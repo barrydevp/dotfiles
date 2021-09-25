@@ -43,3 +43,10 @@ alias \
 alias \
   cdyr="cd $HOME/yr" \
 
+### AWS - EKS
+alias \
+  awscre="nvim ~/.aws/credentials" \
+  eksqa="eksctl utils write-kubeconfig --cluster=qa-ce --profile=qa-plf" \
+  eksstag="eksctl utils write-kubeconfig --profile=stag" \
+  eksprod="eksctl utils write-kubeconfig --profile=prod-view"
+
