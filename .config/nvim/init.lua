@@ -31,7 +31,7 @@ require "customs.highlights"
 require "lua-nvim-treesitter"
 
 -- require "lua-telescope"
-require "lua-nvim-tree"
+-- require "lua-nvim-tree"
 require "lua-which-key"
 require "lua-nvim-comment"
 

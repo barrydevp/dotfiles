@@ -19,8 +19,15 @@ return require("packer").startup(
         -- use "ollykel/v-vim" -- v syntax highlighter
 
         -- file managing , picker etc
-        use "kyazdani42/nvim-tree.lua"
-        use "kyazdani42/nvim-web-devicons"
+        -- use "kyazdani42/nvim-tree.lua"
+        -- use "kyazdani42/nvim-web-devicons"
+        use {
+            "kyazdani42/nvim-tree.lua",
+            requires = 'kyazdani42/nvim-web-devicons',
+            config = function() 
+                require("lua-nvim-tree").config()
+            end
+        }
         use "ryanoasis/vim-devicons"
         use {
             "nvim-telescope/telescope.nvim",

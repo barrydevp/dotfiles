@@ -50,7 +50,6 @@ local function map(mode, lhs, rhs, options)
 end
 
 local basic_opts = {noremap = true, silent = true}
-
 map("n", "H", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", basic_opts)
 map("n", "gs", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", basic_opts)
 map("n", "K", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", basic_opts)
@@ -63,6 +62,8 @@ map("v", "<leader>la", ":<C-U>lua require('lspsaga.codeaction').range_code_actio
 map("n", "gl", "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>", basic_opts)
 map("n", "[d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>", basic_opts)
 map("n", "]d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>", basic_opts)
+
+
 
 -- replace the default lsp diagnostic letters with prettier symbols
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})

@@ -11,7 +11,8 @@ ts_config.setup {
         "python",
         "go",
         "yaml",
-        "toml"
+        "toml",
+        "java",
     },
     highlight = {
         enable = true,
