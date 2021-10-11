@@ -173,8 +173,8 @@ for _, lang in ipairs(servers) do
 end
 
 -- load lang server
-require "lua-lspconfig.sumneko_lua"
-require "lua-lspconfig.vls"
+-- require "plugins.lsp.sumneko_lua"
+require "plugins.lsp.vls"
 
 return lspconfig
 

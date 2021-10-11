@@ -1,45 +1,14 @@
-local g = vim.g
+local _modules = {
+   "settings",
+   "mappings",
+   "themes",
+   "plugins",
+}
 
-g.mapleader = ","
-g.auto_save = false
+for _, module in ipairs(_modules) do
+   local ok, err = pcall(require, module)
+   if not ok then
+     error("Error loading " .. module .. "\n\n" .. err)
+   end
+end
 
--- colorscheme related stuff
-
-g.custom_theme = "onedark"
-
--- load all plugins
-require "plugins"
-
--- load settings, mappings
-require "settings"
-require "mappings"
-
--- load lua config pluing
-require "lua-nvim-web-devicons"
-require "lua-nvim-bufferline"
-require "lua-galaxyline"
-
--- require("colorizer").setup()
--- require("neoscroll").setup() -- smooth scroll
-
--- lsp stuff
-require "lua-lspconfig"
--- require "lua-nvim-compe"
-
-require "customs.highlights"
-
-require "lua-nvim-treesitter"
-
--- require "lua-telescope"
--- require "lua-nvim-tree"
-require "lua-which-key"
-require "lua-nvim-comment"
-
--- git signs , lsp symbols etc
-require "lua-gitsigns"
-
--- require("nvim-autopairs").setup()
--- require("lspkind").init()
-
--- setup for TrueZen.nvim
--- require "lua-truezen"
