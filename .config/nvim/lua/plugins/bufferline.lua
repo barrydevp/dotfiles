@@ -42,7 +42,7 @@
 -- map("n", "<leader>9", "[[<Cmd>BufferLineGoToBuffer 9<CR>]]", opt)
 
 local utils = require("utils")
-local colors = utils.get_color("onedark")
+local colors = utils.get_colors("onedark")
 
 local present, bufferline = pcall(require, "bufferline")
 if not present then

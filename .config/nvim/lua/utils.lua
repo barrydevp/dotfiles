@@ -52,7 +52,6 @@ M.get_colors = function(theme_name)
     local custom_theme = theme_name or vim.g.custom_theme or 'github'
     local theme_module = "themes." .. custom_theme
     local theme = require(theme_module)
-    print(theme_name)
 
     return theme.colors
 end
