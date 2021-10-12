@@ -41,11 +41,11 @@ local opts = {
     nowait = false -- use `nowait` when creating keymaps
 }
 
-vim.api.nvim_set_keymap('n', ',', '<NOP>', {noremap = true, silent = true})
-vim.g.mapleader = ','
+-- vim.api.nvim_set_keymap('n', ',', '<NOP>', {noremap = true, silent = true})
+-- vim.g.mapleader = ','
 
 -- no hl
-vim.api.nvim_set_keymap('n', '<leader>h', ':nohl<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<leader>h', ':nohl<CR>', {noremap = true, silent = true})
 
 -- explorer
 vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
@@ -54,7 +54,7 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true
 -- vim.api.nvim_set_keymap('n', '<leader>f', ':Telescope find_files<CR>', {noremap = true, silent = true})
 
 -- close buffer
-vim.api.nvim_set_keymap("n", "<leader>c", ":bdelete<CR>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>c", ":bdelete<CR>", {noremap = true, silent = true})
 
 -- TODO create entire treesitter section
 

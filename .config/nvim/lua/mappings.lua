@@ -41,8 +41,8 @@ local maps = {
       -- show & recover hidden terminal buffers in a telescope picker
       pick_term = "<leader>W",
       -- below three are for spawning terminals
-      new_horizontal = "<leader>h",
-      new_vertical = "<leader>v",
+      new_horizontal = "<leader>t",
+      new_vertical = "<leader>y",
       new_window = "<leader>w",
    },
 }
@@ -128,7 +128,9 @@ map("n", wnav.moveUp, "<C-w>k")
 map("n", wnav.moveDown, "<C-w>j")
 
 -- better split
-map('n', '<leader>v', ':ls<cr> :vertical sb ', {})
+-- map('n', '<leader>h', ':ls<cr> :vertical sb ', {})
+map('n', '<leader>v', ':vsplit', {})
+map('n', '<leader>h', ':split', {})
 
 -- TODO fix this
 -- Terminal window navigation
@@ -172,6 +174,7 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 local plugin_maps = {
    -- list open buffers up the top, easy switching too
    bufferline = {
+      close_buffer = "<leader>c", -- close buffer
       next_buffer = "<TAB>", -- next buffer
       prev_buffer = "<S-Tab>", -- previous buffer
    },
@@ -219,6 +222,7 @@ local M = {}
 M.bufferline = function()
    local m = plugin_maps.bufferline
 
+   map("n", m.close_buffer, ":bdelete <CR>")
    map("n", m.next_buffer, ":BufferLineCycleNext <CR>")
    map("n", m.prev_buffer, ":BufferLineCyclePrev <CR>")
 end
