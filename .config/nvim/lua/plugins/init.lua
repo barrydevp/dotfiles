@@ -99,7 +99,7 @@ return require("packer").startup(
                 require("plugins.bufferline")
             end,
             setup = function()
-                require("plugins.others").bufferline()
+                require("mappings").bufferline()
             end,
         }
 

@@ -222,7 +222,7 @@ local M = {}
 M.bufferline = function()
    local m = plugin_maps.bufferline
 
-   map("n", m.close_buffer, ":bdelete <CR>")
+   map("n", m.close_buffer, ":bdelete<CR>")
    map("n", m.next_buffer, ":BufferLineCycleNext <CR>")
    map("n", m.prev_buffer, ":BufferLineCyclePrev <CR>")
 end
