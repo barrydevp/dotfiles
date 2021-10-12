@@ -5,277 +5,309 @@ local utils = require "utils"
 vim.api.nvim_command('syntax on')
 if vim.fn.has('termguicolors') == 1 then vim.o.termguicolors = true end
 
+local M = {}
+
+-- This is a bit of syntactic sugar for creating highlight groups.
+--
+-- local colorscheme = require('colorscheme')
+-- local hi = colorscheme.highlight
+-- hi.Comment = { guifg='#ffffff', guibg='#000000', gui='italic', guisp=nil }
+-- hi.LspDiagnosticsDefaultError = 'DiagnosticError' -- Link to another group
+--
+-- This is equivalent to the following vimscript
+--
+-- hi Comment guifg=#ffffff guibg=#000000 gui=italic
+-- hi! link LspDiagnosticsDefaultError DiagnosticError
+M.highlight = setmetatable({}, {
+    __newindex = function(_, hlgroup, args)
+        if ('string' == type(args)) then
+            vim.cmd(('hi! link %s %s'):format(hlgroup, args))
+            return
+        end
+
+        local guifg, guibg, gui, guisp = args.guifg or nil, args.guibg or nil, args.gui or nil, args.guisp or nil
+        local cmd = {'hi', hlgroup}
+        if guifg then table.insert(cmd, 'guifg='..guifg) end
+        if guibg then table.insert(cmd, 'guibg='..guibg) end
+        if gui then table.insert(cmd, 'gui='..gui) end
+        if guisp then table.insert(cmd, 'guisp='..guisp) end
+        vim.cmd(table.concat(cmd, ' '))
+    end
+})
+
+--- Creates a base16 colorscheme using the colors specified.
+--
+-- Builtin colorschemes can be found in the M.colorschemes table.
+--
+-- The default Vim highlight groups (including User[1-9]), highlight groups
+-- pertaining to Neovim's builtin LSP, and highlight groups pertaining to
+-- Treesitter will be defined.
+--
+-- It's worth noting that many colorschemes will specify language specific
+-- highlight groups like rubyConstant or pythonInclude. However, I don't do
+-- that here since these should instead be linked to an existing highlight
+-- group.
+--
+-- @param colors (table) table with keys 'base00', 'base01', 'base02',
+--   'base03', 'base04', 'base05', 'base06', 'base07', 'base08', 'base09',
+--   'base0A', 'base0B', 'base0C', 'base0D', 'base0E', 'base0F'. Each key should
+--   map to a valid 6 digit hex color. If a string is provided, the
+--   corresponding table specifying the colorscheme will be used.
+function M.setup(colors)
+    if type(colors) == 'string' then
+        colors = M.colorschemes[colors]
+    end
+
+    if vim.fn.exists('syntax_on') then
+        vim.cmd('syntax reset')
+    end
+    vim.cmd('set termguicolors')
+
+    M.colors = colors or M.colorschemes[vim.env.BASE16_THEME] or M.colorschemes['schemer-dark']
+    local hi = M.highlight
+
+    -- Vim editor colors
+    hi.Normal       = { guifg = M.colors.base08, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.Bold         = { guifg = nil,             guibg = nil,             gui = 'bold', guisp = nil }
+    hi.Debug        = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Directory    = { guifg = M.colors.base0D, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Error        = { guifg = M.colors.base00, guibg = M.colors.base08, gui = nil,    guisp = nil }
+    hi.ErrorMsg     = { guifg = M.colors.base08, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.Exception    = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.FoldColumn   = { guifg = M.colors.base0C, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.Folded       = { guifg = M.colors.base03, guibg = M.colors.base01, gui = nil,    guisp = nil }
+    hi.IncSearch    = { guifg = M.colors.base01, guibg = M.colors.base09, gui = 'none', guisp = nil }
+    hi.Italic       = { guifg = nil,             guibg = nil,             gui = 'none', guisp = nil }
+    hi.Macro        = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.MatchParen   = { guifg = nil,             guibg = M.colors.base03, gui = nil,    guisp = nil }
+    hi.ModeMsg      = { guifg = M.colors.base0B, guibg = nil,             gui = nil,    guisp = nil }
+    hi.MoreMsg      = { guifg = M.colors.base0B, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Question     = { guifg = M.colors.base0D, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Search       = { guifg = M.colors.base01, guibg = M.colors.base0A, gui = nil,    guisp = nil }
+    hi.Substitute   = { guifg = M.colors.base01, guibg = M.colors.base0A, gui = 'none', guisp = nil }
+    hi.SpecialKey   = { guifg = M.colors.base03, guibg = nil,             gui = nil,    guisp = nil }
+    hi.TooLong      = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Underlined   = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Visual       = { guifg = nil,             guibg = M.colors.base02, gui = nil,    guisp = nil }
+    hi.VisualNOS    = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.WarningMsg   = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.WildMenu     = { guifg = M.colors.base08, guibg = M.colors.base0A, gui = nil,    guisp = nil }
+    hi.Title        = { guifg = M.colors.base0D, guibg = nil,             gui = 'none', guisp = nil }
+    hi.Conceal      = { guifg = M.colors.base0D, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.Cursor       = { guifg = M.colors.base00, guibg = M.colors.base05, gui = nil,    guisp = nil }
+    hi.NonText      = { guifg = M.colors.base03, guibg = nil,             gui = nil,    guisp = nil }
+    hi.LineNr       = { guifg = M.colors.base04, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.SignColumn   = { guifg = M.colors.base04, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.StatusLine   = { guifg = M.colors.base04, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.StatusLineNC = { guifg = M.colors.base03, guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.VertSplit    = { guifg = M.colors.base05, guibg = M.colors.base00, gui = 'none', guisp = nil }
+    hi.ColorColumn  = { guifg = nil,             guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.CursorColumn = { guifg = nil,             guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.CursorLine   = { guifg = nil,             guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.CursorLineNr = { guifg = M.colors.base04, guibg = M.colors.base01, gui = nil,    guisp = nil }
+    hi.QuickFixLine = { guifg = nil,             guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.PMenu        = { guifg = M.colors.base05, guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.PMenuSel     = { guifg = M.colors.base01, guibg = M.colors.base05, gui = nil,    guisp = nil }
+    hi.TabLine      = { guifg = M.colors.base03, guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.TabLineFill  = { guifg = M.colors.base03, guibg = M.colors.base01, gui = 'none', guisp = nil }
+    hi.TabLineSel   = { guifg = M.colors.base0B, guibg = M.colors.base01, gui = 'none', guisp = nil }
+
+    -- Standard syntax highlighting
+    hi.Boolean      = { guifg = M.colors.base09, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Character    = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Comment      = { guifg = M.colors.base03, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Conditional  = { guifg = M.colors.base0E, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Constant     = { guifg = M.colors.base09, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Define       = { guifg = M.colors.base0E, guibg = nil,             gui = 'none', guisp = nil }
+    hi.Delimiter    = { guifg = M.colors.base0F, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Float        = { guifg = M.colors.base09, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Function     = { guifg = M.colors.base0D, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Identifier   = { guifg = M.colors.base08, guibg = nil,             gui = 'none', guisp = nil }
+    hi.Include      = { guifg = M.colors.base0D, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Keyword      = { guifg = M.colors.base0E, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Label        = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Number       = { guifg = M.colors.base09, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Operator     = { guifg = M.colors.base05, guibg = nil,             gui = 'none', guisp = nil }
+    hi.PreProc      = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Repeat       = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Special      = { guifg = M.colors.base0C, guibg = nil,             gui = nil,    guisp = nil }
+    hi.SpecialChar  = { guifg = M.colors.base0F, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Statement    = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
+    hi.StorageClass = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.String       = { guifg = M.colors.base0B, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Structure    = { guifg = M.colors.base0E, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Tag          = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Todo         = { guifg = M.colors.base0A, guibg = M.colors.base01, gui = nil,    guisp = nil }
+    hi.Type         = { guifg = M.colors.base0A, guibg = nil,             gui = 'none', guisp = nil }
+    hi.Typedef      = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+
+    -- Diff highlighting
+    hi.DiffAdd     = { guifg = M.colors.base0B, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffChange  = { guifg = M.colors.base03, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffDelete  = { guifg = M.colors.base08, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffText    = { guifg = M.colors.base0D, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffAdded   = { guifg = M.colors.base0B, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffFile    = { guifg = M.colors.base08, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffNewFile = { guifg = M.colors.base0B, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffLine    = { guifg = M.colors.base0D, guibg = M.colors.base00,  gui = nil, guisp = nil }
+    hi.DiffRemoved = { guifg = M.colors.base08, guibg = M.colors.base00,  gui = nil, guisp = nil }
+
+    -- Git highlighting
+    hi.gitcommitOverflow      = { guifg = M.colors.base08, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitSummary       = { guifg = M.colors.base0B, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitComment       = { guifg = M.colors.base03, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitUntracked     = { guifg = M.colors.base03, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitDiscarded     = { guifg = M.colors.base03, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitSelected      = { guifg = M.colors.base03, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitHeader        = { guifg = M.colors.base0E, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitSelectedType  = { guifg = M.colors.base0D, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitUnmergedType  = { guifg = M.colors.base0D, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitDiscardedType = { guifg = M.colors.base0D, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitBranch        = { guifg = M.colors.base09, guibg = nil, gui = 'bold', guisp = nil }
+    hi.gitcommitUntrackedFile = { guifg = M.colors.base0A, guibg = nil, gui = nil,    guisp = nil }
+    hi.gitcommitUnmergedFile  = { guifg = M.colors.base08, guibg = nil, gui = 'bold', guisp = nil }
+    hi.gitcommitDiscardedFile = { guifg = M.colors.base08, guibg = nil, gui = 'bold', guisp = nil }
+    hi.gitcommitSelectedFile  = { guifg = M.colors.base0B, guibg = nil, gui = 'bold', guisp = nil }
+
+    -- GitGutter highlighting
+    hi.GitGutterAdd          = { guifg = M.colors.base0B, guibg = M.colors.base00, gui = nil, guisp = nil }
+    hi.GitGutterChange       = { guifg = M.colors.base0D, guibg = M.colors.base00, gui = nil, guisp = nil }
+    hi.GitGutterDelete       = { guifg = M.colors.base08, guibg = M.colors.base00, gui = nil, guisp = nil }
+    hi.GitGutterChangeDelete = { guifg = M.colors.base0E, guibg = M.colors.base00, gui = nil, guisp = nil }
+
+    -- Spelling highlighting
+    hi.SpellBad   = { guifg = nil, guibg = nil, gui = 'undercurl', guisp = M.colors.base08 }
+    hi.SpellLocal = { guifg = nil, guibg = nil, gui = 'undercurl', guisp = M.colors.base0C }
+    hi.SpellCap   = { guifg = nil, guibg = nil, gui = 'undercurl', guisp = M.colors.base0D }
+    hi.SpellRare  = { guifg = nil, guibg = nil, gui = 'undercurl', guisp = M.colors.base0E }
+
+    hi.DiagnosticError                    = { guifg = M.colors.base08, guibg = nil, gui = 'none',      guisp = nil             }
+    hi.DiagnosticWarn                     = { guifg = M.colors.base0E, guibg = nil, gui = 'none',      guisp = nil             }
+    hi.DiagnosticInfo                     = { guifg = M.colors.base05, guibg = nil, gui = 'none',      guisp = nil             }
+    hi.DiagnosticHint                     = { guifg = M.colors.base0C, guibg = nil, gui = 'none',      guisp = nil             }
+    hi.DiagnosticUnderlineError           = { guifg = nil,             guibg = nil, gui = 'undercurl', guisp = M.colors.base08 }
+    hi.DiagnosticUnderlineWarning         = { guifg = nil,             guibg = nil, gui = 'undercurl', guisp = M.colors.base0E }
+    hi.DiagnosticUnderlineInformation     = { guifg = nil,             guibg = nil, gui = 'undercurl', guisp = M.colors.base0F }
+    hi.DiagnosticUnderlineHint            = { guifg = nil,             guibg = nil, gui = 'undercurl', guisp = M.colors.base0C }
+
+    hi.LspReferenceText                   = { guifg = nil,             guibg = nil, gui = 'underline', guisp = M.colors.base04 }
+    hi.LspReferenceRead                   = { guifg = nil,             guibg = nil, gui = 'underline', guisp = M.colors.base04 }
+    hi.LspReferenceWrite                  = { guifg = nil,             guibg = nil, gui = 'underline', guisp = M.colors.base04 }
+    hi.LspDiagnosticsDefaultError         = 'DiagnosticError'
+    hi.LspDiagnosticsDefaultWarning       = 'DiagnosticWarn'
+    hi.LspDiagnosticsDefaultInformation   = 'DiagnosticInfo'
+    hi.LspDiagnosticsDefaultHint          = 'DiagnosticHint'
+    hi.LspDiagnosticsUnderlineError       = 'DiagnosticUnderlineError'
+    hi.LspDiagnosticsUnderlineWarning     = 'DiagnosticUnderlineWarning'
+    hi.LspDiagnosticsUnderlineInformation = 'DiagnosticUnderlineInformation'
+    hi.LspDiagnosticsUnderlineHint        = 'DiagnosticUnderlineHint'
+
+    hi.TSAnnotation         = { guifg = M.colors.base0F, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSAttribute          = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSBoolean            = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSCharacter          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSComment            = { guifg = M.colors.base03, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSConstructor        = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSConditional        = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSConstant           = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSConstBuiltin       = { guifg = M.colors.base09, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSConstMacro         = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSError              = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSException          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSField              = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSFloat              = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSFunction           = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSFuncBuiltin        = { guifg = M.colors.base0D, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSFuncMacro          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSInclude            = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSKeyword            = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSKeywordFunction    = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSKeywordOperator    = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSLabel              = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSMethod             = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSNamespace          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSNone               = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSNumber             = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSOperator           = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSParameter          = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSParameterReference = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSProperty           = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSPunctDelimiter     = { guifg = M.colors.base0F, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSPunctBracket       = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSPunctSpecial       = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSRepeat             = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSString             = { guifg = M.colors.base0B, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSStringRegex        = { guifg = M.colors.base0C, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSStringEscape       = { guifg = M.colors.base0C, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSSymbol             = { guifg = M.colors.base0B, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSTag                = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSTagDelimiter       = { guifg = M.colors.base0F, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSText               = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSStrong             = { guifg = nil,             guibg = nil, gui = 'bold',          guisp = nil }
+    hi.TSEmphasis           = { guifg = M.colors.base09, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSUnderline          = { guifg = M.colors.base00, guibg = nil, gui = 'underline',     guisp = nil }
+    hi.TSStrike             = { guifg = M.colors.base00, guibg = nil, gui = 'strikethrough', guisp = nil }
+    hi.TSTitle              = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSLiteral            = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSURI                = { guifg = M.colors.base09, guibg = nil, gui = 'underline',     guisp = nil }
+    hi.TSType               = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSTypeBuiltin        = { guifg = M.colors.base0A, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSVariable           = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSVariableBuiltin    = { guifg = M.colors.base08, guibg = nil, gui = 'italic',        guisp = nil }
+
+    hi.TSDefinition      = { guifg = nil, guibg = nil, gui = 'underline', guisp = M.colors.base04 }
+    hi.TSDefinitionUsage = { guifg = nil, guibg = nil, gui = 'underline', guisp = M.colors.base04 }
+    hi.TSCurrentScope    = { guifg = nil, guibg = nil, gui = 'bold',      guisp = nil }
+
+    hi.NvimInternalError = { guifg = M.colors.base00, guibg = M.colors.base08, gui = 'none', guisp = nil }
+
+    hi.NormalFloat  = { guifg = M.colors.base05, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.FloatBorder  = { guifg = M.colors.base05, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.NormalNC     = { guifg = M.colors.base05, guibg = M.colors.base00, gui = nil,    guisp = nil }
+    hi.TermCursor   = { guifg = M.colors.base00, guibg = M.colors.base05, gui = 'none', guisp = nil }
+    hi.TermCursorNC = { guifg = M.colors.base00, guibg = M.colors.base05, gui = nil,    guisp = nil }
+
+    hi.User1 = { guifg = M.colors.base08, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User2 = { guifg = M.colors.base0E, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User3 = { guifg = M.colors.base05, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User4 = { guifg = M.colors.base0C, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User5 = { guifg = M.colors.base01, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User6 = { guifg = M.colors.base05, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User7 = { guifg = M.colors.base05, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User8 = { guifg = M.colors.base00, guibg = M.colors.base02, gui = 'none', guisp = nil }
+    hi.User9 = { guifg = M.colors.base00, guibg = M.colors.base02, gui = 'none', guisp = nil }
+
+    hi.TreesitterContext = { guifg = nil, guibg = M.colors.base01, gui = 'italic', guisp = nil }
+
+    vim.g.terminal_color_0  = M.colors.base00
+    vim.g.terminal_color_1  = M.colors.base08
+    vim.g.terminal_color_2  = M.colors.base0B
+    vim.g.terminal_color_3  = M.colors.base0A
+    vim.g.terminal_color_4  = M.colors.base0D
+    vim.g.terminal_color_5  = M.colors.base0E
+    vim.g.terminal_color_6  = M.colors.base0C
+    vim.g.terminal_color_7  = M.colors.base05
+    vim.g.terminal_color_8  = M.colors.base03
+    vim.g.terminal_color_9  = M.colors.base08
+    vim.g.terminal_color_10 = M.colors.base0B
+    vim.g.terminal_color_11 = M.colors.base0A
+    vim.g.terminal_color_12 = M.colors.base0D
+    vim.g.terminal_color_13 = M.colors.base0E
+    vim.g.terminal_color_14 = M.colors.base0C
+    vim.g.terminal_color_15 = M.colors.base07
+end
+
+function M.available_colorschemes()
+  return vim.tbl_keys(M.colorschemes)
+end
+
+-- SETUP --
+
 -- Available themes
 -- onedark, github
 
 local theme = utils.get_theme()
-
-local function highlight(group, guifg, guibg, attr, guisp)
-    local parts = {group}
-    if guifg then table.insert(parts, "guifg=" .. guifg) end
-    if guibg then table.insert(parts, "guibg=" .. guibg) end
-    if attr then table.insert(parts, "gui=" .. attr) end
-    if guisp then table.insert(parts, "guisp=#" .. guisp) end
-
-    -- nvim.ex.highlight(parts)
-    vim.api.nvim_command("highlight " .. table.concat(parts, " "))
-end
-
--- Neovim terminal colours
-if vim.fn.has "nvim" then
-    vim.g.termina_color_0 = theme.base00
-    vim.g.terminal_color_1 = theme.base08
-    vim.g.terminal_color_2 = theme.base0B
-    vim.g.terminal_color_3 = theme.base0A
-    vim.g.terminal_color_4 = theme.base0D
-    vim.g.terminal_color_5 = theme.base0E
-    vim.g.terminal_color_6 = theme.base0C
-    vim.g.terminal_color_7 = theme.base05
-    vim.g.terminal_color_8 = theme.base03
-    vim.g.terminal_color_9 = theme.base08
-    vim.g.terminal_color_10 = theme.base0B
-    vim.g.terminal_color_11 = theme.base0A
-    vim.g.terminal_color_12 = theme.base0D
-    vim.g.terminal_color_13 = theme.base0E
-    vim.g.terminal_color_14 = theme.base0C
-    vim.g.terminal_color_15 = theme.base07
-    if vim.o.background == "light" then
-        vim.g.terminal_color_background = theme.base05
-        vim.g.terminal_color_foreground = theme.base0B
-    else
-        vim.g.terminal_color_background = theme.base00
-        vim.g.terminal_color_foreground = theme.base0E
-    end
-end
-
--- Vim editor colors
-highlight("Normal", theme.base07, theme.base00, nil, nil)
-highlight("Bold", nil, nil, "bold", nil)
-highlight("Debug", theme.base08, nil, nil, nil)
-highlight("Directory", theme.base0D, nil, nil, nil)
-highlight("Error", theme.base00, theme.base08, nil, nil)
-highlight("ErrorMsg", theme.base08, theme.base00, nil, nil)
-highlight("Exception", theme.base08, nil, nil, nil)
-highlight("FoldColumn", theme.base0C, theme.base01, nil, nil)
-highlight("Folded", theme.base03, theme.base01, nil, nil)
-highlight("IncSearch", theme.base01, theme.base09, "none", nil)
-highlight("Italic", nil, nil, "none", nil)
-highlight("Macro", theme.base08, nil, nil, nil)
-highlight("MatchParen", nil, theme.base03, nil, nil)
-highlight("ModeMsg", theme.base0B, nil, nil, nil)
-highlight("MoreMsg", theme.base0B, nil, nil, nil)
-highlight("Question", theme.base0D, nil, nil, nil)
-highlight("Search", theme.base01, theme.base0A, nil, nil)
-highlight("Substitute", theme.base01, theme.base0A, "none", nil)
-highlight("SpecialKey", theme.base03, nil, nil, nil)
-highlight("TooLong", theme.base08, nil, nil, nil)
-highlight("Underlined", theme.base08, nil, nil, nil)
-highlight("Visual", nil, theme.base02, nil, nil)
-highlight("VisualNOS", theme.base08, nil, nil, nil)
-highlight("WarningMsg", theme.base08, nil, nil, nil)
-highlight("WildMenu", theme.base08, theme.base0A, nil, nil)
-highlight("Title", theme.base0D, nil, "none", nil)
-highlight("Conceal", theme.base0D, theme.base00, nil, nil)
-highlight("Cursor", theme.base00, theme.base05, nil, nil)
-highlight("NonText", theme.base03, nil, nil, nil)
-highlight("LineNr", theme.base03, "NONE", nil, nil)
-highlight("SignColumn", theme.base03, "NONE", nil, nil)
-highlight("StatusLine", theme.base04, "NONE", "none", nil)
-highlight("StatusLineNC", theme.base03, "NONE", "none", nil)
-highlight("VertSplit", theme.base02, "NONE", "none", nil)
-highlight("ColorColumn", nil, theme.base01, "none", nil)
-highlight("CursorColumn", nil, theme.base01, "none", nil)
-highlight("CursorLine", nil, theme.base01, "none", nil)
-highlight("CursorLineNr", theme.base04, "NONE", nil, nil)
-highlight("QuickFixLine", nil, theme.base01, "none", nil)
-highlight("PMenu", theme.base05, theme.base01, "none", nil)
-highlight("PMenuSel", theme.base01, theme.base05, nil, nil)
-highlight("TabLine", theme.base03, theme.base01, "none", nil)
-highlight("TabLineFill", theme.base03, theme.base01, "none", nil)
-highlight("TabLineSel", theme.base0B, theme.base01, "none", nil)
-
--- Standard syntax highlighting
-highlight("Boolean", theme.base09, nil, nil, nil)
-highlight("Character", theme.base08, nil, nil, nil)
-highlight("Comment", theme.base03, nil, nil, nil)
-highlight("Conditional", theme.base0E, nil, nil, nil)
-highlight("Constant", theme.base09, nil, nil, nil)
-highlight("Define", theme.base0E, nil, "none", nil)
-highlight("Delimiter", theme.base0F, nil, nil, nil)
-highlight("Float", theme.base09, nil, nil, nil)
-highlight("Function", theme.base0D, nil, nil, nil)
-highlight("Identifier", theme.base08, nil, "none", nil)
-highlight("Include", theme.base0D, nil, nil, nil)
-highlight("Keyword", theme.base0E, nil, nil, nil)
-highlight("Label", theme.base0A, nil, nil, nil)
-highlight("Number", theme.base09, nil, nil, nil)
-highlight("Operator", theme.base05, nil, "none", nil)
-highlight("PreProc", theme.base0A, nil, nil, nil)
-highlight("Repeat", theme.base0A, nil, nil, nil)
-highlight("Special", theme.base0C, nil, nil, nil)
-highlight("SpecialChar", theme.base0F, nil, nil, nil)
-highlight("Statement", theme.base08, nil, nil, nil)
-highlight("StorageClass", theme.base0A, nil, nil, nil)
-highlight("String", theme.base0B, nil, nil, nil)
-highlight("Structure", theme.base0E, nil, nil, nil)
-highlight("Tag", theme.base0A, nil, nil, nil)
-highlight("Todo", theme.base0A, theme.base01, nil, nil)
-highlight("Type", theme.base0A, nil, "none", nil)
-highlight("Typedef", theme.base0A, nil, nil, nil)
-
--- Additional Tree-sitter highlighting
-highlight("TSNote", theme.base0D, nil, nil, nil)
-highlight("TSWarning", theme.base0A, nil, nil, nil)
-highlight("TSDanger", theme.base08, nil, nil, nil)
-highlight("TSConstructor", theme.base08, nil, nil, nil)
-highlight("TSConstant", theme.base09, nil, nil, nil)
-highlight("TSField", theme.base05, nil, nil, nil)
-highlight("TSInclude", theme.base0E, nil, nil, nil)
-highlight("TSKeyword", theme.base0E, nil, nil, nil)
-highlight("TSLabel", theme.base0A, nil, nil, nil)
-highlight("TSNamespace", theme.base05, nil, nil, nil)
-highlight("TSOperator", theme.base05, nil, nil, nil)
-highlight("TSParameter", theme.base08, nil, nil, nil)
-highlight("TSProperty", theme.base0C, nil, nil, nil)
-highlight("TSPunctDelimiter", theme.base05, nil, nil, nil)
-highlight("TSPunctBracket", theme.base05, nil, nil, nil)
-highlight("TSPunctSpecial", theme.base05, nil, nil, nil)
-highlight("TSStringRegex", theme.base08, nil, nil, nil)
-highlight("TSStringEscape", theme.base0F, nil, nil, nil)
--- highlight("TSType", theme.base0E, nil, nil, nil)
-highlight("TSType", theme.base07, nil, nil, nil)
-highlight("TSVariable", theme.base08, nil, nil, nil)
-highlight("TSTag", theme.base0A, nil, nil, nil)
-highlight("TSVariableBuiltin", theme.base0A, nil, nil, nil)
-
----
--- Extra definitions
----
-
--- C highlighting
-highlight("cOperator", theme.base0C, nil, nil, nil)
-highlight("cPreCondit", theme.base0E, nil, nil, nil)
-
--- C# highlighting
-highlight("csClass", theme.base0A, nil, nil, nil)
-highlight("csAttribute", theme.base0A, nil, nil, nil)
-highlight("csModifier", theme.base0E, nil, nil, nil)
-highlight("csType", theme.base08, nil, nil, nil)
-highlight("csUnspecifiedStatement", theme.base0D, nil, nil, nil)
-highlight("csContextualStatement", theme.base0E, nil, nil, nil)
-highlight("csNewDecleration", theme.base08, nil, nil, nil)
-
--- CSS highlighting
-highlight("cssBraces", theme.base05, nil, nil, nil)
-highlight("cssClassName", theme.base0E, nil, nil, nil)
-highlight("cssColor", theme.base0C, nil, nil, nil)
-
--- Diff highlighting
-highlight("DiffAdd", theme.base0B, theme.base01, nil, nil)
-highlight("DiffChange", theme.base03, theme.base01, nil, nil)
-highlight("DiffDelete", theme.base08, theme.base01, nil, nil)
-highlight("DiffText", theme.base0D, theme.base01, nil, nil)
-highlight("DiffAdded", theme.base0B, theme.base00, nil, nil)
-highlight("DiffFile", theme.base08, theme.base00, nil, nil)
-highlight("DiffNewFile", theme.base0B, theme.base00, nil, nil)
-highlight("DiffLine", theme.base0D, theme.base00, nil, nil)
-highlight("DiffRemoved", theme.base08, theme.base00, nil, nil)
-
--- Git highlighting
-highlight("gitcommitOverflow", theme.base08, nil, nil, nil)
-highlight("gitcommitSummary", theme.base0B, nil, nil, nil)
-highlight("gitcommitComment", theme.base03, nil, nil, nil)
-highlight("gitcommitUntracked", theme.base03, nil, nil, nil)
-highlight("gitcommitDiscarded", theme.base03, nil, nil, nil)
-highlight("gitcommitSelected", theme.base03, nil, nil, nil)
-highlight("gitcommitHeader", theme.base0E, nil, nil, nil)
-highlight("gitcommitSelectedType", theme.base0D, nil, nil, nil)
-highlight("gitcommitUnmergedType", theme.base0D, nil, nil, nil)
-highlight("gitcommitDiscardedType", theme.base0D, nil, nil, nil)
-highlight("gitcommitBranch", theme.base09, nil, "bold", nil)
-highlight("gitcommitUntrackedFile", theme.base0A, nil, nil, nil)
-highlight("gitcommitUnmergedFile", theme.base08, nil, "bold", nil)
-highlight("gitcommitDiscardedFile", theme.base08, nil, "bold", nil)
-highlight("gitcommitSelectedFile", theme.base0B, nil, "bold", nil)
-
--- HTML highlighting
-highlight("htmlBold", theme.base0A, nil, nil, nil)
-highlight("htmlItalic", theme.base0E, nil, nil, nil)
-highlight("htmlEndTag", theme.base05, nil, nil, nil)
-highlight("htmlTag", theme.base05, nil, nil, nil)
-
--- JavaScript highlighting
-highlight("javaScript", theme.base05, nil, nil, nil)
-highlight("javaScriptBraces", theme.base05, nil, nil, nil)
-highlight("javaScriptNumber", theme.base09, nil, nil, nil)
--- pangloss/vim-javascript highlighting
--- highlight("jsOperator", theme.base0D, nil, nil, nil)
--- highlight("jsStatement", theme.base0E, nil, nil, nil)
--- highlight("jsReturn", theme.base0E, nil, nil, nil)
--- highlight("jsThis", theme.base08, nil, nil, nil)
--- highlight("jsClassDefinition", theme.base0A, nil, nil, nil)
--- highlight("jsFunction", theme.base0E, nil, nil, nil)
--- highlight("jsFuncName", theme.base0D, nil, nil, nil)
--- highlight("jsFuncCall", theme.base0D, nil, nil, nil)
--- highlight("jsClassFuncName", theme.base0D, nil, nil, nil)
--- highlight("jsClassMethodType", theme.base0E, nil, nil, nil)
--- highlight("jsRegexpString", theme.base0C, nil, nil, nil)
--- highlight("jsGlobalObjects", theme.base0A, nil, nil, nil)
--- highlight("jsGlobalNodeObjects", theme.base0A, nil, nil, nil)
--- highlight("jsExceptions", theme.base0A, nil, nil, nil)
--- highlight("jsBuiltins", theme.base0A, nil, nil, nil)
-
--- Mail highlighting
-highlight("mailQuoted1", theme.base0A, nil, nil, nil)
-highlight("mailQuoted2", theme.base0B, nil, nil, nil)
-highlight("mailQuoted3", theme.base0E, nil, nil, nil)
-highlight("mailQuoted4", theme.base0C, nil, nil, nil)
-highlight("mailQuoted5", theme.base0D, nil, nil, nil)
-highlight("mailQuoted6", theme.base0A, nil, nil, nil)
-highlight("mailURL", theme.base0D, nil, nil, nil)
-highlight("mailEmail", theme.base0D, nil, nil, nil)
-
--- Markdown highlighting
-highlight("markdownCode", theme.base0B, nil, nil, nil)
-highlight("markdownError", theme.base05, theme.base00, nil, nil)
-highlight("markdownCodeBlock", theme.base0B, nil, nil, nil)
-highlight("markdownHeadingDelimiter", theme.base0D, nil, nil, nil)
-
--- PHP highlighting
-highlight("phpMemberSelector", theme.base05, nil, nil, nil)
-highlight("phpComparison", theme.base05, nil, nil, nil)
-highlight("phpParent", theme.base05, nil, nil, nil)
-highlight("phpMethodsVar", theme.base0C, nil, nil, nil)
-
--- Python highlighting
-highlight("pythonOperator", theme.base0E, nil, nil, nil)
-highlight("pythonRepeat", theme.base0E, nil, nil, nil)
-highlight("pythonInclude", theme.base0E, nil, nil, nil)
-highlight("pythonStatement", theme.base0E, nil, nil, nil)
-
--- Ruby highlighting
-highlight("rubyAttribute", theme.base0D, nil, nil, nil)
-highlight("rubyConstant", theme.base0A, nil, nil, nil)
-highlight("rubyInterpolationDelimiter", theme.base0F, nil, nil, nil)
-highlight("rubyRegexp", theme.base0C, nil, nil, nil)
-highlight("rubySymbol", theme.base0B, nil, nil, nil)
-highlight("rubyStringDelimiter", theme.base0B, nil, nil, nil)
-
--- SASS highlighting
-highlight("sassidChar", theme.base08, nil, nil, nil)
-highlight("sassClassChar", theme.base09, nil, nil, nil)
-highlight("sassInclude", theme.base0E, nil, nil, nil)
-highlight("sassMixing", theme.base0E, nil, nil, nil)
-highlight("sassMixinName", theme.base0D, nil, nil, nil)
-
--- Spelling highlighting
-highlight("SpellBad", nil, nil, "undercurl", theme.base08)
-highlight("SpellLocal", nil, nil, "undercurl", theme.base0C)
-highlight("SpellCap", nil, nil, "undercurl", theme.base0D)
-highlight("SpellRare", nil, nil, "undercurl", theme.base0E)
-
--- Java highlighting
-highlight("javaOperator", theme.base0D, nil, nil, nil)
+M.setup(theme)
 
 require('customs.highlights')
 
