@@ -45,6 +45,10 @@ local maps = {
       new_vertical = "<leader>y",
       new_window = "<leader>w",
    },
+   window_split = {
+       vertical = "<leader>v",
+       horizontal = "<leader>h",
+   },
 }
 -- Don't copy the replaced text after pasting in visual mode
 map("v", "p", '"_dP')
@@ -128,9 +132,10 @@ map("n", wnav.moveUp, "<C-w>k")
 map("n", wnav.moveDown, "<C-w>j")
 
 -- better split
+local wsplit = maps.window_split
 -- map('n', '<leader>h', ':ls<cr> :vertical sb ', {})
-map('n', '<leader>v', ':vsplit', {})
-map('n', '<leader>h', ':split', {})
+map('n', wsplit.vertical, ':vsplit<CR>', {})
+map('n', wsplit.horizontal, ':split<CR>', {})
 
 -- TODO fix this
 -- Terminal window navigation
