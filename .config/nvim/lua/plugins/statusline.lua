@@ -359,6 +359,15 @@ components.active[3][9] = {
 }
 
 components.active[3][10] = {
+    provider = 'position',
+    -- left_sep = ' ',
+    hl = {
+        fg = colors.cyan,
+        style = 'bold'
+    }
+}
+
+components.active[3][11] = {
    provider = function()
       local current_line = vim.fn.line "."
       local total_line = vim.fn.line "$"
