@@ -46,14 +46,17 @@ M.base = {
     -- base05 = "#adbac7",
     -- base05 = "#c9d1d9",
     base05 = "#79c0ff",
-    base06 = "#b6bdca",
+    -- base06 = "#b6bdca",
+    base06 = "#8ddb8c",
     base07 = "#adbac7",
     -- base07 = "#c9d1d9",
     -- base08 = "#79c0ff",
     base08 = "#c9d1d9",
     -- base09 = "#daaa3f",
-    base09 = "#e5c07b",
-    base0A = "#ff7b72",
+    -- base09 = "#e5c07b",
+    base09 = "#e7c787",
+    -- base0A = "#ff7b72",
+    base0A = "#7ee787",
     -- base0A = "#8ddb8c",
     base0B = "#a5d6ff",
     -- base0C = "#f69d50",
@@ -61,10 +64,11 @@ M.base = {
     -- base0C = "#56b6c2",
     base0D = "#d2a8ff",
     base0E = "#ff7b72",
+    -- base0E = "#f69d50",
+    -- base0E = "#7eca9c",
     -- base0E = "#8ddb8c",
     -- base0E = "#98c379",
-    -- base0E = "#7eca9c",
-    base0F = "#b34642"
+    base0F = "#f85149"
 }
 
 return M

@@ -185,7 +185,8 @@ local plugin_maps = {
    },
    -- easily (un)comment code, language aware
    comment = {
-      toggle = "gcc", -- toggle comment (works on multiple lines)
+      nor_toggle = "gcc", -- toggle comment (works on multiple lines) in normal mode
+      vis_toggle = "gc", -- toggle comment (works on multiple lines) in visual mode
    },
    -- NeoVim 'home screen' on open
    dashboard = {
@@ -233,9 +234,9 @@ M.bufferline = function()
 end
 
 M.comment = function()
-   local m = plugin_maps.comment.toggle
-   map("n", m, ":CommentToggle <CR>")
-   map("v", m, ":CommentToggle <CR>")
+   local m = plugin_maps.comment
+   map("n", m.nor_toggle, ":CommentToggle <CR>")
+   map("v", m.vis_toggle, ":CommentToggle <CR>")
 end
 
 M.dashboard = function()
