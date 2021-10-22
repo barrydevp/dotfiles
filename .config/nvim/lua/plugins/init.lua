@@ -169,14 +169,14 @@ return require("packer").startup(
             end,
         }
 
-        use {
-            "max397574/better-escape.nvim",
-            disable = not status.esc_insertmode,
-            event = "InsertEnter",
-            config = function()
-                require("plugins.others").better_escape()
-            end,
-        }
+        -- use {
+        --     "max397574/better-escape.nvim",
+        --     disable = not status.esc_insertmode,
+        --     event = "InsertEnter",
+        --     config = function()
+        --         require("plugins.others").better_escape()
+        --     end,
+        -- }
 
         -- use {
         --     "glepnir/lspsaga.nvim",
