@@ -1,4 +1,3 @@
-
 local function on_attach(_, bufnr)
    local function buf_set_keymap(...)
       vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -63,16 +62,6 @@ lspSymbol("Information", "")
 lspSymbol("Hint", "")
 lspSymbol("Warning", "")
 
--- local lsp_publish_diagnostics_options = overrides.get("publish_diagnostics", {
---    virtual_text = {
---       prefix = "",
---       spacing = 0,
---    },
---    signs = true,
---    underline = true,
---    update_in_insert = false, -- update diagnostics insert mode
--- })
-
 -- suppress error messages from lang servers
 vim.notify = function(msg, log_level, _opts)
    if msg:match "exit code" then
@@ -94,34 +83,43 @@ local servers = {
     "tsserver",
     "pyright",
     "bashls",
-    -- "clangd",
-    "ccls",
     "gopls",
     "jdtls",
 }
 
+local common_config = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    debounce_text_changes = 150,
+}
+
 for _, lang in ipairs(servers) do
-    lspconf[lang].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        -- root_dir = vim.loop.cwd
-    }
+    lspconf[lang].setup(common_config)
 end
 
--- load lang server
+-- load specific lang server
+
+-- lua
 -- require "plugins.lsp.sumneko_lua"
+
+-- vls
 require "plugins.lsp.vls"
 
--- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
---    vim.lsp.diagnostic.on_publish_diagnostics,
---    lsp_publish_diagnostics_options
--- )
--- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
---    border = "single",
--- })
--- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
---    border = "single",
--- })
+-- ccls
+lspconfig.ccls.setup(
+    vim.tbl_extend(
+        "force",
+        common_config, 
+        {
+            init_options = {
+                cache = { directory = "/tmp/ccls" }
+            },
+        }
+    )
+)
+
+
+-- some handlers
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
