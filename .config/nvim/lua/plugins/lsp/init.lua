@@ -74,7 +74,7 @@ vim.notify = function(msg, log_level, _opts)
    end
 end
 
-local lspconfig = require("lspconfig")
+local lspconf = require("lspconfig")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = {
@@ -106,7 +106,7 @@ end
 require "plugins.lsp.vls"
 
 -- ccls
-lspconfig.ccls.setup(
+lspconf.ccls.setup(
     vim.tbl_extend(
         "force",
         common_config, 
