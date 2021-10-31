@@ -74,7 +74,7 @@ vim.notify = function(msg, log_level, _opts)
    end
 end
 
-local lspconf = require("lspconfig")
+local lspconfig = require("lspconfig")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = {
