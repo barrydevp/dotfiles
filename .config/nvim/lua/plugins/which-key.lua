@@ -95,6 +95,7 @@ local mappings = {
         b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
         s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
         c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+        n = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
         p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
         q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
         i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
