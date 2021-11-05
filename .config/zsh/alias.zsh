@@ -47,7 +47,7 @@ alias \
 alias \
   awscre="nvim ~/.aws/credentials" \
   eksqa="eksctl utils write-kubeconfig --cluster=qa-eks --profile=qa-plf" \
-  eksplc="eksctl utils write-kubeconfig --cluster=dev-native --profile=plc" \
+  eksplc="eksctl utils write-kubeconfig --cluster=dev-native --profile=qa-plc" \
   eksstag="eksctl utils write-kubeconfig --profile=463318169756_EKS-maintainer" \
   eksprod="eksctl utils write-kubeconfig --profile=575772817895_EKS-pods-viewer"
 
