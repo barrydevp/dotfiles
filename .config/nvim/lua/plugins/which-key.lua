@@ -102,6 +102,7 @@ local mappings = {
         g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
         R = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
         u = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
+        h = { "<cmd>lua require('dap.ui.widgets').hover()", "Hover"},
     },
 
     f = {
