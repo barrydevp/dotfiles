@@ -338,6 +338,13 @@ return require("packer").startup(
             end,
         }
 
+        -- markdonw preview live reload
+        use {
+            "iamcco/markdown-preview.nvim",
+            run = "cd app && yarn install",
+            cmd = "MarkdownPreview",
+        }
+
         -- discord rich presence
         -- use "andweeb/presence.nvim"
         
