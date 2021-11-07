@@ -8,7 +8,7 @@ vim.fn.sign_define('DapStopped', {text='🟢', texthl='', linehl='', numhl=''})
 
 dap.adapters.lldb = {
   type = 'executable',
-  command = 'lldb-vscode', -- adjust as needed
+  command = os.getenv("HOME") .. '/.local/bin/lldb-vscode', -- adjust as needed
   name = "lldb"
 }
 
@@ -37,8 +37,8 @@ dap.configurations.cpp = {
     --
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
-    pid = require('dap.utils').pick_process,
+    runInTerminal = true,
+    -- pid = require('dap.utils').pick_process,
   },
 }
 
