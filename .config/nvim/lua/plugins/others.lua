@@ -119,13 +119,13 @@ M.dapui = function()
                 -- Provide as ID strings or tables with "id" and "size" keys
                 {
                     id = "scopes",
-                    size = 0.25, -- Can be float or integer > 1
+                    size = 0.4, -- Can be float or integer > 1
                 },
-                { id = "breakpoints", size = 0.25 },
-                { id = "stacks", size = 0.25 },
-                { id = "watches", size = 00.25 },
+                { id = "breakpoints", size = 0.2 },
+                { id = "stacks", size = 0.2 },
+                { id = "watches", size = 0.2 },
             },
-            size = 40,
+            size = 56,
             position = "left", -- Can be "left", "right", "top", "bottom"
         },
         tray = {
