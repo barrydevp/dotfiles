@@ -37,7 +37,7 @@ dap.configurations.cpp = {
     --
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = true,
+    runInTerminal = false,
     -- pid = require('dap.utils').pick_process,
   },
 }
