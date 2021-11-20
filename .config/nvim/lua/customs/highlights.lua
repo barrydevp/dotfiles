@@ -54,7 +54,7 @@ else
    fg("Comment", grey_fg)
 end
 
-fg_bg("MatchParen", grey, red)
+-- fg_bg("MatchParen", grey, red)
 
 -- Disable cusror line
 -- cmd "hi clear CursorLine"

@@ -79,7 +79,7 @@ function M.setup(colors)
     hi.IncSearch    = { guifg = M.colors.base01, guibg = M.colors.base09, gui = 'none', guisp = nil }
     hi.Italic       = { guifg = nil,             guibg = nil,             gui = 'none', guisp = nil }
     hi.Macro        = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
-    hi.MatchParen   = { guifg = nil,             guibg = M.colors.base03, gui = nil,    guisp = nil }
+    hi.MatchParen   = { guifg = M.colors.base06, guibg = 'none',          gui = 'bold', guisp = nil }
     hi.ModeMsg      = { guifg = M.colors.base0B, guibg = nil,             gui = nil,    guisp = nil }
     hi.MoreMsg      = { guifg = M.colors.base0B, guibg = nil,             gui = nil,    guisp = nil }
     hi.Question     = { guifg = M.colors.base0D, guibg = nil,             gui = nil,    guisp = nil }
@@ -210,7 +210,7 @@ function M.setup(colors)
     hi.TSConstructor        = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSConditional        = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSConstant           = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSConstBuiltin       = { guifg = M.colors.base09, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSConstBuiltin       = { guifg = M.colors.base0C, guibg = nil, gui = 'italic',        guisp = nil }
     hi.TSConstMacro         = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSError              = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSException          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
@@ -218,7 +218,7 @@ function M.setup(colors)
     hi.TSFloat              = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSFunction           = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSFuncBuiltin        = { guifg = M.colors.base0D, guibg = nil, gui = 'italic',        guisp = nil }
-    hi.TSFuncMacro          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSFuncMacro          = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSInclude            = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSKeyword            = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSKeywordFunction    = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
