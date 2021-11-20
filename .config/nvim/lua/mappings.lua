@@ -180,8 +180,11 @@ local plugin_maps = {
    -- list open buffers up the top, easy switching too
    bufferline = {
       close_buffer = "<leader>x", -- close buffer
-      next_buffer = "<TAB>", -- next buffer
-      prev_buffer = "<S-Tab>", -- previous buffer
+      -- next_buffer = "<TAB>", -- next buffer
+      -- prev_buffer = "<S-Tab>", -- previous buffer
+      -- tab is conflict with <C-i>
+      next_buffer = "gt", -- next buffer
+      prev_buffer = "gT", -- previous buffer
    },
    -- easily (un)comment code, language aware
    comment = {
