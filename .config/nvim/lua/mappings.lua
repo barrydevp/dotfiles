@@ -11,7 +11,7 @@ local maps = {
    close_buffer = "<leader>c",
    copy_whole_file = "<C-a>", -- copy all contents of the current buffer
    line_number_toggle = "<leader>n", -- show or hide line number
-   new_buffer = "<S-t>", -- open a new buffer
+   new_buffer = "<C-t>n", -- open a new buffer
    new_tab = "<C-t>b", -- open a new vim tab
    save_file = "<C-s>", -- save file using :w
    theme_toggler = "<leader>tt", -- for theme toggler, see in ui.theme_toggler
@@ -183,8 +183,8 @@ local plugin_maps = {
       -- next_buffer = "<TAB>", -- next buffer
       -- prev_buffer = "<S-Tab>", -- previous buffer
       -- tab is conflict with <C-i>
-      next_buffer = "gt", -- next buffer
-      prev_buffer = "gT", -- previous buffer
+      next_buffer = "t", -- next buffer
+      prev_buffer = "T", -- previous buffer
    },
    -- easily (un)comment code, language aware
    comment = {
