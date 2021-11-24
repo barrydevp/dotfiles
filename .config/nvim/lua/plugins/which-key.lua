@@ -124,6 +124,14 @@ local mappings = {
         c = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
     },
 
+    g = {
+        name = "Git",
+
+        n = "Next hunk",
+        p = "Previous hunk",
+
+    },
+
     -- s = {
     --     name = "+Search",
     --     b = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
