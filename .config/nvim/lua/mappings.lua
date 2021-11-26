@@ -11,8 +11,8 @@ local maps = {
    close_buffer = "<leader>c",
    copy_whole_file = "<C-a>", -- copy all contents of the current buffer
    line_number_toggle = "<leader>n", -- show or hide line number
-   new_buffer = "<C-t>n", -- open a new buffer
-   new_tab = "<C-t>b", -- open a new vim tab
+   new_buffer = "<C-n>b", -- open a new buffer
+   new_tab = "<C-n>t", -- open a new vim tab
    save_file = "<C-s>", -- save file using :w
    theme_toggler = "<leader>tt", -- for theme toggler, see in ui.theme_toggler
    -- navigation in insert mode, only if enabled in options
@@ -111,7 +111,7 @@ map("n", term_maps.new_window, ":execute 'terminal' | let b:term_type = 'wind' |
 -- OPEN TERMINALS --
 map("n", "<M-l>", [[<Cmd>vnew term://zsh <CR>]], opt) -- over right
 map("n", "<M-j>", [[<Cmd> split term://zsh | resize 10 <CR>]], opt) --  bottom
-map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- newtab
+map("n", "<C-n>t", [[<Cmd> tabnew | term <CR>]], opt) -- newtab
 -- exit from terminal buffer
 -- map("t", "<C-[><C-[>", "<C-\\><C-n>", {silent = true, noremap = true})
 
@@ -183,7 +183,7 @@ local plugin_maps = {
       -- next_buffer = "<TAB>", -- next buffer
       -- prev_buffer = "<S-Tab>", -- previous buffer
       -- tab is conflict with <C-i>
-      next_buffer = "t", -- next buffer
+      next_buffer = "<C-t>", -- next buffer
       prev_buffer = "T", -- previous buffer
    },
    -- easily (un)comment code, language aware
