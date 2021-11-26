@@ -61,7 +61,6 @@ local opts = {
 local mappings = {
     ["c"] = "Close Buffer",
     ["e"] = {":NvimTreeToggle<CR>", "Explorer"},
-    -- ["f"] = "Find File",
     ["h"] = "No Highlight",
     l = {
         name = "LSP/LangServer",
@@ -71,7 +70,6 @@ local mappings = {
         -- D = {"<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace Diagnostics"},
         -- n = {"<cmd>Neoformat<cr>", "Neoformat"},
         f = "Format",
-        i = "Show Diagnostics",
         z = {"<cmd>LspInfo<cr>", "Info"},
         -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
         -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
@@ -79,7 +77,10 @@ local mappings = {
         -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
         -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
         s = {"<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols"},
-        S = {"<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols"}
+        S = {"<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols"},
+        i = {"<cmd>Trouble<cr>", "Show Diagnostics(Troubel)"},
+        iw = {"<cmd>Trouble lsp_workspace_diagnostics<cr>", "Workspace diagnostics"},
+        id = {"<cmd>Trouble lsp_document_diagnostics<cr>", "Document diagnostics"},
     },
 
     d = {

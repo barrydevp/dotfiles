@@ -178,6 +178,14 @@ return require("packer").startup(
             end,
         }
 
+        use {
+            "folke/trouble.nvim",
+            requires = "kyazdani42/nvim-web-devicons",
+            config = function()
+                require("plugins.trouble")
+            end,
+        }
+
         -- use {
         --     "max397574/better-escape.nvim",
         --     disable = not status.esc_insertmode,
