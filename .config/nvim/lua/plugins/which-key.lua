@@ -73,7 +73,7 @@ local mappings = {
         z = {"<cmd>LspInfo<cr>", "Info"},
         -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
         -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
-        -- q = {"<cmd>Telescope quickfix<cr>", "Quickfix"},
+        q = {"<cmd>Telescope quickfix<cr>", "Quickfix"},
         -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
         -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
         s = {"<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols"},
@@ -116,21 +116,27 @@ local mappings = {
     f = {
         name = "Telescope/Find",
         f = {"<cmd>Telescope find_files<cr>", "Find File"},
-        t = {"<cmd>Telescope live_grep<cr>", "Live grep"},
+        F = {"<cmd>Telescope live_grep<cr>", "Live grep"},
+        t = {"<cmd>Telescope grep_string<cr>", "Find cursor string"},
         b = {"<cmd>Telescope buffers<cr>", "Find buffers"},
+        B = {"<cmd>Telescope file_browser<cr>", "File browser"},
         h = {"<cmd>Telescope help_tags<cr>", "Help tags"},
         m = {"<cmd>Telescope marks<cr>", "Marks"},
         r = {"<cmd>Telescope oldfiles<cr>", "Open Recent File"},
         R = {"<cmd>Telescope registers<cr>", "Registers"},
         c = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
+        g = {"<cmd>Telescope git_files<cr>", "Git files"},
     },
 
     g = {
         name = "Git",
-
-        n = "Next hunk",
-        p = "Previous hunk",
-
+        co = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
+        f = {"<cmd>Telescope git_files<cr>", "Git files"},
+        st = {"<cmd>Telescope git_status<cr>", "Git status"},
+        cm = {"<cmd>Telescope git_commits<cr>", "Git commits"},
+        cbm = {"<cmd>Telescope git_bcommits<cr>", "Git bcommits"},
+        p = {'<cmd>lua require"gitsigns".preview_hunk()<CR>', 'Git preview hunk'},
+        bl = {'<cmd>lua require"gitsigns".blame_line{full=true}<CR>', 'Git blame line'},
     },
 
     -- s = {

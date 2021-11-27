@@ -357,6 +357,9 @@ return require("packer").startup(
 
         -- discord rich presence
         -- use "andweeb/presence.nvim"
+        use {
+            "christoomey/vim-tmux-navigator",
+        }
         
     end,
     {
