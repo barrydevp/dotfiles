@@ -53,6 +53,6 @@ alias \
 
 ### Podman
 alias \
-  p="podman" \
+  p="sudo podman" \
   po="podman" \
   sp="sudo podman"
