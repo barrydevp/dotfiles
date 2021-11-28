@@ -55,6 +55,19 @@ require'nvim-tree'.setup({
     -- show lsp diagnostics in the signcolumn
     -- lsp_diagnostics     = false,
     -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
+    update_to_buf_dir   = {
+        enable = true,
+        auto_open = true,
+    },
+    diagnostics = {
+        enable = false,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        }
+    },
     
     ignore              = {'.git', 'node_modules', '.cache'}, -- empty by default
 
@@ -77,9 +90,20 @@ require'nvim-tree'.setup({
         -- the command arguments as a list
         args = {}
     },
+    ilters = {
+        dotfiles = false,
+        custom = {}
+    },
+    git = {
+        enable = true,
+        ignore = true,
+        timeout = 500,
+    },
     view = {
         -- width of the window, can be either a number (columns) or a string in `%`
         width = 45,
+        -- height = 30,
+        hide_root_folder = false,
         -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
         side = 'left',
         -- if true the tree will resize itself after opening a file
@@ -90,7 +114,13 @@ require'nvim-tree'.setup({
             custom_only = false,
             -- list of mappings to set on the tree manually
             list = list
-        }
+        },
+        number = false,
+        relativenumber = false,
+    },
+    trash = {
+        cmd = "trash",
+        require_confirm = true,
     }
 })
 
@@ -141,7 +171,7 @@ vim.o.termguicolors = true
 -- }
 
 -- g.nvim_tree_ignore = {'.git', 'node_modules', '.cache'} -- empty by default
-g.nvim_tree_gitignore = 0 -- 0 by default
+-- g.nvim_tree_gitignore = 0 -- 0 by default
 g.nvim_tree_quit_on_open = 0 -- 0 by default, closes the tree when you open a file
 g.nvim_tree_indent_markers = 1 -- 0 by default, this option shows indent markers when folders are open
 -- g.nvim_tree_hide_dotfiles = 0 -- 0 by default, this option hides files and folders starting with a dot `.`
