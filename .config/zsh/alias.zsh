@@ -51,3 +51,8 @@ alias \
   eksstag="eksctl utils write-kubeconfig --profile=463318169756_EKS-maintainer" \
   eksprod="eksctl utils write-kubeconfig --profile=575772817895_EKS-pods-viewer"
 
+### Podman
+alias \
+  p="podman" \
+  po="podman" \
+  sp="sudo podman"
