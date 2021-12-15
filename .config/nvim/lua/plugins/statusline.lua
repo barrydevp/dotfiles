@@ -122,7 +122,7 @@ components.active[1][3] = {
    end,
 
    hl = {
-      fg = colors.grey_fg2,
+      fg = colors.blue,
       bg = colors.lightbg2,
    },
    right_sep = {
@@ -137,7 +137,7 @@ components.active[1][3] = {
 components.active[1][4] = {
    provider = "git_diff_added",
    hl = {
-      fg = colors.grey_fg2,
+      fg = colors.vibrant_green,
       bg = colors.statusline_bg,
    },
    icon = " ",
@@ -146,7 +146,7 @@ components.active[1][4] = {
 components.active[1][5] = {
    provider = "git_diff_changed",
    hl = {
-      fg = colors.grey_fg2,
+      fg = colors.blue,
       bg = colors.statusline_bg,
    },
    icon = "   ",
@@ -155,7 +155,7 @@ components.active[1][5] = {
 components.active[1][6] = {
    provider = "git_diff_removed",
    hl = {
-      fg = colors.grey_fg2,
+      fg = colors.red,
       bg = colors.statusline_bg,
    },
    icon = "  ",
@@ -185,7 +185,7 @@ components.active[1][9] = {
    enabled = function()
       return lsp.diagnostics_exist "Hint"
    end,
-   hl = { fg = colors.grey_fg2 },
+   hl = { fg = colors.blue },
    icon = "  ",
 }
 
@@ -254,7 +254,7 @@ components.active[3][2] = {
       return vim.api.nvim_win_get_width(winid) > 70
    end,
    hl = {
-      fg = colors.grey_fg2,
+      fg = colors.dark_purple,
       bg = colors.statusline_bg,
    },
    icon = "  ",
