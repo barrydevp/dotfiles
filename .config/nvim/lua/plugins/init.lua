@@ -91,7 +91,7 @@ return require("packer").startup(
 
         -- status line
         use {
-            "famiu/feline.nvim",
+            "feline-nvim/feline.nvim",
             disable = not status.feline,
             after = "nvim-web-devicons",
             config = function()
