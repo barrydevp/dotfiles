@@ -1,16 +1,59 @@
 -- Install Packer.nvim
-local execute = vim.api.nvim_command
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+-- local execute = vim.api.nvim_command
+-- local fn = vim.fn
+-- local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+-- 
+-- if fn.empty(fn.glob(install_path)) > 0 then
+--     execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+-- end
+-- 
+-- local packer = require("packer")
+-- local use = packer.use
+-- 
+-- vim.cmd [[packadd packer.nvim]]
+   
+vim.cmd "packadd packer.nvim"
 
-if fn.empty(fn.glob(install_path)) > 0 then
-    execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+local present, packer = pcall(require, "packer")
+
+if not present then
+   local packer_path = vim.fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
+
+   print "Cloning packer.."
+   -- remove the dir before cloning
+   vim.fn.delete(packer_path, "rf")
+   vim.fn.system {
+      "git",
+      "clone",
+      "https://github.com/wbthomason/packer.nvim",
+      "--depth",
+      "20",
+      packer_path,
+   }
+
+   vim.cmd "packadd packer.nvim"
+   present, packer = pcall(require, "packer")
+
+   if present then
+      print "Packer cloned successfully."
+   else
+      error("Couldn't clone packer !\nPacker path: " .. packer_path .. "\n" .. packer)
+   end
 end
 
-local packer = require("packer")
-local use = packer.use
-
-vim.cmd [[packadd packer.nvim]]
+packer.init {
+   display = {
+      open_fn = function()
+         return require("packer.util").float { border = "single" }
+      end,
+      prompt_border = "single",
+   },
+   git = {
+      clone_timeout = 6000, -- seconds
+   },
+   auto_clean = true,
+   compile_on_sync = true,
+}
 
 local plugins = {
    -- enable and disable plugins (false for disable)
@@ -123,8 +166,8 @@ return require("packer").startup(
 
         use {
             "nvim-treesitter/nvim-treesitter",
-            -- branch = "0.5-compat",
             event = "BufRead",
+            -- run = ':TSUpdate',
             config = function()
                 require("plugins.nvim-treesitter")
             end,
