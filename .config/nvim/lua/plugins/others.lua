@@ -59,32 +59,36 @@ M.colorizer = function()
    end
 end
 
-M.comment = function()
-   local present, nvim_comment = pcall(require, "nvim_comment")
+M.comment = function(override_flag)
+   local present, nvim_comment = pcall(require, "Comment")
    if present then
-      nvim_comment.setup()
+      local default = {}
+      nvim_comment.setup(default)
    end
 end
 
-M.luasnip = function()
+M.luasnip = function(override_flag)
    local present, luasnip = pcall(require, "luasnip")
-   if not present then
-      return
+   if present then
+      local default = {
+         history = true,
+         updateevents = "TextChanged,TextChangedI",
+      }
+      if override_flag then
+         default = require("core.utils").tbl_override_req("luasnip", default)
+      end
+      luasnip.config.set_config(default)
+      -- require("luasnip/loaders/from_vscode").load { paths = chadrc_config.plugins.options.luasnip.snippet_path }
+      require("luasnip/loaders/from_vscode").load()
    end
-
-   luasnip.config.set_config {
-      history = true,
-      updateevents = "TextChanged,TextChangedI",
-   }
-   require("luasnip/loaders/from_vscode").load {}
 end
 
-M.signature = function()
+M.signature = function(override_flag)
    local present, lspsignature = pcall(require, "lsp_signature")
    if present then
-      lspsignature.setup {
+      local default = {
          bind = true,
-         doc_lines = 2,
+         doc_lines = 0,
          floating_window = true,
          fix_pos = true,
          hint_enable = true,
@@ -99,6 +103,66 @@ M.signature = function()
          zindex = 200, -- by default it will be on top of all floating windows, set to 50 send it to bottom
          padding = "", -- character to pad on left and right of signature can be ' ', or '|'  etc
       }
+      lspsignature.setup(default)
+   end
+end
+
+M.lsp_handlers = function()
+   local function lspSymbol(name, icon)
+      local hl = "DiagnosticSign" .. name
+      vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
+   end
+
+   lspSymbol("Error", "")
+   lspSymbol("Info", "")
+   lspSymbol("Hint", "")
+   lspSymbol("Warn", "")
+
+   vim.diagnostic.config {
+      virtual_text = {
+         prefix = "",
+      },
+      signs = true,
+      underline = true,
+      update_in_insert = false,
+   }
+
+   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+      border = "single",
+   })
+   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+      border = "single",
+   })
+
+   -- suppress error messages from lang servers
+   vim.notify = function(msg, log_level)
+      if msg:match "exit code" then
+         return
+      end
+      if log_level == vim.log.levels.ERROR then
+         vim.api.nvim_err_writeln(msg)
+      else
+         vim.api.nvim_echo({ { msg } }, true, {})
+      end
+   end
+end
+
+M.gitsigns = function(override_flag)
+   local present, gitsigns = pcall(require, "gitsigns")
+   if present then
+      local default = {
+         signs = {
+            add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
+            change = { hl = "DiffChange", text = "│", numhl = "GitSignsChangeNr" },
+            delete = { hl = "DiffDelete", text = "", numhl = "GitSignsDeleteNr" },
+            topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr" },
+            changedelete = { hl = "DiffChangeDelete", text = "~", numhl = "GitSignsChangeNr" },
+         },
+      }
+      if override_flag then
+         default = require("core.utils").tbl_override_req("gitsigns", default)
+      end
+      gitsigns.setup(default)
    end
 end
 

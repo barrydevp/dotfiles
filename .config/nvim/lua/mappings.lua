@@ -242,16 +242,6 @@ M.comment = function()
    map("v", m.vis_toggle, ":CommentToggle <CR>")
 end
 
-M.dashboard = function()
-   local m = plugin_maps.dashboard
-
-   map("n", m.bookmarks, ":DashboardJumpMarks <CR>")
-   map("n", m.new_file, ":DashboardNewFile <CR>")
-   map("n", m.open, ":Dashboard <CR>")
-   map("n", m.session_load, ":SessionLoad <CR>")
-   map("n", m.session_save, ":SessionSave <CR>")
-end
-
 M.nvimtree = function()
    map("n", plugin_maps.nvimtree.toggle, ":NvimTreeToggle <CR>")
    map("n", plugin_maps.nvimtree.focus, ":NvimTreeFocus <CR>")

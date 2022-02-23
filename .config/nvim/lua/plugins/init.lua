@@ -319,10 +319,23 @@ return require("packer").startup(
         }
 
         -- comment
+        -- use {
+        --     "terrortylor/nvim-comment",
+        --     disable = not status.comment,
+        --     cmd = "CommentToggle",
+        --     config = function()
+        --         require("plugins.others").comment()
+        --     end,
+        --     setup = function()
+        --         require("mappings").comment()
+        --     end,
+        -- }
+        
         use {
-            "terrortylor/nvim-comment",
+            "numToStr/Comment.nvim",
             disable = not status.comment,
-            cmd = "CommentToggle",
+            module = "Comment",
+            keys = { "gcc" },
             config = function()
                 require("plugins.others").comment()
             end,
