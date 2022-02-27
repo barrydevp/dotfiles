@@ -63,7 +63,7 @@ local servers = {
     "tsserver",
     "pyright",
     "bashls",
-    "gopls",
+    -- "gopls",
     "jdtls",
 }
 
@@ -99,3 +99,18 @@ lspconf.ccls.setup(
     )
 )
 
+lspconf.gopls.setup(
+    vim.tbl_extend(
+        "force",
+        common_config, {
+            cmd = {"gopls", "serve"},
+            settings = {
+              gopls = {
+                analyses = {
+                  composites = false,
+                },
+              },
+            },
+        }
+    )
+)
