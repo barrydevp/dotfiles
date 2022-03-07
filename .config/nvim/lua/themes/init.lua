@@ -233,7 +233,7 @@ function M.setup(colors)
     hi.TSParameterReference = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSProperty           = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSPunctDelimiter     = { guifg = M.colors.base0F, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSPunctBracket       = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSPunctBracket       = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSPunctSpecial       = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSRepeat             = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSString             = { guifg = M.colors.base0B, guibg = nil, gui = 'none',          guisp = nil }
