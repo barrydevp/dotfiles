@@ -56,3 +56,7 @@ alias \
   p="sudo podman" \
   po="podman" \
   sp="sudo podman"
+
+### Docker
+  dk="docker" \
+  dkc="docker-compose"
