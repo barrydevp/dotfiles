@@ -30,9 +30,11 @@ local default = {
       "gomod",
       "yaml",
       "toml",
+      "dockerfile",
       "java",
       "c",
       "cpp",
+      "c_sharp",
    },
    highlight = {
       enable = true,
