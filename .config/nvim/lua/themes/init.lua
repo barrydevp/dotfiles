@@ -129,7 +129,7 @@ function M.setup(colors)
     hi.Number       = { guifg = M.colors.base09, guibg = nil,             gui = nil,    guisp = nil }
     hi.Operator     = { guifg = M.colors.base05, guibg = nil,             gui = 'none', guisp = nil }
     hi.PreProc      = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
-    hi.Repeat       = { guifg = M.colors.base0A, guibg = nil,             gui = nil,    guisp = nil }
+    hi.Repeat       = { guifg = M.colors.base0E, guibg = nil,             gui = nil,    guisp = nil }
     hi.Special      = { guifg = M.colors.base0C, guibg = nil,             gui = nil,    guisp = nil }
     hi.SpecialChar  = { guifg = M.colors.base0F, guibg = nil,             gui = nil,    guisp = nil }
     hi.Statement    = { guifg = M.colors.base08, guibg = nil,             gui = nil,    guisp = nil }
@@ -235,7 +235,7 @@ function M.setup(colors)
     hi.TSPunctDelimiter     = { guifg = M.colors.base0F, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSPunctBracket       = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSPunctSpecial       = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSRepeat             = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSRepeat             = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSString             = { guifg = M.colors.base0B, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSStringRegex        = { guifg = M.colors.base0C, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSStringEscape       = { guifg = M.colors.base0C, guibg = nil, gui = 'none',          guisp = nil }
