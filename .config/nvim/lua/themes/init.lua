@@ -212,8 +212,8 @@ function M.setup(colors)
     hi.TSConstant           = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSConstBuiltin       = { guifg = M.colors.base0C, guibg = nil, gui = 'italic',        guisp = nil }
     hi.TSConstMacro         = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSError              = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSException          = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSError              = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
+    hi.TSException          = { guifg = M.colors.base0E, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSField              = { guifg = M.colors.base05, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSFloat              = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSFunction           = { guifg = M.colors.base0D, guibg = nil, gui = 'none',          guisp = nil }
@@ -251,7 +251,7 @@ function M.setup(colors)
     hi.TSLiteral            = { guifg = M.colors.base09, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSURI                = { guifg = M.colors.base09, guibg = nil, gui = 'underline',     guisp = nil }
     hi.TSType               = { guifg = M.colors.base0A, guibg = nil, gui = 'none',          guisp = nil }
-    hi.TSTypeBuiltin        = { guifg = M.colors.base0A, guibg = nil, gui = 'italic',        guisp = nil }
+    hi.TSTypeBuiltin        = { guifg = M.colors.base0E, guibg = nil, gui = 'italic',        guisp = nil }
     hi.TSVariable           = { guifg = M.colors.base08, guibg = nil, gui = 'none',          guisp = nil }
     hi.TSVariableBuiltin    = { guifg = M.colors.base08, guibg = nil, gui = 'italic',        guisp = nil }
 
