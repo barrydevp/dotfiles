@@ -140,6 +140,8 @@ return require("packer").startup(
             end
         }
 
+        use "famiu/bufdelete.nvim"
+
         -- buffer line
         use {
             "akinsho/bufferline.nvim",

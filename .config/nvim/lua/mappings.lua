@@ -71,7 +71,8 @@ map("n", "<Esc>", ":noh <CR>")
 -- don't yank text on delete ( dd )
 -- map({ "n", "v" }, "d", '"_d')
 
-map("n", maps.close_buffer, ":lua require('utils').close_buffer() <CR>") -- close  buffer
+-- map("n", maps.close_buffer, ":lua require('utils').close_buffer() <CR>") -- close  buffer
+map("n", maps.close_buffer, ":lua require('bufdelete').bufdelete(0, true) <CR>") -- close  buffer
 map("n", maps.copy_whole_file, ":%y+ <CR>") -- copy whole file content
 map("n", maps.new_buffer, ":enew <CR>") -- new buffer
 map("n", maps.new_tab, ":tabnew <CR>") -- new tabs
@@ -231,7 +232,8 @@ local M = {}
 M.bufferline = function()
    local m = plugin_maps.bufferline
 
-   map("n", m.close_buffer, ":bdelete<CR>")
+   -- map("n", m.close_buffer, ":bdelete<CR>")
+   map("n", m.close_buffer, ":lua require('bufdelete').bufdelete(0, true)<CR>")
    map("n", m.next_buffer, ":BufferLineCycleNext <CR>")
    map("n", m.prev_buffer, ":BufferLineCyclePrev <CR>")
 end
