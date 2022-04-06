@@ -240,8 +240,8 @@ end
 
 M.comment = function()
    local m = plugin_maps.comment
-   map("n", m.nor_toggle, ":CommentToggle <CR>")
-   map("v", m.vis_toggle, ":CommentToggle <CR>")
+   -- map("n", m.nor_toggle, ":CommentToggle <CR>")
+   -- map("v", m.vis_toggle, ":CommentToggle <CR>")
 end
 
 M.nvimtree = function()

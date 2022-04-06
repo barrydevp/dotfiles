@@ -186,6 +186,9 @@ return require("packer").startup(
             end,
         }
 
+        -- editorconfig
+        use "editorconfig/editorconfig-vim"
+
         -- lsp stuff
         use {
             "neovim/nvim-lspconfig",
@@ -334,8 +337,8 @@ return require("packer").startup(
         use {
             "numToStr/Comment.nvim",
             disable = not status.comment,
-            module = "Comment",
-            keys = { "gcc" },
+            -- module = "Comment",
+            -- keys = { "gcc" },
             config = function()
                 require("plugins.others").comment()
             end,
