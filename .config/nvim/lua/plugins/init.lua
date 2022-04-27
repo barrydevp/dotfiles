@@ -378,7 +378,7 @@ return require("packer").startup(
                     end,
                 },
             },
-            cmd = "Telescope",
+            -- cmd = "Telescope",
             config = function()
                 require("plugins.telescope")
             end,
