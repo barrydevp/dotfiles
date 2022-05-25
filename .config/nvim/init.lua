@@ -1,7 +1,7 @@
 local _modules = {
    "settings",
    "mappings",
-   "themes",
+   -- "themes",
    "plugins",
 }
 

@@ -1,17 +1,3 @@
--- Install Packer.nvim
--- local execute = vim.api.nvim_command
--- local fn = vim.fn
--- local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
--- 
--- if fn.empty(fn.glob(install_path)) > 0 then
---     execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
--- end
--- 
--- local packer = require("packer")
--- local use = packer.use
--- 
--- vim.cmd [[packadd packer.nvim]]
-   
 local present, packer = pcall(require, "packer")
 
 if not present then
@@ -114,6 +100,17 @@ return require("packer").startup(
             "nvim-lua/plenary.nvim",
         }
 
+        use {
+            "barrydevp/base46",
+            after = "plenary.nvim",
+            config = function()
+            local ok, base46 = pcall(require, "base46")
+                if ok then
+                    base46.load_theme("onedark")
+                end
+            end,
+        }
+
         -- color related stuff
         use {
             "norcalli/nvim-colorizer.lua",
@@ -193,6 +190,9 @@ return require("packer").startup(
         use {
             "neovim/nvim-lspconfig",
             opt = true,
+            wants = {
+                "nvim-cmp",
+            },
             setup = function()
                 require("utils").packer_lazy_load("nvim-lspconfig")
                 -- reload the current file so lsp actually starts for it

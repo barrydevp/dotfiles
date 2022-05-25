@@ -1,52 +1,118 @@
 local M = {}
 
-M.map = function(mode, keys, cmd, opt)
-   local options = { noremap = true, silent = true }
-   if opt then
-      options = vim.tbl_extend("force", options, opt)
+M.close_buffer = function(force)
+   if vim.bo.buftype == "terminal" then
+      vim.api.nvim_win_hide(0)
+      return
    end
 
-   -- all valid modes allowed for mappings
-   -- :h map-modes
-   local valid_modes = {
-      [""] = true,
-      ["n"] = true,
-      ["v"] = true,
-      ["s"] = true,
-      ["x"] = true,
-      ["o"] = true,
-      ["!"] = true,
-      ["i"] = true,
-      ["l"] = true,
-      ["c"] = true,
-      ["t"] = true,
-   }
+   local fileExists = vim.fn.filereadable(vim.fn.expand "%p")
+   local modified = vim.api.nvim_buf_get_option(vim.fn.bufnr(), "modified")
 
-   -- helper function for M.map
-   -- can gives multiple modes and keys
-   local function map_wrapper(mode, lhs, rhs, options)
-      if type(lhs) == "table" then
-         for _, key in ipairs(lhs) do
-            map_wrapper(mode, key, rhs, options)
+   -- if file doesnt exist & its modified
+   if fileExists == 0 and modified then
+      print "no file name? add it now!"
+      return
+   end
+
+   force = force or not vim.bo.buflisted or vim.bo.buftype == "nofile"
+
+   -- if not force, change to prev buf and then close current
+   local close_cmd = force and ":bd!" or ":bp | bd" .. vim.fn.bufnr()
+   vim.cmd(close_cmd)
+end
+
+-- reduces a given keymap to a table of modes each containing a list of key maps
+M.reduce_key_map = function(key_map, ignore_modes)
+   local prune_keys = {}
+
+   for _, modes in pairs(key_map) do
+      for mode, mappings in pairs(modes) do
+         if not vim.tbl_contains(ignore_modes, mode) then
+            prune_keys[mode] = prune_keys[mode] and prune_keys[mode] or {}
+            prune_keys[mode] = vim.list_extend(prune_keys[mode], vim.tbl_keys(mappings))
          end
-      else
-         if type(mode) == "table" then
-            for _, m in ipairs(mode) do
-               map_wrapper(m, lhs, rhs, options)
-            end
-         else
-            if valid_modes[mode] and lhs and rhs then
-               vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-            else
-               mode, lhs, rhs = mode or "", lhs or "", rhs or ""
-               print("Cannot set mapping [ mode = '" .. mode .. "' | key = '" .. lhs .. "' | cmd = '" .. rhs .. "' ]")
-            end
+      end
+   end
+   return prune_keys
+end
+
+-- remove disabled mappings from a given key map
+M.remove_disabled_mappings = function(key_map)
+   local clean_map = {}
+
+   if key_map == nil or key_map == "" then
+      return key_map
+   end
+
+   if type(key_map) == "table" then
+      for k, v in pairs(key_map) do
+         if v ~= nil and v ~= "" then
+            clean_map[k] = v
          end
       end
    end
 
-   map_wrapper(mode, keys, cmd, options)
+   return clean_map
 end
+
+-- prune keys from a key map table by matching against another key map table
+M.prune_key_map = function(key_map, prune_map, ignore_modes)
+   if not prune_map then
+      return key_map
+   end
+   if not key_map then
+      return prune_map
+   end
+   local prune_keys = type(prune_map) == "table" and M.reduce_key_map(prune_map, ignore_modes)
+      or { n = {}, v = {}, i = {}, t = {} }
+
+   for ext, modes in pairs(key_map) do
+      for mode, mappings in pairs(modes) do
+         if not vim.tbl_contains(ignore_modes, mode) then
+            -- filter mappings table so that only keys that are not in user_mappings are left
+            for b, _ in pairs(mappings) do
+               if prune_keys[mode] and vim.tbl_contains(prune_keys[mode], b) then
+                  key_map[ext][mode][b] = nil
+               end
+            end
+         end
+         key_map[ext][mode] = M.remove_disabled_mappings(mappings)
+      end
+   end
+
+   return key_map
+end
+
+-- wrapper key map
+M.map = function(mode, keys, command, opt)
+   local options = { silent = true }
+
+   if opt then
+      options = vim.tbl_extend("force", options, opt)
+   end
+
+   if type(keys) == "table" then
+      for _, keymap in ipairs(keys) do
+         M.map(mode, keymap, command, opt)
+      end
+      return
+   end
+
+   vim.keymap.set(mode, keys, command, opt)
+end
+
+-- load plugin after entering vim ui
+M.packer_lazy_load = function(plugin, timer)
+   if plugin then
+      timer = timer or 0
+      vim.defer_fn(function()
+         require("packer").loader(plugin)
+      end, timer)
+   end
+end
+
+-- my custom function
 
 M.get_colors = function(theme_name)
     local custom_theme = theme_name or vim.g.custom_theme or 'github'
@@ -62,129 +128,6 @@ M.get_theme = function(theme_name)
     local theme = require(theme_module)
 
     return theme.base
-end
-
-M.packer_lazy_load = function(plugin, timer)
-   if plugin then
-      timer = timer or 0
-      vim.defer_fn(function()
-         require("packer").loader(plugin)
-      end, timer)
-   end
-end
-
-M.close_buffer = function(bufexpr, force)
-   -- This is a modification of a NeoVim plugin from
-   -- Author: ojroques - Olivier Roques
-   -- Src: https://github.com/ojroques/nvim-bufdel
-   -- (Author has okayed copy-paste)
-
-   -- Options
-   local opts = {
-      next = "cycle", -- how to retrieve the next buffer
-      quit = false, -- exit when last buffer is deleted
-      --TODO make this a chadrc flag/option
-   }
-
-   -- ----------------
-   -- Helper functions
-   -- ----------------
-
-   -- Switch to buffer 'buf' on each window from list 'windows'
-   local function switch_buffer(windows, buf)
-      local cur_win = vim.fn.winnr()
-      for _, winid in ipairs(windows) do
-         vim.cmd(string.format("%d wincmd w", vim.fn.win_id2win(winid)))
-         vim.cmd(string.format("buffer %d", buf))
-      end
-      vim.cmd(string.format("%d wincmd w", cur_win)) -- return to original window
-   end
-
-   -- Select the first buffer with a number greater than given buffer
-   local function get_next_buf(buf)
-      local next = vim.fn.bufnr "#"
-      if opts.next == "alternate" and vim.fn.buflisted(next) == 1 then
-         return next
-      end
-      for i = 0, vim.fn.bufnr "$" - 1 do
-         next = (buf + i) % vim.fn.bufnr "$" + 1 -- will loop back to 1
-         if vim.fn.buflisted(next) == 1 then
-            return next
-         end
-      end
-   end
-
-   -- ----------------
-   -- End helper functions
-   -- ----------------
-
-   local buf = vim.fn.bufnr()
-   if vim.fn.buflisted(buf) == 0 then -- exit if buffer number is invalid
-      vim.cmd "close"
-      return
-   end
-
-   if #vim.fn.getbufinfo { buflisted = 1 } < 2 then
-      if opts.quit then
-         -- exit when there is only one buffer left
-         if force then
-            vim.cmd "qall!"
-         else
-            vim.cmd "confirm qall"
-         end
-         return
-      end
-
-      local chad_term, type = pcall(function()
-         return vim.api.nvim_buf_get_var(buf, "term_type")
-      end)
-
-      if chad_term then
-         -- Must be a window type
-         vim.cmd(string.format("setlocal nobl", buf))
-         vim.cmd "enew"
-         return
-      end
-      -- don't exit and create a new empty buffer
-      vim.cmd "enew"
-      vim.cmd "bp"
-   end
-
-   local next_buf = get_next_buf(buf)
-   local windows = vim.fn.getbufinfo(buf)[1].windows
-
-   -- force deletion of terminal buffers to avoid the prompt
-   if force or vim.fn.getbufvar(buf, "&buftype") == "terminal" then
-      local chad_term, type = pcall(function()
-         return vim.api.nvim_buf_get_var(buf, "term_type")
-      end)
-
-      -- TODO this scope is error prone, make resilient
-      if chad_term then
-         if type == "wind" then
-            -- hide from bufferline
-            vim.cmd(string.format("%d bufdo setlocal nobl", buf))
-            -- swtich to another buff
-            -- TODO switch to next bufffer, this works too
-            vim.cmd "BufferLineCycleNext"
-         else
-            local cur_win = vim.fn.winnr()
-            -- we can close this window
-            vim.cmd(string.format("%d wincmd c", cur_win))
-            return
-         end
-      else
-         switch_buffer(windows, next_buf)
-         vim.cmd(string.format("bd! %d", buf))
-      end
-   else
-      switch_buffer(windows, next_buf)
-      vim.cmd(string.format("silent! confirm bd %d", buf))
-   end
-   -- revert buffer switches if user has canceled deletion
-   if vim.fn.buflisted(buf) == 1 then
-      switch_buffer(windows, buf)
-   end
 end
 
 return M

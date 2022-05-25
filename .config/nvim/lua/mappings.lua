@@ -94,21 +94,6 @@ map("n", term_maps.new_vertical, ":execute 'vnew +terminal' | let b:term_type = 
 map("n", term_maps.new_window, ":execute 'terminal' | let b:term_type = 'wind' | startinsert <CR>")
 -- terminal mappings end --
 
--- Add Packer commands because we are not loading it at startup
--- cmd "silent! command PackerClean lua require 'plugins' require('packer').clean()"
--- cmd "silent! command PackerCompile lua require 'plugins' require('packer').compile()"
--- cmd "silent! command PackerInstall lua require 'plugins' require('packer').install()"
--- cmd "silent! command PackerStatus lua require 'plugins' require('packer').status()"
--- cmd "silent! command PackerSync lua require 'plugins' require('packer').sync()"
--- cmd "silent! command PackerUpdate lua require 'plugins' require('packer').update()"
-
--- add NvChadUpdate command and mapping
--- cmd "silent! command! NvChadUpdate lua require('nvchad').update_nvchad()"
--- map("n", maps.update_nvchad, ":NvChadUpdate <CR>")
-
--- add ChadReload command and maping
--- cmd "silent! command! NvChadReload lua require('nvchad').reload_config()"
-
 -- OPEN TERMINALS --
 map("n", "<M-l>", [[<Cmd>vnew term://zsh <CR>]], opt) -- over right
 map("n", "<M-j>", [[<Cmd> split term://zsh | resize 10 <CR>]], opt) --  bottom
@@ -174,6 +159,104 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 -- map('n', '<A-k>', ':resize +2', {noremap = true, silent = true})
 -- map('n', '<A-h>', ':vertical resize -2', {noremap = true, silent = true})
 -- map('n', '<A-l>', ':vertical resize +2', {noremap = true, silent = true})
+--
+-- which key map
+
+local wk_maps = {
+    ["c"] = "Close Buffer",
+    ["e"] = {":NvimTreeToggle<CR>", "Explorer"},
+    ["h"] = "No Highlight",
+    l = {
+        name = "LSP/LangServer",
+        -- a = {"<cmd>Lspsaga code_action<cr>", "Code Action"},
+        -- A = {"<cmd>Lspsaga range_code_action<cr>", "Selected Action"},
+        -- d = {"<cmd>Telescope lsp_document_diagnostics<cr>", "Document Diagnostics"},
+        -- D = {"<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace Diagnostics"},
+        -- n = {"<cmd>Neoformat<cr>", "Neoformat"},
+        f = "Format",
+        z = {"<cmd>LspInfo<cr>", "Info"},
+        -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
+        -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
+        q = {"<cmd>Telescope quickfix<cr>", "Quickfix"},
+        -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
+        -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
+        s = {"<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols"},
+        S = {"<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols"},
+        i = {"<cmd>Trouble<cr>", "Show Diagnostics(Troubel)"},
+        iw = {"<cmd>Trouble lsp_workspace_diagnostics<cr>", "Workspace diagnostics"},
+        id = {"<cmd>Trouble lsp_document_diagnostics<cr>", "Document diagnostics"},
+    },
+
+    d = {
+        name = "Debug",
+        t = {
+            "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+            "Toggle Breakpoint",
+        },
+        d = {
+            "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+            "Toggle Breakpoint",
+        },
+        b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+        s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
+        r = { "<cmd>lua require'dap'.continue()<cr>", "Rerun" },
+        c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+        -- n = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+        n = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
+        p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+        q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+        i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
+        e = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over(End)" },
+        o = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+        C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
+        D = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+        g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+        R = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
+        u = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
+        h = { "<cmd>lua require('dap.ui.widgets').hover()<cr>", "Hover"},
+        k = { "<cmd>lua require('dap.ui.variables').hover()<cr>", "Hover"},
+    },
+
+    f = {
+        name = "Telescope/Find",
+        f = {"<cmd>Telescope find_files<cr>", "Find File"},
+        F = {"<cmd>Telescope live_grep<cr>", "Live grep"},
+        t = {"<cmd>Telescope grep_string<cr>", "Find cursor string"},
+        b = {"<cmd>Telescope buffers<cr>", "Find buffers"},
+        B = {"<cmd>Telescope file_browser<cr>", "File browser"},
+        h = {"<cmd>Telescope help_tags<cr>", "Help tags"},
+        m = {"<cmd>Telescope marks<cr>", "Marks"},
+        r = {"<cmd>Telescope oldfiles<cr>", "Open Recent File"},
+        R = {"<cmd>Telescope registers<cr>", "Registers"},
+        c = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
+        g = {"<cmd>Telescope git_files<cr>", "Git files"},
+    },
+
+    g = {
+        name = "Git",
+        co = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
+        f = {"<cmd>Telescope git_files<cr>", "Git files"},
+        st = {"<cmd>Telescope git_status<cr>", "Git status"},
+        cm = {"<cmd>Telescope git_commits<cr>", "Git commits"},
+        cbm = {"<cmd>Telescope git_bcommits<cr>", "Git bcommits"},
+        p = {'<cmd>lua require"gitsigns".preview_hunk()<CR>', 'Git preview hunk'},
+        bl = {'<cmd>lua require"gitsigns".blame_line{full=true}<CR>', 'Git blame line'},
+    },
+
+    -- s = {
+    --     name = "+Search",
+    --     b = {"<cmd>Telescope git_branches<cr>", "Checkout branch"},
+    --     c = {"<cmd>Telescope colorscheme<cr>", "Colorscheme"},
+    --     d = {"<cmd>Telescope lsp_document_diagnostics<cr>", "Document Diagnostics"},
+    --     D = {"<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace Diagnostics"},
+    --     f = {"<cmd>Telescope find_files<cr>", "Find File"},
+    --     m = {"<cmd>Telescope marks<cr>", "Marks"},
+    --     M = {"<cmd>Telescope man_pages<cr>", "Man Pages"},
+    --     r = {"<cmd>Telescope oldfiles<cr>", "Open Recent File"},
+    --     R = {"<cmd>Telescope registers<cr>", "Registers"},
+    --     t = {"<cmd>Telescope live_grep<cr>", "Text"}
+    -- },
+}
 
 -- below are all plugin related mappings
 
@@ -229,6 +312,8 @@ local plugin_maps = {
 
 local M = {}
 
+M.wk_maps = wk_maps
+
 M.bufferline = function()
    local m = plugin_maps.bufferline
 
@@ -267,6 +352,31 @@ M.telescope_media = function()
    local m = plugin_maps.telescope.telescope_media
 
    map("n", m.media_files, ":Telescope media_files <CR>")
+end
+
+M.lsp_config = function()
+   local opts = { noremap = true, silent = true }
+
+   -- See `:help vim.lsp.*` for documentation on any of the below functions
+   map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+   map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+   -- map("n", "gs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+   map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+   map("n", "gk", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+   map("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
+   map("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
+   map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
+   map("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+   map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+   map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+   map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+   map("n", "<leader>ge", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+   map("n", "<leader>lp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+   map("n", "<leader>ln", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+   -- map("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+   map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+   map("v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
 end
 
 return M
