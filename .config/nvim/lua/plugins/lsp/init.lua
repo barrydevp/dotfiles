@@ -65,6 +65,7 @@ local servers = {
     "bashls",
     -- "gopls",
     "jdtls",
+    "rust_analyzer",
 }
 
 local common_config = {
