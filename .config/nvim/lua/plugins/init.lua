@@ -106,7 +106,7 @@ return require("packer").startup(
             config = function()
             local ok, base46 = pcall(require, "base46")
                 if ok then
-                    base46.load_theme("onedark")
+                    base46.load_theme("rxyhn")
                 end
             end,
         }

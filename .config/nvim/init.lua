@@ -5,6 +5,9 @@ local _modules = {
    "plugins",
 }
 
+-- global context
+_G.ctx = {}
+
 for _, module in ipairs(_modules) do
    local ok, err = pcall(require, module)
    if not ok then
