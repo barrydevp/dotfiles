@@ -81,7 +81,7 @@ fg("CmpItemMenu", white)
 -- misc
 fg("LineNr", grey)
 fg("NvimInternalError", red)
-fg("VertSplit", one_bg2)
+-- fg("VertSplit", one_bg2)
 
 bg("Normal", background)
 
