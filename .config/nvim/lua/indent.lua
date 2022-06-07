@@ -10,9 +10,9 @@ vim.cmd([[autocmd Filetype tsx setlocal expandtab tabstop=2 shiftwidth=2 softtab
 -- lua
 vim.cmd([[autocmd Filetype lua setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 -- c/c++
-vim.cmd([[autocmd Filetype c setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
-vim.cmd([[autocmd Filetype h setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
-vim.cmd([[autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+vim.cmd([[autocmd Filetype c setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+vim.cmd([[autocmd Filetype h setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+vim.cmd([[autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
 --java
 vim.cmd([[autocmd Filetype java setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 
