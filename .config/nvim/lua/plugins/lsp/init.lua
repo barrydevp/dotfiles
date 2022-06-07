@@ -37,7 +37,7 @@ require "plugins.lsp.vls"
 lspconf.ccls.setup(
     vim.tbl_extend(
         "force",
-        common_config, 
+        common_config,
         {
             init_options = {
                 cache = { directory = "/tmp/ccls" },
@@ -63,14 +63,15 @@ lspconf.ccls.setup(
 lspconf.gopls.setup(
     vim.tbl_extend(
         "force",
-        common_config, {
-            cmd = {"gopls", "serve"},
+        common_config,
+        {
+            cmd = { "gopls", "serve" },
             settings = {
-              gopls = {
-                analyses = {
-                  composites = false,
+                gopls = {
+                    analyses = {
+                        composites = false,
+                    },
                 },
-              },
             },
         }
     )

@@ -15,4 +15,6 @@ vim.cmd([[autocmd Filetype h setlocal expandtab tabstop=2 shiftwidth=2 softtabst
 vim.cmd([[autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
 --java
 vim.cmd([[autocmd Filetype java setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+-- asm
+vim.cmd([[autocmd Filetype asm setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 
