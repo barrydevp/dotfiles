@@ -28,7 +28,7 @@ end
 -- load specific lang server
 
 -- lua
--- require "plugins.lsp.sumneko_lua"
+lspconf.sumneko_lua.setup(require("plugins.lsp.sumneko_lua"))
 
 -- vls
 require "plugins.lsp.vls"

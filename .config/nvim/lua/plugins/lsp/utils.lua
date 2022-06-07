@@ -5,21 +5,21 @@ M.get_capabilities = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
     capabilities.textDocument.completion.completionItem = {
-       documentationFormat = { "markdown", "plaintext" },
-       snippetSupport = true,
-       preselectSupport = true,
-       insertReplaceSupport = true,
-       labelDetailsSupport = true,
-       deprecatedSupport = true,
-       commitCharactersSupport = true,
-       tagSupport = { valueSet = { 1 } },
-       resolveSupport = {
-          properties = {
-             "documentation",
-             "detail",
-             "additionalTextEdits",
-          },
-       },
+        documentationFormat = { "markdown", "plaintext" },
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharactersSupport = true,
+        tagSupport = { valueSet = { 1 } },
+        resolveSupport = {
+            properties = {
+                "documentation",
+                "detail",
+                "additionalTextEdits",
+            },
+        },
     }
 
     capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
@@ -69,7 +69,7 @@ M.lsp_handlers = function()
 
 end
 
-M.lsp_config = function(client, bufnr) 
+M.lsp_config = function(client, bufnr)
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
 
@@ -82,6 +82,20 @@ end
 
 M.on_attach = function(client, bufnr)
     M.lsp_config(client, bufnr)
+end
+
+M.common_config = {
+    on_attach = M.on_attach,
+    capabilities = M.get_capabilities(),
+    debounce_text_changes = 150,
+}
+
+M.extend_config = function(config)
+    return vim.tbl_extend(
+        "force",
+        M.common_config,
+        config
+    )
 end
 
 return M
