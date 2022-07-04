@@ -137,25 +137,27 @@ M.dapui = function()
             edit = "e",
             repl = "r",
         },
-        sidebar = {
+        layouts = {
         -- You can change the order of elements in the sidebar
-            elements = {
-                -- Provide as ID strings or tables with "id" and "size" keys
-                {
-                    id = "scopes",
-                    size = 0.4, -- Can be float or integer > 1
+            {
+                elements = {
+                    -- Provide as ID strings or tables with "id" and "size" keys
+                    {
+                        id = "scopes",
+                        size = 0.4, -- Can be float or integer > 1
+                    },
+                    { id = "breakpoints", size = 0.2 },
+                    { id = "stacks", size = 0.2 },
+                    { id = "watches", size = 0.2 },
                 },
-                { id = "breakpoints", size = 0.2 },
-                { id = "stacks", size = 0.2 },
-                { id = "watches", size = 0.2 },
+                size = 56,
+                position = "left", -- Can be "left", "right", "top", "bottom"
             },
-            size = 56,
-            position = "left", -- Can be "left", "right", "top", "bottom"
-        },
-        tray = {
-            elements = { "repl" },
-            size = 10,
-            position = "bottom", -- Can be "left", "right", "top", "bottom"
+            {
+                elements = { "repl" },
+                size = 10,
+                position = "bottom", -- Can be "left", "right", "top", "bottom"
+            }
         },
         floating = {
             max_height = nil, -- These can be integers or a float between 0 and 1.

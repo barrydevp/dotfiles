@@ -239,7 +239,9 @@ local wk_maps = {
         st = {"<cmd>Telescope git_status<cr>", "Git status"},
         cm = {"<cmd>Telescope git_commits<cr>", "Git commits"},
         cbm = {"<cmd>Telescope git_bcommits<cr>", "Git bcommits"},
-        p = {'<cmd>lua require"gitsigns".preview_hunk()<CR>', 'Git preview hunk'},
+        n = {'<cmd>lua require"gitsigns".next_hunk()<CR>', 'Next hunk'},
+        p = {'<cmd>lua require"gitsigns".prev_hunk()<CR>', 'Previous hunk'},
+        h = {'<cmd>lua require"gitsigns".preview_hunk()<CR>', 'Git preview hunk'},
         bl = {'<cmd>lua require"gitsigns".blame_line{full=true}<CR>', 'Git blame line'},
     },
 

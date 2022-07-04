@@ -31,7 +31,6 @@ gitsigns.setup {
     numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
     linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
     word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-    sign_priority = 5,
     signs = {
         -- add = { hl = "DiffAdd", text = "│", numhl = "GitSignsAddNr" },
         add = { hl = "DiffAdd", text = "+", numhl = "GitSignsAddNr" },

@@ -3,7 +3,7 @@ if [[ $__ARCH = 'Darwin' ]]; then
   export GOROOT=/usr/local/go
 fi
 export GOPATH=$HOME/go # don't forget to change your path correctly!
-export PATH=:$PATH
+# export PATH=:$PATH
 
 ### RustLang ###
 export CARGO_PATH="$HOME/.cargo"
