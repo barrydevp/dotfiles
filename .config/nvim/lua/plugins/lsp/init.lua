@@ -76,3 +76,7 @@ lspconf.gopls.setup(
         }
     )
 )
+
+-- null-ls
+require("plugins.null-ls").setup()
+

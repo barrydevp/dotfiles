@@ -1,89 +1,89 @@
 local present, packer = pcall(require, "packer")
 
 if not present then
-   local packer_path = vim.fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
+    local packer_path = vim.fn.stdpath "data" .. "/site/pack/packer/opt/packer.nvim"
 
-   print "Cloning packer.."
-   -- remove the dir before cloning
-   vim.fn.delete(packer_path, "rf")
-   vim.fn.system {
-      "git",
-      "clone",
-      "https://github.com/wbthomason/packer.nvim",
-      "--depth",
-      "20",
-      packer_path,
-   }
+    print "Cloning packer.."
+    -- remove the dir before cloning
+    vim.fn.delete(packer_path, "rf")
+    vim.fn.system {
+        "git",
+        "clone",
+        "https://github.com/wbthomason/packer.nvim",
+        "--depth",
+        "20",
+        packer_path,
+    }
 
-   vim.cmd "packadd packer.nvim"
-   present, packer = pcall(require, "packer")
+    vim.cmd "packadd packer.nvim"
+    present, packer = pcall(require, "packer")
 
-   if present then
-      print "Packer cloned successfully."
-   else
-      error("Couldn't clone packer !\nPacker path: " .. packer_path .. "\n" .. packer)
-   end
+    if present then
+        print "Packer cloned successfully."
+    else
+        error("Couldn't clone packer !\nPacker path: " .. packer_path .. "\n" .. packer)
+    end
 end
 
 packer.init {
-   display = {
-      open_fn = function()
-         return require("packer.util").float { border = "single" }
-      end,
-      prompt_border = "single",
-   },
-   git = {
-      clone_timeout = 6000, -- seconds
-   },
-   auto_clean = true,
-   compile_on_sync = true,
+    display = {
+        open_fn = function()
+            return require("packer.util").float { border = "single" }
+        end,
+        prompt_border = "single",
+    },
+    git = {
+        clone_timeout = 6000, -- seconds
+    },
+    auto_clean = true,
+    compile_on_sync = true,
 }
 
 local plugins = {
-   -- enable and disable plugins (false for disable)
-   status = {
-      blankline = true, -- show code scope with symbols
-      bufferline = true, -- list open buffers up the top, easy switching too
-      colorizer = false, -- color RGB, HEX, CSS, NAME color codes
-      comment = true, -- easily (un)comment code, language aware
-      dashboard = false, -- NeoVim 'home screen' on open
-      esc_insertmode = true, -- map to <ESC> with no lag
-      feline = true, -- statusline
-      gitsigns = true, -- gitsigns in statusline
-      lspsignature = true, -- lsp enhancements
-      telescope_media = false, -- media previews within telescope finders
-      vim_matchup = true, -- % operator enhancements
-      cmp = true,
-      nvimtree = true,
-   },
-   options = {
-      lspconfig = {
-         setup_lspconf = "", -- path of file containing setups of different lsps
-      },
-      nvimtree = {
-         enable_git = 0,
-      },
-      luasnip = {
-         snippet_path = {},
-      },
-      statusline = { -- statusline related options
-         -- these are filetypes, not pattern matched
-         -- shown filetypes will overrule hidden filetypes
-         hidden = {
-            "help",
-            "dashboard",
-            "NvimTree",
-            "terminal",
-         },
-         -- show short statusline on small screens
-         shortline = true,
-         shown = {},
-         -- default, round , slant , block , arrow
-         style = "default",
-      },
-      esc_insertmode_timeout = 300,
-   },
-   default_plugin_config_replace = {},
+    -- enable and disable plugins (false for disable)
+    status = {
+        blankline = true, -- show code scope with symbols
+        bufferline = true, -- list open buffers up the top, easy switching too
+        colorizer = false, -- color RGB, HEX, CSS, NAME color codes
+        comment = true, -- easily (un)comment code, language aware
+        dashboard = false, -- NeoVim 'home screen' on open
+        esc_insertmode = true, -- map to <ESC> with no lag
+        feline = true, -- statusline
+        gitsigns = true, -- gitsigns in statusline
+        lspsignature = true, -- lsp enhancements
+        telescope_media = false, -- media previews within telescope finders
+        vim_matchup = true, -- % operator enhancements
+        cmp = true,
+        nvimtree = true,
+    },
+    options = {
+        lspconfig = {
+            setup_lspconf = "", -- path of file containing setups of different lsps
+        },
+        nvimtree = {
+            enable_git = 0,
+        },
+        luasnip = {
+            snippet_path = {},
+        },
+        statusline = { -- statusline related options
+            -- these are filetypes, not pattern matched
+            -- shown filetypes will overrule hidden filetypes
+            hidden = {
+                "help",
+                "dashboard",
+                "NvimTree",
+                "terminal",
+            },
+            -- show short statusline on small screens
+            shortline = true,
+            shown = {},
+            -- default, round , slant , block , arrow
+            style = "default",
+        },
+        esc_insertmode_timeout = 300,
+    },
+    default_plugin_config_replace = {},
 }
 
 local status = plugins.status
@@ -104,10 +104,7 @@ return require("packer").startup(
             "barrydevp/base46",
             after = "plenary.nvim",
             config = function()
-            local ok, base46 = pcall(require, "base46")
-                if ok then
-                    base46.load_theme("rxyhn")
-                end
+                require("plugins.others").base46()
             end,
         }
 
@@ -179,12 +176,16 @@ return require("packer").startup(
                 require("plugins.gitsigns")
             end,
             setup = function()
-                 require("utils").packer_lazy_load("gitsigns.nvim")
+                require("utils").packer_lazy_load("gitsigns.nvim")
             end,
         }
 
         -- editorconfig
         use "editorconfig/editorconfig-vim"
+
+        use({
+            "jose-elias-alvarez/null-ls.nvim",
+        })
 
         -- lsp stuff
         use {
@@ -192,6 +193,7 @@ return require("packer").startup(
             opt = true,
             wants = {
                 "nvim-cmp",
+                "null-ls.nvim",
             },
             setup = function()
                 require("utils").packer_lazy_load("nvim-lspconfig")
@@ -258,7 +260,7 @@ return require("packer").startup(
 
         use {
             "rcarriga/nvim-dap-ui",
-            requires = {"mfussenegger/nvim-dap"},
+            requires = { "mfussenegger/nvim-dap" },
             config = function()
                 require("plugins.others").dapui()
             end,
@@ -333,7 +335,7 @@ return require("packer").startup(
         --         require("mappings").comment()
         --     end,
         -- }
-        
+
         use {
             "numToStr/Comment.nvim",
             disable = not status.comment,
@@ -353,7 +355,7 @@ return require("packer").startup(
             "kyazdani42/nvim-tree.lua",
             disable = not status.nvimtree,
             requires = 'kyazdani42/nvim-web-devicons',
-            config = function() 
+            config = function()
                 require("plugins.nvim-tree")
             end,
             -- setup = function()
@@ -365,7 +367,7 @@ return require("packer").startup(
         use {
             "nvim-telescope/telescope.nvim",
             requires = {
-                {"nvim-lua/plenary.nvim"},
+                { "nvim-lua/plenary.nvim" },
                 {
                     "nvim-telescope/telescope-fzf-native.nvim",
                     run = "make",
@@ -395,7 +397,7 @@ return require("packer").startup(
         }
 
         use {
-          "tpope/vim-surround"
+            "tpope/vim-surround"
         }
 
         use {
@@ -419,7 +421,7 @@ return require("packer").startup(
         use {
             "christoomey/vim-tmux-navigator",
         }
-        
+
     end,
     {
         display = {

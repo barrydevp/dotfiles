@@ -24,6 +24,38 @@ M.get_capabilities = function()
 
     capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
+    capabilities.textDocument.codeAction = {
+        dynamicRegistration = true,
+        codeActionLiteralSupport = {
+            codeActionKind = {
+                valueSet = (function()
+                    local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+                    table.sort(res)
+                    return res
+                end)(),
+            },
+        },
+    }
+
+    capabilities.textDocument.completion.completionItem = {
+        documentationFormat = {
+            "markdown",
+            "plaintext",
+        },
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharactersSupport = true,
+        tagSupport = {
+            valueSet = { 1 },
+        },
+        resolveSupport = {
+            properties = { "documentation", "detail", "additionalTextEdits" },
+        },
+    }
+
     return capabilities
 end
 
@@ -51,9 +83,9 @@ M.lsp_handlers = function()
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "single",
     })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "single",
-    })
+    -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    --     border = "single",
+    -- })
 
     -- suppress error messages from lang servers
     vim.notify = function(msg, log_level)
