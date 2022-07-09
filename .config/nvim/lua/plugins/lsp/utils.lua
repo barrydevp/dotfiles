@@ -59,7 +59,6 @@ M.get_capabilities = function()
     return capabilities
 end
 
-
 M.lsp_handlers = function()
     local function lspSymbol(name, icon)
         local hl = "DiagnosticSign" .. name
@@ -71,25 +70,25 @@ M.lsp_handlers = function()
     lspSymbol("Hint", "")
     lspSymbol("Warn", "")
 
-    vim.diagnostic.config {
+    vim.diagnostic.config({
         virtual_text = {
             prefix = "",
         },
         signs = true,
         underline = true,
         update_in_insert = false,
-    }
+    })
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "single",
     })
-    -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    --     border = "single",
-    -- })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = "single",
+    })
 
     -- suppress error messages from lang servers
     vim.notify = function(msg, log_level)
-        if msg:match "exit code" then
+        if msg:match("exit code") then
             return
         end
         if log_level == vim.log.levels.ERROR then
@@ -98,7 +97,6 @@ M.lsp_handlers = function()
             vim.api.nvim_echo({ { msg } }, true, {})
         end
     end
-
 end
 
 M.lsp_config = function(client, bufnr)
@@ -109,7 +107,6 @@ M.lsp_config = function(client, bufnr)
 
     -- mappings
     require("mappings").lsp_config()
-
 end
 
 M.on_attach = function(client, bufnr)
@@ -123,11 +120,7 @@ M.common_config = {
 }
 
 M.extend_config = function(config)
-    return vim.tbl_extend(
-        "force",
-        M.common_config,
-        config
-    )
+    return vim.tbl_extend("force", M.common_config, config)
 end
 
 return M
