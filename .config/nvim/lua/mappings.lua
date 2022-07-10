@@ -165,7 +165,7 @@ vim.cmd('inoremap <expr> <c-k> ("\\<C-p>")')
 local wk_maps = {
 	["c"] = "Close Buffer",
 	["e"] = { ":NvimTreeToggle<CR>", "Explorer" },
-	["h"] = "No Highlight",
+	-- ["h"] = "No Highlight",
 	l = {
 		name = "LSP/LangServer",
 		-- a = {"<cmd>Lspsaga code_action<cr>", "Code Action"},
@@ -182,7 +182,7 @@ local wk_maps = {
 		-- x = {"<cmd>cclose<cr>", "Close Quickfix"},
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
-		i = { "<cmd>Trouble<cr>", "Show Diagnostics(Troubel)" },
+		t = { "<cmd>Trouble<cr>", "Show Diagnostics(Troubel)" },
 		iw = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Workspace diagnostics" },
 		id = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Document diagnostics" },
 	},
@@ -222,13 +222,13 @@ local wk_maps = {
 		f = { "<cmd>Telescope find_files<cr>", "Find File" },
 		F = { "<cmd>Telescope live_grep<cr>", "Live grep" },
 		t = { "<cmd>Telescope grep_string<cr>", "Find cursor string" },
-		b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
+		c = { "<cmd>Telescope buffers<cr>", "Find buffers" },
 		B = { "<cmd>Telescope file_browser<cr>", "File browser" },
 		h = { "<cmd>Telescope help_tags<cr>", "Help tags" },
 		m = { "<cmd>Telescope marks<cr>", "Marks" },
 		r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
 		R = { "<cmd>Telescope registers<cr>", "Registers" },
-		c = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 		g = { "<cmd>Telescope git_files<cr>", "Git files" },
 	},
 
@@ -239,10 +239,20 @@ local wk_maps = {
 		st = { "<cmd>Telescope git_status<cr>", "Git status" },
 		cm = { "<cmd>Telescope git_commits<cr>", "Git commits" },
 		cbm = { "<cmd>Telescope git_bcommits<cr>", "Git bcommits" },
-		n = { '<cmd>lua require"gitsigns".next_hunk()<CR>', "Next hunk" },
-		p = { '<cmd>lua require"gitsigns".prev_hunk()<CR>', "Previous hunk" },
-		h = { '<cmd>lua require"gitsigns".preview_hunk()<CR>', "Git preview hunk" },
-		bl = { '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', "Git blame line" },
+		b = { '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', "Git blame line" },
+		v = { "<cmd>GV<CR>", "Commit all" },
+		u = { "<cmd>topleft vert Git | vertical resize 55 | set winfixwidth<CR>", "Git UI" },
+	},
+
+	h = {
+		name = "Git Hunks",
+		b = "Blame",
+		p = "Preview",
+		r = "Reset",
+		R = "Reset buffer",
+		s = "Stage",
+		S = "Reset buffer",
+		u = "Undo staged",
 	},
 
 	-- s = {

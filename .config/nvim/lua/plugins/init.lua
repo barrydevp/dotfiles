@@ -74,6 +74,7 @@ local plugins = {
                 "dashboard",
                 "NvimTree",
                 "terminal",
+                "fugitive",
             },
             -- show short statusline on small screens
             shortline = true,
@@ -179,6 +180,9 @@ return require("packer").startup(
                 require("utils").packer_lazy_load("gitsigns.nvim")
             end,
         }
+
+        use({ "tpope/vim-fugitive", cmd = "Git" })
+        use("junegunn/gv.vim")
 
         -- editorconfig
         use "editorconfig/editorconfig-vim"
