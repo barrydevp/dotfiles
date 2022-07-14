@@ -24,8 +24,6 @@ local options = {
    -- interval for writing swap file to disk, also used by gitsigns
    updatetime = 250,
    undofile = true, -- keep a permanent undo (across restarts)
-   -- theme
-   custom_theme = "github"
 }
 
 opt.title = true
@@ -72,9 +70,6 @@ opt.updatetime = options.updatetime
 opt.whichwrap:append "<>[]hl"
 
 g.mapleader = options.mapleader
-
--- theme
-g.custom_theme = options.custom_theme
 
 -- disable some builtin vim plugins
 local disabled_built_ins = {

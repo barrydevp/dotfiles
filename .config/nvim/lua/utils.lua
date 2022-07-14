@@ -114,22 +114,4 @@ M.packer_lazy_load = function(plugin, timer)
 	end
 end
 
--- my custom function
-
-M.get_colors = function(theme_name)
-	local custom_theme = theme_name or vim.g.custom_theme or "github"
-	local theme_module = "themes." .. custom_theme
-	local theme = require(theme_module)
-
-	return theme.colors
-end
-
-M.get_theme = function(theme_name)
-	local custom_theme = theme_name or vim.g.custom_theme or "github"
-	local theme_module = "themes." .. custom_theme
-	local theme = require(theme_module)
-
-	return theme.base
-end
-
 return M
