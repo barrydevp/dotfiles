@@ -1,4 +1,5 @@
 local present, bufferline = pcall(require, "bufferline")
+
 if not present then
 	return
 end
@@ -9,13 +10,13 @@ bufferline.setup({
 			{ filetype = "NvimTree", text = "Explorer", padding = 1 },
 			{ filetype = "fugitive", text = "Git", padding = 1 },
 		},
-        hidden = {
-            "help",
-            "dashboard",
-            "NvimTree",
-            "terminal",
-            "fugitive",
-        },
+		hidden = {
+			"help",
+			"dashboard",
+			"NvimTree",
+			"terminal",
+			"fugitive",
+		},
 		buffer_close_icon = "",
 		modified_icon = "",
 		close_icon = "",

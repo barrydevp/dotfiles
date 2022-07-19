@@ -1,4 +1,4 @@
-local lsp_utils = require("plugins.lsp.utils")
+local lsp_utils = require("plugins.lsp.base")
 local lspconf = require("lspconfig")
 
 lsp_utils.lsp_handlers()
@@ -78,5 +78,5 @@ lspconf.gopls.setup(
 )
 
 -- null-ls
-require("plugins.null-ls").setup()
+require("plugins.configs.nullls")
 

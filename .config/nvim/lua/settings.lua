@@ -35,7 +35,6 @@ opt.cul = true -- cursor line
 opt.expandtab = options.expandtab
 opt.shiftwidth = options.shiftwidth
 opt.smartindent = options.smartindent
-require "indent"
 
 -- disable tilde on end of buffer: https://github.com/neovim/neovim/pull/8546#issuecomment-643643758
 opt.fillchars = { eob = " " }

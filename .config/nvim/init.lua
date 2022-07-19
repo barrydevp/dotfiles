@@ -1,5 +1,6 @@
 local _modules = {
     "settings",
+    "indent",
     "mappings",
     "plugins",
 }

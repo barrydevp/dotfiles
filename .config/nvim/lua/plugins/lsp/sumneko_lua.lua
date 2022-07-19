@@ -1,4 +1,4 @@
-local lsp_utils = require("plugins.lsp.utils")
+local lsp_utils = require("plugins.lsp.base")
 
 -- lua lsp settings
 
