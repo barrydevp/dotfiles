@@ -9,7 +9,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
-# ZSH_THEME="ar-round"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -24,14 +23,13 @@ ZSH_THEME="robbyrussell"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -46,8 +44,9 @@ ZSH_THEME="robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -79,8 +78,6 @@ plugins=(
   docker
   docker-compose
 )
-
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -116,28 +113,5 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-#alias luamake=/home/barry/.config/lang-server/lua/3rd/luamake/luamake
-
 # starship bootstrap
 starship --version 1> /dev/null && eval "$(starship init zsh)"
-
-# pyenv automatically init
-# eval "$(pyenv init -)"
-
-# Color toys aliases
-#alias 256colors2="${HOME}/.color-toys/256colors2.pl"
-#alias bloks="${HOME}/.color-toys/bloks"
-#alias colortest="${HOME}/.color-toys/colortest"
-#alias colortest-slim="${HOME}/.color-toys/colortest-slim"
-#alias colorview="${HOME}/.color-toys/colorview"
-#alias colorbars="${HOME}/.color-toys/colorbars"
-#alias panes="${HOME}/.color-toys/panes"
-#alias pipes1="${HOME}/.color-toys/pipes1"
-#alias pipes2="${HOME}/.color-toys/pipes2"
-#alias pipes2-slim="${HOME}/.color-toys/pipes2-slim"
-
-# GPG Dialog
-#export GPG_TTY="$(tty)"
-
-# BAT Theme (cat replacement)
-#export BAT_THEME="base16"
