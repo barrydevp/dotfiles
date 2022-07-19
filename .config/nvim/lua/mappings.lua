@@ -22,10 +22,10 @@ map("n", "<Esc>", ":noh <CR>")
 map("n", "<leader>q", ":q <CR>")
 
 -- don't yank text on cut ( x )
-map({ "n", "v" }, "x", '"_x')
+-- map({ "n", "v" }, "x", '"_x')
 
 -- don't yank text on delete ( dd )
-map({ "n", "v" }, "d", '"_d')
+-- map({ "n", "v" }, "d", '"_d')
 
 -- Block movement
 map("v", "J", ":m '>+1<CR>gv=gv")
@@ -130,14 +130,14 @@ local wk_maps = {
 		z = { "<cmd>LspInfo<cr>", "Info" },
 		-- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
 		-- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
-		q = { "<cmd>Telescope quickfix<cr>", "Quickfix" },
+		q = { "<cmd>Trouble quickfix<cr>", "Quickfix" },
 		-- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
 		-- x = {"<cmd>cclose<cr>", "Close Quickfix"},
 		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
 		S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
 		t = { "<cmd>Trouble<cr>", "Show Diagnostics(Troubel)" },
-		iw = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Workspace diagnostics" },
-		id = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Document diagnostics" },
+		iw = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace diagnostics" },
+		id = { "<cmd>Trouble document_diagnostics<cr>", "Document diagnostics" },
 	},
 
 	d = {
@@ -184,6 +184,7 @@ local wk_maps = {
 		R = { "<cmd>Telescope registers<cr>", "Registers" },
 		g = { "<cmd>Telescope git_files<cr>", "Git files" },
 		s = { "<cmd>Telescope resume<cr>", "Resume last search" },
+		i = { "<cmd>Telescope lsp_implementations<cr>", "LSP Implementation" },
 	},
 
 	g = {
@@ -226,7 +227,7 @@ M.telescope_media = function()
 	map("n", "<leader>fp", ":Telescope media_files <CR>")
 end
 
-M.lsp_config = function()
+M.lsp_config = function(bufnr)
 	local opts = { noremap = true, silent = true }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -237,7 +238,7 @@ M.lsp_config = function()
 	-- map("n", "gs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	map("n", "gk", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	map("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	map("n", "<leader>ld", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	map("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
 	map("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
 	map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
@@ -247,6 +248,8 @@ M.lsp_config = function()
 	map("n", "<leader>le", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	map("n", "<leader>lp", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 	map("n", "<leader>ln", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+	map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+	map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	-- map("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
 	map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
 	map("v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)

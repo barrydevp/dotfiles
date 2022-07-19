@@ -193,11 +193,17 @@ return require("packer").startup(function(use)
 	})
 
 	use({
+		"RishabhRD/nvim-lsputils",
+		requires = { "RishabhRD/popfix" },
+	})
+
+	use({
 		"neovim/nvim-lspconfig",
 		opt = true,
 		wants = {
 			"nvim-cmp",
 			"null-ls.nvim",
+			"nvim-lsputils",
 		},
 		setup = function()
 			require("utils").packer_lazy_load("nvim-lspconfig")
