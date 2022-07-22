@@ -4,6 +4,9 @@ if not present then
 	return
 end
 
+-- for Git UI
+require("mappings").git()
+
 gitsigns.setup({
 	on_attach = function(bufnr)
 		local gs = package.loaded.gitsigns
@@ -11,6 +14,7 @@ gitsigns.setup({
 		local function map(mode, l, r, opts)
 			opts = opts or {}
 			opts.buffer = bufnr
+
 			vim.keymap.set(mode, l, r, opts)
 		end
 
@@ -66,7 +70,6 @@ gitsigns.setup({
 		delete = { hl = "DiffDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
 		topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
 	},
-
 	watch_gitdir = {
 		interval = 1000,
 		follow_files = true,
@@ -98,4 +101,3 @@ gitsigns.setup({
 		enable = false,
 	},
 })
-

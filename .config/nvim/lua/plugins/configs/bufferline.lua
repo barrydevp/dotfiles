@@ -12,7 +12,6 @@ bufferline.setup({
 		},
 		hidden = {
 			"help",
-			"dashboard",
 			"NvimTree",
 			"terminal",
 			"fugitive",

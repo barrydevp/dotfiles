@@ -124,7 +124,10 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	use({ "tpope/vim-fugitive", cmd = "Git" })
+	use({
+		"tpope/vim-fugitive",
+		cmd = "Git",
+	})
 	use({ "junegunn/gv.vim" })
 
 	-- editorconfig
@@ -186,6 +189,11 @@ return require("packer").startup(function(use)
 	-- 	"JoosepAlviste/nvim-ts-context-commentstring",
 	-- 	after = "nvim-treesitter",
 	-- })
+
+	-- quick list
+	use({
+		"kevinhwang91/nvim-bqf",
+	})
 
 	-- lsp stuff
 	use({

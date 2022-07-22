@@ -1,3 +1,4 @@
+local core = require("core")
 local utils = require("utils")
 
 local map = utils.map
@@ -18,9 +19,6 @@ map("", "<Up>", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true })
 -- use ESC to turn off search highlighting
 map("n", "<Esc>", ":noh <CR>")
 
--- better quit
-map("n", "<leader>q", ":q <CR>")
-
 -- don't yank text on cut ( x )
 -- map({ "n", "v" }, "x", '"_x')
 
@@ -34,6 +32,10 @@ map("v", "K", ":m '>-2<CR>gv=gv")
 -- jumping
 map("n", "g[", "<C-o>")
 map("n", "g]", "<C-i>")
+
+-- quicklist
+map("n", "[q", ":cprev<CR>")
+map("n", "]q", ":cnext<CR>")
 
 -- buffer control buffer
 map("n", "<leader>c", ":lua require('utils').close_buffer() <CR>") -- close  buffer
@@ -114,8 +116,12 @@ map("x", "J", ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
 vim.cmd('inoremap <expr> <c-j> ("\\<C-n>")')
 vim.cmd('inoremap <expr> <c-k> ("\\<C-p>")')
 
+-- command
+map("n", "<C-p>", ":Telescope commands <CR>", { noremap = true, silent = true })
+
 -- which key map
 local wk_maps = {
+	["q"] = { ":ccl<CR>", "Quit" },
 	["c"] = "Close Buffer",
 	["e"] = { ":NvimTreeToggle<CR>", "Explorer" },
 	-- ["h"] = "No Highlight",
@@ -174,6 +180,7 @@ local wk_maps = {
 		name = "Telescope/Find",
 		f = { "<cmd>Telescope find_files<cr>", "Find File" },
 		F = { "<cmd>Telescope live_grep<cr>", "Live grep" },
+		l = { "<cmd>Telescope live_grep<cr>", "Live grep" },
 		t = { "<cmd>Telescope grep_string<cr>", "Find cursor string" },
 		b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
 		B = { "<cmd>Telescope file_browser<cr>", "File browser" },
@@ -196,7 +203,7 @@ local wk_maps = {
 		cbm = { "<cmd>Telescope git_bcommits<cr>", "Git bcommits" },
 		b = { '<cmd>lua require"gitsigns".blame_line{full=true}<CR>', "Git blame line" },
 		v = { "<cmd>GV<CR>", "Commit all" },
-		u = { "<cmd>topleft vert Git | vertical resize 55 | set winfixwidth<CR>", "Git UI" },
+		u = { "Git UI" },
 	},
 
 	h = {
@@ -208,6 +215,8 @@ local wk_maps = {
 		s = "Stage",
 		S = "Reset buffer",
 		u = "Undo staged",
+		d = "Diff this",
+		D = "Diff this ~",
 	},
 }
 
@@ -215,6 +224,16 @@ local wk_maps = {
 local M = {}
 
 M.wk_maps = wk_maps
+
+M.git = function()
+	-- UI
+	core.register("Git UI", {
+		map = "<leader>gu",
+		open = ":topleft vert Git",
+		close = ":bd!",
+		width = 40,
+	})
+end
 
 M.bufferline = function()
 	-- map("n", m.close_buffer, ":bdelete<CR>")
@@ -231,14 +250,15 @@ M.lsp_config = function(bufnr)
 	local opts = { noremap = true, silent = true }
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	map("n", "gD", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	map("n", "<leader>ld", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 	map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 	map("n", "go", "<cmd>pop<CR>", opts)
 	map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	map("n", "L", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	-- map("n", "gs", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	map("n", "gk", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	map("n", "<leader>ld", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	map("n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
 	map("n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
 	map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)

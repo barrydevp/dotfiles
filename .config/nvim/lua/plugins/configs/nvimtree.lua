@@ -4,134 +4,92 @@ if not present then
 	return
 end
 
-local default = {
-	-- auto_reload_on_write = true,
-	-- disable_netrw = false,
-	-- hijack_cursor = false,
-	-- hijack_netrw = true,
-	-- hijack_unnamed_buffer_when_opening = false,
-	-- ignore_buffer_on_setup = false,
-	-- open_on_setup = false,
-	-- open_on_setup_file = false,
-	-- open_on_tab = false,
-	-- sort_by = "name",
-	-- update_cwd = false,
-	-- view = {
-	--     width = 30,
-	--     height = 30,
-	--     hide_root_folder = false,
-	--     side = "left",
-	--     preserve_window_proportions = false,
-	--     number = false,
-	--     relativenumber = false,
-	--     signcolumn = "yes",
-	--     mappings = {
-	--         custom_only = false,
-	--         list = {
-	--             -- user mappings go here
-	--         },
-	--     },
-	-- },
-	-- renderer = {
-	--     indent_markers = {
-	--         enable = true,
-	--         icons = {
-	--             corner = "└",
-	--             edge = "│",
-	--             none = " ",
-	--         },
-	--     },
-	--     icons = {
-	--         webdev_colors = true,
-	--     },
-	-- },
-	-- hijack_directories = {
-	--     enable = true,
-	--     auto_open = true,
-	-- },
-	-- update_focused_file = {
-	--     enable = true,
-	--     update_cwd = false,
-	--     ignore_list = {},
-	-- },
-	-- ignore_ft_on_setup = {},
-	-- system_open = {
-	--     cmd = "",
-	--     args = {},
-	-- },
-	-- diagnostics = {
-	--     enable = false,
-	--     show_on_dirs = false,
-	--     icons = {
-	--         hint = "",
-	--         info = "",
-	--         warning = "",
-	--         error = "",
-	--     },
-	-- },
-	-- filters = {
-	--     dotfiles = false,
-	--     custom = {},
-	--     exclude = {},
-	-- },
-	-- git = {
-	--     enable = true,
-	--     ignore = true,
-	--     timeout = 400,
-	-- },
-	-- actions = {
-	--     use_system_clipboard = true,
-	--     change_dir = {
-	--         enable = true,
-	--         global = false,
-	--         restrict_above_cwd = false,
-	--     },
-	--     open_file = {
-	--         quit_on_open = false,
-	--         resize_window = false,
-	--         window_picker = {
-	--             enable = true,
-	--             chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-	--             exclude = {
-	--                 filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-	--                 buftype = { "nofile", "terminal", "help" },
-	--             },
-	--         },
-	--     },
-	-- },
-	-- trash = {
-	--     cmd = "trash",
-	--     require_confirm = true,
-	-- },
-	-- log = {
-	--     enable = false,
-	--     truncate = false,
-	--     types = {
-	--         all = false,
-	--         config = false,
-	--         copy_paste = false,
-	--         diagnostics = false,
-	--         git = false,
-	--         profile = false,
-	--     },
-	-- },
-    disable_netrw = true,
-    update_cwd = true,
-    update_focused_file = {
-        enable = true,
-    },
-    view = {
-        width = 32,
-    },
-    diagnostics = {
-        enable = false,
-        icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        },
-    },
-}
+local lib = require("nvim-tree.lib")
+local openfile = require("nvim-tree.actions.node.open-file")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local M = {}
 
-nvimtree.setup(default)
+local view_selection = function(prompt_bufnr, map)
+	actions.select_default:replace(function()
+		actions.close(prompt_bufnr)
+		local selection = action_state.get_selected_entry()
+		local filename = selection.filename
+		if filename == nil then
+			filename = selection[1]
+		end
+		openfile.fn("edit", filename)
+	end)
+	return true
+end
+
+function M.launch_live_grep(opts)
+	return M.launch_telescope("live_grep", opts)
+end
+
+function M.launch_find_files(opts)
+	return M.launch_telescope("find_files", opts)
+end
+
+function M.launch_telescope(func_name, opts)
+	local telescope_status_ok, _ = pcall(require, "telescope")
+	if not telescope_status_ok then
+		return
+	end
+	local node = lib.get_node_at_cursor()
+	local is_folder = node.fs_stat and node.fs_stat.type == "directory" or false
+	local basedir = is_folder and node.absolute_path or vim.fn.fnamemodify(node.absolute_path, ":h")
+	if node.name == ".." and TreeExplorer ~= nil then
+		basedir = TreeExplorer.cwd
+	end
+	opts = opts or {}
+	opts.cwd = basedir
+	opts.search_dirs = { basedir }
+	opts.attach_mappings = view_selection
+    opts.no_ignore = true
+    opts.no_ignore_parent = true
+	return require("telescope.builtin")[func_name](opts)
+end
+
+local function custom_callback(callback_name)
+	return string.format(":lua require('plugins.configs.nvimtree').%s()<CR>", callback_name)
+end
+
+nvimtree.setup({
+	disable_netrw = true,
+	update_cwd = true,
+	update_focused_file = {
+		enable = true,
+	},
+	git = {
+		enable = true,
+		ignore = false,
+		show_on_dirs = true,
+		timeout = 400,
+	},
+	filters = {
+		custom = {
+			"^\\.git/",
+		},
+	},
+	view = {
+		width = 32,
+		mappings = {
+			list = {
+				{ key = "<leader>ff", cb = custom_callback("launch_find_files") },
+				{ key = "<leader>fF", cb = custom_callback("launch_live_grep") },
+			},
+		},
+	},
+	diagnostics = {
+		enable = false,
+		icons = {
+			hint = "",
+			info = "",
+			warning = "",
+			error = "",
+		},
+	},
+})
+
+return M
