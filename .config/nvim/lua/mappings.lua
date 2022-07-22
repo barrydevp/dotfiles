@@ -1,4 +1,4 @@
-local core = require("core")
+local view = require("view")
 local utils = require("utils")
 
 local map = utils.map
@@ -227,7 +227,7 @@ M.wk_maps = wk_maps
 
 M.git = function()
 	-- UI
-	core.register("Git UI", {
+	view.register("Git UI", {
 		map = "<leader>gu",
 		open = ":topleft vert Git",
 		close = ":bd!",

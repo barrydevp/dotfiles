@@ -49,12 +49,12 @@ M.map = function(mode, keys, command, opt)
 
 	if type(keys) == "table" then
 		for _, keymap in ipairs(keys) do
-			M.map(mode, keymap, command, opt)
+			M.map(mode, keymap, command, options)
 		end
 		return
 	end
 
-	vim.keymap.set(mode, keys, command, opt)
+	vim.keymap.set(mode, keys, command, options)
 end
 
 -- load plugin after entering vim ui
@@ -68,16 +68,16 @@ M.packer_lazy_load = function(plugin, timer)
 end
 
 M.load_plugins = function(name)
-   local default_path = "plugins.configs." .. name
+	local default_path = "plugins.configs." .. name
 
-   local ok, _module = pcall(require, default_path)
+	local ok, _module = pcall(require, default_path)
 
-   if ok then
-       print("load ok " .. name)
-       return _module
-   else
-      error("No such plugin config " .. name)
-   end
+	if ok then
+		print("load ok " .. name)
+		return _module
+	else
+		error("No such plugin config " .. name)
+	end
 end
 
 return M
