@@ -1,5 +1,9 @@
 ### 3rd Package ###
-eval "$(fnm env)"
+# fnm bootstrap
+eval "$(_exec_safe fnm env)"
+# starship bootstrap
+# starship --version 1> /dev/null && eval "$(starship init zsh)"
+eval "$(_exec_safe starship init zsh)"
 
 ### Utilities Func ###
 #____________________#

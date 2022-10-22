@@ -6,6 +6,9 @@ export __ARCH=$(uname)
 ### DECLARE ###
 source $MYCONFIG/zsh/declare.zsh
 
+### UTILS ###
+source $MYCONFIG/zsh/utils.zsh
+
 ### LOAD LOCAL ENV ###
 [[ -f $__ZSH_CONFIG_DIR/local.zsh ]] && source $__ZSH_CONFIG_DIR/local.zsh
 

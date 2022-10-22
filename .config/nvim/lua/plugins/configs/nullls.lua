@@ -11,12 +11,16 @@ local builtins = null_ls.builtins
 local sources = {
 	-- Diagnostics
 	builtins.diagnostics.eslint_d,
-	builtins.diagnostics.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
+	-- builtins.diagnostics.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
 
-	-- Format
-	builtins.formatting.prettierd.with({ filetypes = { "html", "json", "markdown", "scss", "css" } }),
+    -- Format
+    builtins.formatting.prettierd.with({
+        -- filetypes = { "html", "json", "markdown", "scss", "css" },
+        prefer_local = "node_modules/.bin",
+    }),
 	builtins.formatting.shfmt,
 	builtins.formatting.stylua,
+	builtins.formatting.autopep8,
 
 	-- Code actions
 	builtins.code_actions.eslint_d,

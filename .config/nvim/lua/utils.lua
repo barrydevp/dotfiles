@@ -40,21 +40,60 @@ M.close_buffer = function(force)
 end
 
 -- wrapper key map
-M.map = function(mode, keys, command, opt)
-	local options = { silent = true }
+M.map = function(mode, keys, cmd, opt)
+    local options = { noremap = true, silent = true }
+    if opt then
+        options = vim.tbl_extend("force", options, opt)
+    end
 
-	if opt then
-		options = vim.tbl_extend("force", options, opt)
-	end
+    -- all valid modes allowed for mappings
+    -- :h map-modes
+    local valid_modes = {
+        [""] = true,
+        ["n"] = true,
+        ["v"] = true,
+        ["s"] = true,
+        ["x"] = true,
+        ["o"] = true,
+        ["!"] = true,
+        ["i"] = true,
+        ["l"] = true,
+        ["c"] = true,
+        ["t"] = true,
+    }
 
-	if type(keys) == "table" then
-		for _, keymap in ipairs(keys) do
-			M.map(mode, keymap, command, options)
-		end
-		return
-	end
+    -- helper function for M.map
+    -- can gives multiple modes and keys
+    local function map_wrapper(_mode, lhs, rhs, _options)
+        if type(lhs) == "table" then
+            for _, key in ipairs(lhs) do
+                map_wrapper(_mode, key, rhs, _options)
+            end
+        else
+            if type(_mode) == "table" then
+                for _, m in ipairs(_mode) do
+                    map_wrapper(m, lhs, rhs, _options)
+                end
+            else
+                if valid_modes[_mode] and lhs and rhs then
+                    vim.api.nvim_set_keymap(_mode, lhs, rhs, _options)
+                else
+                    _mode, lhs, rhs = _mode or "", lhs or "", rhs or ""
+                    print(
+                        "Cannot set mapping [ mode = '"
+                            .. _mode
+                            .. "' | key = '"
+                            .. lhs
+                            .. "' | cmd = '"
+                            .. rhs
+                            .. "' ]"
+                    )
+                end
+            end
+        end
+    end
 
-	vim.keymap.set(mode, keys, command, options)
+    map_wrapper(mode, keys, cmd, options)
 end
 
 -- load plugin after entering vim ui
@@ -64,19 +103,6 @@ M.packer_lazy_load = function(plugin, timer)
 		vim.defer_fn(function()
 			require("packer").loader(plugin)
 		end, timer)
-	end
-end
-
-M.load_plugins = function(name)
-	local default_path = "plugins.configs." .. name
-
-	local ok, _module = pcall(require, default_path)
-
-	if ok then
-		print("load ok " .. name)
-		return _module
-	else
-		error("No such plugin config " .. name)
 	end
 end
 

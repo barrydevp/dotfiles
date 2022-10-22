@@ -7,7 +7,7 @@ lsp_utils.lsp_handlers()
 local servers = {
     "html",
     "cssls",
-    "tsserver",
+    -- "tsserver",
     "pyright",
     "bashls",
     -- "gopls",
@@ -60,6 +60,7 @@ lspconf.ccls.setup(
     )
 )
 
+-- go
 lspconf.gopls.setup(
     vim.tbl_extend(
         "force",
@@ -76,6 +77,13 @@ lspconf.gopls.setup(
         }
     )
 )
+
+-- tsserver
+require("typescript").setup({
+    server = {
+        on_attach = lsp_utils.lsp_attach,
+    },
+})
 
 -- null-ls
 require("plugins.configs.nullls")

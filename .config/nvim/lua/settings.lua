@@ -26,6 +26,10 @@ local options = {
    undofile = true, -- keep a permanent undo (across restarts)
 }
 
+-- general
+opt.iskeyword:append("-") -- treat dash separated words as a word text object"
+
+
 opt.title = true
 opt.clipboard = options.clipboard
 opt.cmdheight = options.cmdheight
@@ -67,6 +71,12 @@ opt.updatetime = options.updatetime
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append "<>[]hl"
+opt.wrap = true -- display long lines as just one line
+
+-- fold
+opt.foldlevel=20
+opt.foldmethod="expr"
+opt.foldexpr="nvim_treesitter#foldexpr()"
 
 g.mapleader = options.mapleader
 

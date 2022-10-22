@@ -50,19 +50,23 @@ local default = {
 			enable = true,
 			set_jumps = true, -- whether to set jumps in the jumplist
 			goto_next_start = {
-				["m]"] = "@function.outer",
+				["]b"] = "@block.outer",
+				["]m"] = "@function.outer",
 				["]]"] = "@class.outer",
 			},
 			goto_next_end = {
-				["]m"] = "@function.outer",
+				["]B"] = "@block.outer",
+				["]M"] = "@function.outer",
 				["]["] = "@class.outer",
 			},
 			goto_previous_start = {
-				["m["] = "@function.outer",
+				["[b"] = "@block.outer",
+				["[m"] = "@function.outer",
 				["[["] = "@class.outer",
 			},
 			goto_previous_end = {
-				["[m"] = "@function.outer",
+				["[B"] = "@block.outer",
+				["[M"] = "@function.outer",
 				["[]"] = "@class.outer",
 			},
 		},

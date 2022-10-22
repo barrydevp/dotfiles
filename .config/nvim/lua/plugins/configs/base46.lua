@@ -6,3 +6,5 @@ end
 
 -- base46.load_theme("rxyhn")
 base46.load_theme("radium")
+-- base46.load_theme("gruvbox")
+-- base46.load_theme("yoru")

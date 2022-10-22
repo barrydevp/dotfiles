@@ -2,59 +2,41 @@ local M = {}
 
 M.get_capabilities = function()
 	-- setup capabilities
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	local capabilities = require("cmp_nvim_lsp").default_capabilities()
+	-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-	capabilities.textDocument.completion.completionItem = {
-		documentationFormat = { "markdown", "plaintext" },
-		snippetSupport = true,
-		preselectSupport = true,
-		insertReplaceSupport = true,
-		labelDetailsSupport = true,
-		deprecatedSupport = true,
-		commitCharactersSupport = true,
-		tagSupport = { valueSet = { 1 } },
-		resolveSupport = {
-			properties = {
-				"documentation",
-				"detail",
-				"additionalTextEdits",
-			},
-		},
-	}
-
-	capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-
-	capabilities.textDocument.codeAction = {
-		dynamicRegistration = true,
-		codeActionLiteralSupport = {
-			codeActionKind = {
-				valueSet = (function()
-					local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-					table.sort(res)
-					return res
-				end)(),
-			},
-		},
-	}
-
-	capabilities.textDocument.completion.completionItem = {
-		documentationFormat = {
-			"markdown",
-			"plaintext",
-		},
-		snippetSupport = true,
-		preselectSupport = true,
-		insertReplaceSupport = true,
-		labelDetailsSupport = true,
-		deprecatedSupport = true,
-		commitCharactersSupport = true,
-		tagSupport = {
-			valueSet = { 1 },
-		},
-		resolveSupport = {
-			properties = { "documentation", "detail", "additionalTextEdits" },
-		},
-	}
+	-- capabilities.textDocument.completion.completionItem = {
+	-- 	documentationFormat = { "markdown", "plaintext" },
+	-- 	snippetSupport = true,
+	-- 	preselectSupport = true,
+	-- 	insertReplaceSupport = true,
+	-- 	labelDetailsSupport = true,
+	-- 	deprecatedSupport = true,
+	-- 	commitCharactersSupport = true,
+	-- 	tagSupport = { valueSet = { 1 } },
+	-- 	resolveSupport = {
+	-- 		properties = {
+	-- 			"documentation",
+	-- 			"detail",
+	-- 			"additionalTextEdits",
+	-- 		},
+	-- 	},
+	-- }
+	--
+	-- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+	--
+	-- capabilities.textDocument.codeAction = {
+	-- 	dynamicRegistration = true,
+	-- 	codeActionLiteralSupport = {
+	-- 		codeActionKind = {
+	-- 			valueSet = (function()
+	-- 				local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+	-- 				table.sort(res)
+	-- 				return res
+	-- 			end)(),
+	-- 		},
+	-- 	},
+	-- }
 
 	return capabilities
 end

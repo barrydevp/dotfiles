@@ -113,5 +113,3 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# starship bootstrap
-starship --version 1> /dev/null && eval "$(starship init zsh)"
