@@ -4,7 +4,7 @@ if not ok then
 	return
 end
 
-local lsp_utils = require("plugins.lsp.base")
+local lsp_core = require("plugins.lsp.core")
 
 local builtins = null_ls.builtins
 
@@ -28,6 +28,6 @@ local sources = {
 
 null_ls.setup({
 	sources = sources,
-	on_attach = lsp_utils.on_attach,
+	on_attach = lsp_core.on_attach,
 	debounce = 150,
 })

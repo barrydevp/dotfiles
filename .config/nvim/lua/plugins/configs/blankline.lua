@@ -1,7 +1,7 @@
 local present, blankline = pcall(require, "indent_blankline")
 
 if not present then
-	return
+  return
 end
 
 vim.cmd([[
@@ -22,59 +22,58 @@ vim.opt.listchars:append("space:⋅")
 vim.opt.listchars:append("eol:↴")
 
 local options = {
-	indentLine_enabled = 1,
-	char = "▏", -- '│'
-	context_char = "▏", -- '│'
-	filetype_exclude = {
-		"vimwiki",
-		"man",
-		"diagnosticpopup",
-		"lspinfo",
-		"markdown",
-		"WhichKey",
-		"help",
-		"terminal",
-		"alpha",
-		"packer",
-		"lspinfo",
-		"TelescopePrompt",
-		"TelescopeResults",
-		"lsp-installer",
-		"",
-	},
-	buftype_exclude = { "terminal" },
-	context_patterns = {
-		"class",
-		"function",
-		"func_literal",
-		"method",
-		"^if",
-		"while",
-		"for",
-		"with",
-		"try",
-		"except",
-		"argument_list",
-		"object",
-		"dictionary",
-		"element",
-	},
-	context_highlight_list = {
-		"IndentBlanklineIndent1",
-		"IndentBlanklineIndent2",
-		"IndentBlanklineIndent3",
-		"IndentBlanklineIndent4",
-		"IndentBlanklineIndent5",
-		"IndentBlanklineIndent6",
-	},
-	space_char_blankline = " ",
-	use_treesitter = true,
-	show_current_context = true,
-	show_trailing_blankline_indent = false,
-	show_first_indent_level = false,
-	show_foldtext = false,
-	strict_tabs = true,
-	max_indent_increase = 1,
+  indentLine_enabled = 1,
+  char = "▏", -- '│'
+  context_char = "▏", -- '│'
+  filetype_exclude = {
+    "vimwiki",
+    "man",
+    "diagnosticpopup",
+    "lspinfo",
+    "markdown",
+    "WhichKey",
+    "help",
+    "terminal",
+    "alpha",
+    "packer",
+    "lspinfo",
+    "TelescopePrompt",
+    "TelescopeResults",
+    "lsp-installer",
+    "",
+  },
+  buftype_exclude = { "terminal" },
+  context_patterns = {
+    "class",
+    "function",
+    "func_literal",
+    "method",
+    "^if",
+    "while",
+    "for",
+    "with",
+    "try",
+    "except",
+    "argument_list",
+    "object",
+    "dictionary",
+    "element",
+  },
+  context_highlight_list = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+    "IndentBlanklineIndent3",
+    "IndentBlanklineIndent4",
+    "IndentBlanklineIndent5",
+    "IndentBlanklineIndent6",
+  },
+  space_char_blankline = " ",
+  show_trailing_blankline_indent = false,
+  show_first_indent_level = false,
+  show_current_context = true,
+  show_current_context_start = true,
 }
 
 blankline.setup(options)
+-- load mapping
+require("utils.mapping").load_mappings("blankline")

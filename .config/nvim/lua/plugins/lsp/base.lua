@@ -3,40 +3,6 @@ local M = {}
 M.get_capabilities = function()
 	-- setup capabilities
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
-	-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-	-- capabilities.textDocument.completion.completionItem = {
-	-- 	documentationFormat = { "markdown", "plaintext" },
-	-- 	snippetSupport = true,
-	-- 	preselectSupport = true,
-	-- 	insertReplaceSupport = true,
-	-- 	labelDetailsSupport = true,
-	-- 	deprecatedSupport = true,
-	-- 	commitCharactersSupport = true,
-	-- 	tagSupport = { valueSet = { 1 } },
-	-- 	resolveSupport = {
-	-- 		properties = {
-	-- 			"documentation",
-	-- 			"detail",
-	-- 			"additionalTextEdits",
-	-- 		},
-	-- 	},
-	-- }
-	--
-	-- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-	--
-	-- capabilities.textDocument.codeAction = {
-	-- 	dynamicRegistration = true,
-	-- 	codeActionLiteralSupport = {
-	-- 		codeActionKind = {
-	-- 			valueSet = (function()
-	-- 				local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-	-- 				table.sort(res)
-	-- 				return res
-	-- 			end)(),
-	-- 		},
-	-- 	},
-	-- }
 
 	return capabilities
 end
@@ -113,8 +79,8 @@ M.lsp_config = function(client, bufnr)
 
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	-- mappings
-	require("mappings").lsp_config()
+	-- -- mappings
+	-- require("mappings").lsp_config()
 end
 
 M.on_attach = function(client, bufnr)
