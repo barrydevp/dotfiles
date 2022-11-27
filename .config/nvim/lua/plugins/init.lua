@@ -201,6 +201,8 @@ packer.startup(function(use)
 
   -- editorconfig
   use { "editorconfig/editorconfig-vim" }
+  -- auto detect indent
+  use { "tpope/vim-sleuth" }
 
   -- comment
   use {

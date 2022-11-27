@@ -9,9 +9,9 @@ local options = {
 }
 
 -- options.theme = "rxyhn"
--- options.theme = "raidum"
+-- options.theme = "radium"
 -- options.theme = "gruvbox"
-options.theme = "yoru"
--- options.theme = "ayu-dark"
+-- options.theme = "yoru"
+options.theme = "ayu-dark"
 
 base46.setup(options)

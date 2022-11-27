@@ -8,7 +8,7 @@ _G.ctx = {}
 -- load and init core
 require("core")
 require("options")
-require("indents")
+-- require("indents")
 
 -- setup packer + plugins
 local fn = vim.fn
@@ -36,4 +36,3 @@ end
 
 -- set general mapping
 require("utils.mapping").load_mappings()
-

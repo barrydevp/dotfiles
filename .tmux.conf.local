@@ -426,3 +426,4 @@ tmux_conf_update_plugins_on_reload=true
 # "$@"
 # # /!\ do not remove the previous line
 set-option -g default-shell /bin/zsh
+set-option -g default-terminal "screen-256color"
