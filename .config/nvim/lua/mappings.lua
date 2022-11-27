@@ -226,7 +226,7 @@ M.lspconfig = {
       "lsp implementation",
     },
 
-    ["<leader>ls"] = {
+    ["<leader>lS"] = {
       function()
         vim.lsp.buf.signature_help()
       end,
@@ -305,7 +305,7 @@ M.lspconfig = {
 
     ["<leader>lf"] = {
       function()
-        -- vim.lsp.buf.format { async = true }
+        -- vim.lsp.buf.format({})
         require("plugins.lsp.core").lsp_formatting()
       end,
       "lsp formatting",
@@ -339,15 +339,15 @@ M.lspconfig = {
     -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
     -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
     ["<leader>lq"] = {
-      "<cmd>Trouble quickfix<cr>",
-      "Quickfix",
+      "<cmd>Trouble document_diagnostics<cr>",
+      "trouble document diagnostics",
     },
     -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
     -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
 
     ["<leader>lt"] = {
-      "<cmd>Trouble<cr>",
-      "Show Diagnostics(Troubel)",
+      "<cmd>Trouble workspace_diagnostics<cr>",
+      "Show Diagnostics(Trouble)",
     },
 
     ["<leader>liw"] = {
@@ -406,7 +406,7 @@ M.telescope = {
 
     -- lsp
     ["<leader>fi"] = { "<cmd>Telescope lsp_implementations<cr>", "search lsp implementation" },
-    ["<leader>lS"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     -- ["<leader>lS"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
 
     -- git

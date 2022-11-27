@@ -66,9 +66,11 @@ end
 
 M.lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
+    async = false,
     filter = function(client)
       -- apply whatever logic you want (in this example, we'll only use null-ls)
-      return client.name == "null-ls"
+      -- return client.name == "null-ls"
+      return client.name ~= "tsserver"
     end,
     bufnr = bufnr,
   }
