@@ -4,8 +4,14 @@ if not ok then
   return
 end
 
--- base46.load_theme("rxyhn")
--- base46.load_theme("radium")
--- base46.load_theme("gruvbox")
-base46.load_theme("yoru")
--- base46.load_theme("ayu-dark")
+local options = {
+  theme = "onedark",
+}
+
+-- options.theme = "rxyhn"
+-- options.theme = "raidum"
+-- options.theme = "gruvbox"
+options.theme = "yoru"
+-- options.theme = "ayu-dark"
+
+base46.setup(options)

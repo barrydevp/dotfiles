@@ -45,23 +45,14 @@ packer.startup(function(use)
 
   use {
     "barrydevp/base46",
-    after = { "plenary.nvim" },
     config = function()
       require("plugins.configs.base46")
     end,
   }
 
-  -- color, icons related stuff
-  use {
-    "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("plugins.configs.webdevicons")
-    end,
-  }
-
   use {
     "barrydevp/ui.nvim",
-    after = { "base46", "nvim-web-devicons" },
+    after = { "base46" },
     config = function()
       local ok, nvchad_ui = pcall(require, "nvchad_ui")
 
@@ -70,6 +61,16 @@ packer.startup(function(use)
       end
 
       require("utils.mapping").load_mappings("tabufline")
+    end,
+  }
+
+  -- color, icons related stuff
+  use {
+    "kyazdani42/nvim-web-devicons",
+    after = "ui.nvim",
+    module = "nvim-web-devicons",
+    config = function()
+      require("plugins.configs.webdevicons")
     end,
   }
 
@@ -87,7 +88,8 @@ packer.startup(function(use)
   -- indent decorator
   use {
     "lukas-reineke/indent-blankline.nvim",
-    event = "BufRead",
+    -- event = "BufRead",
+    opt = true,
     setup = function()
       require("utils.lazy_load").on_file_open("indent-blankline.nvim")
       require("utils.mapping").load_mappings("blankline")
@@ -100,9 +102,10 @@ packer.startup(function(use)
   -- syntax analyzer and parser
   use {
     "nvim-treesitter/nvim-treesitter",
-    event = "BufRead",
+    -- event = "BufRead",
     run = ":TSUpdate",
     opt = true,
+    module = "nvim-treesitter",
     cmd = require("utils.lazy_load").treesitter_cmds,
     config = function()
       require("plugins.configs.treesitter")
@@ -126,7 +129,7 @@ packer.startup(function(use)
     },
   }
 
-  -- quick list
+  -- quick list TODO
   use {
     "kevinhwang91/nvim-bqf",
   }
@@ -149,7 +152,7 @@ packer.startup(function(use)
   }
   use { "junegunn/gv.vim" }
 
-  -- scrollbar
+  -- scrollbar TODO
   use {
     "petertriho/nvim-scrollbar",
     after = { "base46" },
@@ -174,19 +177,20 @@ packer.startup(function(use)
   -- fuzzy file finding
   use {
     "nvim-telescope/telescope.nvim",
-    requires = {
-      { "nvim-lua/plenary.nvim" },
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
-      },
-      -- {
-      --   "nvim-telescope/telescope-media-files.nvim",
-      --   setup = function()
-      --     require("mappings").telescope_media()
-      --   end,
-      -- },
-    },
+    cmd = "Telescope",
+    -- requires = {
+    --   { "nvim-lua/plenary.nvim" },
+    --   {
+    --     "nvim-telescope/telescope-fzf-native.nvim",
+    --     run = "make",
+    --   },
+    --   {
+    --     "nvim-telescope/telescope-media-files.nvim",
+    --     setup = function()
+    --       require("mappings").telescope_media()
+    --     end,
+    --   },
+    -- },
     config = function()
       require("plugins.configs.telescope")
     end,
@@ -194,29 +198,6 @@ packer.startup(function(use)
       require("utils.mapping").load_mappings("telescope")
     end,
   }
-
-  -- status line
-  -- use {
-  --   "feline-nvim/feline.nvim",
-  --   after = "nvim-web-devicons",
-  --   config = function()
-  --     require("plugins.configs.statusline")
-  --   end,
-  -- }
-  --
-  -- use("famiu/bufdelete.nvim")
-
-  -- tabbar
-  -- use {
-  --   "akinsho/bufferline.nvim",
-  --   after = "nvim-web-devicons",
-  --   config = function()
-  --     require("plugins.configs.bufferline")
-  --   end,
-  --   setup = function()
-  --     require("utils.mapping").load_mappings("bufferline")
-  --   end,
-  -- }
 
   -- editorconfig
   use { "editorconfig/editorconfig-vim" }
@@ -226,9 +207,9 @@ packer.startup(function(use)
     "numToStr/Comment.nvim",
     -- module = "Comment",
     -- keys = { "gc", "gb" },
-    -- setup = function()
-    --   require("utils.mapping").load_mappings("comment")
-    -- end,
+    setup = function()
+      require("utils.mapping").load_mappings("comment")
+    end,
     config = function()
       require("plugins.configs.comment")
     end,
@@ -239,6 +220,7 @@ packer.startup(function(use)
     "jose-elias-alvarez/null-ls.nvim",
   }
 
+  -- TODO
   use {
     "RishabhRD/nvim-lsputils",
     requires = { "RishabhRD/popfix" },
@@ -247,12 +229,12 @@ packer.startup(function(use)
   use {
     "neovim/nvim-lspconfig",
     opt = true,
-    wants = {
-      "nvim-cmp",
-      "null-ls.nvim",
-      "nvim-lsputils",
-      "typescript.nvim",
-    },
+    -- wants = {
+    --   "nvim-cmp",
+    --   "null-ls.nvim",
+    --   "nvim-lsputils",
+    --   "typescript.nvim",
+    -- },
     setup = function()
       require("utils.lazy_load").on_file_open("nvim-lspconfig")
     end,
@@ -362,7 +344,7 @@ packer.startup(function(use)
     "andymass/vim-matchup",
     opt = true,
     setup = function()
-      -- may set any options here
+      -- may set any options here TODO
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
   }

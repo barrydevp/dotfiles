@@ -97,9 +97,9 @@ M._core = {
 
   nv = {
     -- don't yank text on cut ( x )
-    ["x"] = { '"_x', "cut" },
+    -- ["x"] = { '"_x', "cut" },
     -- don't yank text on delete ( dd )
-    ["d"] = { '"_d', "delete" },
+    -- ["d"] = { '"_d', "delete" },
   },
 }
 

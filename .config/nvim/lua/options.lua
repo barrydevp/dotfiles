@@ -3,6 +3,12 @@ local g = vim.g
 
 -- general
 opt.iskeyword:append("-") -- treat dash separated words as a word text object"
+g.toggle_theme_icon = "   "
+g.transparency = false
+g.theme_switcher_loaded = false
+
+opt.laststatus = 3 -- global statusline
+opt.showmode = false
 
 -- opt.title = true
 opt.clipboard = "unnamedplus"

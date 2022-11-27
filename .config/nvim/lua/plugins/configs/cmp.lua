@@ -45,7 +45,8 @@ local options = {
   },
   formatting = {
     format = function(_, vim_item)
-      local icons = require("plugins.configs.kindicons").lspkind
+      -- local icons = require("plugins.configs.kindicons").lspkind
+      local icons = require("nvchad_ui.icons").lspkind
       vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
       return vim_item
     end,
