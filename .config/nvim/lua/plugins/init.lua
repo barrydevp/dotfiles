@@ -132,6 +132,7 @@ packer.startup(function(use)
   -- quick list TODO
   use {
     "kevinhwang91/nvim-bqf",
+    ft = "qf",
   }
 
   -- git stuff
@@ -217,16 +218,42 @@ packer.startup(function(use)
     end,
   }
 
+  -- editor
+  use {
+    "windwp/nvim-autopairs",
+    after = "nvim-cmp",
+    config = function()
+      require("plugins.configs.autopairs")
+    end,
+  }
+
+  use {
+    "andymass/vim-matchup",
+    opt = true,
+    setup = function()
+      -- may set any options here TODO
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  }
+
+  use {
+    "tpope/vim-surround",
+  }
+
+  use {
+    "tpope/vim-repeat",
+  }
+
   -- lsp stuff
   use {
     "jose-elias-alvarez/null-ls.nvim",
   }
 
   -- TODO
-  use {
-    "RishabhRD/nvim-lsputils",
-    requires = { "RishabhRD/popfix" },
-  }
+  -- use {
+  --   "RishabhRD/nvim-lsputils",
+  --   requires = { "RishabhRD/popfix" },
+  -- }
 
   use {
     "neovim/nvim-lspconfig",
@@ -257,13 +284,13 @@ packer.startup(function(use)
     end,
   }
 
-  use {
-    "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("plugins.configs.trouble")
-    end,
-  }
+  -- use {
+  --   "folke/trouble.nvim",
+  --   requires = "kyazdani42/nvim-web-devicons",
+  --   config = function()
+  --     require("plugins.configs.trouble")
+  --   end,
+  -- }
 
   use {
     "mfussenegger/nvim-dap",
@@ -330,33 +357,6 @@ packer.startup(function(use)
   use {
     "hrsh7th/cmp-path",
     after = "cmp-buffer",
-  }
-
-  -- misc
-  use {
-    "windwp/nvim-autopairs",
-    after = "nvim-cmp",
-    config = function()
-      require("plugins.configs.autopairs")
-    end,
-  }
-
-  --
-  use {
-    "andymass/vim-matchup",
-    opt = true,
-    setup = function()
-      -- may set any options here TODO
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end,
-  }
-
-  use {
-    "tpope/vim-surround",
-  }
-
-  use {
-    "tpope/vim-repeat",
   }
 
   -- discord rich presence

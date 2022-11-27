@@ -55,7 +55,7 @@ M._core = {
     ["<C-c>"] = { "<cmd> %y+ <CR>", "copy whole file" },
 
     -- jumping
-    ["g["] = { "<C-o>", "go backward" },
+    ["[g"] = { "<C-o>", "go backward" },
     ["g]"] = { "<C-i>", "go forward" },
 
     -- quicklist movement
@@ -296,11 +296,18 @@ M.lspconfig = {
       "goto_next",
     },
 
-    ["<leader>q"] = {
+    ["<leader>ll"] = {
       function()
         vim.diagnostic.setloclist()
       end,
-      "diagnostic setloclist",
+      "diagnostic setloclist (document)",
+    },
+
+    ["<leader>lq"] = {
+      function()
+        vim.diagnostic.setqflist()
+      end,
+      "diagnostic setqflist (workspace)",
     },
 
     ["<leader>lf"] = {
@@ -338,10 +345,10 @@ M.lspconfig = {
     },
     -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
     -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
-    ["<leader>lq"] = {
-      "<cmd>Trouble document_diagnostics<cr>",
-      "trouble document diagnostics",
-    },
+    -- ["<leader>lq"] = {
+    --   "<cmd>Trouble document_diagnostics<cr>",
+    --   "trouble document diagnostics",
+    -- },
     -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
     -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
 
