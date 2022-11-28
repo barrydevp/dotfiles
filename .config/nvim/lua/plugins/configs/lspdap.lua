@@ -33,7 +33,7 @@ vim.fn.sign_define("DapLogPoint", {
 
 -- adapters
 
-if utils.is_windows then
+if not utils.is_windows then
   dap.adapters.lldb = {
     type = "executable",
     command = os.getenv("HOME") .. "/.local/bin/lldb-vscode", -- adjust as needed
