@@ -276,13 +276,13 @@ packer.startup(function(use)
     },
   }
 
-  use {
-    "ray-x/lsp_signature.nvim",
-    after = "nvim-lspconfig",
-    config = function()
-      require("plugins.configs.lspsignature")
-    end,
-  }
+  -- use {
+  --   "ray-x/lsp_signature.nvim",
+  --   after = "nvim-lspconfig",
+  --   config = function()
+  --     require("plugins.configs.lspsignature")
+  --   end,
+  -- }
 
   -- use {
   --   "folke/trouble.nvim",
