@@ -113,7 +113,7 @@ packer.startup(function(use)
     requires = {
       -- 	-- "windwp/nvim-ts-autotag",
       { "JoosepAlviste/nvim-ts-context-commentstring" },
-      -- 	-- { "jose-elias-alvarez/typescript.nvim" },
+      { "jose-elias-alvarez/typescript.nvim" },
       -- 	-- { "Hoffs/omnisharp-extended-lsp.nvim" },
       -- 	-- {
       -- 	--     "nvim-treesitter/playground",
