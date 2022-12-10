@@ -56,7 +56,7 @@ M._core = {
 
     -- jumping
     ["[g"] = { "<C-o>", "go backward" },
-    ["g]"] = { "<C-i>", "go forward" },
+    ["]g"] = { "<C-i>", "go forward" },
 
     -- quicklist movement
     ["[q"] = { ":cprev<CR>", "quick list prev" },
@@ -289,7 +289,7 @@ M.lspconfig = {
       "goto prev",
     },
 
-    ["d]"] = {
+    ["]d"] = {
       function()
         vim.diagnostic.goto_next()
       end,
