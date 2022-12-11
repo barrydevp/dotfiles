@@ -2,3 +2,4 @@ dotfiles
 .config/nvim/plugin
 .zshrc
 .config/zsh/_pri_env.zsh
+.config/zsh/local.zsh

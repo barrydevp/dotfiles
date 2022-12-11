@@ -66,7 +66,7 @@ local options = {
   },
   git = {
     enable = true,
-    ignore = false,
+    ignore = true,
     show_on_dirs = true,
     timeout = 400,
   },
