@@ -4,7 +4,7 @@ if not present then
   return
 end
 
-vim.opt.completeopt = "menuone,noselect"
+vim.opt.completeopt = "menu,menuone,noselect"
 
 local function border(hl_name)
   return {
@@ -51,10 +51,10 @@ local options = {
       return vim_item
     end,
   },
-  mapping = {
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+  mapping = cmp.mapping.preset.insert {
+    ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
@@ -87,12 +87,17 @@ local options = {
       "s",
     }),
   },
-  sources = {
+  sources = cmp.config.sources({
     { name = "luasnip" },
     { name = "nvim_lsp" },
-    { name = "buffer" },
     { name = "nvim_lua" },
     { name = "path" },
+  }, {
+    { name = "buffer" },
+  }),
+  experimental = {
+    -- ghost_text = {hl_group = 'NameOfHighlightGroup'},
+    ghost_text = true,
   },
 }
 
