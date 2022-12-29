@@ -19,7 +19,7 @@ local servers = {
   "ccls",
   "html",
   "cssls",
-  "typescript",
+  "tsserver",
   "pyright",
   "bashls",
   "gopls",
