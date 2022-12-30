@@ -113,7 +113,7 @@ packer.startup(function(use)
     requires = {
       -- 	-- "windwp/nvim-ts-autotag",
       { "JoosepAlviste/nvim-ts-context-commentstring" },
-      { "jose-elias-alvarez/typescript.nvim" },
+      -- { "jose-elias-alvarez/typescript.nvim" },
       -- 	-- { "Hoffs/omnisharp-extended-lsp.nvim" },
       -- 	-- {
       -- 	--     "nvim-treesitter/playground",
@@ -162,19 +162,6 @@ packer.startup(function(use)
     end,
   }
 
-  -- file managing , picker etc
-  use {
-    "kyazdani42/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    requires = "kyazdani42/nvim-web-devicons",
-    setup = function()
-      require("utils.mapping").load_mappings("nvimtree")
-    end,
-    config = function()
-      require("plugins.configs.nvimtree")
-    end,
-  }
-
   -- fuzzy file finding
   use {
     "nvim-telescope/telescope.nvim",
@@ -197,6 +184,20 @@ packer.startup(function(use)
     end,
     setup = function()
       require("utils.mapping").load_mappings("telescope")
+    end,
+  }
+
+  -- file managing , picker etc
+  use {
+    "kyazdani42/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    after = "telescope.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    setup = function()
+      require("utils.mapping").load_mappings("nvimtree")
+    end,
+    config = function()
+      require("plugins.configs.nvimtree")
     end,
   }
 
@@ -272,7 +273,7 @@ packer.startup(function(use)
     end,
     requires = {
       "jose-elias-alvarez/null-ls.nvim",
-      "jose-elias-alvarez/typescript.nvim",
+      -- "jose-elias-alvarez/typescript.nvim",
     },
   }
 

@@ -42,6 +42,6 @@ dotfile checkout
 # install nvim
 
 # nvim lsp
-npm install --global typescript typescript-language-server prettier vscode-html-languageserver-bin vscode-css-languageserver-bin bash-language-server
+npm install --global typescript typescript-language-server prettier @fsouza/prettierd eslint_d vscode-html-languageserver-bin vscode-css-languageserver-bin bash-language-server
 
 ```

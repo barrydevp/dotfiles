@@ -10,13 +10,14 @@ export CARGO_PATH="$HOME/.cargo"
 export PATH=$CARGO_PATH/bin:$PATH
 
 ### FNM PATH ###
-export FNM_PATH=$HOME/.fnm
+export FNM_LEGACY_PATH=$HOME/.fnm
+export FNM_PATH=$HOME/.local/share/fnm
 
 ### System ###
 export USRLOCAL_PATH=/usr/local/bin
 
 ### PATH ###
-export PATH=$USRLOCAL_PATH:$MYLOCAL/bin:$GOROOT/bin:$GOPATH/bin:$FNM_PATH:$PATH
+export PATH=$USRLOCAL_PATH:$MYLOCAL/bin:$GOROOT/bin:$GOPATH/bin:$FNM_PATH:$FNM_LEGACY_PATH:$PATH
 
 ### EDITOR ###
 if [[ -n $SSH_CONNECTION ]]; then
