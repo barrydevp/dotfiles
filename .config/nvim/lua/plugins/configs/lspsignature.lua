@@ -27,7 +27,6 @@ local default = {
 -- lspsignature.setup(default)
 
 M.setup = function(client, bufnr)
-  print('setup')
   lspsignature.on_attach(default, bufnr)
 end
 
