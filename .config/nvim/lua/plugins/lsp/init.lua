@@ -14,7 +14,7 @@ core.handlers()
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = {
-  "sumneko_lua",
+  "lua_ls",
   "vls",
   "ccls",
   "html",

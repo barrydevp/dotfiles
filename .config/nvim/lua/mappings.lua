@@ -20,7 +20,7 @@ M._core = {
 
   i = {
     -- go to  beginning and end
-    ["<C-b>"] = { "<ESC>^i", "beginning of line" },
+    ["<C-a>"] = { "<ESC>^i", "beginning of line" },
     ["<C-e>"] = { "<End>", "end of line" },
 
     -- navigate within insert mode
