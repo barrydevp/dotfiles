@@ -1,6 +1,8 @@
 local wk = require("which-key")
 
-wk.setup {
+local opts = {}
+
+local opts_1 = {
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -44,3 +46,5 @@ wk.setup {
 -- }
 
 -- wk.register(require("mappings").wk_maps, opts)
+
+wk.setup(opts)

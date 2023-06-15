@@ -2,6 +2,12 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local M = {}
 
+M.reload_theme = function(name)
+  vim.g.base46_theme = name
+  require("base46").load_all_highlights()
+  vim.api.nvim_exec_autocmds("User", { pattern = "ThemeReload" })
+end
+
 M.boot_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"

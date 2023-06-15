@@ -1,6 +1,4 @@
-local present, nvim_comment = pcall(require, "Comment")
-if not present then
-	return
-end
+local nvim_comment = require("Comment")
 
-nvim_comment.setup({})
+local opts = {}
+nvim_comment.setup(opts)

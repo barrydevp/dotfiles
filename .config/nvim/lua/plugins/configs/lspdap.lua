@@ -4,7 +4,7 @@ if not present then
   return
 end
 
-local utils = require("utils")
+local utils = require("core.utils")
 
 vim.fn.sign_define("DapBreakpoint", {
   text = "",

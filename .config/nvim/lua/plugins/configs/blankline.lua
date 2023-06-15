@@ -76,4 +76,4 @@ local options = {
 
 blankline.setup(options)
 -- load mapping
-require("utils.mapping").load_mappings("blankline")
+require("core.utils").load_mappings("blankline")

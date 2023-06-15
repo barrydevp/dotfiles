@@ -1,27 +1,28 @@
 local M = {}
 local autocmd = vim.api.nvim_create_autocmd
 
--- require("packer").loader(tb.plugins)
--- This must be used for plugins that need to be loaded just after a file
--- ex : treesitter, lspconfig etc
-M.lazy_load = function(tb)
-  autocmd(tb.events, {
-    group = vim.api.nvim_create_augroup(tb.augroup_name, {}),
+M.lazy_load = function(plugin)
+  vim.api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
+    group = vim.api.nvim_create_augroup("BeLazyOnFileOpen" .. plugin, {}),
     callback = function()
-      if tb.condition() then
-        vim.api.nvim_del_augroup_by_name(tb.augroup_name)
+      local file = vim.fn.expand "%"
+      local condition = file ~= "NvimTree_1" and file ~= "[lazy]" and file ~= ""
+
+      if condition then
+        vim.api.nvim_del_augroup_by_name("BeLazyOnFileOpen" .. plugin)
 
         -- dont defer for treesitter as it will show slow highlighting
         -- This deferring only happens only when we do "nvim filename"
-        if tb.plugin ~= "nvim-treesitter" then
-          vim.defer_fn(function()
-            require("packer").loader(tb.plugin)
-            if tb.plugin == "nvim-lspconfig" then
-              vim.cmd("silent! do FileType")
+        if plugin ~= "nvim-treesitter" then
+          vim.schedule(function()
+            require("lazy").load { plugins = plugin }
+
+            if plugin == "nvim-lspconfig" then
+              vim.cmd "silent! do FileType"
             end
           end, 0)
         else
-          require("packer").loader(tb.plugin)
+          require("lazy").load { plugins = plugin }
         end
       end
     end,

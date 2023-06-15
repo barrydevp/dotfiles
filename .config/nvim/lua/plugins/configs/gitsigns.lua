@@ -1,12 +1,8 @@
-local present, gitsigns = pcall(require, "gitsigns")
-
-if not present then
-  return
-end
+local gitsigns = require("gitsigns")
 
 -- for Git UI
 -- UI
-require("view").register("Git UI", {
+require("core.view").register("Git UI", {
   map = "<leader>gu",
   open = ":topleft vert Git",
   close = ":bd!",
@@ -22,6 +18,6 @@ gitsigns.setup {
     topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
   },
   on_attach = function(bufnr)
-    require("utils.mapping").load_mappings("gitsigns", { buffer = bufnr })
+    require("core.utils").load_mappings("gitsigns", { buffer = bufnr })
   end,
 }

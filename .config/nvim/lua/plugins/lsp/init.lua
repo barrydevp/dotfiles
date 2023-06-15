@@ -1,8 +1,4 @@
-local present, lspconfig = pcall(require, "lspconfig")
-
-if not present then
-  return
-end
+local lspconfig = require("lspconfig")
 
 local core = require("plugins.lsp.core")
 
@@ -16,7 +12,8 @@ core.handlers()
 local servers = {
   "lua_ls",
   "vls",
-  "ccls",
+  -- "ccls",
+  "clangd",
   "html",
   "cssls",
   "tsserver",
