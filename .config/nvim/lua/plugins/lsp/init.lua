@@ -6,7 +6,7 @@ local core = require("plugins.lsp.core")
 core.ui()
 
 -- attach handlers
-core.handlers()
+-- core.handlers()
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = {
@@ -25,7 +25,7 @@ local servers = {
 }
 
 for _, lang in ipairs(servers) do
-  local ok, err = pcall(require, "plugins.lsp." .. lang)
+  local ok, _ = pcall(require, "plugins.lsp." .. lang)
   if not ok then
     core.setup_default(lang)
   end

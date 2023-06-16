@@ -322,7 +322,6 @@ M.lspconfig = {
 
     ["<leader>lf"] = {
       function()
-        -- vim.lsp.buf.format({})
         require("plugins.lsp.core").lsp_formatting()
       end,
       "lsp formatting",

@@ -128,11 +128,16 @@ local default_plugins = {
     "tpope/vim-fugitive",
     cmd = "Git",
   },
-  { "junegunn/gv.vim" },
+  {
+    "junegunn/gv.vim",
+    cmd = "Git",
+    dependencies = "tpope/vim-fugitive",
+  },
 
   -- scrollbar TODO
   {
     "petertriho/nvim-scrollbar",
+    lazy = false,
     config = function()
       dofile(vim.g.base46_cache .. "scrollbar")
       require("plugins.configs.nvimscrollbar")
@@ -187,13 +192,19 @@ local default_plugins = {
   },
 
   -- editorconfig
-  { "editorconfig/editorconfig-vim" },
+  {
+    "editorconfig/editorconfig-vim",
+    lazy = false,
+  },
   -- auto detect indent
-  { "tpope/vim-sleuth" },
+  {
+    "tpope/vim-sleuth",
+    lazy = false,
+  },
 
   {
     "andymass/vim-matchup",
-    opt = true,
+    lazy = false,
     init = function()
       -- may set any options here TODO
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -202,10 +213,32 @@ local default_plugins = {
 
   {
     "tpope/vim-surround",
+    lazy = false,
   },
 
   {
     "tpope/vim-repeat",
+    lazy = false,
+  },
+  -- folding
+  {
+    "kevinhwang91/nvim-ufo",
+    lazy = false,
+    dependencies = {
+      "kevinhwang91/promise-async",
+    },
+    config = function()
+      require("plugins.configs.ufo")
+    end,
+  },
+  -- highlights characters to navigate
+  {
+    "unblevable/quick-scope",
+    lazy = false,
+    init = function()
+      -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
+      vim.cmd([[ source ~/.config/nvim/configs/quickscope.vim ]])
+    end,
   },
 
   -- lsp stuff
@@ -313,6 +346,7 @@ local default_plugins = {
   -- use "andweeb/presence.nvim"
   {
     "christoomey/vim-tmux-navigator",
+    lazy = false,
   },
 
   -- key mapping
