@@ -12,11 +12,12 @@ M.ui = {
   changed_themes = {},
   theme_toggle = { "onedark", "one_light" },
   theme = "ayu_dark", -- default theme
-  -- options.theme = "rxyhn"
-  -- options.theme = "radium"
-  -- options.theme = "gruvbox"
-  -- options.theme = "yoru"
-  -- options.theme = "ayu_dark"
+  -- theme = "rxyhn",
+  -- theme = "radium",
+  -- theme = "gruvbox",
+  -- theme = "yoru",
+  -- theme = "ashes",
+  -- theme = "wombat",
   transparency = false,
   lsp_semantic_tokens = false, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens
 

@@ -27,7 +27,7 @@ end
 
 local function fold_virt_text_handler(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
-  local suffix = ("  %d ~ "):format(endLnum - lnum)
+  local suffix = (" 󰁂 %d ~ "):format(endLnum - lnum)
   local sufWidth = vim.fn.strdisplaywidth(suffix)
   local targetWidth = width - sufWidth
   local curWidth = 0
@@ -58,7 +58,7 @@ ufo.setup {
   close_fold_kinds = { "imports", "comment" },
   preview = {
     win_config = {
-      border = { "", "─", "", "", "", "─", "", "" },
+      border = { "", "", "", "", "", "", "", "" },
       winhighlight = "Normal:Folded",
       winblend = 0,
     },
@@ -73,7 +73,14 @@ ufo.setup {
   fold_virt_text_handler = fold_virt_text_handler,
 }
 
-vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+vim.keymap.set("n", "zR", ufo.openAllFolds)
+vim.keymap.set("n", "zM", ufo.closeAllFolds)
+vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
+vim.keymap.set("n", "zm", ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+vim.keymap.set("n", "K", function()
+  local winid = ufo.peekFoldedLinesUnderCursor()
+  if not winid then
+    vim.lsp.buf.hover()
+    -- vim.cmd([[ Lspsaga hover_doc ]])
+  end
+end)

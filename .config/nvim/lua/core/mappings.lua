@@ -202,13 +202,14 @@ M.lspconfig = {
       end,
       "lsp definition",
     },
-
-    ["K"] = {
-      function()
-        vim.lsp.buf.hover()
-      end,
-      "lsp hover",
-    },
+    
+    -- just disabled because of already setup for nvim.UFO
+    -- ["K"] = {
+    --   function()
+    --     vim.lsp.buf.hover()
+    --   end,
+    --   "lsp hover",
+    -- },
 
     ["L"] = {
       function()

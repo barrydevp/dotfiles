@@ -6,6 +6,13 @@ M.load_config = function()
   return config
 end
 
+M.reload_theme = function()
+  local config = require("core.default_config")
+  vim.g.base46_theme = config.ui.theme
+  require("base46").load_all_highlights()
+  vim.api.nvim_exec_autocmds("User", { pattern = "ThemeReload" })
+end
+
 M.remove_disabled_keys = function(chadrc_mappings, default_mappings)
   if not chadrc_mappings then
     return default_mappings

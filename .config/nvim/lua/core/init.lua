@@ -58,6 +58,6 @@ require("core.options")
 -------------------------------------- commands ------------------------------------------
 local new_cmd = vim.api.nvim_create_user_command
 
-new_cmd("ChangeTheme", function(opts)
-  require("utils.init").reload_theme(opts.args)
+new_cmd("ReloadTheme", function()
+  require("core.utils").reload_theme()
 end, {})
