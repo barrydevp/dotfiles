@@ -27,7 +27,7 @@ M.lazy = function(install_path)
   require "plugins"
 
   -- mason packages & show post_boostrap screen
-  require "nvchad.post_bootstrap"()
+  -- require "nvchad.post_bootstrap"()
 end
 
 return M
