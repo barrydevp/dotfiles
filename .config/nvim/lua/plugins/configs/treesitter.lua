@@ -4,6 +4,7 @@ local default = {
   ensure_installed = {
     "lua",
     "vim",
+    "markdown",
     "javascript",
     "typescript",
     "tsx",

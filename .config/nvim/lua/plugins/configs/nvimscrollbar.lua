@@ -5,35 +5,36 @@ if not present then
 end
 
 scrollbar.setup {
+  hide_if_all_visible = true, -- Hides everything if all lines are visible
   handle = {
-    text = "  ",
+    text = " ",
     highlight = "ScrollBarHandle",
   },
   marks = {
     Cursor = {
-      text = "••",
-      priority = 0,
-      color = nil,
-      cterm = nil,
+      text = "•",
+      -- priority = 0,
+      -- color = nil,
+      -- cterm = nil,
       highlight = "ScrollBarCursor",
     },
     Search = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     Error = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     Warn = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     Info = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     Hint = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     Misc = {
-      text = { "--", "==" },
+      text = { "-", "=" },
     },
     -- Search = { color = colors.orange },
     -- Error = { color = colors.error },
