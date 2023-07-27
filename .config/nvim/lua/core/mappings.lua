@@ -34,10 +34,10 @@ M.general = {
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
 
     -- switch between windows
-    ["<C-h>"] = { "<C-w>h", "window left" },
-    ["<C-l>"] = { "<C-w>l", "window right" },
-    ["<C-j>"] = { "<C-w>j", "window down" },
-    ["<C-k>"] = { "<C-w>k", "window up" },
+    -- ["<C-h>"] = { "<C-w>h", "window left" },
+    -- ["<C-l>"] = { "<C-w>l", "window right" },
+    -- ["<C-j>"] = { "<C-w>j", "window down" },
+    -- ["<C-k>"] = { "<C-w>k", "window up" },
     -- resize windows
     ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
     ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
