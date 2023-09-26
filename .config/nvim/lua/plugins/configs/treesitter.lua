@@ -27,7 +27,18 @@ local default = {
   highlight = {
     enable = true,
     use_languagetree = true,
-    disable = { "comment", "jsdoc" },
+    -- disable = { "comment", "jsdoc" },
+    disable = function(lang, bufnr) -- Disable in large C++ buffers
+      local disable = { "comment", "jsdoc" }
+      for _, parser in pairs(disable) do
+        if lang == parser then
+          return true
+        end
+      end
+
+      -- return lang == "json" and vim.api.nvim_buf_line_count(bufnr) > 20000
+      return false
+    end,
   },
   indent = {
     enable = true,

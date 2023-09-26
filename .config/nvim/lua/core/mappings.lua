@@ -613,6 +613,13 @@ M.gitsigns = {
       "Preview hunk",
     },
 
+    ["H"] = {
+      function()
+        require("gitsigns").preview_hunk()
+      end,
+      "Preview hunk",
+    },
+
     ["<leader>hd"] = {
       function()
         require("gitsigns").diffthis("~")
