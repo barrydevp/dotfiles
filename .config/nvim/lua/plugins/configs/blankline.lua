@@ -5,10 +5,10 @@ if not present then
 end
 
 vim.cmd([[
-        if &diff
-            let g:indent_blankline_enabled = v:false
-        endif
-    ]])
+  if &diff
+    let g:indent_blankline_enabled = v:false
+  endif
+]])
 
 vim.cmd([[highlight IndentBlanklineIndent1 guifg=#E06C75 gui=nocombine]])
 vim.cmd([[highlight IndentBlanklineIndent2 guifg=#E5C07B gui=nocombine]])

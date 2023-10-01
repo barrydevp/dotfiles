@@ -49,12 +49,10 @@ local default_plugins = {
   -- indent decorator
   {
     "lukas-reineke/indent-blankline.nvim",
+    version = "2.20.7",
     init = function()
       require("core.utils").lazy_load("indent-blankline.nvim")
       require("core.utils").load_mappings("blankline")
-    end,
-    opts = function()
-      return require("plugins.configs.others").blankline
     end,
     config = function()
       dofile(vim.g.base46_cache .. "blankline")
