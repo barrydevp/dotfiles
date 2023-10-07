@@ -122,11 +122,11 @@ local default_plugins = {
     end,
   },
 
+  {
+    "tpope/vim-fugitive",
+    -- cmd = "Git",
+  },
   -- we dont need these because gitsigns.nvim implement all of them
-  -- {
-  --   "tpope/vim-fugitive",
-  --   cmd = "Git",
-  -- },
   -- {
   --   "junegunn/gv.vim",
   --   dependencies = "tpope/vim-fugitive",
