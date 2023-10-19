@@ -39,10 +39,10 @@ M.general = {
     -- ["<C-j>"] = { "<C-w>j", "window down" },
     -- ["<C-k>"] = { "<C-w>k", "window up" },
     -- resize windows
-    ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
-    ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
-    ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
-    ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
+    -- ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
+    -- ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
+    -- ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
+    -- ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
     -- better split
     -- ['<leader>h']= {':ls<cr> :vertical sb '},
     ["<leader>-"] = { ":vsplit<CR>", "v-split" },
@@ -415,21 +415,21 @@ M.nvterm = {
 
   t = {
     -- toggle in terminal mode
-    ["<A-i>"] = {
+    ["<M-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<M-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
       "Toggle horizontal term",
     },
 
-    ["<A-v>"] = {
+    ["<M-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -439,21 +439,21 @@ M.nvterm = {
 
   n = {
     -- toggle in normal mode
-    ["<A-i>"] = {
+    ["<M-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<M-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
       "Toggle horizontal term",
     },
 
-    ["<A-v>"] = {
+    ["<M-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
