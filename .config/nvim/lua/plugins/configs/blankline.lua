@@ -1,9 +1,3 @@
-local present, blankline = pcall(require, "indent_blankline")
-
-if not present then
-  return
-end
-
 vim.cmd([[
   if &diff
     let g:indent_blankline_enabled = v:false
@@ -74,6 +68,4 @@ local options = {
   show_current_context_start = true,
 }
 
-blankline.setup(options)
--- load mapping
-require("core.utils").load_mappings("blankline")
+return options

@@ -65,15 +65,10 @@ local options = {
   hijack_netrw = true,
   hijack_cursor = true,
   hijack_unnamed_buffer_when_opening = false,
-  update_cwd = true,
+  sync_root_with_cwd = true,
   update_focused_file = {
     enable = true,
-  },
-  git = {
-    enable = true,
-    ignore = true,
-    show_on_dirs = true,
-    timeout = 400,
+    update_root = false,
   },
   filters = {
     custom = {
@@ -82,18 +77,19 @@ local options = {
     dotfiles = false,
   },
   view = {
-    adaptive_size = true,
+    adaptive_size = false,
     side = "left",
-    width = 32,
+    width = 30,
+    preserve_window_proportions = true,
   },
-  diagnostics = {
-    enable = false,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
+  git = {
+    enable = true,
+    ignore = true,
+    show_on_dirs = true,
+    timeout = 400,
+  },
+  filesystem_watchers = {
+    enable = true,
   },
   actions = {
     open_file = {
@@ -101,8 +97,9 @@ local options = {
     },
   },
   renderer = {
-    -- highlight_git = false,
-    -- highlight_opened_files = "none",
+    root_folder_label = false,
+    highlight_git = false,
+    highlight_opened_files = "none",
 
     indent_markers = {
       enable = false,

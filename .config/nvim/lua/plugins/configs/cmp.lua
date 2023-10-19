@@ -1,10 +1,33 @@
-local present, cmp = pcall(require, "cmp")
+local cmp = require("cmp")
 
-if not present then
-  return
-end
+local cmp_ui = require("core.utils").load_config().ui.cmp
+local cmp_style = cmp_ui.style
 
-vim.opt.completeopt = "menu,menuone,noselect"
+local field_arrangement = {
+  atom = { "kind", "abbr", "menu" },
+  atom_colored = { "kind", "abbr", "menu" },
+}
+
+local formatting_style = {
+  -- default fields order i.e completion word + item.kind + item.kind icons
+  fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
+
+  format = function(_, item)
+    local icons = require("nvchad.icons.lspkind")
+    local icon = (cmp_ui.icons and icons[item.kind]) or ""
+
+    if cmp_style == "atom" or cmp_style == "atom_colored" then
+      icon = " " .. icon .. " "
+      item.menu = cmp_ui.lspkind_text and "   (" .. item.kind .. ")" or ""
+      item.kind = icon
+    else
+      icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
+      item.kind = string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
+    end
+
+    return item
+  end,
+}
 
 local function border(hl_name)
   return {
@@ -19,23 +42,20 @@ local function border(hl_name)
   }
 end
 
-local cmp_window = require("cmp.utils.window")
-
-cmp_window.info_ = cmp_window.info
-cmp_window.info = function(self)
-  local info = self:info_()
-  info.scrollable = false
-  return info
-end
-
 local options = {
+  completion = {
+    completeopt = "menu,menuone",
+  },
+
   window = {
     completion = {
-      border = border("CmpBorder"),
-      winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+      side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
+      winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+      scrollbar = false,
     },
     documentation = {
       border = border("CmpDocBorder"),
+      winhighlight = "Normal:CmpDoc",
     },
   },
   snippet = {
@@ -43,24 +63,19 @@ local options = {
       require("luasnip").lsp_expand(args.body)
     end,
   },
-  formatting = {
-    format = function(_, vim_item)
-      -- local icons = require("plugins.configs.kindicons").lspkind
-      local icons = require("nvchad_ui.icons").lspkind
-      vim_item.kind = string.format("%s %s", icons[vim_item.kind], vim_item.kind)
-      return vim_item
-    end,
-  },
-  mapping = cmp.mapping.preset.insert {
+
+  formatting = formatting_style,
+
+  mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
     },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -87,19 +102,21 @@ local options = {
       "s",
     }),
   },
-  sources = cmp.config.sources({
-    { name = "luasnip" },
+  sources = {
     { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "buffer" },
     { name = "nvim_lua" },
     { name = "path" },
-  }, {
-    { name = "buffer" },
-  }),
+  },
   experimental = {
     -- ghost_text = {hl_group = 'NameOfHighlightGroup'},
     ghost_text = true,
   },
 }
 
--- check for any override
-cmp.setup(options)
+if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then
+  options.window.completion.border = border("CmpBorder")
+end
+
+return options

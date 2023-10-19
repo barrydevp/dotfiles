@@ -110,14 +110,14 @@ M.tabufline = {
     -- cycle through buffers
     ["<C-t>"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflineNext()
+        require("nvchad.tabufline").tabuflineNext()
       end,
       "goto next buffer",
     },
 
     ["T"] = {
       function()
-        require("nvchad_ui.tabufline").tabuflinePrev()
+        require("nvchad.tabufline").tabuflinePrev()
       end,
       "goto prev buffer",
     },
@@ -128,37 +128,9 @@ M.tabufline = {
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
       function()
-        require("nvchad_ui.tabufline").close_buffer()
+        require("nvchad.tabufline").close_buffer()
       end,
       "close buffer",
-    },
-  },
-}
-
-M.bufferline = {
-  plugin = true,
-
-  n = {
-    -- map("n", m.close_buffer, ":bdelete<CR>")
-    -- map("n", "<leader>x", ":lua require('bufdelete').bufdelete(0, true)<CR>")
-    -- close  buffer
-    ["<leader>x"] = {
-      function()
-        require("nvchad_ui.tabufline").close_buffer()
-      end,
-      "close buffer",
-    },
-    ["<C-t>"] = {
-      function()
-        require("nvchad_ui.tabufline").tabuflineNext()
-      end,
-      "Goto next buffer",
-    },
-    ["T"] = {
-      function()
-        require("nvchad_ui.tabufline").tabuflinePrev()
-      end,
-      "Goto prev buffer",
     },
   },
 }
@@ -202,8 +174,8 @@ M.lspconfig = {
       end,
       "lsp definition",
     },
-    
-    -- just disabled because of already setup for nvim.UFO
+
+    -- disabled because of already setup for nvim.UFO
     -- ["K"] = {
     --   function()
     --     vim.lsp.buf.hover()
@@ -213,9 +185,9 @@ M.lspconfig = {
 
     ["L"] = {
       function()
-        vim.diagnostic.open_float()
+        vim.diagnostic.open_float { border = "rounded" }
       end,
-      "lsp hover",
+      "lsp diagnostic hover",
     },
 
     ["gk"] = {
@@ -237,6 +209,13 @@ M.lspconfig = {
       "lsp implementation",
     },
 
+    ["gr"] = {
+      function()
+        vim.lsp.buf.references()
+      end,
+      "lsp references",
+    },
+
     ["<leader>lS"] = {
       function()
         vim.lsp.buf.signature_help()
@@ -244,7 +223,8 @@ M.lspconfig = {
       "lsp signature_help",
     },
 
-    ["<leader>D"] = {
+    -- ["<leader>D"] = {
+    ["gt"] = {
       function()
         vim.lsp.buf.type_definition()
       end,
@@ -253,14 +233,15 @@ M.lspconfig = {
 
     ["<leader>ra"] = {
       function()
-        require("nvchad_ui.renamer").open()
+        require("nvchad.renamer").open()
       end,
       "lsp rename",
     },
 
     ["<leader>lr"] = {
       function()
-        vim.lsp.buf.rename()
+        require("nvchad.renamer").open()
+        -- vim.lsp.buf.rename()
       end,
       "lsp rename",
     },
@@ -277,13 +258,6 @@ M.lspconfig = {
         vim.lsp.buf.code_action()
       end,
       "lsp code_action",
-    },
-
-    ["gr"] = {
-      function()
-        vim.lsp.buf.references()
-      end,
-      "lsp references",
     },
 
     ["<leader>lo"] = {
@@ -396,7 +370,6 @@ M.nvimtree = {
     -- ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
 
     -- focus
-    -- ["<leader>e"] = { "<cmd> NvimTreeFocus <CR>", "focus nvimtree" },
     ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
   },
 }
@@ -420,6 +393,7 @@ M.telescope = {
     ["<leader>fR"] = { "<cmd> Telescope registers <CR>", "find registers" },
     ["<leader>fs"] = { "<cmd> Telescope resume <CR>", "resume last search" },
     ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
+    ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
 
     -- lsp
     ["<leader>fi"] = { "<cmd>Telescope lsp_implementations<cr>", "search lsp implementation" },
@@ -445,21 +419,21 @@ M.nvterm = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "toggle floating term",
+      "Toggle floating term",
     },
 
     ["<A-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "toggle horizontal term",
+      "Toggle horizontal term",
     },
 
     ["<A-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "toggle vertical term",
+      "Toggle vertical term",
     },
   },
 
@@ -469,37 +443,36 @@ M.nvterm = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "toggle floating term",
+      "Toggle floating term",
     },
 
     ["<A-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "toggle horizontal term",
+      "Toggle horizontal term",
     },
 
     ["<A-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "toggle vertical term",
+      "Toggle vertical term",
     },
 
     -- new
-
     ["<leader>h"] = {
       function()
         require("nvterm.terminal").new("horizontal")
       end,
-      "new horizontal term",
+      "New horizontal term",
     },
 
     ["<leader>v"] = {
       function()
         require("nvterm.terminal").new("vertical")
       end,
-      "new vertical term",
+      "New vertical term",
     },
   },
 }
@@ -550,11 +523,6 @@ M.gitsigns = {
   plugin = true,
 
   n = {
-    ["gv"] = {
-      "<cmd>GV<CR>",
-      "commit all",
-    },
-
     -- Navigation through hunks
     ["]c"] = {
       function()

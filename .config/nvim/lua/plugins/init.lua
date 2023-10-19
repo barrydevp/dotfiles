@@ -14,13 +14,16 @@ local default_plugins = {
     "barrydevp/ui.nvim",
     branch = "v2.0",
     lazy = false,
-    init = function()
-      require("core.utils").load_mappings("tabufline")
-    end,
-    config = function()
-      dofile(vim.g.base46_cache .. "tbline")
+  },
 
-      require("nvchad_ui")
+  {
+    "NvChad/nvterm",
+    init = function()
+      require("core.utils").load_mappings("nvterm")
+    end,
+    config = function(_, opts)
+      require("base46.term")
+      require("nvterm").setup(opts)
     end,
   },
 
@@ -28,11 +31,11 @@ local default_plugins = {
   {
     "nvim-tree/nvim-web-devicons",
     opts = function()
-      return { override = require("nvchad_ui.icons").devicons }
+      return { override = require("nvchad.icons.devicons") }
     end,
-    config = function()
+    config = function(_, opts)
       dofile(vim.g.base46_cache .. "devicons")
-      require("plugins.configs.webdevicons")
+      require("nvim-web-devicons").setup(opts)
     end,
   },
 
@@ -41,8 +44,13 @@ local default_plugins = {
     init = function()
       require("core.utils").lazy_load("nvim-colorizer.lua")
     end,
-    config = function()
-      require("plugins.configs.colorizer")
+    config = function(_, opts)
+      require("colorizer").setup(opts)
+
+      -- execute colorizer as soon as possible
+      vim.defer_fn(function()
+        require("colorizer").attach_to_buffer(0)
+      end, 0)
     end,
   },
 
@@ -52,11 +60,15 @@ local default_plugins = {
     version = "2.20.7",
     init = function()
       require("core.utils").lazy_load("indent-blankline.nvim")
-      require("core.utils").load_mappings("blankline")
     end,
-    config = function()
+    opts = function()
+      return require("plugins.configs.others").blankline
+    end,
+    config = function(_, opts)
       dofile(vim.g.base46_cache .. "blankline")
-      require("plugins.configs.blankline")
+
+      require("core.utils").load_mappings("blankline")
+      require("indent_blankline").setup(opts)
     end,
   },
 
@@ -70,6 +82,7 @@ local default_plugins = {
     build = ":TSUpdate",
     config = function()
       dofile(vim.g.base46_cache .. "syntax")
+
       require("plugins.configs.treesitter")
     end,
   },
@@ -101,7 +114,9 @@ local default_plugins = {
   {
     "lewis6991/gitsigns.nvim",
     ft = { "gitcommit", "diff" },
-    dependencies = "tpope/vim-fugitive",
+    dependencies = {
+      "tpope/vim-fugitive",
+    },
     init = function()
       -- load gitsigns only when a git file is opened
       vim.api.nvim_create_autocmd({ "BufRead" }, {
@@ -123,22 +138,13 @@ local default_plugins = {
     end,
   },
 
-  {
-    "tpope/vim-fugitive",
-    -- cmd = "Git",
-  },
-  -- we dont need these because gitsigns.nvim implement all of them
-  -- {
-  --   "junegunn/gv.vim",
-  --   dependencies = "tpope/vim-fugitive",
-  -- },
-
   -- scrollbar TODO
   {
     "petertriho/nvim-scrollbar",
     lazy = false,
     config = function()
       dofile(vim.g.base46_cache .. "scrollbar")
+
       require("plugins.configs.nvimscrollbar")
     end,
   },
@@ -146,29 +152,28 @@ local default_plugins = {
   -- fuzzy file finding
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = "nvim-treesitter/nvim-treesitter",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     cmd = "Telescope",
     init = function()
       require("core.utils").load_mappings("telescope")
     end,
     config = function()
       dofile(vim.g.base46_cache .. "telescope")
+
       require("plugins.configs.telescope")
     end,
   },
 
   -- file managing , picker etc
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    dependencies = {
-      "telescope.nvim",
-    },
     init = function()
       require("core.utils").load_mappings("nvimtree")
     end,
-    config = function()
+    config = function(_, opts)
       dofile(vim.g.base46_cache .. "nvimtree")
+
       require("plugins.configs.nvimtree")
     end,
   },
@@ -245,28 +250,17 @@ local default_plugins = {
     "jose-elias-alvarez/null-ls.nvim",
   },
 
-  -- TODO
-  -- use {
-  --   "RishabhRD/nvim-lspcore.utils",
-  --   requires = { "RishabhRD/popfix" },
-  -- }
-
   {
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
     },
-    -- wants = {
-    --   "nvim-cmp",
-    --   "null-ls.nvim",
-    --   "nvim-lspcore.utils",
-    --   "typescript.nvim",
-    -- },
     init = function()
       require("core.utils").lazy_load("nvim-lspconfig")
     end,
     config = function()
       dofile(vim.g.base46_cache .. "lsp")
+
       require("plugins.lsp")
     end,
   },
@@ -314,16 +308,25 @@ local default_plugins = {
         -- snippet plugin
         "L3MON4D3/LuaSnip",
         dependencies = "rafamadriz/friendly-snippets",
-        config = function()
-          require("plugins.configs.nvimluasnip")
+        opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+        config = function(_, opts)
+          require("plugins.configs.others").luasnip(opts)
         end,
       },
 
       -- autopairing of (){}[] etc
       {
         "windwp/nvim-autopairs",
-        config = function()
-          require("plugins.configs.autopairs")
+        opts = {
+          fast_wrap = {},
+          disable_filetype = { "TelescopePrompt", "vim" },
+        },
+        config = function(_, opts)
+          require("nvim-autopairs").setup(opts)
+
+          -- setup cmp for autopairs
+          local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+          require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
         end,
       },
 
@@ -336,8 +339,13 @@ local default_plugins = {
         "hrsh7th/cmp-path",
       },
     },
-    config = function()
-      require("plugins.configs.cmp")
+    opts = function()
+      return require("plugins.configs.cmp")
+    end,
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. "cmp")
+
+      require("cmp").setup(opts)
     end,
   },
 

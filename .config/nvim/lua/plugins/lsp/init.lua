@@ -1,9 +1,7 @@
-local lspconfig = require("lspconfig")
-
 local core = require("plugins.lsp.core")
 
 -- load UI
-core.ui()
+require "nvchad.lsp"
 
 -- attach handlers
 -- core.handlers()

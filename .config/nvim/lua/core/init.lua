@@ -1,36 +1,5 @@
--- -- disable some builtin vim plugins
--- local default_plugins = {
---   "2html_plugin",
---   "getscript",
---   "getscriptPlugin",
---   "gzip",
---   "logipat",
---   "netrw",
---   "netrwPlugin",
---   "netrwSettings",
---   "netrwFileHandlers",
---   "matchit",
---   "tar",
---   "tarPlugin",
---   "rrhelper",
---   "spellfile_plugin",
---   "vimball",
---   "vimballPlugin",
---   "zip",
---   "zipPlugin",
---   "tutor",
---   "rplugin",
---   "syntax",
---   "synmenu",
---   "optwin",
---   "compiler",
---   "bugreport",
---   "ftplugin",
--- }
---
--- for _, plugin in pairs(default_plugins) do
---   g["loaded_" .. plugin] = 1
--- end
+-------------------------------------- options ------------------------------------------
+require("core.options")
 
 -- disable some default providers
 for _, provider in ipairs { "node", "perl", "python3", "ruby" } do
@@ -52,12 +21,13 @@ autocmd("FileType", {
   end,
 })
 
-require("core.options")
 -- require("core.indents")
 
 -------------------------------------- commands ------------------------------------------
 local new_cmd = vim.api.nvim_create_user_command
 
 new_cmd("ReloadTheme", function()
-  require("core.utils").reload_theme()
+  -- vim.g.base46_theme = name
+  require("base46").load_all_highlights()
+  vim.api.nvim_exec_autocmds("User", { pattern = "ThemeReload" })
 end, {})
