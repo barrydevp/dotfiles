@@ -1,5 +1,6 @@
 dotfiles
 .config/nvim/plugin
+.config/nvim/lazy-lock.json
 .zshrc
 .config/zsh/_pri_env.zsh
 .config/zsh/local.zsh
