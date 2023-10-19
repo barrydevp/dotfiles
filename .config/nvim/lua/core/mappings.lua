@@ -39,10 +39,10 @@ M.general = {
     -- ["<C-j>"] = { "<C-w>j", "window down" },
     -- ["<C-k>"] = { "<C-w>k", "window up" },
     -- resize windows
-    -- ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
-    -- ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
-    -- ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
-    -- ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
+    ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
+    ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
+    ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
+    ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
     -- better split
     -- ['<leader>h']= {':ls<cr> :vertical sb '},
     ["<leader>-"] = { ":vsplit<CR>", "v-split" },
