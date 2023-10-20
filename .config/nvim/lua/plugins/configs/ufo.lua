@@ -67,9 +67,16 @@ ufo.setup {
       scrollD = "<C-d>",
     },
   },
-  provider_selector = function(bufnr, filetype, buftype)
-    return ftMap[filetype] or provider_selector
+  init = function()
+    vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+    vim.o.foldcolumn = "1" -- '0' is not bad
+    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
   end,
+  -- provider_selector = function(bufnr, filetype, buftype)
+  --   return ftMap[filetype] or provider_selector
+  -- end,
   fold_virt_text_handler = fold_virt_text_handler,
 }
 
