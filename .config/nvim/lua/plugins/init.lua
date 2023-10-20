@@ -157,10 +157,19 @@ local default_plugins = {
     init = function()
       require("core.utils").load_mappings("telescope")
     end,
-    config = function()
+    opts = function()
+      return require("plugins.configs.telescope")
+    end,
+    config = function(_, opts)
       dofile(vim.g.base46_cache .. "telescope")
 
-      require("plugins.configs.telescope")
+      local telescope = require("telescope")
+      telescope.setup(opts)
+
+      -- load extensions
+      for _, ext in ipairs(opts.extensions_list) do
+        telescope.load_extension(ext)
+      end
     end,
   },
 
@@ -171,10 +180,13 @@ local default_plugins = {
     init = function()
       require("core.utils").load_mappings("nvimtree")
     end,
+    opts = function()
+      return require("plugins.configs.nvimtree")
+    end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "nvimtree")
 
-      require("plugins.configs.nvimtree")
+      require("nvim-tree").setup(opts)
     end,
   },
 
@@ -190,8 +202,8 @@ local default_plugins = {
     init = function()
       require("core.utils").load_mappings("comment")
     end,
-    config = function()
-      require("plugins.configs.comment")
+    config = function(_, opts)
+      require("Comment").setup(opts)
     end,
   },
 
@@ -264,22 +276,6 @@ local default_plugins = {
       require("plugins.lsp")
     end,
   },
-
-  -- use {
-  --   "ray-x/lsp_signature.nvim",
-  --   after = "nvim-lspconfig",
-  --   config = function()
-  --     require("plugins.configs.lspsignature")
-  --   end,
-  -- }
-
-  -- use {
-  --   "folke/trouble.nvim",
-  --   requires = "kyazdani42/nvim-web-devicons",
-  --   config = function()
-  --     require("plugins.configs.trouble")
-  --   end,
-  -- }
 
   {
     "rcarriga/nvim-dap-ui",
@@ -360,15 +356,17 @@ local default_plugins = {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    keys = { "<leader>", '"', "'", "`", "c", "v" },
+    keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     init = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
       require("core.utils").load_mappings("whichkey")
     end,
-    config = function()
+    cmd = "WhichKey",
+    config = function(_, opts)
       dofile(vim.g.base46_cache .. "whichkey")
-      require("plugins.configs.whichkey")
+
+      require("which-key").setup(opts)
     end,
   },
 }

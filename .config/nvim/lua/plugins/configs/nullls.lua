@@ -1,9 +1,4 @@
-local ok, null_ls = pcall(require, "null-ls")
-
-if not ok then
-  return
-end
-
+local null_ls = require("null-ls")
 local lsp_core = require("plugins.lsp.core")
 
 local builtins = null_ls.builtins
@@ -28,6 +23,6 @@ local sources = {
 
 null_ls.setup {
   sources = sources,
-  on_attach = lsp_core.on_attach,
+  -- on_attach = lsp_core.on_attach,
   debounce = 150,
 }

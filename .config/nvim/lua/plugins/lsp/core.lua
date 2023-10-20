@@ -19,8 +19,8 @@ M.lsp_formatting = function(bufnr)
     async = true,
     filter = function(client)
       -- apply whatever logic you want (in this example, we'll only use null-ls)
-      -- return client.name == "null-ls"
-      return client.name ~= "tsserver"
+      return client.name == "null-ls"
+      -- return client.name ~= "tsserver"
     end,
     bufnr = bufnr,
   }
