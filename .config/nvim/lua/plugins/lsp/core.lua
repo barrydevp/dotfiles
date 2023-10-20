@@ -15,14 +15,24 @@ M.handlers = function()
 end
 
 M.lsp_formatting = function(bufnr)
+  if bufnr == nil then
+    bufnr = vim.api.nvim_get_current_buf()
+  end
+  local null_ls_sources = require("null-ls.sources")
+  local ft = vim.bo[bufnr].filetype
+
+  local has_null_ls = #null_ls_sources.get_available(ft, "NULL_LS_FORMATTING") > 0
+
   vim.lsp.buf.format {
     async = true,
-    filter = function(client)
-      -- apply whatever logic you want (in this example, we'll only use null-ls)
-      return client.name == "null-ls"
-      -- return client.name ~= "tsserver"
-    end,
     bufnr = bufnr,
+    filter = function(client)
+      if has_null_ls then
+        return client.name == "null-ls"
+      else
+        return true
+      end
+    end,
   }
 end
 
@@ -34,8 +44,8 @@ M.nullls = function()
 end
 
 M.on_attach = function(client, bufnr)
-  client.server_capabilities.documentFormattingProvider = false
-  client.server_capabilities.documentRangeFormattingProvider = false
+  -- client.server_capabilities.documentFormattingProvider = false
+  -- client.server_capabilities.documentRangeFormattingProvider = false
 
   utils.load_mappings("lspconfig", { buffer = bufnr })
 

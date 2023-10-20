@@ -16,6 +16,7 @@ local sources = {
   builtins.formatting.shfmt,
   builtins.formatting.stylua,
   builtins.formatting.autopep8,
+  -- builtins.formatting.clang_format,
 
   -- Code actions
   builtins.code_actions.eslint_d,
