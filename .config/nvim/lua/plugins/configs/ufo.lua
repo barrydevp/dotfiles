@@ -6,25 +6,6 @@ local ftMap = {
   git = "",
 }
 
-local function provider_selector(bufnr)
-  local function handleFallbackException(err, providerName)
-    if type(err) == "string" and err:match("UfoFallbackException") then
-      return require("ufo").getFolds(providerName, bufnr)
-    else
-      return require("promise").reject(err)
-    end
-  end
-
-  return require("ufo")
-    .getFolds("lsp", bufnr)
-    :catch(function(err)
-      return handleFallbackException(err, "treesitter")
-    end)
-    :catch(function(err)
-      return handleFallbackException(err, "indent")
-    end)
-end
-
 local function fold_virt_text_handler(virtText, lnum, endLnum, width, truncate)
   local newVirtText = {}
   local suffix = (" 󰁂 %d ~ "):format(endLnum - lnum)
@@ -67,16 +48,9 @@ ufo.setup {
       scrollD = "<C-d>",
     },
   },
-  init = function()
-    vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-    vim.o.foldcolumn = "1" -- '0' is not bad
-    vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-    vim.o.foldlevelstart = 99
-    vim.o.foldenable = true
+  provider_selector = function(bufnr, filetype, buftype)
+    return ftMap[filetype] or "treesitter"
   end,
-  -- provider_selector = function(bufnr, filetype, buftype)
-  --   return ftMap[filetype] or provider_selector
-  -- end,
   fold_virt_text_handler = fold_virt_text_handler,
 }
 

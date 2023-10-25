@@ -57,6 +57,10 @@ M.general = {
     -- jumping
     ["[g"] = { "<C-o>", "go backward" },
     ["]g"] = { "<C-i>", "go forward" },
+    ["<C-d>"] = { "<C-d>zz" },
+    ["<C-u>"] = { "<C-u>zz" },
+    ["n"] = { "nzzzv" },
+    ["N"] = { "Nzzzv" },
 
     -- quicklist movement
     ["[q"] = { ":cprev<CR>", "quick list prev" },
