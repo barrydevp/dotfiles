@@ -431,6 +431,12 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
+    ["<Space>i"] = {
+      function()
+        require("nvterm.terminal").toggle("float")
+      end,
+      "Toggle floating term",
+    },
 
     ["<M-h>"] = {
       function()
@@ -438,8 +444,26 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
+    ["<Space>h"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
+    ["<Space>t"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
 
     ["<M-v>"] = {
+      function()
+        require("nvterm.terminal").toggle("vertical")
+      end,
+      "Toggle vertical term",
+    },
+    ["<Space>v"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -455,8 +479,26 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
+    ["<Space>i"] = {
+      function()
+        require("nvterm.terminal").toggle("float")
+      end,
+      "Toggle floating term",
+    },
 
     ["<M-h>"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
+    ["<Space>h"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
+    ["<Space>t"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -469,21 +511,27 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
+    ["<Space>v"] = {
+      function()
+        require("nvterm.terminal").toggle("vertical")
+      end,
+      "Toggle vertical term",
+    },
 
     -- new
-    ["<leader>h"] = {
-      function()
-        require("nvterm.terminal").new("horizontal")
-      end,
-      "New horizontal term",
-    },
-
-    ["<leader>v"] = {
-      function()
-        require("nvterm.terminal").new("vertical")
-      end,
-      "New vertical term",
-    },
+    -- ["<leader>h"] = {
+    --   function()
+    --     require("nvterm.terminal").new("horizontal")
+    --   end,
+    --   "New horizontal term",
+    -- },
+    --
+    -- ["<leader>v"] = {
+    --   function()
+    --     require("nvterm.terminal").new("vertical")
+    --   end,
+    --   "New vertical term",
+    -- },
   },
 }
 

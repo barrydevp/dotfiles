@@ -10,7 +10,7 @@ g.transparency = config.ui.transparency
 
 -- general
 opt.iskeyword:append("-") -- treat dash separated words as a word text object"
-g.mapleader = ","
+g.mapleader = " "
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
