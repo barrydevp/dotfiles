@@ -444,12 +444,12 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
-    ["<Space>h"] = {
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      "Toggle horizontal term",
-    },
+    -- ["<Space>h"] = {
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   "Toggle horizontal term",
+    -- },
     ["<Space>t"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
@@ -492,12 +492,12 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
-    ["<Space>h"] = {
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      "Toggle horizontal term",
-    },
+    -- ["<Space>h"] = {
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   "Toggle horizontal term",
+    -- },
     ["<Space>t"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
