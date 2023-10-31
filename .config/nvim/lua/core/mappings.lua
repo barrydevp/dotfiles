@@ -74,7 +74,13 @@ M.general = {
     ["<leader>b"] = { "<cmd> enew <CR>", "new buffer" },
   },
 
-  t = { ["<C-x>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" } },
+  t = {
+    ["<C-x>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" },
+    ["<C-h>"] = { termcodes("<C-\\><C-N><C-w>h"), "terminal window left" },
+    ["<C-l>"] = { termcodes("<C-\\><C-N><C-w>l"), "terminal window right" },
+    ["<C-j>"] = { termcodes("<C-\\><C-N><C-w>j"), "terminal window down" },
+    ["<C-k>"] = { termcodes("<C-\\><C-N><C-w>k"), "terminal window up" },
+  },
 
   v = {
     -- Don't copy the replaced text after pasting in visual mode
