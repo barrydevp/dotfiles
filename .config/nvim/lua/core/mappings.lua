@@ -431,7 +431,7 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
-    ["<Space>i"] = {
+    ["<C-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -444,13 +444,13 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
-    -- ["<Space>h"] = {
+    -- ["<leader>h"] = {
     --   function()
     --     require("nvterm.terminal").toggle("horizontal")
     --   end,
     --   "Toggle horizontal term",
     -- },
-    ["<Space>t"] = {
+    ["<C-t>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -463,7 +463,7 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
-    ["<Space>v"] = {
+    ["<C-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -479,7 +479,7 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
-    ["<Space>i"] = {
+    ["<leader>i"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -492,13 +492,13 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
-    -- ["<Space>h"] = {
+    -- ["<leader>h"] = {
     --   function()
     --     require("nvterm.terminal").toggle("horizontal")
     --   end,
     --   "Toggle horizontal term",
     -- },
-    ["<Space>t"] = {
+    ["<leader>t"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -511,7 +511,7 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
-    ["<Space>v"] = {
+    ["<leader>v"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
