@@ -343,13 +343,10 @@ local default_plugins = {
         "hrsh7th/cmp-path",
       },
     },
-    opts = function()
-      return require("plugins.configs.cmp")
-    end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "cmp")
 
-      require("cmp").setup(opts)
+      return require("plugins.configs.cmp")
     end,
   },
 

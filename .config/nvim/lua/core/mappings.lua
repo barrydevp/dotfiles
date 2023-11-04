@@ -31,9 +31,13 @@ M.general = {
   },
 
   n = {
+    -- Use control-c instead of escape
+    ["<C-c>"] = { "<Esc>", "Esc" },
+
+    -- Turn of search highlight
     ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
 
-    -- switch between windows
+    -- switch between windows, this has been overridden by vim-tmux
     -- ["<C-h>"] = { "<C-w>h", "window left" },
     -- ["<C-l>"] = { "<C-w>l", "window right" },
     -- ["<C-j>"] = { "<C-w>j", "window down" },
@@ -52,7 +56,7 @@ M.general = {
     ["<C-s>"] = { "<cmd> w <CR>", "save file" },
 
     -- Copy all
-    ["<C-c>"] = { "<cmd> %y+ <CR>", "copy whole file" },
+    -- ["<C-c>"] = { "<cmd> %y+ <CR>", "copy whole file" },
 
     -- jumping
     ["[g"] = { "<C-o>", "go backward" },
@@ -118,22 +122,19 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    ["<C-t>"] = {
+    ["<tab>"] = {
       function()
         require("nvchad.tabufline").tabuflineNext()
       end,
       "goto next buffer",
     },
 
-    ["T"] = {
+    ["<S-tab>"] = {
       function()
         require("nvchad.tabufline").tabuflinePrev()
       end,
       "goto prev buffer",
     },
-
-    -- pick buffers via numbers
-    ["<Bslash>"] = { "<cmd> TbufPick <CR>", "Pick buffer" },
 
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
