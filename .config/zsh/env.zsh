@@ -26,3 +26,5 @@ else
   export EDITOR='nvim'
 fi
 
+### Kubernetes
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
