@@ -363,8 +363,8 @@ local default_plugins = {
     event = "VeryLazy",
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
+      -- vim.o.timeout = true
+      -- vim.o.timeoutlen = 300
       require("core.utils").load_mappings("whichkey")
     end,
     cmd = "WhichKey",
