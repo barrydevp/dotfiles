@@ -28,6 +28,7 @@ M.general = {
     ["<C-l>"] = { "<Right>", "move right" },
     ["<C-j>"] = { "<Down>", "move down" },
     ["<C-k>"] = { "<Up>", "move up" },
+    
   },
 
   n = {
@@ -51,6 +52,9 @@ M.general = {
     -- ['<leader>h']= {':ls<cr> :vertical sb '},
     ["<leader>-"] = { ":vsplit<CR>", "v-split" },
     ["<leader>_"] = { ":split<CR>", "h-split" },
+
+    -- matching braces
+    ["<C-,>"] = { "%", "matching braces(%)" },
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "save file" },
@@ -80,6 +84,8 @@ M.general = {
 
   t = {
     ["<C-x>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" },
+    -- ["<esc><esc>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" },
+    ["<C-w>"] = { termcodes("<C-\\><C-N><C-w>"), "window command mode" },
     ["<C-h>"] = { termcodes("<C-\\><C-N><C-w>h"), "terminal window left" },
     ["<C-l>"] = { termcodes("<C-\\><C-N><C-w>l"), "terminal window right" },
     ["<C-j>"] = { termcodes("<C-\\><C-N><C-w>j"), "terminal window down" },
@@ -138,6 +144,12 @@ M.tabufline = {
 
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
+      function()
+        require("nvchad.tabufline").close_buffer()
+      end,
+      "close buffer",
+    },
+    ["<ctrl>q"] = {
       function()
         require("nvchad.tabufline").close_buffer()
       end,
@@ -397,13 +409,14 @@ M.telescope = {
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
     ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
+    ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
     ["<leader>fr"] = { "<cmd> Telescope oldfiles <CR>", "find recent files" },
     ["<leader>fR"] = { "<cmd> Telescope registers <CR>", "find registers" },
     ["<leader>fs"] = { "<cmd> Telescope resume <CR>", "resume last search" },
-    ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
+    ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
 
     -- lsp
@@ -432,7 +445,7 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
-    ["<C-i>"] = {
+    ["<C-t>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -451,12 +464,12 @@ M.nvterm = {
     --   end,
     --   "Toggle horizontal term",
     -- },
-    ["<C-t>"] = {
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      "Toggle horizontal term",
-    },
+    -- ["<C-t>"] = {
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   "Toggle horizontal term",
+    -- },
 
     ["<M-v>"] = {
       function()
@@ -480,7 +493,7 @@ M.nvterm = {
       end,
       "Toggle floating term",
     },
-    ["<leader>i"] = {
+    ["<C-t>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -499,12 +512,12 @@ M.nvterm = {
     --   end,
     --   "Toggle horizontal term",
     -- },
-    ["<leader>t"] = {
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      "Toggle horizontal term",
-    },
+    -- ["<leader>t"] = {
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   "Toggle horizontal term",
+    -- },
 
     ["<M-v>"] = {
       function()
