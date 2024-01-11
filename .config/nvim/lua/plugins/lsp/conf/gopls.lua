@@ -1,7 +1,7 @@
 local core = require("plugins.lsp.core")
 
 -- go
-require("lspconfig").gopls.setup({
+require("lspconfig").gopls.setup {
   on_attach = core.on_attach,
   capabilities = core.capabilities,
 
@@ -13,5 +13,4 @@ require("lspconfig").gopls.setup({
       },
     },
   },
-})
-
+}

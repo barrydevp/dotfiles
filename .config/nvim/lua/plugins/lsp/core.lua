@@ -3,36 +3,47 @@ local utils = require("core.utils")
 local M = {}
 -- export on_attach & capabilities for custom lspconfigs
 
-M.handlers = function()
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "single",
-  })
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = "single",
-    focusable = false,
-    relative = "cursor",
-  })
-end
+M.servers = {
+  "lua_ls",
+  "vls",
+  -- "ccls",
+  "clangd",
+  "html",
+  "cssls",
+  "tsserver",
+  "pyright",
+  "bashls",
+  "gopls",
+  "jdtls",
+  "rust_analyzer",
+}
 
 M.lsp_formatting = function(bufnr)
-  if bufnr == nil then
-    bufnr = vim.api.nvim_get_current_buf()
-  end
-  local null_ls_sources = require("null-ls.sources")
-  local ft = vim.bo[bufnr].filetype
+  -- if bufnr == nil then
+  --   bufnr = vim.api.nvim_get_current_buf()
+  -- end
+  -- local null_ls_sources = require("null-ls.sources")
+  -- local ft = vim.bo[bufnr].filetype
+  --
+  -- local has_null_ls = #null_ls_sources.get_available(ft, "NULL_LS_FORMATTING") > 0
+  --
+  -- vim.lsp.buf.format {
+  --   async = true,
+  --   bufnr = bufnr,
+  --   filter = function(client)
+  --     if has_null_ls then
+  --       return client.name == "null-ls"
+  --     else
+  --       return true
+  --     end
+  --   end,
+  -- }
 
-  local has_null_ls = #null_ls_sources.get_available(ft, "NULL_LS_FORMATTING") > 0
-
-  vim.lsp.buf.format {
+  local conform = require("conform")
+  conform.format {
+    lsp_fallback = true,
     async = true,
-    bufnr = bufnr,
-    filter = function(client)
-      if has_null_ls then
-        return client.name == "null-ls"
-      else
-        return true
-      end
-    end,
+    timeout_ms = 500,
   }
 end
 

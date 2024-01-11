@@ -28,7 +28,6 @@ M.general = {
     ["<C-l>"] = { "<Right>", "move right" },
     ["<C-j>"] = { "<Down>", "move down" },
     ["<C-k>"] = { "<Up>", "move up" },
-    
   },
 
   n = {
@@ -54,7 +53,7 @@ M.general = {
     ["<leader>_"] = { ":split<CR>", "h-split" },
 
     -- matching braces
-    ["<C-,>"] = { "%", "matching braces(%)" },
+    ["<C-,>"] = { "<cmd> Telescope find_files", "matching braces(%)" },
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "save file" },
@@ -149,7 +148,7 @@ M.tabufline = {
       end,
       "close buffer",
     },
-    ["<ctrl>q"] = {
+    ["<C-q>"] = {
       function()
         require("nvchad.tabufline").close_buffer()
       end,
