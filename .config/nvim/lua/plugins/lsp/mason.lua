@@ -190,6 +190,10 @@ for i = 0, #core.servers do
   table.insert(ensure_installed, server_maps[core.servers[i]])
 end
 
+for _, v in ipairs(core.linters) do
+  table.insert(ensure_installed, v)
+end
+
 local options = {
   ensure_installed = ensure_installed, -- not an option from mason.nvim
 

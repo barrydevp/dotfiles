@@ -18,6 +18,10 @@ M.servers = {
   "rust_analyzer",
 }
 
+M.linters = {
+  "eslint_d",
+}
+
 M.lsp_formatting = function(bufnr)
   -- if bufnr == nil then
   --   bufnr = vim.api.nvim_get_current_buf()
@@ -66,6 +70,10 @@ M.on_attach = function(client, bufnr)
 
   if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = nil
+  end
+
+  if client.server_capabilities.documentSymbolProvider then
+    require("nvim-navic").attach(client, bufnr)
   end
 end
 

@@ -18,7 +18,8 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
   },
 
-  i = {
+  -- insert and command mode
+  ic = {
     -- go to  beginning and end
     ["<C-a>"] = { "<ESC>^i", "beginning of line" },
     ["<C-e>"] = { "<End>", "end of line" },

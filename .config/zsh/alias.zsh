@@ -1,3 +1,8 @@
+### Shell ###
+alias \
+  c="clear" \
+  e="exit"
+
 ### K8s ###
 alias \
   k="kubectl" \
@@ -21,6 +26,7 @@ alias \
 
 ### Neovim ###
 alias \
+  n="nvim" \
   nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
 
 ### Webstorm ###

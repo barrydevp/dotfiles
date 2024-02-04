@@ -63,6 +63,7 @@ local modes_map = {
 
   -- multiple
   ["nv"] = { "n", "v" },
+  ["ic"] = { "i", "c" },
 }
 
 M.load_mappings = function(section, mapping_opt)

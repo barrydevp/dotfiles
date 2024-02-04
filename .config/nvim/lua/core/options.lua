@@ -17,7 +17,7 @@ opt.showmode = false
 
 -- opt.title = true
 opt.clipboard = "unnamedplus"
--- opt.cmdheight = 1
+opt.cmdheight = 1
 opt.cursorline = false
 
 -- Indenting

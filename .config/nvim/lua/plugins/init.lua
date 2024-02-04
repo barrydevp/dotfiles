@@ -193,6 +193,14 @@ local default_plugins = {
   -- comment
   {
     "numToStr/Comment.nvim",
+    dependencies = {
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        opts = {
+          enable_autocmd = false,
+        },
+      },
+    },
     keys = {
       { "gcc", mode = "n" },
       { "gc", mode = "v" },
@@ -201,6 +209,9 @@ local default_plugins = {
     },
     init = function()
       require("core.utils").load_mappings("comment")
+    end,
+    opts = function()
+      return require("plugins.configs.others").comment()
     end,
     config = function(_, opts)
       require("Comment").setup(opts)
@@ -384,6 +395,15 @@ local default_plugins = {
       dofile(vim.g.base46_cache .. "cmp")
 
       return require("plugins.configs.cmp")
+    end,
+  },
+
+  -- winbar for showing code context in status bar
+  {
+    "SmiteshP/nvim-navic",
+    lazy = true,
+    config = function()
+      require("plugins.configs.navic")
     end,
   },
 
