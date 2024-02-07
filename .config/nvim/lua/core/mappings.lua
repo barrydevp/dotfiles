@@ -51,6 +51,7 @@ M.general = {
     -- better split
     -- ['<leader>h']= {':ls<cr> :vertical sb '},
     ["<leader>-"] = { ":vsplit<CR>", "v-split" },
+    ["<leader>="] = { ":vsplit<CR>", "v-split" },
     ["<leader>_"] = { ":split<CR>", "h-split" },
 
     -- matching braces
@@ -239,13 +240,6 @@ M.lspconfig = {
       "lsp references",
     },
 
-    ["<leader>lS"] = {
-      function()
-        vim.lsp.buf.signature_help()
-      end,
-      "lsp signature_help",
-    },
-
     -- ["<leader>D"] = {
     ["gt"] = {
       function()
@@ -403,7 +397,9 @@ M.telescope = {
   n = {
     -- find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
+    ["<leader><leader>"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fF"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
+    ["<leader>fw"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
@@ -422,7 +418,7 @@ M.telescope = {
     -- lsp
     ["<leader>fi"] = { "<cmd>Telescope lsp_implementations<cr>", "search lsp implementation" },
     ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-    -- ["<leader>lS"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
+    ["<leader>lS"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
 
     -- git
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
