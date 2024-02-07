@@ -26,7 +26,7 @@ local default = {
   },
   highlight = {
     enable = true,
-    use_languagetree = true,
+    -- use_languagetree = true,
     -- disable = { "comment", "jsdoc" },
     disable = function(lang, bufnr) -- Disable in large C++ buffers
       local disable = { "comment", "jsdoc" }
@@ -43,6 +43,9 @@ local default = {
   indent = {
     enable = true,
   },
+  matchup = {
+    enable = true,
+  },
   textobjects = {
     select = {
       enable = true,
@@ -53,6 +56,8 @@ local default = {
         ["if"] = "@function.inner",
         ["ac"] = "@class.outer",
         ["ic"] = "@class.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
       },
     },
     move = {
@@ -60,23 +65,23 @@ local default = {
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
         ["]b"] = "@block.outer",
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
+        ["]f"] = "@function.outer",
+        ["]c"] = "@class.outer",
       },
       goto_next_end = {
         ["]B"] = "@block.outer",
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
+        ["]F"] = "@function.outer",
+        ["]C"] = "@class.outer",
       },
       goto_previous_start = {
         ["[b"] = "@block.outer",
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
+        ["[f"] = "@function.outer",
+        ["[c"] = "@class.outer",
       },
       goto_previous_end = {
         ["[B"] = "@block.outer",
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
+        ["[F"] = "@function.outer",
+        ["[C"] = "@class.outer",
       },
     },
   },

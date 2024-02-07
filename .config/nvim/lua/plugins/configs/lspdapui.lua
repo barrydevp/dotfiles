@@ -1,4 +1,7 @@
-require("dapui").setup {
+local dap = require("dap")
+local dapui = require("dapui")
+
+dapui.setup {
   icons = { expanded = "▾", collapsed = "▸" },
   mappings = {
     -- Use a table to apply multiple mappings
@@ -21,12 +24,12 @@ require("dapui").setup {
         { id = "stacks", size = 0.2 },
         { id = "watches", size = 0.2 },
       },
-      size = 56,
+      size = 30,
       position = "left", -- Can be "left", "right", "top", "bottom"
     },
     {
       elements = { "repl" },
-      size = 10,
+      size = 12,
       position = "bottom", -- Can be "left", "right", "top", "bottom"
     },
   },
@@ -39,3 +42,13 @@ require("dapui").setup {
   },
   windows = { indent = 1 },
 }
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open {}
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close {}
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close {}
+end

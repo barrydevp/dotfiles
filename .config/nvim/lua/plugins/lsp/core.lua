@@ -18,6 +18,10 @@ M.servers = {
   "rust_analyzer",
 }
 
+M.daps = {
+  "codelldb",
+}
+
 M.linters = {
   "eslint_d",
 }
@@ -27,6 +31,8 @@ M.formatters = {
   "prettierd",
   "isort",
   "shfmt",
+  "goimports",
+  "gofumpt",
 }
 
 M.lsp_formatting = function(bufnr)

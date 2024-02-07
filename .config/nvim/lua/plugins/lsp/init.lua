@@ -7,7 +7,7 @@ require("nvchad.lsp")
 local servers = core.servers
 
 for _, lang in ipairs(servers) do
-  local ok, _ = pcall(require, "plugins.lsp.conf." .. lang)
+  local ok, _ = pcall(require, "plugins.lsp.lang." .. lang)
   if not ok then
     core.setup_default(lang)
   end

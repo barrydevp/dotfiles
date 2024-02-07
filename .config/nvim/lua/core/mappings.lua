@@ -506,18 +506,18 @@ M.nvterm = {
       end,
       "Toggle horizontal term",
     },
-    -- ["<leader>h"] = {
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --   "Toggle horizontal term",
-    -- },
-    -- ["<leader>t"] = {
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --   "Toggle horizontal term",
-    -- },
+    ["<leader>th"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
+    ["<leader>tt"] = {
+      function()
+        require("nvterm.terminal").toggle("horizontal")
+      end,
+      "Toggle horizontal term",
+    },
 
     ["<M-v>"] = {
       function()
@@ -525,7 +525,7 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
-    ["<leader>v"] = {
+    ["<leader>tv"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -596,10 +596,10 @@ M.gitsigns = {
 
   n = {
     -- Navigation through hunks
-    ["]c"] = {
+    ["]h"] = {
       function()
         if vim.wo.diff then
-          return "]c"
+          return "]h"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
@@ -610,10 +610,10 @@ M.gitsigns = {
       opts = { expr = true },
     },
 
-    ["[c"] = {
+    ["[h"] = {
       function()
         if vim.wo.diff then
-          return "[c"
+          return "[h"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()
@@ -694,32 +694,132 @@ M.dap = {
   plugin = true,
 
   n = {
+    ["<leader>dB"] = {
+      function()
+        require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+      end,
+      desc = "Breakpoint Condition",
+    },
+    ["<leader>db"] = {
+      function()
+        require("dap").toggle_breakpoint()
+      end,
+      desc = "Toggle Breakpoint",
+    },
+    ["<leader>dc"] = {
+      function()
+        require("dap").continue()
+      end,
+      desc = "Continue",
+    },
+    -- [ "<leader>da"] = { function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
+    ["<leader>dC"] = {
+      function()
+        require("dap").run_to_cursor()
+      end,
+      desc = "Run to Cursor",
+    },
+    ["<leader>dg"] = {
+      function()
+        require("dap").goto_()
+      end,
+      desc = "Go to line (no execute)",
+    },
+    ["<leader>di"] = {
+      function()
+        require("dap").step_into()
+      end,
+      desc = "Step Into",
+    },
+    ["<leader>dj"] = {
+      function()
+        require("dap").down()
+      end,
+      desc = "Down",
+    },
+    ["<leader>dk"] = {
+      function()
+        require("dap").up()
+      end,
+      desc = "Up",
+    },
+    ["<leader>dl"] = {
+      function()
+        require("dap").run_last()
+      end,
+      desc = "Run Last",
+    },
+    ["<leader>do"] = {
+      function()
+        require("dap").step_out()
+      end,
+      desc = "Step Out",
+    },
+    ["<leader>dO"] = {
+      function()
+        require("dap").step_over()
+      end,
+      desc = "Step Over",
+    },
+    ["<leader>dp"] = {
+      function()
+        require("dap").pause()
+      end,
+      desc = "Pause",
+    },
+    ["<leader>dr"] = {
+      function()
+        require("dap").repl.toggle()
+      end,
+      desc = "Toggle REPL",
+    },
+    ["<leader>ds"] = {
+      function()
+        require("dap").session()
+      end,
+      desc = "Session",
+    },
     ["<leader>dt"] = {
-      "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
-      "Toggle Breakpoint",
+      function()
+        require("dap").terminate()
+      end,
+      desc = "Terminate",
     },
-    ["<leader>dd"] = {
-      "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
-      "Toggle Breakpoint",
+    ["<leader>dw"] = {
+      function()
+        require("dap.ui.widgets").hover()
+      end,
+      desc = "Widgets",
     },
-    ["<leader>db"] = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
-    ["<leader>ds"] = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-    ["<leader>dr"] = { "<cmd>lua require'dap'.continue()<cr>", "Rerun" },
-    ["<leader>dc"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    -- ["<leader>dn"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    ["<leader>dn"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    ["<leader>dp"] = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
-    ["<leader>dq"] = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
-    ["<leader>di"] = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
-    ["<leader>de"] = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over(End)" },
-    ["<leader>do"] = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
-    ["<leader>dC"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    ["<leader>dD"] = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-    ["<leader>dg"] = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-    ["<leader>dR"] = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-    ["<leader>du"] = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
-    ["<leader>dh"] = { "<cmd>lua require('dap.ui.widgets').hover()<cr>", "Hover" },
-    ["<leader>dk"] = { "<cmd>lua require('dap.ui.variables').hover()<cr>", "Hover" },
+    -- ["<leader>dt"] = {
+    --   "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+    --   "Toggle Breakpoint",
+    -- },
+    -- ["<leader>dd"] = {
+    --   "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+    --   "Toggle Breakpoint",
+    -- },
+    -- ["<leader>db"] = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+    -- ["<leader>ds"] = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
+    -- ["<leader>dr"] = { "<cmd>lua require'dap'.continue()<cr>", "Rerun" },
+    -- ["<leader>dc"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+    -- -- ["<leader>dn"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+    -- ["<leader>dn"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
+    -- ["<leader>dp"] = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+    -- ["<leader>dq"] = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+    -- ["<leader>di"] = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
+    -- ["<leader>de"] = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over(End)" },
+    -- ["<leader>do"] = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+    -- ["<leader>dC"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
+    -- ["<leader>dD"] = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+    -- ["<leader>dg"] = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+    -- ["<leader>dR"] = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
+    -- ["<leader>dh"] = { "<cmd>lua require('dap.ui.widgets').hover()<cr>", "Hover" },
+    -- ["<leader>dk"] = { "<cmd>lua require('dap.ui.variables').hover()<cr>", "Hover" },
+    ["<leader>du"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
+  },
+  nv = {
+    ["<leader>de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" },
   },
 }
 

@@ -21,6 +21,7 @@ require("conform").setup {
     graphql = { { "prettierd", "prettier" } },
     ["markdown.mdx"] = { { "prettierd", "prettier" } },
     sh = { "shfmt" },
+    go = { "goimports", "gofumpt" },
   },
 
   formatters = {

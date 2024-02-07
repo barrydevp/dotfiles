@@ -5,7 +5,7 @@ local default_plugins = {
 
   {
     "barrydevp/base46",
-    branch = "v2.0",
+    -- branch = "v2.0",
     build = function()
       require("base46").load_all_highlights()
     end,
@@ -21,7 +21,7 @@ local default_plugins = {
   },
 
   {
-    "NvChad/nvterm",
+    "barrydevp/nvterm",
     init = function()
       require("core.utils").load_mappings("nvterm")
     end,
@@ -80,6 +80,33 @@ local default_plugins = {
   -- syntax analyzer and parser
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          -- When in diff mode, we want to use the default
+          -- vim text objects c & C instead of the treesitter ones.
+          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+          local configs = require("nvim-treesitter.configs")
+          for name, fn in pairs(move) do
+            if name:find("goto") == 1 then
+              move[name] = function(q, ...)
+                if vim.wo.diff then
+                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+                  for key, query in pairs(config or {}) do
+                    if q == query and key:find("[%]%[][cC]") then
+                      vim.cmd("normal! " .. key)
+                      return
+                    end
+                  end
+                end
+                return fn(q, ...)
+              end
+            end
+          end
+        end,
+      },
+    },
     init = function()
       require("core.utils").lazy_load("nvim-treesitter")
     end,
@@ -150,7 +177,7 @@ local default_plugins = {
     config = function()
       dofile(vim.g.base46_cache .. "scrollbar")
 
-      require("plugins.configs.nvimscrollbar")
+      require("plugins.configs.scrollbar")
     end,
   },
 

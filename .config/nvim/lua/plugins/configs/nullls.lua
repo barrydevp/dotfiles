@@ -9,10 +9,10 @@ local sources = {
   -- builtins.diagnostics.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
 
   -- Format
-  builtins.formatting.prettierd.with {
-    -- filetypes = { "html", "json", "markdown", "scss", "css" },
-    prefer_local = "node_modules/.bin",
-  },
+  -- builtins.formatting.prettierd.with {
+  --   -- filetypes = { "html", "json", "markdown", "scss", "css" },
+  --   prefer_local = "node_modules/.bin",
+  -- },
   -- builtins.formatting.shfmt,
   -- builtins.formatting.stylua,
   -- builtins.formatting.autopep8,
@@ -20,6 +20,8 @@ local sources = {
 
   -- Code actions
   builtins.code_actions.eslint_d,
+  builtins.code_actions.gomodifytags,
+  builtins.code_actions.impl,
 }
 
 null_ls.setup {
