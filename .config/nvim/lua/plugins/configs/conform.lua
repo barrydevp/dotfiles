@@ -16,6 +16,11 @@ require("conform").setup {
     html = { { "prettierd", "prettier" } },
     css = { { "prettierd", "prettier" } },
     handlebars = { { "prettierd", "prettier" } },
+    less = { { "prettierd", "prettier" } },
+    yaml = { { "prettierd", "prettier" } },
+    graphql = { { "prettierd", "prettier" } },
+    ["markdown.mdx"] = { { "prettierd", "prettier" } },
+    sh = { "shfmt" },
   },
 
   formatters = {

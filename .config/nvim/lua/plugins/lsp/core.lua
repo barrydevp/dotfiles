@@ -22,6 +22,13 @@ M.linters = {
   "eslint_d",
 }
 
+M.formatters = {
+  "stylua",
+  "prettierd",
+  "isort",
+  "shfmt",
+}
+
 M.lsp_formatting = function(bufnr)
   -- if bufnr == nil then
   --   bufnr = vim.api.nvim_get_current_buf()

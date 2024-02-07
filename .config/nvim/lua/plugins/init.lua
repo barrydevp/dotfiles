@@ -5,6 +5,7 @@ local default_plugins = {
 
   {
     "barrydevp/base46",
+    branch = "v2.0",
     build = function()
       require("base46").load_all_highlights()
     end,
@@ -14,6 +15,9 @@ local default_plugins = {
     "barrydevp/ui.nvim",
     branch = "v2.0",
     lazy = false,
+    init = function()
+      dofile(vim.g.base46_cache .. "statusline")
+    end,
   },
 
   {
@@ -57,18 +61,19 @@ local default_plugins = {
   -- indent decorator
   {
     "lukas-reineke/indent-blankline.nvim",
-    version = "2.20.7",
+    main = "ibl",
     init = function()
       require("core.utils").lazy_load("indent-blankline.nvim")
     end,
-    opts = function()
-      return require("plugins.configs.others").blankline
-    end,
+    -- opts = function()
+    --   return require("plugins.configs.others").blankline
+    -- end,
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "blankline")
 
       require("core.utils").load_mappings("blankline")
-      require("indent_blankline").setup(opts)
+      -- require("indent_blankline").setup(opts)
+      require("plugins.configs.blankline")
     end,
   },
 
@@ -141,7 +146,7 @@ local default_plugins = {
   -- scrollbar TODO
   {
     "petertriho/nvim-scrollbar",
-    lazy = false,
+    event = "BufRead",
     config = function()
       dofile(vim.g.base46_cache .. "scrollbar")
 
@@ -226,12 +231,13 @@ local default_plugins = {
   -- auto detect indent
   {
     "tpope/vim-sleuth",
-    lazy = false,
+    event = "BufWinEnter",
   },
 
   {
     "andymass/vim-matchup",
-    lazy = false,
+    event = "BufReadPost",
+    -- lazy = false,
     init = function()
       -- may set any options here TODO
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -240,12 +246,12 @@ local default_plugins = {
 
   {
     "tpope/vim-surround",
-    lazy = false,
+    event = "BufReadPost",
   },
 
   {
     "tpope/vim-repeat",
-    lazy = false,
+    event = "InsertEnter",
   },
 
   -- folding
@@ -269,7 +275,7 @@ local default_plugins = {
   -- highlights characters to navigate
   {
     "unblevable/quick-scope",
-    lazy = false,
+    event = "BufRead",
     init = function()
       -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
       vim.cmd([[ source ~/.config/nvim/configs/quickscope.vim ]])
@@ -433,14 +439,14 @@ local default_plugins = {
   },
 
   -- ghost text (editing web browser input)
-  {
-    "subnut/nvim-ghost.nvim",
-    lazy = false,
-    init = function()
-      -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
-      vim.cmd([[ source ~/.config/nvim/configs/nvim-ghost.vim ]])
-    end,
-  },
+  -- {
+  --   "subnut/nvim-ghost.nvim",
+  --   lazy = false,
+  --   init = function()
+  --     -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
+  --     vim.cmd([[ source ~/.config/nvim/configs/nvim-ghost.vim ]])
+  --   end,
+  -- },
 }
 
 local config = require("core.utils").load_config()

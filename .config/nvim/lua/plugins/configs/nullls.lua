@@ -13,9 +13,9 @@ local sources = {
     -- filetypes = { "html", "json", "markdown", "scss", "css" },
     prefer_local = "node_modules/.bin",
   },
-  builtins.formatting.shfmt,
-  builtins.formatting.stylua,
-  builtins.formatting.autopep8,
+  -- builtins.formatting.shfmt,
+  -- builtins.formatting.stylua,
+  -- builtins.formatting.autopep8,
   -- builtins.formatting.clang_format,
 
   -- Code actions

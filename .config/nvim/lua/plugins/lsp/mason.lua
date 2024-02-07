@@ -194,6 +194,10 @@ for _, v in ipairs(core.linters) do
   table.insert(ensure_installed, v)
 end
 
+for _, v in ipairs(core.formatters) do
+  table.insert(ensure_installed, v)
+end
+
 local options = {
   ensure_installed = ensure_installed, -- not an option from mason.nvim
 

@@ -63,3 +63,8 @@ opt.wrap = true -- display long lines as just one line
 -- opt.foldlevel = 20
 -- opt.foldmethod = "expr"
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- indentblankline
+vim.opt.list = true
+vim.opt.listchars:append("leadmultispace:⋅")
+vim.opt.listchars:append("eol:↴")
