@@ -387,7 +387,7 @@ local default_plugins = {
   -- load luasnips + cmp related in insert mode only
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       {
         -- snippet plugin
@@ -422,12 +422,13 @@ local default_plugins = {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
       },
     },
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "cmp")
 
-      return require("plugins.configs.cmp")
+      require("plugins.configs.cmp")
     end,
   },
 

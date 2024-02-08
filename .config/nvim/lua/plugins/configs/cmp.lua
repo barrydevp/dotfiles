@@ -1,6 +1,5 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-
 local cmp_ui = require("core.utils").load_config().ui.cmp
 local cmp_style = cmp_ui.style
 
@@ -80,23 +79,32 @@ local options = {
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<C-y>"] = cmp.mapping.confirm {
-      -- behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    },
-    ["<CR>"] = cmp.mapping.confirm {
-      -- behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    },
+    ["<CR>"] = cmp.mapping(
+      -- If nothing is selected (including preselections) add a newline as usual.
+      -- If something has explicitly been selected by the user, select its
+      function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+        else
+          fallback()
+        end
+      end,
+      { "i", "s" }
+    ),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         -- cmp.select_next_item()
-        cmp.confirm { select = true }
+        -- cmp.confirm { select = true }
+        local entry = cmp.get_selected_entry()
+        if not entry then
+          cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+        else
+          cmp.confirm {}
+        end
       elseif luasnip.expand_or_jumpable() then
-        -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
         luasnip.expand_or_jump()
-      -- elseif has_words_before() then
-      --   cmp.complete()
+        -- elseif has_words_before() then
+        --   cmp.complete()
       else
         fallback()
       end
@@ -105,10 +113,7 @@ local options = {
       "s",
     }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        -- vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+      if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
         fallback()
@@ -140,12 +145,51 @@ end
 
 require("cmp").setup(options)
 
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+local cmdline_mapping = cmp.mapping.preset.cmdline {
+  ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "c" }),
+  -- ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "c" }),
+  -- ["<CR>"] = cmp.mapping.confirm {
+  --   -- behavior = cmp.ConfirmBehavior.Insert,
+  --   select = true,
+  -- },
+  ["<Tab>"] = cmp.mapping(function(callback)
+    if cmp.visible() then
+      if #cmp.get_entries() == 1 then
+        cmp.confirm { select = true }
+      else
+        cmp.select_next_item()
+      end
+    else
+      cmp.complete()
+      if #cmp.get_entries() == 1 then
+        cmp.confirm { select = true }
+      end
+    end
+  end, { "c" }),
+}
+
+-- Use bkffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ "/", "?" }, {
-  mapping = cmp.mapping.preset.cmdline(),
+  completion = {
+    completeopt = "menu,menuone,noselect",
+  },
+  mapping = cmdline_mapping,
   sources = {
     { name = "buffer" },
   },
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
+  completion = {
+    completeopt = "menu,menuone,noselect",
+  },
+  mapping = cmdline_mapping,
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
 })
 
 return options

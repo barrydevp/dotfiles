@@ -1,7 +1,7 @@
 local on_attach = function(bufnr)
   local api = require("nvim-tree.api")
 
-  local opts = function(desc)
+  local function opts(desc)
     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
 
@@ -11,7 +11,13 @@ local on_attach = function(bufnr)
   -- custom mappings
   local treeutils = require("plugins.configs.treeutils")
   vim.keymap.set("n", "<leader>ff", treeutils.launch_find_files, opts("Launch Find Files"))
+  vim.keymap.set("n", "<C-p>", treeutils.launch_find_files, opts("Launch Find Files"))
   vim.keymap.set("n", "<leader>fF", treeutils.launch_live_grep, opts("Launch Live Grep"))
+  vim.keymap.set("n", "<leader>fw", treeutils.launch_live_grep, opts("Launch Live Grep"))
+  vim.keymap.set("n", "[h", api.node.navigate.git.prev, opts("Prev Git"))
+  vim.keymap.set("n", "]h", api.node.navigate.git.next, opts("Next Git"))
+
+  --
 end
 
 local options = {

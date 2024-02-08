@@ -8,9 +8,7 @@ local M = {}
 
 M.general = {
   _ = {
-    -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
-    -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
-    -- empty mode is same as using <cmd> :map
+    -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down> http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/ empty mode is same as using <cmd> :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
     ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
@@ -18,12 +16,20 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
   },
 
-  -- insert and command mode
-  ic = {
+  c = {
+    -- go to  beginning and end
+    ["<C-a>"] = { "<Home>", "beginning of line" },
+    ["<C-e>"] = { "<End>", "end of line" },
+  },
+
+  i = {
     -- go to  beginning and end
     ["<C-a>"] = { "<ESC>^i", "beginning of line" },
     ["<C-e>"] = { "<End>", "end of line" },
+  },
 
+  -- insert and command mode
+  ic = {
     -- navigate within insert mode
     ["<C-h>"] = { "<Left>", "move left" },
     ["<C-l>"] = { "<Right>", "move right" },
@@ -55,7 +61,7 @@ M.general = {
     ["<leader>_"] = { ":split<CR>", "h-split" },
 
     -- matching braces
-    ["<C-,>"] = { "<cmd> Telescope find_files", "matching braces(%)" },
+    -- ["<C-,>"] = { "%", "matching braces(%)" },
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "save file" },
@@ -284,14 +290,14 @@ M.lspconfig = {
       "floating diagnostic",
     },
 
-    ["[d"] = {
+    ["[e"] = {
       function()
         vim.diagnostic.goto_prev()
       end,
       "goto prev",
     },
 
-    ["]d"] = {
+    ["]e"] = {
       function()
         vim.diagnostic.goto_next()
       end,
@@ -397,7 +403,7 @@ M.telescope = {
   n = {
     -- find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader><leader>"] = { "<cmd> Telescope find_files <CR>", "find files" },
+    ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fF"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>fw"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
@@ -406,6 +412,7 @@ M.telescope = {
     ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
     ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
     ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
+    ["<leader>:"] = { "<cmd> Telescope command_history <CR>", "find command history" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
@@ -592,10 +599,10 @@ M.gitsigns = {
 
   n = {
     -- Navigation through hunks
-    ["]h"] = {
+    ["]c"] = {
       function()
         if vim.wo.diff then
-          return "]h"
+          return "]c"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
@@ -606,10 +613,10 @@ M.gitsigns = {
       opts = { expr = true },
     },
 
-    ["[h"] = {
+    ["[c"] = {
       function()
         if vim.wo.diff then
-          return "[h"
+          return "[c"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()
