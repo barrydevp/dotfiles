@@ -408,7 +408,7 @@ M.telescope = {
       end,
       "Files",
     },
-    ["<C-;>"] = {
+    ["<leader>fp"] = {
       function()
         local builtin = require("telescope.builtin")
 
@@ -419,7 +419,7 @@ M.telescope = {
       end,
       "Buffers",
     },
-    ["<C-/>"] = {
+    ["<leader>fw"] = {
       function()
         local builtin = require("telescope.builtin")
 
@@ -429,10 +429,19 @@ M.telescope = {
     },
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fF"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
-    ["<leader>fw"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
-    ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
+    ["<leader>fb"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.buffers {
+          sort_mru = true,
+          ignore_current_buffer = true,
+        }
+      end,
+      "find buffers",
+    },
     ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
     ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
     ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
