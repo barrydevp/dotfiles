@@ -348,13 +348,9 @@ local default_plugins = {
   -- },
 
   {
-    "jose-elias-alvarez/null-ls.nvim",
-  },
-
-  {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
+      "nvimtools/none-ls.nvim",
     },
     init = function()
       require("core.utils").lazy_load("nvim-lspconfig")

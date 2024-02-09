@@ -1,3 +1,5 @@
+local actions = require("telescope.actions")
+
 local options = {
   defaults = {
     vimgrep_arguments = {
@@ -46,6 +48,11 @@ local options = {
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
     mappings = {
       n = { ["q"] = require("telescope.actions").close },
+      i = {
+        ["<C-u>"] = false,
+        ["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+        ["<esc>"] = actions.close,
+      },
     },
   },
 

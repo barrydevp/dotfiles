@@ -55,9 +55,7 @@ M.general = {
     ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
     ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
     -- better split
-    -- ['<leader>h']= {':ls<cr> :vertical sb '},
     ["<leader>-"] = { ":vsplit<CR>", "v-split" },
-    ["<leader>="] = { ":vsplit<CR>", "v-split" },
     ["<leader>_"] = { ":split<CR>", "h-split" },
 
     -- matching braces
@@ -402,8 +400,34 @@ M.telescope = {
 
   n = {
     -- find
+    ["<C-p>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.find_files {}
+      end,
+      "Files",
+    },
+    ["<C-;>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.buffers {
+          sort_mru = true,
+          ignore_current_buffer = true,
+        }
+      end,
+      "Buffers",
+    },
+    ["<C-/>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.live_grep {}
+      end,
+      "Grep",
+    },
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fF"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>fw"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
@@ -412,7 +436,7 @@ M.telescope = {
     ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
     ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
     ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
-    ["<leader>:"] = { "<cmd> Telescope command_history <CR>", "find command history" },
+    ["<leader>;"] = { "<cmd> Telescope command_history <CR>", "find command history" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
