@@ -18,6 +18,6 @@ gitsigns.setup {
     topdelete = { hl = "DiffDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
   },
   on_attach = function(bufnr)
-    require("core.utils").load_mappings("gitsigns", { buffer = bufnr })
+    require("core.utils").load_mappings("git", { buffer = bufnr })
   end,
 }

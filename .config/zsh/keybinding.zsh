@@ -9,8 +9,7 @@ bindkey "^[" vi-cmd-mode
 #
 #   ctrl + u     : clear line
 #   ctrl + w     : delete word backward
-#   alt  + d     : delete word
-#   ctrl + a     : move to beginning of line
+#   alt  + d     : delete word ctrl + a     : move to beginning of line
 #   ctrl + e     : move to end of line (e for end)
 #   alt/ctrl + f : move to next word (f for forward)
 #   alt/ctrl + b : move to previous word (b for backward)
@@ -39,3 +38,10 @@ bindkey "^[" vi-cmd-mode
 # # ctrl+delete: delete word after
 # bindkey "\e[3;5~" kill-word
 #
+
+# search and also insert the result
+bindkey "^P" down-line-or-beginning-search # Down
+bindkey "^N" up-line-or-beginning-search # Up
+# # not insert the result 
+# bindkey "^P" history-beginning-search-backward
+# bindkey "^N" history-beginning-search-forward

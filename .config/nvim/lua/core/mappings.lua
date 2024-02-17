@@ -5,7 +5,6 @@ local function termcodes(str)
 end
 
 local M = {}
-
 M.general = {
   _ = {
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down> http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/ empty mode is same as using <cmd> :map
@@ -114,6 +113,8 @@ M.general = {
     -- Don't copy the replaced text after pasting in visual mode
     -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
     ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', opts = { silent = true } },
+    -- greatest remap ever
+    ["<leader>p"] = { [["_dP]] },
 
     -- Move selected line / block of text in visual mode
     ["K"] = { ":move '<-2<CR>gv-gv", opts = { noremap = true, silent = true } },
@@ -168,7 +169,13 @@ M.comment = {
 
   -- toggle comment in both modes
   n = {
-    ["<leader>/"] = {
+    ["<D-/>"] = {
+      function()
+        require("Comment.api").toggle.linewise.current()
+      end,
+      "toggle comment",
+    },
+    ["^[/"] = {
       function()
         require("Comment.api").toggle.linewise.current()
       end,
@@ -177,7 +184,11 @@ M.comment = {
   },
 
   v = {
-    ["<leader>/"] = {
+    ["<D-/>"] = {
+      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+      "toggle comment",
+    },
+    ["^[/"] = {
       "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
       "toggle comment",
     },
@@ -373,6 +384,15 @@ M.lspconfig = {
     },
   },
 
+  i = {
+    ["<C-]>"] = {
+      function()
+        vim.lsp.buf.signature_help()
+      end,
+      "lsp hover",
+    },
+  },
+
   v = {
     ["<leader>ca"] = {
       function()
@@ -419,7 +439,7 @@ M.telescope = {
       end,
       "Buffers",
     },
-    ["<leader>fw"] = {
+    ["<leader>fs"] = {
       function()
         local builtin = require("telescope.builtin")
 
@@ -427,8 +447,16 @@ M.telescope = {
       end,
       "Grep",
     },
+    ["<leader>fw"] = {
+      function()
+        local builtin = require("telescope.builtin")
+        local word = vim.fn.expand("<cword>")
+
+        builtin.grep_string { search = word }
+      end,
+      "Grep by word",
+    },
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader>fF"] = { "<cmd> Telescope live_grep<cr>", "live grep" },
     ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
     ["<leader>fb"] = {
@@ -449,9 +477,9 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
     ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
-    ["<leader>fr"] = { "<cmd> Telescope oldfiles <CR>", "find recent files" },
-    ["<leader>fR"] = { "<cmd> Telescope registers <CR>", "find registers" },
-    ["<leader>fs"] = { "<cmd> Telescope resume <CR>", "resume last search" },
+    -- ["<leader>fr"] = { "<cmd> Telescope oldfiles <CR>", "find recent files" },
+    -- ["<leader>fR"] = { "<cmd> Telescope registers <CR>", "find registers" },
+    ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "resume last search" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
 
@@ -627,10 +655,16 @@ M.blankline = {
   },
 }
 
-M.gitsigns = {
+M.git = {
   plugin = true,
 
   n = {
+    -- vim fugitive
+    ["<leader>gs"] = {
+      vim.cmd.Git,
+      "Git status",
+    },
+
     -- Navigation through hunks
     ["]c"] = {
       function()
