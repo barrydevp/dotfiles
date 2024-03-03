@@ -138,14 +138,14 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    -- ["<tab>"] = {
-    --   function()
-    --     require("core.ui.tabufline").tabuflineNext()
-    --   end,
-    --   "goto next buffer",
-    -- },
+    ["<A-.>"] = {
+      function()
+        require("core.ui.tabufline").tabuflineNext()
+      end,
+      "goto next buffer",
+    },
 
-    ["<S-tab>"] = {
+    ["<A-,>"] = {
       function()
         require("core.ui.tabufline").tabuflinePrev()
       end,
@@ -154,6 +154,12 @@ M.tabufline = {
 
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
+      function()
+        require("core.ui.tabufline").close_buffer()
+      end,
+      "close buffer",
+    },
+    ["<A-c>"] = {
       function()
         require("core.ui.tabufline").close_buffer()
       end,
@@ -457,7 +463,7 @@ M.telescope = {
       function()
         local builtin = require("telescope.builtin")
 
-        builtin.live_grep {}
+        builtin.oldfiles {}
       end,
       "Grep",
     },
@@ -495,8 +501,19 @@ M.telescope = {
       "Grep by word",
     },
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
-    ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
+    -- ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
+    ["<leader>fa"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.find_files {
+          follow = true,
+          no_ignore = true,
+          hidden = true,
+        }
+      end,
+      "find all file",
+    },
     ["<leader>fb"] = {
       function()
         local builtin = require("telescope.builtin")
@@ -530,9 +547,11 @@ M.telescope = {
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
     ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "git status" },
     ["<leader>fg"] = { "<cmd> Telescope git_files <CR>", "git files" },
+    ["<leader>gf"] = { "<cmd> Telescope git_files <CR>", "git files" },
 
     -- pick a hidden term
     ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
+    ["<leader>ft"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
   },
 }
 
@@ -541,20 +560,20 @@ M.nvterm = {
 
   t = {
     -- toggle in terminal mode
-    ["<M-i>"] = {
+    ["<D-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
-    ["<C-t>"] = {
+    ["<A-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
 
-    ["<M-h>"] = {
+    ["<A-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -573,7 +592,7 @@ M.nvterm = {
     --   "Toggle horizontal term",
     -- },
 
-    ["<M-v>"] = {
+    ["<A-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -589,20 +608,20 @@ M.nvterm = {
 
   n = {
     -- toggle in normal mode
-    ["<M-i>"] = {
+    ["<D-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
-    ["<C-t>"] = {
+    ["<A-i>"] = {
       function()
         require("nvterm.terminal").toggle("float")
       end,
       "Toggle floating term",
     },
 
-    ["<M-h>"] = {
+    ["<A-h>"] = {
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -621,7 +640,7 @@ M.nvterm = {
       "Toggle horizontal term",
     },
 
-    ["<M-v>"] = {
+    ["<A-v>"] = {
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -633,21 +652,6 @@ M.nvterm = {
       end,
       "Toggle vertical term",
     },
-
-    -- new
-    -- ["<leader>h"] = {
-    --   function()
-    --     require("nvterm.terminal").new("horizontal")
-    --   end,
-    --   "New horizontal term",
-    -- },
-    --
-    -- ["<leader>v"] = {
-    --   function()
-    --     require("nvterm.terminal").new("vertical")
-    --   end,
-    --   "New vertical term",
-    -- },
   },
 }
 
@@ -772,7 +776,7 @@ M.git = {
       function()
         require("gitsigns").diffthis("~")
       end,
-      "undo stage hunk",
+      "diff hunk",
     },
 
     ["<leader>hb"] = {

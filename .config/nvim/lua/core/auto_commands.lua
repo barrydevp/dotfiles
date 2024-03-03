@@ -27,6 +27,7 @@ autocmd("FileType", {
     "terminal",
     "prompt",
     "toggleterm",
+    "fugitive",
     "copilot",
     "startuptime",
     "tsplayground",

@@ -13,3 +13,6 @@ vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. (is_windows and ";" or 
 require("core.ui")
 require("core.auto_commands")
 -- require("core.indents")
+
+-- set general mapping
+require("core.utils").load_mappings()

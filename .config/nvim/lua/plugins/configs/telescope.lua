@@ -56,16 +56,16 @@ local options = {
     },
   },
 
-  extensions_list = { "terms" },
+  extensions_list = { "terms", "fzf" },
   -- extensions_list = { "themes", "terms", "fzf" },
-  -- extensions = {
-  --   fzf = {
-  --     fuzzy = true,
-  --     override_generic_sorter = true,
-  --     override_file_sorter = true,
-  --     case_mode = "smart_case",
-  --   },
-  -- },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    },
+  },
 }
 
 return options

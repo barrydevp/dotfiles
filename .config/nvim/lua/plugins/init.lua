@@ -209,7 +209,11 @@ local default_plugins = {
   -- fuzzy file finding
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
     cmd = "Telescope",
     init = function()
       require("core.utils").load_mappings("telescope")
@@ -218,8 +222,6 @@ local default_plugins = {
       return require("plugins.configs.telescope")
     end,
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "telescope")
-
       local telescope = require("telescope")
       telescope.setup(opts)
 
@@ -228,6 +230,10 @@ local default_plugins = {
         telescope.load_extension(ext)
       end
     end,
+  },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
   },
 
   -- file managing , picker etc
