@@ -78,16 +78,16 @@ M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
   if client.server_capabilities.signatureHelpProvider then
-    require("nvchad.signature").setup(client)
+    require("core.ui.lsp.signature").setup(client)
   end
 
   if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = nil
   end
 
-  if client.server_capabilities.documentSymbolProvider then
-    require("nvim-navic").attach(client, bufnr)
-  end
+  -- if client.server_capabilities.documentSymbolProvider then
+  --   require("nvim-navic").attach(client, bufnr)
+  -- end
 end
 
 -- M.capabilities = require("cmp_nvim_lsp").default_capabilities()

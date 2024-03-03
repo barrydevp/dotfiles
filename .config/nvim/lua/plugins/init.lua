@@ -4,21 +4,40 @@ local default_plugins = {
   "nvim-lua/plenary.nvim",
 
   {
-    "barrydevp/base46",
-    -- branch = "v2.0",
-    build = function()
-      require("base46").load_all_highlights()
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    lazy = false,
+    config = function()
+      require("plugins.configs.catppuccin")
     end,
   },
 
   {
-    "barrydevp/ui.nvim",
-    branch = "v2.0",
+    "nvim-lualine/lualine.nvim",
     lazy = false,
-    init = function()
-      dofile(vim.g.base46_cache .. "statusline")
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("plugins.configs.lualine")
     end,
   },
+
+  -- {
+  --   "barrydevp/base46",
+  --   -- branch = "v2.0",
+  --   build = function()
+  --     require("base46").load_all_highlights()
+  --   end,
+  -- },
+  --
+  -- {
+  --   "barrydevp/ui.nvim",
+  --   branch = "v2.0",
+  --   lazy = false,
+  --   init = function()
+  --     -- dofile(vim.g.base46_cache .. "statusline")
+  --   end,
+  -- },
 
   {
     "barrydevp/nvterm",
@@ -26,7 +45,7 @@ local default_plugins = {
       require("core.utils").load_mappings("nvterm")
     end,
     config = function(_, opts)
-      require("base46.term")
+      -- require("base46.term")
       require("nvterm").setup(opts)
     end,
   },
@@ -35,10 +54,10 @@ local default_plugins = {
   {
     "nvim-tree/nvim-web-devicons",
     opts = function()
-      return { override = require("nvchad.icons.devicons") }
+      return { override = require("core.icons").devicons }
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "devicons")
+      -- dofile(vim.g.base46_cache .. "devicons")
       require("nvim-web-devicons").setup(opts)
     end,
   },
@@ -69,7 +88,7 @@ local default_plugins = {
     --   return require("plugins.configs.others").blankline
     -- end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "blankline")
+      -- dofile(vim.g.base46_cache .. "blankline")
 
       require("core.utils").load_mappings("blankline")
       -- require("indent_blankline").setup(opts)
@@ -113,7 +132,7 @@ local default_plugins = {
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     config = function()
-      dofile(vim.g.base46_cache .. "syntax")
+      -- dofile(vim.g.base46_cache .. "syntax")
 
       require("plugins.configs.treesitter")
     end,
@@ -140,6 +159,12 @@ local default_plugins = {
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
+    opts = function()
+      return require("plugins.configs.bqf")
+    end,
+    config = function(_, opts)
+      require("bqf").setup(opts)
+    end,
   },
 
   -- git stuff
@@ -165,21 +190,21 @@ local default_plugins = {
       })
     end,
     config = function()
-      dofile(vim.g.base46_cache .. "git")
+      -- dofile(vim.g.base46_cache .. "git")
       require("plugins.configs.gitsigns")
     end,
   },
 
   -- scrollbar TODO
-  {
-    "petertriho/nvim-scrollbar",
-    event = "BufRead",
-    config = function()
-      dofile(vim.g.base46_cache .. "scrollbar")
-
-      require("plugins.configs.scrollbar")
-    end,
-  },
+  -- {
+  --   "petertriho/nvim-scrollbar",
+  --   event = "BufRead",
+  --   config = function()
+  --     -- dofile(vim.g.base46_cache .. "scrollbar")
+  --
+  --     require("plugins.configs.scrollbar")
+  --   end,
+  -- },
 
   -- fuzzy file finding
   {
@@ -193,7 +218,7 @@ local default_plugins = {
       return require("plugins.configs.telescope")
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "telescope")
+      -- dofile(vim.g.base46_cache .. "telescope")
 
       local telescope = require("telescope")
       telescope.setup(opts)
@@ -216,7 +241,7 @@ local default_plugins = {
       return require("plugins.configs.nvimtree")
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "nvimtree")
+      -- dofile(vim.g.base46_cache .. "nvimtree")
 
       require("nvim-tree").setup(opts)
     end,
@@ -317,7 +342,7 @@ local default_plugins = {
       return require("plugins.lsp.mason")
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "mason")
+      -- dofile(vim.g.base46_cache .. "mason")
       require("mason").setup(opts)
 
       -- custom nvchad cmd to install all mason binaries listed
@@ -350,13 +375,13 @@ local default_plugins = {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "nvimtools/none-ls.nvim",
+      { "nvimtools/none-ls.nvim", dependencies = { "nvimtools/none-ls-extras.nvim" } },
     },
     init = function()
       require("core.utils").lazy_load("nvim-lspconfig")
     end,
     config = function()
-      dofile(vim.g.base46_cache .. "lsp")
+      -- dofile(vim.g.base46_cache .. "lsp")
 
       require("plugins.lsp")
     end,
@@ -422,7 +447,7 @@ local default_plugins = {
       },
     },
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "cmp")
+      -- dofile(vim.g.base46_cache .. "cmp")
 
       require("plugins.configs.cmp")
     end,
@@ -430,12 +455,26 @@ local default_plugins = {
 
   -- winbar for showing code context in status bar
   {
-    "SmiteshP/nvim-navic",
-    lazy = true,
-    config = function()
-      require("plugins.configs.navic")
+    "Bekaboo/dropbar.nvim",
+    lazy = false,
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+    },
+    opts = function()
+      return require("plugins.configs.dropbar")
+    end,
+    config = function(_, opts)
+      require("dropbar").setup(opts)
     end,
   },
+  -- {
+  --   "SmiteshP/nvim-navic",
+  --   lazy = true,
+  --   config = function()
+  --     require("plugins.configs.navic")
+  --   end,
+  -- },
 
   -- discord rich presence
   -- use "andweeb/presence.nvim"
@@ -456,7 +495,7 @@ local default_plugins = {
     end,
     cmd = "WhichKey",
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "whichkey")
+      -- dofile(vim.g.base46_cache .. "whichkey")
 
       require("which-key").setup(opts)
     end,

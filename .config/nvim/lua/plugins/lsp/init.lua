@@ -1,7 +1,7 @@
 local core = require("plugins.lsp.core")
 
 -- load UI
-require("nvchad.lsp")
+require("core.ui.lsp")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = core.servers

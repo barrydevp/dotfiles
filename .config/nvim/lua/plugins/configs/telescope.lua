@@ -56,7 +56,7 @@ local options = {
     },
   },
 
-  extensions_list = { "themes", "terms" },
+  extensions_list = { "terms" },
   -- extensions_list = { "themes", "terms", "fzf" },
   -- extensions = {
   --   fzf = {

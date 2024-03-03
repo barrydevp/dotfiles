@@ -2,6 +2,7 @@ local ts_config = require("nvim-treesitter.configs")
 
 local default = {
   ensure_installed = {
+    "vimdoc",
     "lua",
     "vim",
     "markdown",

@@ -13,7 +13,7 @@ local formatting_style = {
   fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
 
   format = function(_, item)
-    local icons = require("nvchad.icons.lspkind")
+    local icons = require("core.icons").lspkind
     local icon = (cmp_ui.icons and icons[item.kind]) or ""
 
     if cmp_style == "atom" or cmp_style == "atom_colored" then
@@ -54,14 +54,14 @@ local options = {
   },
 
   window = {
-    completion = {
+    completion = cmp.config.window.bordered {
       side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
-      winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+      -- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
       -- scrollbar = false,
     },
-    documentation = {
-      border = border("CmpDocBorder"),
-      winhighlight = "Normal:CmpDoc",
+    documentation = cmp.config.window.bordered {
+      -- border = border("CmpDocBorder"),
+      -- winhighlight = "Normal:CmpDoc",
     },
   },
   snippet = {
@@ -125,8 +125,8 @@ local options = {
   },
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
-    { name = "luasnip" },
     -- { name = "nvim_lua" },
+    { name = "luasnip" },
     { name = "path" },
   }, {
     { name = "buffer" },

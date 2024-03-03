@@ -78,6 +78,10 @@ M.general = {
     ["[q"] = { ":cprev<CR>", "quick list prev" },
     ["]q"] = { ":cnext<CR>", "quick list next" },
 
+    -- loclist movement
+    ["[l"] = { ":lprev<CR>", "loclist list prev" },
+    ["]l"] = { ":lnext<CR>", "loclist list next" },
+
     -- line numbers
     ["<leader>n"] = { "<cmd> set nu! <CR>", "toggle line number" },
     ["<leader>rn"] = { "<cmd> set rnu! <CR>", "toggle relative number" },
@@ -134,16 +138,16 @@ M.tabufline = {
 
   n = {
     -- cycle through buffers
-    ["<tab>"] = {
-      function()
-        require("nvchad.tabufline").tabuflineNext()
-      end,
-      "goto next buffer",
-    },
+    -- ["<tab>"] = {
+    --   function()
+    --     require("core.ui.tabufline").tabuflineNext()
+    --   end,
+    --   "goto next buffer",
+    -- },
 
     ["<S-tab>"] = {
       function()
-        require("nvchad.tabufline").tabuflinePrev()
+        require("core.ui.tabufline").tabuflinePrev()
       end,
       "goto prev buffer",
     },
@@ -151,13 +155,13 @@ M.tabufline = {
     -- close buffer + hide terminal buffer
     ["<leader>x"] = {
       function()
-        require("nvchad.tabufline").close_buffer()
+        require("core.ui.tabufline").close_buffer()
       end,
       "close buffer",
     },
     ["<C-q>"] = {
       function()
-        require("nvchad.tabufline").close_buffer()
+        require("core.ui.tabufline").close_buffer()
       end,
       "close buffer",
     },
@@ -265,15 +269,14 @@ M.lspconfig = {
 
     ["<leader>ra"] = {
       function()
-        require("nvchad.renamer").open()
+        require("core.ui.lsp.renamer").open()
       end,
       "lsp rename",
     },
 
     ["<leader>lr"] = {
       function()
-        require("nvchad.renamer").open()
-        -- vim.lsp.buf.rename()
+        require("core.ui.lsp.renamer").open()
       end,
       "lsp rename",
     },
@@ -428,6 +431,17 @@ M.telescope = {
       end,
       "Files",
     },
+    ["<C-n>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.buffers {
+          sort_mru = true,
+          ignore_current_buffer = true,
+        }
+      end,
+      "Buffers",
+    },
     ["<leader>fp"] = {
       function()
         local builtin = require("telescope.builtin")
@@ -438,6 +452,30 @@ M.telescope = {
         }
       end,
       "Buffers",
+    },
+    ["<C-\\>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.live_grep {}
+      end,
+      "Grep",
+    },
+    ["<C-/>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.live_grep {}
+      end,
+      "Grep",
+    },
+    ["<C-_>"] = { -- tmux regconize <C-/> with this
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.live_grep {}
+      end,
+      "Grep",
     },
     ["<leader>fs"] = {
       function()
@@ -886,10 +924,21 @@ M.dap = {
     -- ["<leader>dR"] = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
     -- ["<leader>dh"] = { "<cmd>lua require('dap.ui.widgets').hover()<cr>", "Hover" },
     -- ["<leader>dk"] = { "<cmd>lua require('dap.ui.variables').hover()<cr>", "Hover" },
-    ["<leader>du"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
+    -- ["<leader>du"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
+    ["<leader>du"] = {
+      function()
+        require("dapui").toggle()
+      end,
+      desc = "Toggle UI",
+    },
   },
   nv = {
-    ["<leader>de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" },
+    ["<leader>de"] = {
+      function()
+        require("dapui").eval()
+      end,
+      desc = "Eval",
+    },
   },
 }
 

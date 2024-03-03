@@ -5,7 +5,8 @@ local builtins = null_ls.builtins
 
 local sources = {
   -- Diagnostics
-  builtins.diagnostics.eslint_d,
+  require("none-ls.diagnostics.eslint_d"),
+  -- builtins.diagnostics.eslint_d,
   -- builtins.diagnostics.shellcheck.with({ diagnostics_format = "#{m} [#{c}]" }),
 
   -- Format
@@ -19,7 +20,8 @@ local sources = {
   -- builtins.formatting.clang_format,
 
   -- Code actions
-  builtins.code_actions.eslint_d,
+  -- builtins.code_actions.eslint_d,
+  require("none-ls.code_actions.eslint_d"),
   builtins.code_actions.gomodifytags,
   builtins.code_actions.impl,
 }
