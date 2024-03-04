@@ -162,9 +162,9 @@ local default_plugins = {
     opts = function()
       return require("plugins.configs.bqf")
     end,
-    config = function(_, opts)
-      require("bqf").setup(opts)
-    end,
+    -- config = function(_, opts)
+    --   require("bqf").setup(opts)
+    -- end,
   },
 
   -- git stuff
@@ -276,9 +276,9 @@ local default_plugins = {
     opts = function()
       return require("plugins.configs.others").comment()
     end,
-    config = function(_, opts)
-      require("Comment").setup(opts)
-    end,
+    -- config = function(_, opts)
+    --   require("Comment").setup(opts)
+    -- end,
   },
 
   -- editorconfig
@@ -470,9 +470,9 @@ local default_plugins = {
     opts = function()
       return require("plugins.configs.dropbar")
     end,
-    config = function(_, opts)
-      require("dropbar").setup(opts)
-    end,
+    -- config = function(_, opts)
+    --   require("dropbar").setup(opts)
+    -- end,
   },
   -- {
   --   "SmiteshP/nvim-navic",
@@ -504,6 +504,30 @@ local default_plugins = {
       -- dofile(vim.g.base46_cache .. "whichkey")
 
       require("which-key").setup(opts)
+    end,
+  },
+
+  -- obsidian note taking
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = "markdown",
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    -- event = {
+    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+    --   "BufReadPre path/to/my-vault/**.md",
+    --   "BufNewFile path/to/my-vault/**.md",
+    -- },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    opts = function()
+      return require("plugins.configs.obsidian")
     end,
   },
 

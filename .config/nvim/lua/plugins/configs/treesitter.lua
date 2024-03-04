@@ -6,6 +6,7 @@ local default = {
     "lua",
     "vim",
     "markdown",
+    "markdown_inline",
     "javascript",
     "typescript",
     "tsx",

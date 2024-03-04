@@ -165,7 +165,7 @@ M.tabufline = {
       end,
       "close buffer",
     },
-    ["<C-q>"] = {
+    ["<C-w><C-w>"] = {
       function()
         require("core.ui.tabufline").close_buffer()
       end,
@@ -463,7 +463,7 @@ M.telescope = {
       function()
         local builtin = require("telescope.builtin")
 
-        builtin.oldfiles {}
+        builtin.resume {}
       end,
       "Grep",
     },
@@ -528,13 +528,36 @@ M.telescope = {
     ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
     ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
     ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
+    ["<D-p>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.commands {}
+      end,
+      "find commands",
+    },
     ["<leader>;"] = { "<cmd> Telescope command_history <CR>", "find command history" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
-    ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
+    ["<leader>fo"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.oldfiles {}
+      end,
+      "find oldfiles",
+    },
+    ["<D-f>"] = {
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.current_buffer_fuzzy_find {}
+      end,
+      "find oldfiles",
+    },
     ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
     -- ["<leader>fr"] = { "<cmd> Telescope oldfiles <CR>", "find recent files" },
-    -- ["<leader>fR"] = { "<cmd> Telescope registers <CR>", "find registers" },
-    ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "resume last search" },
+    ["<leader>fr"] = { "<cmd> Telescope registers <CR>", "find registers" },
+    -- ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "resume last search" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
     ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
 
