@@ -1,3 +1,5 @@
+local config = require("core.utils").load_config()
+
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
 -- List of all default plugins & their definitions
 local default_plugins = {
@@ -22,30 +24,12 @@ local default_plugins = {
     end,
   },
 
-  -- {
-  --   "barrydevp/base46",
-  --   -- branch = "v2.0",
-  --   build = function()
-  --     require("base46").load_all_highlights()
-  --   end,
-  -- },
-  --
-  -- {
-  --   "barrydevp/ui.nvim",
-  --   branch = "v2.0",
-  --   lazy = false,
-  --   init = function()
-  --     -- dofile(vim.g.base46_cache .. "statusline")
-  --   end,
-  -- },
-
   {
     "barrydevp/nvterm",
     init = function()
       require("core.utils").load_mappings("nvterm")
     end,
     config = function(_, opts)
-      -- require("base46.term")
       require("nvterm").setup(opts)
     end,
   },
@@ -57,7 +41,6 @@ local default_plugins = {
       return { override = require("core.icons").devicons }
     end,
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "devicons")
       require("nvim-web-devicons").setup(opts)
     end,
   },
@@ -84,14 +67,8 @@ local default_plugins = {
     init = function()
       require("core.utils").lazy_load("indent-blankline.nvim")
     end,
-    -- opts = function()
-    --   return require("plugins.configs.others").blankline
-    -- end,
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "blankline")
-
       require("core.utils").load_mappings("blankline")
-      -- require("indent_blankline").setup(opts)
       require("plugins.configs.blankline")
     end,
   },
@@ -132,28 +109,9 @@ local default_plugins = {
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     config = function()
-      -- dofile(vim.g.base46_cache .. "syntax")
-
       require("plugins.configs.treesitter")
     end,
   },
-  -- requires = {
-  --   -- 	-- "windwp/nvim-ts-autotag",
-  --   { "JoosepAlviste/nvim-ts-context-commentstring" },
-  --   -- { "jose-elias-alvarez/typescript.nvim" },
-  --   -- 	-- { "Hoffs/omnisharp-extended-lsp.nvim" },
-  --   -- 	-- {
-  --   -- 	--     "nvim-treesitter/playground",
-  --   -- 	--     cmd = "TSHighlightCapturesUnderCursor",
-  --   -- 	-- },
-  --   { "nvim-treesitter/nvim-treesitter-textobjects" },
-  --   -- 	-- { "p00f/nvim-ts-rainbow" },
-  --   -- 	-- {
-  --   -- 	--     "akinsho/flutter-tools.nvim",
-  --   -- 	--     ft = "dart",
-  --   -- 	--     config = "require('lsp.flutter')",
-  --   -- 	-- },
-  -- },
 
   -- quick list TODO
   {
@@ -190,7 +148,6 @@ local default_plugins = {
       })
     end,
     config = function()
-      -- dofile(vim.g.base46_cache .. "git")
       require("plugins.configs.gitsigns")
     end,
   },
@@ -200,7 +157,6 @@ local default_plugins = {
   --   "petertriho/nvim-scrollbar",
   --   event = "BufRead",
   --   config = function()
-  --     -- dofile(vim.g.base46_cache .. "scrollbar")
   --
   --     require("plugins.configs.scrollbar")
   --   end,
@@ -247,8 +203,6 @@ local default_plugins = {
       return require("plugins.configs.nvimtree")
     end,
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "nvimtree")
-
       require("nvim-tree").setup(opts)
     end,
   },
@@ -276,9 +230,6 @@ local default_plugins = {
     opts = function()
       return require("plugins.configs.others").comment()
     end,
-    -- config = function(_, opts)
-    --   require("Comment").setup(opts)
-    -- end,
   },
 
   -- editorconfig
@@ -287,10 +238,10 @@ local default_plugins = {
     lazy = false,
   },
   -- auto detect indent
-  {
-    "tpope/vim-sleuth",
-    event = "BufWinEnter",
-  },
+  -- {
+  --   "tpope/vim-sleuth",
+  --   event = "BufWinEnter",
+  -- },
 
   {
     "andymass/vim-matchup",
@@ -303,8 +254,12 @@ local default_plugins = {
   },
 
   {
-    "tpope/vim-surround",
+    "echasnovski/mini.surround",
     event = "BufReadPost",
+    -- lazy = false,
+    config = function()
+      require("mini.surround").setup()
+    end,
   },
 
   {
@@ -348,7 +303,6 @@ local default_plugins = {
       return require("plugins.lsp.mason")
     end,
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "mason")
       require("mason").setup(opts)
 
       -- custom nvchad cmd to install all mason binaries listed
@@ -387,8 +341,6 @@ local default_plugins = {
       require("core.utils").lazy_load("nvim-lspconfig")
     end,
     config = function()
-      -- dofile(vim.g.base46_cache .. "lsp")
-
       require("plugins.lsp")
     end,
   },
@@ -450,11 +402,10 @@ local default_plugins = {
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
+        "hrsh7th/cmp-calc",
       },
     },
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "cmp")
-
       require("plugins.configs.cmp")
     end,
   },
@@ -474,13 +425,6 @@ local default_plugins = {
     --   require("dropbar").setup(opts)
     -- end,
   },
-  -- {
-  --   "SmiteshP/nvim-navic",
-  --   lazy = true,
-  --   config = function()
-  --     require("plugins.configs.navic")
-  --   end,
-  -- },
 
   -- discord rich presence
   -- use "andweeb/presence.nvim"
@@ -501,9 +445,30 @@ local default_plugins = {
     end,
     cmd = "WhichKey",
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "whichkey")
-
       require("which-key").setup(opts)
+    end,
+  },
+
+  -- AI code generation
+  {
+    "codota/tabnine-nvim",
+    build = "./dl_binaries.sh",
+    lazy = false,
+    cond = config.options.ai_code == "tabnine",
+    opts = function()
+      return require("plugins.configs.tabnine")
+    end,
+    config = function(_, opts)
+      require("tabnine").setup(opts)
+    end,
+  },
+
+  {
+    "github/copilot.vim",
+    lazy = false,
+    cond = config.options.ai_code == "copilot",
+    init = function()
+      return require("plugins.configs.copilot")
     end,
   },
 
@@ -541,11 +506,5 @@ local default_plugins = {
   --   end,
   -- },
 }
-
-local config = require("core.utils").load_config()
-
-if #config.plugins > 0 then
-  table.insert(default_plugins, { import = config.plugins })
-end
 
 require("lazy").setup(default_plugins, config.lazy_nvim)

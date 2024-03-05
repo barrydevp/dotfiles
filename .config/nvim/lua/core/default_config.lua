@@ -1,7 +1,7 @@
 local M = {}
 
 M.options = {
-  -- nvchad_branch = "v2.0",
+  ai_code = "tabnine",
 }
 
 M.ui = {
@@ -56,8 +56,6 @@ M.ui = {
     },
   },
 }
-
-M.plugins = "" -- path i.e "custom.plugins", so make custom/plugins.lua file
 
 M.lazy_nvim = require("plugins.configs.lazynvim") -- config for lazy.nvim startup options
 

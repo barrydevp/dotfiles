@@ -1,6 +1,7 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local cmp_ui = require("core.utils").load_config().ui.cmp
+local config = require("core.utils").load_config()
+local cmp_ui = config.ui.cmp
 local cmp_style = cmp_ui.style
 
 local field_arrangement = {
@@ -78,7 +79,42 @@ local options = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.abort(),
+    -- ["<C-e>"] = cmp.mapping.abort(),
+    ["<C-e>"] = cmp.mapping(
+      --- Integrated with copilot, tabnine
+      function(fallback)
+        print("C-E")
+        -- execute AI Code generation
+        -- tabnine
+        if config.options.ai_code == "tabnine" then
+          local completion = require("tabnine.completion")
+          local state = require("tabnine.state")
+
+          if state.completions_cache then
+            vim.schedule(completion.accept)
+            return
+          end
+        -- copilot
+        elseif config.options.ai_code == "copilot" then
+          local s = vim.fn["copilot#GetDisplayedSuggestion"]()
+          if s ~= "" and s ~= nil then
+            vim.schedule(vim.fn["copilot#Accept"]("\\<CR>"))
+            return
+          end
+        end
+
+        -- usual close completion menu
+        if cmp.visible() then
+          cmp.abort()
+        else
+          fallback()
+        end
+      end,
+      {
+        "i",
+        "s",
+      }
+    ),
     ["<CR>"] = cmp.mapping(
       -- If nothing is selected (including preselections) add a newline as usual.
       -- If something has explicitly been selected by the user, select its
@@ -93,8 +129,6 @@ local options = {
     ),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        -- cmp.select_next_item()
-        -- cmp.confirm { select = true }
         local entry = cmp.get_selected_entry()
         if not entry then
           cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
@@ -126,17 +160,17 @@ local options = {
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     -- { name = "nvim_lua" },
+    { name = "calc" },
     { name = "luasnip" },
     { name = "path" },
   }, {
     { name = "buffer" },
   }),
-  experimental = {
-    ghost_text = {
-      hl_group = "Comment",
-    },
-    -- ghost_text = true,
-  },
+  -- experimental = {
+  --   ghost_text = {
+  --     hl_group = "Comment",
+  --   },
+  -- },
 }
 
 if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then

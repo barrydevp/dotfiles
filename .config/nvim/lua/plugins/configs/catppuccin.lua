@@ -116,7 +116,7 @@ require("catppuccin").setup {
     mason = true,
     markdown = true,
     neogit = false,
-    ufo = false,
+    ufo = true,
     rainbow_delimiters = false,
     semantic_tokens = true,
     telescope = { enabled = true, style = "nvchad" },

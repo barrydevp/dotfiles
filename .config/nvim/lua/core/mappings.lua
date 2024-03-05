@@ -394,7 +394,7 @@ M.lspconfig = {
   },
 
   i = {
-    ["<C-]>"] = {
+    ["<C-\\"] = {
       function()
         vim.lsp.buf.signature_help()
       end,
