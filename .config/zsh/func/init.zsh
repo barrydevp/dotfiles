@@ -2,6 +2,7 @@
 funcs=(
   shellbenchmark
   fnm
+  obsidian
 )
 
 for func in $funcs; do

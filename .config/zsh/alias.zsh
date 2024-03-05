@@ -30,8 +30,8 @@ alias \
   nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
 
 ### Obsidian ###
-alias \
-  nn="cd /Users/apple/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/vault && nvim"
+# alias \
+#   nn="cd  && nvim"
 
 ### Webstorm ###
 alias webstorm="open -na "WebStorm.app" --args ."
