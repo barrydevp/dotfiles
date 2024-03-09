@@ -1,7 +1,9 @@
 -- local colors = require("catppuccin.palettes").get_palette()
+local completion = require("tabnine.completion")
+local state = require("tabnine.state")
 
 return {
-  disable_auto_comment = true,
+  disable_auto_comment = false, -- already have an autocmd for this
   accept_keymap = "<A-]>",
   dismiss_keymap = "<C-]>",
   debounce_ms = 800,
@@ -10,4 +12,13 @@ return {
   exclude_filetypes = { "TelescopePrompt", "NvimTree", "terminal" },
   log_file_path = nil, -- absolute path to Tabnine log file
   codelens_enabled = false,
+
+  accept = function()
+    if state.completions_cache then
+      vim.schedule(completion.accept)
+      return true
+    end
+
+    return false
+  end,
 }

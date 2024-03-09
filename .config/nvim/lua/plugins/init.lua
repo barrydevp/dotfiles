@@ -238,10 +238,10 @@ local default_plugins = {
     lazy = false,
   },
   -- auto detect indent
-  -- {
-  --   "tpope/vim-sleuth",
-  --   event = "BufWinEnter",
-  -- },
+  {
+    "tpope/vim-sleuth",
+    event = "BufWinEnter",
+  },
 
   {
     "andymass/vim-matchup",

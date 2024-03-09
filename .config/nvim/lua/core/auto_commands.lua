@@ -38,3 +38,9 @@ autocmd("FileType", {
     vim.api.nvim_buf_set_keymap(event.buf, "n", "q", "<CMD>close<CR>", { silent = true })
   end,
 })
+
+-- disable auto comment on the next line
+autocmd("FileType", {
+  pattern = "*",
+  command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o",
+})

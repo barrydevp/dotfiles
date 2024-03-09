@@ -83,24 +83,13 @@ local options = {
     ["<C-e>"] = cmp.mapping(
       --- Integrated with copilot, tabnine
       function(fallback)
-        print("C-E")
         -- execute AI Code generation
         -- tabnine
-        if config.options.ai_code == "tabnine" then
-          local completion = require("tabnine.completion")
-          local state = require("tabnine.state")
-
-          if state.completions_cache then
-            vim.schedule(completion.accept)
-            return
-          end
+        if config.options.ai_code == "tabnine" and require("plugins.configs.tabnine").accept() then
+          return
         -- copilot
-        elseif config.options.ai_code == "copilot" then
-          local s = vim.fn["copilot#GetDisplayedSuggestion"]()
-          if s ~= "" and s ~= nil then
-            vim.schedule(vim.fn["copilot#Accept"]("\\<CR>"))
-            return
-          end
+        elseif config.options.ai_code == "copilot" and require("plugins.configs.copilot").accept() then
+          return
         end
 
         -- usual close completion menu

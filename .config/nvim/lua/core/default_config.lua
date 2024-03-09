@@ -1,7 +1,7 @@
 local M = {}
 
 M.options = {
-  ai_code = "tabnine",
+  ai_code = "copilot", -- tabnine/copilot
 }
 
 M.ui = {
