@@ -452,6 +452,7 @@ local default_plugins = {
   -- AI code generation
   {
     "codota/tabnine-nvim",
+    -- dir = "/Users/apple/Dev/github.com/barrydevp/tabnine-nvim",
     build = "./dl_binaries.sh",
     lazy = false,
     cond = config.options.ai_code == "tabnine",

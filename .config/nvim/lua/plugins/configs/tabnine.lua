@@ -14,7 +14,7 @@ return {
   codelens_enabled = false,
 
   accept = function()
-    if state.completions_cache then
+    if state.completions_cache and state.rendered_completion then
       vim.schedule(completion.accept)
       return true
     end
