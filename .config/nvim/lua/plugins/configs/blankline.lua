@@ -23,3 +23,5 @@
 --
 -- require("ibl").setup { indent = { highlight = highlight } }
 require("ibl").setup {}
+
+require("core.utils").load_mappings("blankline")

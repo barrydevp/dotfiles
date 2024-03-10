@@ -1,4 +1,4 @@
--------------------------------------- options ------------------------------------------
+-- load options
 require("core.options")
 
 -- disable some default providers

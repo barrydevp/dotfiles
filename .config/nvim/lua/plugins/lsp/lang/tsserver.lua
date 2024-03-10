@@ -2,6 +2,7 @@ local core = require("plugins.lsp.core")
 
 -- tsserver
 require("lspconfig").tsserver.setup {
+  on_init = core.on_init,
   keys = {
     {
       "<leader>co",

@@ -5,439 +5,446 @@ local function termcodes(str)
 end
 
 local M = {}
-M.general = {
-  _ = {
+
+M.default = {
+  [""] = {
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down> http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/ empty mode is same as using <cmd> :map
     -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
-    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
-    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
-    ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', opts = { expr = true } },
-    ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', opts = { expr = true } },
+    { "j", 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true } },
+    { "k", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true } },
+    { "<Up>", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = true } },
+    { "<Down>", 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true } },
   },
 
-  c = {
-    -- go to  beginning and end
-    ["<C-a>"] = { "<Home>", "beginning of line" },
-    ["<C-e>"] = { "<End>", "end of line" },
+  ["n"] = {
+    -- Use control-c instead of escape
+    { "<C-c>", "<Esc>", { desc = "Esc" } },
+
+    -- Turn of search highlight
+    { "<ESC>", "<cmd> noh <CR>", { desc = "no highlight" } },
+
+    -- switch between windows, this has been overridden by vim-tmux
+    -- {"<C-h>", "<C-w>h", {desc="window left"} },
+    -- {"<C-l>", "<C-w>l", {desc="window right"} },
+    -- {"<C-j>", "<C-w>j", {desc="window down"} },
+    -- {"<C-k>", "<C-w>k", {desc="window up"} },
+    -- resize windows
+    { "<M-h>", ":vertical resize -2<CR>", { desc = "v-resize left" } },
+    { "<M-l>", ":vertical resize +2<CR>", { desc = "v-resize right" } },
+    { "<M-j>", ":resize -2<CR>", { desc = "h-resize down" } },
+    { "<M-k>", ":resize +2<CR>", { desc = "h-resize up" } },
+    -- better split
+    { "<leader>-", ":vsplit<CR>", { desc = "v-split" } },
+    { "<leader>_", ":split<CR>", { desc = "h-split" } },
+
+    -- matching braces
+    -- {"<C-,>", "%", {desc="matching braces(%)"} },
+
+    -- save
+    { "<C-s>", "<cmd> w <CR>", { desc = "save file" } },
+
+    -- Copy all
+    -- {"<C-c>", "<cmd> %y+ <CR>", {desc="copy whole file"} },
+
+    -- jumping
+    { "[g", "<C-o>", { desc = "go backward" } },
+    { "]g", "<C-i>", { desc = "go forward" } },
+    { "<C-d>", "<C-d>zz" },
+    { "<C-u>", "<C-u>zz" },
+    { "n", "nzzzv" },
+    { "N", "Nzzzv" },
+
+    -- quicklist movement
+    { "[q", ":cprev<CR>", { desc = "quick list prev" } },
+    { "]q", ":cnext<CR>", { desc = "quick list next" } },
+
+    -- loclist movement
+    { "[l", ":lprev<CR>", { desc = "loclist list prev" } },
+    { "]l", ":lnext<CR>", { desc = "loclist list next" } },
+
+    -- line numbers
+    { "<leader>n", "<cmd> set nu! <CR>", { desc = "toggle line number" } },
+    { "<leader>rn", "<cmd> set rnu! <CR>", { desc = "toggle relative number" } },
+
+    -- new buffer
+    { "<leader>b", "<cmd> enew <CR>", { desc = "new buffer" } },
   },
 
-  i = {
+  ["i"] = {
     -- go to  beginning and end
-    ["<C-a>"] = { "<ESC>^i", "beginning of line" },
-    ["<C-e>"] = { "<End>", "end of line" },
+    { "<C-a>", "<ESC>^i", { desc = "beginning of line" } },
+    { "<C-e>", "<End>", { desc = "end of line" } },
+  },
+
+  ["c"] = {
+    -- go to  beginning and end
+    { "<C-a>", "<Home>", { desc = "beginning of line" } },
+    { "<C-e>", "<End>", { desc = "end of line" } },
+  },
+
+  ["v"] = {
+    -- Don't copy the replaced text after pasting in visual mode
+    { "p", '"_dP', { desc = "paste" } },
+
+    -- Block movement
+    { "J", ":m '>+1<CR>gv=gv" },
+    { "K", ":m '>-2<CR>gv=gv" },
+
+    -- better indenting
+    { "<", "<gv", { noremap = true, silent = true } },
+    { ">", ">gv", { noremap = true, silent = true } },
+  },
+
+  ["x"] = {
+    -- Don't copy the replaced text after pasting in visual mode
+    -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
+    { "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { silent = true } },
+    -- greatest remap ever
+    { "<leader>p", [["_dP]] },
+
+    -- Move selected line / block of text in visual mode
+    { "K", ":move '<-2<CR>gv-gv", { noremap = true, silent = true } },
+    { "J", ":move '>+1<CR>gv-gv", { noremap = true, silent = true } },
+  },
+
+  ["t"] = {
+    { "<C-x>", termcodes("<C-\\><C-N>"), { desc = "escape terminal mode" } },
+    -- {"<esc><esc>", termcodes("<C-\\><C-N>"), {desc="escape terminal mode"} },
+    { "<C-w>", termcodes("<C-\\><C-N><C-w>"), { desc = "window command mode" } },
+    { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
+    { "<C-l>", termcodes("<C-\\><C-N><C-w>l"), { desc = "terminal window right" } },
+    { "<C-j>", termcodes("<C-\\><C-N><C-w>j"), { desc = "terminal window down" } },
+    { "<C-k>", termcodes("<C-\\><C-N><C-w>k"), { desc = "terminal window up" } },
   },
 
   -- insert and command mode
-  ic = {
+  [{ "i", "c" }] = {
     -- navigate within insert mode
-    ["<C-h>"] = { "<Left>", "move left" },
-    ["<C-l>"] = { "<Right>", "move right" },
-    ["<C-j>"] = { "<Down>", "move down" },
-    ["<C-k>"] = { "<Up>", "move up" },
+    { "<C-h>", "<Left>", { desc = "move left" } },
+    { "<C-l>", "<Right>", { desc = "move right" } },
+    { "<C-j>", "<Down>", { desc = "move down" } },
+    { "<C-k>", "<Up>", { desc = "move up" } },
   },
 
-  n = {
-    -- Use control-c instead of escape
-    ["<C-c>"] = { "<Esc>", "Esc" },
-
-    -- Turn of search highlight
-    ["<ESC>"] = { "<cmd> noh <CR>", "no highlight" },
-
-    -- switch between windows, this has been overridden by vim-tmux
-    -- ["<C-h>"] = { "<C-w>h", "window left" },
-    -- ["<C-l>"] = { "<C-w>l", "window right" },
-    -- ["<C-j>"] = { "<C-w>j", "window down" },
-    -- ["<C-k>"] = { "<C-w>k", "window up" },
-    -- resize windows
-    ["<M-h>"] = { ":vertical resize -2<CR>", "v-resize left" },
-    ["<M-l>"] = { ":vertical resize +2<CR>", "v-resize right" },
-    ["<M-j>"] = { ":resize -2<CR>", "h-resize down" },
-    ["<M-k>"] = { ":resize +2<CR>", "h-resize up" },
-    -- better split
-    ["<leader>-"] = { ":vsplit<CR>", "v-split" },
-    ["<leader>_"] = { ":split<CR>", "h-split" },
-
-    -- matching braces
-    -- ["<C-,>"] = { "%", "matching braces(%)" },
-
-    -- save
-    ["<C-s>"] = { "<cmd> w <CR>", "save file" },
-
-    -- Copy all
-    -- ["<C-c>"] = { "<cmd> %y+ <CR>", "copy whole file" },
-
-    -- jumping
-    ["[g"] = { "<C-o>", "go backward" },
-    ["]g"] = { "<C-i>", "go forward" },
-    ["<C-d>"] = { "<C-d>zz" },
-    ["<C-u>"] = { "<C-u>zz" },
-    ["n"] = { "nzzzv" },
-    ["N"] = { "Nzzzv" },
-
-    -- quicklist movement
-    ["[q"] = { ":cprev<CR>", "quick list prev" },
-    ["]q"] = { ":cnext<CR>", "quick list next" },
-
-    -- loclist movement
-    ["[l"] = { ":lprev<CR>", "loclist list prev" },
-    ["]l"] = { ":lnext<CR>", "loclist list next" },
-
-    -- line numbers
-    ["<leader>n"] = { "<cmd> set nu! <CR>", "toggle line number" },
-    ["<leader>rn"] = { "<cmd> set rnu! <CR>", "toggle relative number" },
-
-    -- new buffer
-    ["<leader>b"] = { "<cmd> enew <CR>", "new buffer" },
-  },
-
-  t = {
-    ["<C-x>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" },
-    -- ["<esc><esc>"] = { termcodes("<C-\\><C-N>"), "escape terminal mode" },
-    ["<C-w>"] = { termcodes("<C-\\><C-N><C-w>"), "window command mode" },
-    ["<C-h>"] = { termcodes("<C-\\><C-N><C-w>h"), "terminal window left" },
-    ["<C-l>"] = { termcodes("<C-\\><C-N><C-w>l"), "terminal window right" },
-    ["<C-j>"] = { termcodes("<C-\\><C-N><C-w>j"), "terminal window down" },
-    ["<C-k>"] = { termcodes("<C-\\><C-N><C-w>k"), "terminal window up" },
-  },
-
-  v = {
-    -- Don't copy the replaced text after pasting in visual mode
-    ["p"] = { '"_dP', "paste" },
-
-    -- Block movement
-    ["J"] = { ":m '>+1<CR>gv=gv" },
-    ["K"] = { ":m '>-2<CR>gv=gv" },
-
-    -- better indenting
-    ["<"] = { "<gv", opts = { noremap = true, silent = true } },
-    [">"] = { ">gv", opts = { noremap = true, silent = true } },
-  },
-
-  x = {
-    -- Don't copy the replaced text after pasting in visual mode
-    -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
-    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', opts = { silent = true } },
-    -- greatest remap ever
-    ["<leader>p"] = { [["_dP]] },
-
-    -- Move selected line / block of text in visual mode
-    ["K"] = { ":move '<-2<CR>gv-gv", opts = { noremap = true, silent = true } },
-    ["J"] = { ":move '>+1<CR>gv-gv", opts = { noremap = true, silent = true } },
-  },
-
-  nv = {
+  [{ "n", "v" }] = {
     -- don't yank text on cut ( x )
-    -- ["x"] = { '"_x', "cut" },
+    -- {"x", '"_x', {desc="cut"} },
     -- don't yank text on delete ( dd )
-    -- ["d"] = { '"_d', "delete" },
+    -- {"d", '"_d', {desc="delete"} },
   },
 }
 
 M.tabufline = {
-  plugin = true,
 
-  n = {
+  ["n"] = {
     -- cycle through buffers
-    ["<A-.>"] = {
+    {
+      "<A-.>",
       function()
         require("core.ui.tabufline").tabuflineNext()
       end,
-      "goto next buffer",
+      { desc = "goto next buffer" },
     },
 
-    ["<A-,>"] = {
+    {
+      "<A-,>",
       function()
         require("core.ui.tabufline").tabuflinePrev()
       end,
-      "goto prev buffer",
+      { desc = "goto prev buffer" },
     },
 
     -- close buffer + hide terminal buffer
-    ["<leader>x"] = {
+    {
+      "<leader>x",
       function()
         require("core.ui.tabufline").close_buffer()
       end,
-      "close buffer",
+      { desc = "close buffer" },
     },
-    ["<A-c>"] = {
+    {
+      "<A-c>",
       function()
         require("core.ui.tabufline").close_buffer()
       end,
-      "close buffer",
+      { desc = "close buffer" },
     },
-    ["<C-w><C-w>"] = {
+    {
+      "<C-w><C-w>",
       function()
         require("core.ui.tabufline").close_buffer()
       end,
-      "close buffer",
+      { desc = "close buffer" },
     },
   },
 }
 
 M.comment = {
-  plugin = true,
 
   -- toggle comment in both modes
-  n = {
-    ["<D-/>"] = {
+  [{ "n", "i" }] = {
+    {
+      "<D-/>",
       function()
         require("Comment.api").toggle.linewise.current()
       end,
-      "toggle comment",
-    },
-    ["^[/"] = {
-      function()
-        require("Comment.api").toggle.linewise.current()
-      end,
-      "toggle comment",
+      { desc = "toggle comment" },
     },
   },
 
-  v = {
-    ["<D-/>"] = {
+  ["v"] = {
+    {
+      "<D-/>",
       "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      "toggle comment",
+      { desc = "toggle comment" },
     },
-    ["^[/"] = {
+    {
+      "^[/",
       "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      "toggle comment",
+      { desc = "toggle comment" },
     },
   },
 }
 
 M.lspconfig = {
-  plugin = true,
 
   -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
-  n = {
-    ["gD"] = {
+  ["n"] = {
+    {
+      "gD",
       function()
         vim.lsp.buf.declaration()
       end,
-      "lsp declaration",
+      { desc = "lsp declaration" },
     },
 
-    ["gd"] = {
+    {
+      "gd",
       function()
         vim.lsp.buf.definition()
       end,
-      "lsp definition",
+      { desc = "lsp definition" },
     },
 
     -- disabled because of already setup for nvim.UFO
-    -- ["K"] = {
+    -- {"K",
     --   function()
     --     vim.lsp.buf.hover()
     --   end,
-    --   "lsp hover",
+    --    {desc="lsp hover"}
     -- },
 
-    ["L"] = {
+    {
+      "L",
       function()
         vim.diagnostic.open_float { border = "rounded" }
       end,
-      "lsp diagnostic hover",
+      { desc = "lsp diagnostic hover" },
     },
 
-    ["gk"] = {
+    {
+      "gk",
       function()
         vim.lsp.buf.signature_help()
       end,
-      "lsp signature_help",
+      { desc = "lsp signature_help" },
     },
 
-    ["go"] = {
-      "<cmd>pop<CR>",
-      "go back",
-    },
+    { "go", "<cmd>pop<CR>", { desc = "go back" } },
 
-    ["gi"] = {
+    {
+      "gi",
       function()
         vim.lsp.buf.implementation()
       end,
-      "lsp implementation",
+      { desc = "lsp implementation" },
     },
 
-    ["gr"] = {
+    {
+      "gr",
       function()
         vim.lsp.buf.references()
       end,
-      "lsp references",
+      { desc = "lsp references" },
     },
 
-    -- ["<leader>D"] = {
-    ["gt"] = {
+    -- {"<leader>D",
+    {
+      "gt",
       function()
         vim.lsp.buf.type_definition()
       end,
-      "lsp definition type",
+      { desc = "lsp definition type" },
     },
 
-    ["<leader>ra"] = {
+    {
+      "<leader>ra",
       function()
         require("core.ui.lsp.renamer").open()
       end,
-      "lsp rename",
+      { desc = "lsp rename" },
     },
 
-    ["<leader>lr"] = {
+    {
+      "<leader>lr",
       function()
         require("core.ui.lsp.renamer").open()
       end,
-      "lsp rename",
+      { desc = "lsp rename" },
     },
 
-    ["<leader>la"] = {
+    {
+      "<leader>la",
       function()
         vim.lsp.buf.code_action()
       end,
-      "lsp code_action",
+      { desc = "lsp code_action" },
     },
 
-    ["<leader>ca"] = {
+    {
+      "<leader>ca",
       function()
         vim.lsp.buf.code_action()
       end,
-      "lsp code_action",
+      { desc = "lsp code_action" },
     },
 
-    ["<leader>lo"] = {
+    {
+      "<leader>lo",
       function()
         vim.diagnostic.open_float()
       end,
-      "floating diagnostic",
+      { desc = "floating diagnostic" },
     },
 
-    ["[e"] = {
+    {
+      "[e",
       function()
         vim.diagnostic.goto_prev()
       end,
-      "goto prev",
+      { desc = "goto prev" },
     },
 
-    ["]e"] = {
+    {
+      "]e",
       function()
         vim.diagnostic.goto_next()
       end,
-      "goto_next",
+      { desc = "goto_next" },
     },
 
-    ["<leader>ll"] = {
+    {
+      "<leader>ll",
       function()
         vim.diagnostic.setloclist()
       end,
-      "diagnostic setloclist (document)",
+      { desc = "diagnostic setloclist (document)" },
     },
 
-    ["<leader>lq"] = {
+    {
+      "<leader>lq",
       function()
         vim.diagnostic.setqflist()
       end,
-      "diagnostic setqflist (workspace)",
+      { desc = "diagnostic setqflist (workspace)" },
     },
 
-    ["<leader>lf"] = {
+    {
+      "<leader>lf",
       function()
         require("plugins.lsp.core").lsp_formatting()
       end,
-      "lsp formatting",
+      { desc = "lsp formatting" },
     },
 
-    ["<leader>wa"] = {
+    {
+      "<leader>wa",
       function()
         vim.lsp.buf.add_workspace_folder()
       end,
-      "add workspace folder",
+      { desc = "add workspace folder" },
     },
 
-    ["<leader>wr"] = {
+    {
+      "<leader>wr",
       function()
         vim.lsp.buf.remove_workspace_folder()
       end,
-      "remove workspace folder",
+      { desc = "remove workspace folder" },
     },
 
-    ["<leader>wl"] = {
+    {
+      "<leader>wl",
       function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,
-      "list workspace folders",
+      { desc = "list workspace folders" },
     },
 
-    ["<leader>lz"] = {
-      "<cmd>LspInfo<cr>",
-      "lsp info",
-    },
-    -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", "Line Diagnostics"},
-    -- p = {"<cmd>Lspsaga preview_definition<cr>", "Preview Definition"},
-    -- ["<leader>lq"] = {
-    --   "<cmd>Trouble document_diagnostics<cr>",
-    --   "trouble document diagnostics",
+    { "<leader>lz", "<cmd>LspInfo<cr>", { desc = "lsp info" } },
+    -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", {desc="Line Diagnostics"}},
+    -- p = {"<cmd>Lspsaga preview_definition<cr>", {desc="Preview Definition"}},
+    -- {"<leader>lq",
+    --    {desc="<cmd>Trouble document_diagnostics<cr>"}
+    --    {desc="trouble document diagnostics"}
     -- },
-    -- r = {"<cmd>Lspsaga rename<cr>", "Rename"},
-    -- x = {"<cmd>cclose<cr>", "Close Quickfix"},
+    -- r = {"<cmd>Lspsaga rename<cr>", {desc="Rename"}},
+    -- x = {"<cmd>cclose<cr>", {desc="Close Quickfix"}},
 
-    ["<leader>lt"] = {
-      "<cmd>Trouble workspace_diagnostics<cr>",
-      "Show Diagnostics(Trouble)",
-    },
+    { "<leader>lt", "<cmd>Trouble workspace_diagnostics<cr>", { desc = "Show Diagnostics(Trouble)" } },
 
-    ["<leader>liw"] = {
-      "<cmd>Trouble workspace_diagnostics<cr>",
-      "Workspace diagnostics",
-    },
+    { "<leader>liw", "<cmd>Trouble workspace_diagnostics<cr>", { desc = "Workspace diagnostics" } },
 
-    ["<leader>lid"] = {
-      "<cmd>Trouble document_diagnostics<cr>",
-      "Document diagnostics",
-    },
+    { "<leader>lid", "<cmd>Trouble document_diagnostics<cr>", { desc = "Document diagnostics" } },
   },
 
-  i = {
-    ["<C-\\>"] = {
+  ["i"] = {
+    {
+      "<C-\\>",
       function()
         vim.lsp.buf.signature_help()
       end,
-      "lsp hover",
+      { desc = "lsp hover" },
     },
   },
 
-  v = {
-    ["<leader>ca"] = {
+  ["v"] = {
+    {
+      "<leader>ca",
       function()
         vim.lsp.buf.range_code_action()
       end,
-      "lsp code_action",
+      { desc = "lsp code_action" },
     },
   },
 }
 
 M.nvimtree = {
-  plugin = true,
 
-  n = {
+  ["n"] = {
     -- toggle
-    -- ["<C-n>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+    -- {"<C-n>", "<cmd> NvimTreeToggle <CR>", {desc="toggle nvimtree"} },
 
     -- focus
-    ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+    { "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "toggle nvimtree" } },
   },
 }
 
 M.telescope = {
-  plugin = true,
 
-  n = {
+  ["n"] = {
     -- find
-    ["<C-p>"] = {
+    {
+      "<C-p>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.find_files {}
       end,
-      "Files",
+      { desc = "Files" },
     },
-    ["<C-n>"] = {
+    {
+      "<C-n>",
       function()
         local builtin = require("telescope.builtin")
 
@@ -446,9 +453,10 @@ M.telescope = {
           ignore_current_buffer = true,
         }
       end,
-      "Buffers",
+      { desc = "Buffers" },
     },
-    ["<leader>fp"] = {
+    {
+      "<leader>fp",
       function()
         local builtin = require("telescope.builtin")
 
@@ -457,52 +465,58 @@ M.telescope = {
           ignore_current_buffer = true,
         }
       end,
-      "Buffers",
+      { desc = "Buffers" },
     },
-    ["<C-\\>"] = {
+    {
+      "<C-\\>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.resume {}
       end,
-      "Grep",
+      { desc = "Grep" },
     },
-    ["<C-/>"] = {
+    {
+      "<C-/>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.live_grep {}
       end,
-      "Grep",
+      { desc = "Grep" },
     },
-    ["<C-_>"] = { -- tmux regconize <C-/> with this
+    {
+      "<C-_>", -- tmux regconize <C-/> with this
       function()
         local builtin = require("telescope.builtin")
 
         builtin.live_grep {}
       end,
-      "Grep",
+      { desc = "Grep" },
     },
-    ["<leader>fs"] = {
+    {
+      "<leader>fs",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.live_grep {}
       end,
-      "Grep",
+      { desc = "Grep" },
     },
-    ["<leader>fw"] = {
+    {
+      "<leader>fw",
       function()
         local builtin = require("telescope.builtin")
         local word = vim.fn.expand("<cword>")
 
         builtin.grep_string { search = word }
       end,
-      "Grep by word",
+      { desc = "Grep by word" },
     },
-    ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-    -- ["<leader>ft"] = { "<cmd> Telescope grep_string <CR>", "find cursor string" },
-    ["<leader>fa"] = {
+    { "<leader>ff", "<cmd> Telescope find_files <CR>", { desc = "find files" } },
+    -- {"<leader>ft", "<cmd> Telescope grep_string <CR>", {desc="find cursor string"} },
+    {
+      "<leader>fa",
       function()
         local builtin = require("telescope.builtin")
 
@@ -512,9 +526,10 @@ M.telescope = {
           hidden = true,
         }
       end,
-      "find all file",
+      { desc = "find all file" },
     },
-    ["<leader>fb"] = {
+    {
+      "<leader>fb",
       function()
         local builtin = require("telescope.builtin")
 
@@ -523,215 +538,229 @@ M.telescope = {
           ignore_current_buffer = true,
         }
       end,
-      "find buffers",
+      { desc = "find buffers" },
     },
-    ["<leader>fB"] = { "<cmd> Telescope file_browser <CR>", "find file browser" },
-    ["<leader>fc"] = { "<cmd> Telescope commands <CR>", "find commands" },
-    ["<leader>,"] = { "<cmd> Telescope commands <CR>", "find commands" },
-    ["<D-p>"] = {
+    { "<leader>fB", "<cmd> Telescope file_browser <CR>", { desc = "find file browser" } },
+    { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
+    { "<leader>,", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
+    {
+      "<D-p>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.commands {}
       end,
-      "find commands",
+      { desc = "find commands" },
     },
-    ["<leader>;"] = { "<cmd> Telescope command_history <CR>", "find command history" },
-    ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
-    ["<leader>fo"] = {
+    { "<leader>;", "<cmd> Telescope command_history <CR>", { desc = "find command history" } },
+    { "<leader>fh", "<cmd> Telescope help_tags <CR>", { desc = "help page" } },
+    {
+      "<leader>fo",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.oldfiles {}
       end,
-      "find oldfiles",
+      { desc = "find oldfiles" },
     },
-    ["<D-f>"] = {
+    {
+      "<D-f>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.current_buffer_fuzzy_find {}
       end,
-      "find oldfiles",
+      { desc = "find oldfiles" },
     },
-    ["<leader>fm"] = { "<cmd> Telescope marks <CR>", "find marks" },
-    -- ["<leader>fr"] = { "<cmd> Telescope oldfiles <CR>", "find recent files" },
-    ["<leader>fr"] = { "<cmd> Telescope registers <CR>", "find registers" },
-    -- ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "resume last search" },
-    ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
-    ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "Find in current buffer" },
+    { "<leader>fm", "<cmd> Telescope marks <CR>", { desc = "find marks" } },
+    -- {"<leader>fr", "<cmd> Telescope oldfiles <CR>", {desc="find recent files"} },
+    { "<leader>fr", "<cmd> Telescope registers <CR>", { desc = "find registers" } },
+    -- {"<leader>fr", "<cmd> Telescope resume <CR>", {desc="resume last search"} },
+    { "<leader>fk", "<cmd> Telescope keymaps <CR>", { desc = "show keys" } },
+    { "<leader>fz", "<cmd> Telescope current_buffer_fuzzy_find <CR>", { desc = "Find in current buffer" } },
 
     -- lsp
-    ["<leader>fi"] = { "<cmd>Telescope lsp_implementations<cr>", "search lsp implementation" },
-    ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-    ["<leader>lS"] = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
+    { "<leader>fi", "<cmd>Telescope lsp_implementations<cr>", { desc = "search lsp implementation" } },
+    { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "Document Symbols" } },
+    { "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<cr>", { desc = "Workspace Symbols" } },
 
     -- git
-    ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
-    ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "git status" },
-    ["<leader>fg"] = { "<cmd> Telescope git_files <CR>", "git files" },
-    ["<leader>gf"] = { "<cmd> Telescope git_files <CR>", "git files" },
+    { "<leader>cm", "<cmd> Telescope git_commits <CR>", { desc = "git commits" } },
+    { "<leader>gt", "<cmd> Telescope git_status <CR>", { desc = "git status" } },
+    { "<leader>fg", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
+    { "<leader>gf", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
 
     -- pick a hidden term
-    ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
-    ["<leader>ft"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
+    { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
+    { "<leader>ft", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
   },
 }
 
 M.nvterm = {
-  plugin = true,
 
-  t = {
+  ["t"] = {
     -- toggle in terminal mode
-    ["<D-i>"] = {
+    {
+      "<D-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "Toggle floating term",
+      { desc = "Toggle floating term" },
     },
-    ["<A-i>"] = {
+    {
+      "<A-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "Toggle floating term",
+      { desc = "Toggle floating term" },
     },
 
-    ["<A-h>"] = {
+    {
+      "<A-h>",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "Toggle horizontal term",
+      { desc = "Toggle horizontal term" },
     },
-    -- ["<leader>h"] = {
+    -- {"<leader>h",
     --   function()
     --     require("nvterm.terminal").toggle("horizontal")
     --   end,
-    --   "Toggle horizontal term",
+    --    {desc="Toggle horizontal term"}
     -- },
-    -- ["<C-t>"] = {
+    -- {"<C-t>",
     --   function()
     --     require("nvterm.terminal").toggle("horizontal")
     --   end,
-    --   "Toggle horizontal term",
+    --    {desc="Toggle horizontal term"}
     -- },
 
-    ["<A-v>"] = {
+    {
+      "<A-v>",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "Toggle vertical term",
+      { desc = "Toggle vertical term" },
     },
-    ["<C-v>"] = {
+    {
+      "<C-v>",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "Toggle vertical term",
+      { desc = "Toggle vertical term" },
     },
   },
 
-  n = {
+  ["n"] = {
     -- toggle in normal mode
-    ["<D-i>"] = {
+    {
+      "<D-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "Toggle floating term",
+      { desc = "Toggle floating term" },
     },
-    ["<A-i>"] = {
+    {
+      "<A-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
-      "Toggle floating term",
+      { desc = "Toggle floating term" },
     },
 
-    ["<A-h>"] = {
+    {
+      "<A-h>",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "Toggle horizontal term",
+      { desc = "Toggle horizontal term" },
     },
-    ["<leader>th"] = {
+    {
+      "<leader>th",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "Toggle horizontal term",
+      { desc = "Toggle horizontal term" },
     },
-    ["<leader>tt"] = {
+    {
+      "<leader>tt",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
-      "Toggle horizontal term",
+      { desc = "Toggle horizontal term" },
     },
 
-    ["<A-v>"] = {
+    {
+      "<A-v>",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "Toggle vertical term",
+      { desc = "Toggle vertical term" },
     },
-    ["<leader>tv"] = {
+    {
+      "<leader>tv",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
-      "Toggle vertical term",
+      { desc = "Toggle vertical term" },
     },
   },
 }
 
 M.whichkey = {
-  plugin = true,
 
-  n = {
-    ["<leader>wK"] = {
+  ["n"] = {
+    {
+      "<leader>wK",
       function()
         vim.cmd("WhichKey")
       end,
-      "which-key all keymaps",
+      { desc = "which-key all keymaps" },
     },
-    ["<leader>wk"] = {
+    {
+      "<leader>wk",
       function()
         local input = vim.fn.input("WhichKey: ")
         vim.cmd("WhichKey " .. input)
       end,
-      "which-key query lookup",
+      { desc = "which-key query lookup" },
     },
   },
 }
 
 M.blankline = {
-  plugin = true,
 
-  n = {
-    ["<leader>cc"] = {
+  ["n"] = {
+    {
+      "<leader>cc",
       function()
-        local ok, start = require("indent_blankline.core.utils").get_current_context(
-          vim.g.indent_blankline_context_patterns,
-          vim.g.indent_blankline_use_treesitter_scope
-        )
+        local config = { scope = {} }
+        config.scope.exclude = { language = {}, node_type = {} }
+        config.scope.include = { node_type = {} }
+        local node = require("ibl.scope").get(vim.api.nvim_get_current_buf(), config)
 
-        if ok then
-          vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start, 0 })
-          vim.cmd([[normal! _]])
+        if node then
+          local start_row, _, end_row, _ = node:range()
+          if start_row ~= end_row then
+            vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), { start_row + 1, 0 })
+            vim.api.nvim_feedkeys("_", "n", true)
+          end
         end
       end,
-
-      "Jump to current_context",
+      { desc = "Blankline Jump to current context" },
     },
   },
 }
 
 M.git = {
-  plugin = true,
 
-  n = {
+  ["n"] = {
     -- vim fugitive
-    ["<leader>gs"] = {
-      vim.cmd.Git,
-      "Git status",
-    },
+    { "<leader>gs", vim.cmd.Git, { desc = "Git status" } },
 
     -- Navigation through hunks
-    ["]c"] = {
+    {
+      "]c",
       function()
         if vim.wo.diff then
           return "]c"
@@ -741,11 +770,11 @@ M.git = {
         end)
         return "<Ignore>"
       end,
-      "Jump to next hunk",
-      opts = { expr = true },
+      { desc = "Jump to next hunk", expr = true },
     },
 
-    ["[c"] = {
+    {
+      "[c",
       function()
         if vim.wo.diff then
           return "[c"
@@ -755,216 +784,242 @@ M.git = {
         end)
         return "<Ignore>"
       end,
-      "Jump to prev hunk",
-      opts = { expr = true },
+      { desc = "Jump to prev hunk", expr = true },
     },
 
     -- Actions
-    ["<leader>hr"] = {
+    {
+      "<leader>hr",
       function()
         require("gitsigns").reset_hunk()
       end,
-      "Reset hunk",
+      { desc = "Reset hunk" },
     },
 
-    ["<leader>hs"] = {
+    {
+      "<leader>hs",
       function()
         require("gitsigns").stage_buffer()
       end,
-      "stage buffer",
+      { desc = "stage buffer" },
     },
 
-    ["<leader>hu"] = {
+    {
+      "<leader>hu",
       function()
         require("gitsigns").undo_stage_hunk()
       end,
-      "undo stage hunk",
+      { desc = "undo stage hunk" },
     },
 
-    ["<leader>hp"] = {
+    {
+      "<leader>hp",
       function()
         require("gitsigns").preview_hunk()
       end,
-      "Preview hunk",
+      { desc = "Preview hunk" },
     },
 
-    ["H"] = {
+    {
+      "H",
       function()
         require("gitsigns").preview_hunk()
       end,
-      "Preview hunk",
+      { desc = "Preview hunk" },
     },
 
-    ["<leader>hd"] = {
+    {
+      "<leader>hd",
       function()
         require("gitsigns").diffthis("~")
       end,
-      "diff hunk",
+      { desc = "diff hunk" },
     },
 
-    ["<leader>hb"] = {
+    {
+      "<leader>hb",
       function()
         package.loaded.gitsigns.blame_line()
       end,
-      "Blame line",
+      { desc = "Blame line" },
     },
 
-    ["<leader>tb"] = {
+    {
+      "<leader>tb",
       function()
         require("gitsigns").toggle_current_line_blame()
       end,
-      "Toggle current line blame",
+      { desc = "Toggle current line blame" },
     },
 
-    ["<leader>td"] = {
+    {
+      "<leader>td",
       function()
         require("gitsigns").toggle_deleted()
       end,
-      "Toggle deleted",
+      { desc = "Toggle deleted" },
     },
   },
 }
 
 M.dap = {
-  plugin = true,
 
-  n = {
-    ["<leader>dB"] = {
+  ["n"] = {
+    {
+      "<leader>dB",
       function()
         require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
       end,
-      desc = "Breakpoint Condition",
+      { desc = "Breakpoint Condition" },
     },
-    ["<leader>db"] = {
+    {
+      "<leader>db",
       function()
         require("dap").toggle_breakpoint()
       end,
-      desc = "Toggle Breakpoint",
+      { desc = "Toggle Breakpoint" },
     },
-    ["<leader>dc"] = {
+    {
+      "<leader>dc",
       function()
         require("dap").continue()
       end,
-      desc = "Continue",
+      { desc = "Continue" },
     },
-    -- [ "<leader>da"] = { function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-    ["<leader>dC"] = {
+    -- { "<leader>da", function() require("dap").continue({ before = get_args }) end,  {desc="Run with Args"} },
+    {
+      "<leader>dC",
       function()
         require("dap").run_to_cursor()
       end,
-      desc = "Run to Cursor",
+      { desc = "Run to Cursor" },
     },
-    ["<leader>dg"] = {
+    {
+      "<leader>dg",
       function()
         require("dap").goto_()
       end,
-      desc = "Go to line (no execute)",
+      { desc = "Go to line (no execute)" },
     },
-    ["<leader>di"] = {
+    {
+      "<leader>di",
       function()
         require("dap").step_into()
       end,
-      desc = "Step Into",
+      { desc = "Step Into" },
     },
-    ["<leader>dj"] = {
+    {
+      "<leader>dj",
       function()
         require("dap").down()
       end,
-      desc = "Down",
+      { desc = "Down" },
     },
-    ["<leader>dk"] = {
+    {
+      "<leader>dk",
       function()
         require("dap").up()
       end,
-      desc = "Up",
+      { desc = "Up" },
     },
-    ["<leader>dl"] = {
+    {
+      "<leader>dl",
       function()
         require("dap").run_last()
       end,
-      desc = "Run Last",
+      { desc = "Run Last" },
     },
-    ["<leader>do"] = {
+    {
+      "<leader>do",
       function()
         require("dap").step_out()
       end,
-      desc = "Step Out",
+      { desc = "Step Out" },
     },
-    ["<leader>dO"] = {
+    {
+      "<leader>dO",
       function()
         require("dap").step_over()
       end,
-      desc = "Step Over",
+      { desc = "Step Over" },
     },
-    ["<leader>dp"] = {
+    {
+      "<leader>dp",
       function()
         require("dap").pause()
       end,
-      desc = "Pause",
+      { desc = "Pause" },
     },
-    ["<leader>dr"] = {
+    {
+      "<leader>dr",
       function()
         require("dap").repl.toggle()
       end,
-      desc = "Toggle REPL",
+      { desc = "Toggle REPL" },
     },
-    ["<leader>ds"] = {
+    {
+      "<leader>ds",
       function()
         require("dap").session()
       end,
-      desc = "Session",
+      { desc = "Session" },
     },
-    ["<leader>dt"] = {
+    {
+      "<leader>dt",
       function()
         require("dap").terminate()
       end,
-      desc = "Terminate",
+      { desc = "Terminate" },
     },
-    ["<leader>dw"] = {
+    {
+      "<leader>dw",
       function()
         require("dap.ui.widgets").hover()
       end,
-      desc = "Widgets",
+      { desc = "Widgets" },
     },
-    -- ["<leader>dt"] = {
-    --   "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
-    --   "Toggle Breakpoint",
+    -- {"<leader>dt",
+    --    "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+    --    {desc="Toggle Breakpoint"}
     -- },
-    -- ["<leader>dd"] = {
-    --   "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
-    --   "Toggle Breakpoint",
+    -- {"<leader>dd",
+    --    "<cmd>lua require'dap'.toggle_breakpoint()<cr>",
+    --    {desc="Toggle Breakpoint"}
     -- },
-    -- ["<leader>db"] = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
-    -- ["<leader>ds"] = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-    -- ["<leader>dr"] = { "<cmd>lua require'dap'.continue()<cr>", "Rerun" },
-    -- ["<leader>dc"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    -- -- ["<leader>dn"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    -- ["<leader>dn"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    -- ["<leader>dp"] = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
-    -- ["<leader>dq"] = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
-    -- ["<leader>di"] = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
-    -- ["<leader>de"] = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over(End)" },
-    -- ["<leader>do"] = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
-    -- ["<leader>dC"] = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    -- ["<leader>dD"] = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-    -- ["<leader>dg"] = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-    -- ["<leader>dR"] = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-    -- ["<leader>dh"] = { "<cmd>lua require('dap.ui.widgets').hover()<cr>", "Hover" },
-    -- ["<leader>dk"] = { "<cmd>lua require('dap.ui.variables').hover()<cr>", "Hover" },
-    -- ["<leader>du"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
-    ["<leader>du"] = {
+    -- {"<leader>db", "<cmd>lua require'dap'.step_back()<cr>", {desc="Step Back"} },
+    -- {"<leader>ds", "<cmd>lua require'dap'.continue()<cr>", {desc="Start"} },
+    -- {"<leader>dr", "<cmd>lua require'dap'.continue()<cr>", {desc="Rerun"} },
+    -- {"<leader>dc", "<cmd>lua require'dap'.continue()<cr>", {desc="Continue"} },
+    -- -- {"<leader>dn", "<cmd>lua require'dap'.continue()<cr>", {desc="Continue"} },
+    -- {"<leader>dn", "<cmd>lua require'dap'.run_to_cursor()<cr>", {desc="Run To Cursor"} },
+    -- {"<leader>dp", "<cmd>lua require'dap'.pause.toggle()<cr>", {desc="Pause"} },
+    -- {"<leader>dq", "<cmd>lua require'dap'.close()<cr>", {desc="Quit"} },
+    -- {"<leader>di", "<cmd>lua require'dap'.step_into()<cr>", {desc="Step Into"} },
+    -- {"<leader>de", "<cmd>lua require'dap'.step_over()<cr>", {desc="Step Over(End)"} },
+    -- {"<leader>do", "<cmd>lua require'dap'.step_out()<cr>", {desc="Step Out"} },
+    -- {"<leader>dC", "<cmd>lua require'dap'.run_to_cursor()<cr>", {desc="Run To Cursor"} },
+    -- {"<leader>dD", "<cmd>lua require'dap'.disconnect()<cr>", {desc="Disconnect"} },
+    -- {"<leader>dg", "<cmd>lua require'dap'.session()<cr>", {desc="Get Session"} },
+    -- {"<leader>dR", "<cmd>lua require'dap'.repl.toggle()<cr>", {desc="Toggle Repl"} },
+    -- {"<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<cr>", {desc="Hover"} },
+    -- {"<leader>dk", "<cmd>lua require('dap.ui.variables').hover()<cr>", {desc="Hover"} },
+    -- {"<leader>du", "<cmd>lua require('dapui').toggle()<cr>", {desc="Toggle UI"} },
+    {
+      "<leader>du",
       function()
         require("dapui").toggle()
       end,
-      desc = "Toggle UI",
+      { desc = "Toggle UI" },
     },
   },
-  nv = {
-    ["<leader>de"] = {
+
+  [{ "n", "v" }] = {
+    {
+      "<leader>de",
       function()
         require("dapui").eval()
       end,
-      desc = "Eval",
+      { desc = "Eval" },
     },
   },
 }

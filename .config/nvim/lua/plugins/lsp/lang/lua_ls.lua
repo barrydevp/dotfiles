@@ -1,6 +1,7 @@
 local core = require("plugins.lsp.core")
 
 require("lspconfig").lua_ls.setup {
+  on_init = core.on_init,
   on_attach = core.on_attach,
   capabilities = core.capabilities,
 

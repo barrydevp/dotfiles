@@ -12,6 +12,3 @@ for _, lang in ipairs(servers) do
     core.setup_default(lang)
   end
 end
-
--- null-ls
-core.nullls()

@@ -2,6 +2,7 @@ local core = require("plugins.lsp.core")
 
 -- go
 require("lspconfig").gopls.setup {
+  on_init = core.on_init,
   settings = {
     gopls = {
       gofumpt = true,

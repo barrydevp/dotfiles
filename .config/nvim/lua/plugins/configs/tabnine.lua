@@ -4,7 +4,7 @@ local state = require("tabnine.state")
 
 return {
   disable_auto_comment = false, -- already have an autocmd for this
-  accept_keymap = "<A-]>",
+  accept_keymap = "<M-]>",
   dismiss_keymap = "<C-]>",
   debounce_ms = 800,
   -- suggestion_color = { gui = colors.overlay2 },

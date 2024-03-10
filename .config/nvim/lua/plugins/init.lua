@@ -47,9 +47,7 @@ local default_plugins = {
 
   {
     "NvChad/nvim-colorizer.lua",
-    init = function()
-      require("core.utils").lazy_load("nvim-colorizer.lua")
-    end,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     config = function(_, opts)
       require("colorizer").setup(opts)
 
@@ -64,11 +62,8 @@ local default_plugins = {
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    init = function()
-      require("core.utils").lazy_load("indent-blankline.nvim")
-    end,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     config = function(_, opts)
-      require("core.utils").load_mappings("blankline")
       require("plugins.configs.blankline")
     end,
   },
@@ -76,6 +71,9 @@ local default_plugins = {
   -- syntax analyzer and parser
   {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    build = ":TSUpdate",
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -103,11 +101,6 @@ local default_plugins = {
         end,
       },
     },
-    init = function()
-      require("core.utils").lazy_load("nvim-treesitter")
-    end,
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-    build = ":TSUpdate",
     config = function()
       require("plugins.configs.treesitter")
     end,
@@ -128,25 +121,12 @@ local default_plugins = {
   -- git stuff
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     ft = { "gitcommit", "diff" },
     dependencies = {
       "tpope/vim-fugitive",
+      cmd = { "G", "Git" },
     },
-    init = function()
-      -- load gitsigns only when a git file is opened
-      vim.api.nvim_create_autocmd({ "BufRead" }, {
-        group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
-        callback = function()
-          vim.fn.system("git -C " .. '"' .. vim.fn.expand("%:p:h") .. '"' .. " rev-parse")
-          if vim.v.shell_error == 0 then
-            vim.api.nvim_del_augroup_by_name("GitSignsLazyLoad")
-            vim.schedule(function()
-              require("lazy").load { plugins = { "gitsigns.nvim" } }
-            end)
-          end
-        end,
-      })
-    end,
     config = function()
       require("plugins.configs.gitsigns")
     end,
@@ -334,12 +314,16 @@ local default_plugins = {
 
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     dependencies = {
-      { "nvimtools/none-ls.nvim", dependencies = { "nvimtools/none-ls-extras.nvim" } },
+      {
+        "nvimtools/none-ls.nvim",
+        dependencies = { "nvimtools/none-ls-extras.nvim" },
+        config = function()
+          require("plugins.configs.nullls")
+        end,
+      },
     },
-    init = function()
-      require("core.utils").lazy_load("nvim-lspconfig")
-    end,
     config = function()
       require("plugins.lsp")
     end,
@@ -413,7 +397,8 @@ local default_plugins = {
   -- winbar for showing code context in status bar
   {
     "Bekaboo/dropbar.nvim",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    -- lazy = false,
     -- optional, but required for fuzzy finder support
     dependencies = {
       "nvim-telescope/telescope-fzf-native.nvim",
@@ -430,7 +415,8 @@ local default_plugins = {
   -- use "andweeb/presence.nvim"
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    -- lazy = false,
   },
 
   -- key mapping

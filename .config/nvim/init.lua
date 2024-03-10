@@ -1,10 +1,7 @@
--- global context
-_G.ctx = {}
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 -- load and init core
 require("core")
-
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 -- bootstrap lazy.nvim!
 if not vim.loop.fs_stat(lazypath) then
