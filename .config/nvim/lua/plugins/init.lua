@@ -68,6 +68,38 @@ local default_plugins = {
     end,
   },
 
+  -- Automatically highlights other instances of the word under your cursor.
+  -- This works with LSP, Treesitter, and regexp matching to find the other
+  -- instances.
+  {
+    "RRethy/vim-illuminate",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    keys = {
+      { "]]", desc = "Next Reference" },
+      { "[[", desc = "Prev Reference" },
+    },
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = {
+        providers = { "lsp" },
+      },
+    },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
+
+      require("core.utils").load_mappings("illuminate")
+
+      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          require("core.utils").load_mappings("illuminate", { buffer = buffer })
+        end,
+      })
+    end,
+  },
+
   -- syntax analyzer and parser
   {
     "nvim-treesitter/nvim-treesitter",
@@ -152,6 +184,7 @@ local default_plugins = {
     },
     cmd = "Telescope",
     init = function()
+      -- load mapping
       require("core.utils").load_mappings("telescope")
     end,
     opts = function()
@@ -425,8 +458,6 @@ local default_plugins = {
     event = "VeryLazy",
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     init = function()
-      -- vim.o.timeout = true
-      -- vim.o.timeoutlen = 300
       require("core.utils").load_mappings("whichkey")
     end,
     cmd = "WhichKey",

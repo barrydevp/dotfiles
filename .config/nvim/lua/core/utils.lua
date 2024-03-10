@@ -12,7 +12,7 @@ M.load_mappings = function(section, opts)
   for mode, sect in pairs(sects) do
     for _, args in ipairs(sect) do
       -- [1] lhs, [2] rhs, [3] opts
-      vim.keymap.set(mode, args[1], args[2], vim.tbl_extend("force", args[3] or {}, opts or {}))
+      vim.keymap.set(mode, args[1], args[2], vim.tbl_extend("force", opts or {}, args[3] or {}))
     end
   end
 end

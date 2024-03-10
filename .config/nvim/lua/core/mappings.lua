@@ -760,10 +760,10 @@ M.git = {
 
     -- Navigation through hunks
     {
-      "]c",
+      "]h",
       function()
         if vim.wo.diff then
-          return "]c"
+          return "]h"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
@@ -774,10 +774,10 @@ M.git = {
     },
 
     {
-      "[c",
+      "[h",
       function()
         if vim.wo.diff then
-          return "[c"
+          return "[h"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()
@@ -1020,6 +1020,25 @@ M.dap = {
         require("dapui").eval()
       end,
       { desc = "Eval" },
+    },
+  },
+}
+
+M.illuminate = {
+  ["n"] = {
+    {
+      "]]",
+      function()
+        require("illuminate")["goto_next_reference"](false)
+      end,
+      { desc = "Next reference" },
+    },
+    {
+      "[[",
+      function()
+        require("illuminate")["goto_prev_reference"](false)
+      end,
+      { desc = "Prev reference" },
     },
   },
 }

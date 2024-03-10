@@ -121,7 +121,7 @@ require("catppuccin").setup {
     semantic_tokens = true,
     telescope = { enabled = true, style = "nvchad" },
     barbecue = false,
-    illuminate = false,
+    illuminate = true,
     indent_blankline = {
       enabled = true,
       -- colored_indent_levels = false,
