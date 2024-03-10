@@ -760,10 +760,10 @@ M.git = {
 
     -- Navigation through hunks
     {
-      "]h",
+      "]c",
       function()
         if vim.wo.diff then
-          return "]h"
+          return "]c"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
@@ -774,10 +774,10 @@ M.git = {
     },
 
     {
-      "[h",
+      "[c",
       function()
         if vim.wo.diff then
-          return "[h"
+          return "[c"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()
