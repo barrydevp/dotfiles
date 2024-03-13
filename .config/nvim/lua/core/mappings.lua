@@ -23,6 +23,9 @@ M.default = {
     -- Turn of search highlight
     { "<ESC>", "<cmd> noh <CR>", { desc = "no highlight" } },
 
+    -- toogle previous file
+    { "<S-Tab>", "<C-^>", { desc = "toggle previous file" } },
+
     -- switch between windows, this has been overridden by vim-tmux
     -- {"<C-h>", "<C-w>h", {desc="window left"} },
     -- {"<C-l>", "<C-w>l", {desc="window right"} },
@@ -36,9 +39,8 @@ M.default = {
     -- better split
     { "<leader>-", ":vsplit<CR>", { desc = "v-split" } },
     { "<leader>_", ":split<CR>", { desc = "h-split" } },
-
-    -- matching braces
-    -- {"<C-,>", "%", {desc="matching braces(%)"} },
+    { '<leader>"', ":vsplit<CR>", { desc = "v-split" } },
+    { "<leader>%", ":split<CR>", { desc = "h-split" } },
 
     -- save
     { "<C-s>", "<cmd> w <CR>", { desc = "save file" } },
@@ -140,6 +142,14 @@ M.tabufline = {
     -- cycle through buffers
     {
       "<A-.>",
+      function()
+        require("core.ui.tabufline").tabuflineNext()
+      end,
+      { desc = "goto next buffer" },
+    },
+
+    {
+      "<S-.>",
       function()
         require("core.ui.tabufline").tabuflineNext()
       end,
@@ -542,7 +552,7 @@ M.telescope = {
     },
     { "<leader>fB", "<cmd> Telescope file_browser <CR>", { desc = "find file browser" } },
     { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
-    { "<leader>,", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
+    { "<leader>p", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
     {
       "<D-p>",
       function()
@@ -591,7 +601,7 @@ M.telescope = {
     { "<leader>gf", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
 
     -- pick a hidden term
-    { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
+    -- { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
     { "<leader>ft", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
   },
 }

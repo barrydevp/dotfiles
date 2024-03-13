@@ -32,8 +32,14 @@ local on_attach = function(bufnr)
 
     treeutils.launch_telescope("grep_string", { search = word })
   end, opts("Grep by word"))
+
+  -- Git stuff
   vim.keymap.set("n", "[h", api.node.navigate.git.prev, opts("Prev Git"))
   vim.keymap.set("n", "]h", api.node.navigate.git.next, opts("Next Git"))
+
+  -- File
+  vim.keymap.set("n", '"', api.node.open.vertical, opts("Open vertical"))
+  vim.keymap.set("n", "%", api.node.open.horizontal, opts("Open horizontal"))
 
   --
 end
