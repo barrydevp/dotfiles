@@ -40,8 +40,8 @@ bindkey "^[" vi-cmd-mode
 #
 
 # search and also insert the result
-bindkey "^P" down-line-or-beginning-search # Down
-bindkey "^N" up-line-or-beginning-search # Up
+bindkey "^N" down-line-or-beginning-search # Down
+bindkey "^P" up-line-or-beginning-search # Up
 # # not insert the result 
 # bindkey "^P" history-beginning-search-backward
 # bindkey "^N" history-beginning-search-forward

@@ -22,12 +22,18 @@ alias \
 
 ### Dotfiles ###
 alias \
-  dotfile='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
+  dotfile='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME' \
+  dotfilec='cd $MYCONFIG && $EDITOR ../README.md'
+  
 
 ### Neovim ###
 alias \
   n="nvim" \
   nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
+
+### TMUX ###
+alias \
+  tmuxc="cd $__TMUX_CONFIG_DIR && $EDITOR tmux.conf"
 
 ### Obsidian ###
 # alias \

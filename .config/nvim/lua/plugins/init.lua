@@ -448,8 +448,7 @@ local default_plugins = {
   -- use "andweeb/presence.nvim"
   {
     "christoomey/vim-tmux-navigator",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    -- lazy = false,
+    lazy = false,
   },
 
   -- key mapping

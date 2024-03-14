@@ -149,14 +149,6 @@ M.tabufline = {
     },
 
     {
-      "<S-.>",
-      function()
-        require("core.ui.tabufline").tabuflineNext()
-      end,
-      { desc = "goto next buffer" },
-    },
-
-    {
       "<A-,>",
       function()
         require("core.ui.tabufline").tabuflinePrev()
