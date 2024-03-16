@@ -17,7 +17,7 @@ return {
   suggestion = {
     enabled = true,
     auto_trigger = true,
-    debounce = 100,
+    debounce = 150,
     keymap = {
       accept = false,
       accept_word = false,
