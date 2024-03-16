@@ -9,7 +9,7 @@ local on_attach = function(bufnr)
   api.config.mappings.default_on_attach(bufnr)
 
   -- custom mappings
-  local treeutils = require("plugins.configs.treeutils")
+  local treeutils = require("plugins.configs.treesitter.utils")
   vim.keymap.set("n", "<leader>ff", treeutils.launch_find_files, opts("Launch Find Files"))
   vim.keymap.set("n", "<C-p>", treeutils.launch_find_files, opts("Launch Find Files"))
   vim.keymap.set("n", "<C-_>", function()

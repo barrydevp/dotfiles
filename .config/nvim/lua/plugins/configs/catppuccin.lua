@@ -39,6 +39,16 @@ require("catppuccin").setup {
       LineNrBelow = { fg = C.surface1 },
       LineNr = { fg = C.lavender },
 
+      -- AI suggestion
+      AIAnnotation = {
+        fg = "#808080",
+        ctermfg = 244,
+      },
+      AISuggestion = {
+        fg = "#808080",
+        ctermfg = 244,
+      },
+
       -- Tabufline
       TblineFill = {
         bg = C.crust,

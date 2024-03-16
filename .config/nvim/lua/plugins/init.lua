@@ -471,7 +471,7 @@ local default_plugins = {
     -- dir = "/Users/apple/Dev/github.com/barrydevp/tabnine-nvim",
     build = "./dl_binaries.sh",
     lazy = false,
-    cond = config.options.ai_code == "tabnine",
+    cond = config.code.ai == "tabnine",
     opts = function()
       return require("plugins.configs.tabnine")
     end,
@@ -482,10 +482,29 @@ local default_plugins = {
 
   {
     "github/copilot.vim",
-    lazy = false,
-    cond = config.options.ai_code == "copilot",
+    event = "InsertEnter",
+    -- lazy = false,
+    cond = config.code.ai == "copilotvim",
     init = function()
+      return require("plugins.configs.copilotvim")
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    -- lazy = false,
+    cond = config.code.ai == "copilot",
+    opts = function()
       return require("plugins.configs.copilot")
+    end,
+    config = function(_, opts)
+      require("copilot").setup(opts)
+
+      -- load highlights
+      vim.api.nvim_command("highlight link CopilotAnnotation AIAnnotation")
+      vim.api.nvim_command("highlight link CopilotSuggestion AISuggestion")
     end,
   },
 

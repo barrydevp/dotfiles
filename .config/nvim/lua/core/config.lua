@@ -1,22 +1,14 @@
 local M = {}
 
-M.options = {
-  ai_code = "copilot", -- tabnine/copilot
+M.code = {
+  ai = "copilot", -- tabnine/copilotvim/copilot
 }
 
 M.ui = {
-  ------------------------------- base46 -------------------------------------
-  -- hl = highlights
-  hl_add = {},
-  hl_override = {},
-  changed_themes = {},
   theme_toggle = { "onedark", "one_light" },
   theme = "catppuccin", -- default theme
   transparency = false,
   lsp_semantic_tokens = true, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens
-
-  -- https://github.com/NvChad/base46/tree/v2.0/lua/base46/extended_integrations
-  extended_integrations = {}, -- these aren't compiled by default, ex: "alpha", "notify"
 
   -- cmp themeing
   cmp = {
@@ -29,15 +21,6 @@ M.ui = {
 
   telescope = { style = "borderless" }, -- borderless / bordered
 
-  ------------------------------- nvchad_ui modules -----------------------------
-  statusline = {
-    theme = "default", -- default/vscode/vscode_colored/minimal
-    -- default/round/block/arrow separators work only for default statusline theme
-    -- round and block will work for minimal theme only
-    separator_style = "default",
-    overriden_modules = nil,
-  },
-
   -- lazyload it when there are 1+ buffers
   tabufline = {
     show_numbers = false,
@@ -45,8 +28,6 @@ M.ui = {
     lazyload = true,
     overriden_modules = nil,
   },
-
-  cheatsheet = { theme = "grid" }, -- simple/grid
 
   lsp = {
     -- show function signatures i.e args as you type
