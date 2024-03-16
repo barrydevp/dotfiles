@@ -33,7 +33,7 @@ alias \
 
 ### TMUX ###
 alias \
-  tmuxc="cd $__TMUX_CONFIG_DIR && $EDITOR tmux.conf"
+  tmuxc="cd ~ && $EDITOR .tmux.conf"
 
 ### Obsidian ###
 # alias \

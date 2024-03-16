@@ -1,7 +1,15 @@
 ### vi mode ###
+# bindkey -rp ''
 # bindkey -v
 # bindkey "^F" vi-cmd-mode
 bindkey "^[" vi-cmd-mode
+
+# default binding
+# unbind fuckin idiot map
+bindkey -r "^[h"
+bindkey -r "^[i"
+bindkey -r "^[j"
+bindkey -r "^[l"
 
 # Standard and additional keybindings
 #
@@ -22,9 +30,9 @@ bindkey "^[" vi-cmd-mode
 # bindkey "^E" end-of-line
 # bindkey "^K" kill-line
 # bindkey "^R" history-incremental-search-backward
-# bindkey "^P" history-search-backward
-# bindkey "^Y" accept-and-hold
-# bindkey "^N" insert-last-word
+# bindkey "^S" history-incremental-search-forward
+# # bindkey "^Y" accept-and-hold
+# # bindkey "^N" insert-last-word
 # bindkey "^Q" push-line-or-edit
 
 # # ctrl+b/f or ctrl+left/right: move word by word (backward/forward)
@@ -32,6 +40,8 @@ bindkey "^[" vi-cmd-mode
 # bindkey '^f' forward-word
 # bindkey '^[[1;5D' backward-word
 # bindkey '^[[1;5C' forward-word
+bindkey "^H" backward-char
+bindkey "^L" forward-char
 #
 # # ctrl+backspace: delete word before
 # bindkey '^H' backward-kill-word
