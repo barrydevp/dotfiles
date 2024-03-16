@@ -124,8 +124,8 @@ M.default = {
     -- navigate within insert mode
     { "<C-h>", "<Left>", { desc = "move left" } },
     { "<C-l>", "<Right>", { desc = "move right" } },
-    { "<C-j>", "<Down>", { desc = "move down" } },
-    { "<C-k>", "<Up>", { desc = "move up" } },
+    -- { "<C-j>", "<Down>", { desc = "move down" } },
+    -- { "<C-k>", "<Up>", { desc = "move up" } },
   },
 
   [{ "n", "v" }] = {

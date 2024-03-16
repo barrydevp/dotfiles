@@ -17,13 +17,15 @@ return {
   suggestion = {
     enabled = true,
     auto_trigger = true,
-    debounce = 75,
+    debounce = 100,
     keymap = {
       accept = false,
       accept_word = false,
       accept_line = false,
-      next = "<M-]>",
-      prev = "<M-[>",
+      -- next = "<M-]>",
+      -- prev = "<M-[>",
+      next = "<C-j>",
+      prev = "<C-k>",
       dismiss = "<C-]>",
     },
   },
