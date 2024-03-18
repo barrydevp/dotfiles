@@ -1,30 +1,16 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local config = require("core.utils").load_config()
-local cmp_ui = config.ui.cmp
-local cmp_style = cmp_ui.style
-
-local field_arrangement = {
-  atom = { "kind", "abbr", "menu" },
-  atom_colored = { "kind", "abbr", "menu" },
-}
+local icons = require("core.icons").lspkind
 
 local formatting_style = {
   -- default fields order i.e completion word + item.kind + item.kind icons
-  fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
+  fields = { "abbr", "kind", "menu" },
 
   format = function(_, item)
-    local icons = require("core.icons").lspkind
-    local icon = (cmp_ui.icons and icons[item.kind]) or ""
+    local icon = icons[item.kind] or ""
 
-    if cmp_style == "atom" or cmp_style == "atom_colored" then
-      icon = " " .. icon .. " "
-      item.menu = cmp_ui.lspkind_text and "   (" .. item.kind .. ")" or ""
-      item.kind = icon
-    else
-      icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
-      item.kind = string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
-    end
+    item.menu = nil
+    item.kind = icon .. " " .. (item.kind or "")
 
     return item
   end,
@@ -36,34 +22,13 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local function border(hl_name)
-  return {
-    { "╭", hl_name },
-    { "─", hl_name },
-    { "╮", hl_name },
-    { "│", hl_name },
-    { "╯", hl_name },
-    { "─", hl_name },
-    { "╰", hl_name },
-    { "│", hl_name },
-  }
-end
-
 local options = {
   completion = {
     completeopt = "menu,menuone",
   },
-
   window = {
-    completion = cmp.config.window.bordered {
-      -- side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
-      -- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
-      -- scrollbar = false,
-    },
-    documentation = cmp.config.window.bordered {
-      -- border = border("CmpDocBorder"),
-      -- winhighlight = "Normal:CmpDoc",
-    },
+    completion = cmp.config.window.bordered {},
+    documentation = cmp.config.window.bordered {},
   },
   snippet = {
     expand = function(args)
@@ -193,9 +158,9 @@ local options = {
   },
 }
 
-if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then
-  options.window.completion.border = border("CmpBorder")
-end
+-- if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then
+--   options.window.completion.border = border("CmpBorder")
+-- end
 
 require("cmp").setup(options)
 

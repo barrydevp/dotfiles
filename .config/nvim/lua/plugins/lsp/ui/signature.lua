@@ -4,9 +4,7 @@ local api = vim.api
 local fn = vim.fn
 local dwidth = fn.strdisplaywidth
 
-local hint_mode = function()
-  return "overlay"
-end
+local hint_mode = "overlay"
 local hint_prefix = "󰞂 "
 local hint_postfix = " "
 local hint_scheme = "LspSignatureHintParameter"
@@ -224,7 +222,7 @@ M.virtual_hint = function(ctx, val)
 
   vim.api.nvim_buf_set_extmark(0, M.vt_ns, ctx.pos[1] - 2, col, {
     virt_text = vts,
-    virt_text_pos = hint_mode() or "overlay",
+    virt_text_pos = hint_mode,
     hl_mode = "combine",
   })
 end
@@ -312,7 +310,16 @@ M.setup = function(client, bufnr)
     end,
   })
 
-  vim.api.nvim_create_autocmd({ "InsertEnter", "CursorMovedI" }, {
+  vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+    group = group,
+    buffer = bufnr,
+    callback = function()
+      -- let lsp decide if signature hint is available for current position
+      M.parameter_hints()
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "CursorMovedI" }, {
     group = group,
     buffer = bufnr,
     callback = function()
@@ -326,14 +333,6 @@ M.setup = function(client, bufnr)
       M.trigger_signature(ctx, tr)
     end,
   })
-
-  -- vim.api.nvim_create_autocmd("ModeChanged", {
-  --   group = group,
-  --   buffer = bufnr,
-  --   callback = function(event)
-  --     print(vim.inspect(event))
-  --   end,
-  -- })
 end
 
 return M
