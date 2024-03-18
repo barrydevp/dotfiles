@@ -407,9 +407,9 @@ M.lspconfig = {
     {
       "<C-s>",
       function()
-        require("plugins.lsp.core").signature()
+        require("plugins.lsp.core").parameter_hints()
       end,
-      { desc = "lsp signature_help" },
+      { desc = "lsp parameter_hints" },
     },
   },
 

@@ -7,7 +7,8 @@ local dwidth = fn.strdisplaywidth
 local hint_mode = function()
   return "overlay"
 end
-local hint_prefix = ""
+local hint_prefix = "󰞂 "
+local hint_postfix = " "
 local hint_scheme = "LspSignatureHintParameter"
 
 local M = {
@@ -64,18 +65,32 @@ M.check_trigger_char = function(ctx, last_tr, trigger_chars, retrigger_chars)
   if last_tr and last_tr.is_triggered then
     -- if trigger_chars contains "("
     -- we assume function args are surronded by () in this language
-    local untrigger_chars = retrigger_chars
-    if vim.tbl_contains(trigger_chars, "(") then
-      untrigger_chars = { ")" }
-    end
+    local parenthesis = vim.tbl_contains(trigger_chars, "(")
 
-    for _, char in ipairs(untrigger_chars) do
-      if cur_char == char then
-        tr.is_triggered = false
-        tr.pos = pos
-        tr.trigger_char = char
+    if last_tr.pos[1] ~= ctx.pos[1] or last_tr.pos[2] > ctx.pos[2] then
+      -- in case of remove text or move cursor to the left or up/down
+      -- we let lsp decide if signature hint still active
+      tr.is_triggered = true
+      return tr
+    else
+      local untrigger_chars = retrigger_chars
+      if parenthesis then
+        untrigger_chars = { ")" }
+      end
 
-        return tr
+      for _, char in ipairs(untrigger_chars) do
+        -- if we found untrigger char
+        -- we let lsp decide if signature hint still active
+        -- since some untrigger char is not the end of the param hint
+        -- eg: assert((true & false), "is not true")
+        --                         ^ -> this untrigger char is not for closeing
+        if cur_char == char then
+          tr.is_triggered = true
+          tr.pos = pos
+          tr.trigger_char = char
+
+          return tr
+        end
       end
     end
 
@@ -161,6 +176,10 @@ end
 M.virtual_hint = function(ctx, val)
   M.cleanup()
 
+  if not val then
+    return
+  end
+
   local hint = vim.tbl_get(val, "param", "text")
   if hint == nil or hint == "" then
     return
@@ -172,54 +191,86 @@ M.virtual_hint = function(ctx, val)
     return
   end
 
-  local prev_line = vim.api.nvim_buf_get_lines(0, ctx.pos[1] - 2, ctx.pos[1] - 1, false)[1]
+  local prev_line = api.nvim_buf_get_lines(0, ctx.pos[1] - 2, ctx.pos[1] - 1, false)[1]
   local prev_x = dwidth(prev_line)
+  local width = api.nvim_win_get_width(0)
 
-  local pad = ""
-  if prev_x < ctx.pos[2] then
-    pad = string.rep(" ", ctx.pos[2] - prev_x)
+  local hint_text = hint_prefix .. hint .. hint_postfix
+  -- we use this because some UTF code only have 1 width
+  local dw_hint_text = dwidth(hint_text)
+  -- 6 is the margin (sign + number col)
+  local margin = 6
+  -- overflow line is wrapped
+  -- so offset is relative to the width
+  local offset = (ctx.pos[2] - 1) % (width - margin) + 1 -- 1-index based
+  -- if hint is overflow the screen, we move the hint to the left
+  -- we minus 1 in the left hand side of comparision because extmarks is 1 more
+  -- than buffer line
+  if (offset + dw_hint_text) > (width - margin + 1) then
+    offset = width - margin - dw_hint_text + 1
   end
-  -- print(prev_x .. "," .. ctx.pos[2])
 
-  local vt = { pad .. hint_prefix .. hint, hint_scheme }
-  local offset = ctx.pos[2] - #pad
-  -- print(offset)
-  vim.api.nvim_buf_set_extmark(0, M.vt_ns, ctx.pos[1] - 2, offset, {
-    virt_text = { vt },
+  local pad_len = offset - prev_x
+  local col = offset - 1 -- 0-index based
+  local vts
+  if pad_len > 0 then
+    vts = { { string.rep(" ", pad_len), "Normal" }, { hint_text, hint_scheme } }
+    col = offset - pad_len
+  else
+    vts = { { hint_prefix .. hint .. hint_postfix, hint_scheme } }
+  end
+  -- print(vim.inspect(vts))
+  -- print(pad_len .. "," .. offset)
+
+  vim.api.nvim_buf_set_extmark(0, M.vt_ns, ctx.pos[1] - 2, col, {
+    virt_text = vts,
     virt_text_pos = hint_mode() or "overlay",
     hl_mode = "combine",
   })
 end
 
-M.parameter_hints = function(ctx)
-  local params = util.make_position_params()
-  vim.lsp.buf_request(0, ms.textDocument_signatureHelp, params, function(_, result, rctx, _)
-    if api.nvim_get_current_buf() ~= rctx.bufnr then
-      -- Ignore result since buffer changed. This happens for slow language servers.
-      return
+M.trigger_signature = function(ctx, tr)
+  if tr.is_triggered then
+    -- if current char is trigger char, request new signature state
+    if tr.pos[2] == ctx.pos[2] then
+      local params = util.make_position_params()
+      vim.lsp.buf_request(0, ms.textDocument_signatureHelp, params, function(_, result, rctx, _)
+        if api.nvim_get_current_buf() ~= rctx.bufnr then
+          -- Ignore result since buffer changed. This happens for slow language servers.
+          return
+        end
+
+        if not (result and result.signatures and result.signatures[1]) then
+          M.clear_state()
+          M.cleanup()
+          return
+        end
+
+        local sign, param = M.parse_signature(result)
+        if not param then
+          M.clear_state()
+          M.cleanup()
+          return
+        end
+
+        local val = {
+          sign = sign,
+          param = param,
+        }
+
+        -- cached the result for further render
+        M.set_state({ val = val }, false)
+
+        -- render the active parameter
+        M.virtual_hint(ctx, val)
+      end)
+    else -- else keep the current signature state and re-render
+      M.virtual_hint(ctx, M.state.val)
     end
-
-    if not (result and result.signatures and result.signatures[1]) then
-      return
-    end
-    local sign, param = M.parse_signature(result)
-    if not param then
-      M.clear_state()
-      M.cleanup()
-      return
-    end
-
-    local val = {
-      sign = sign,
-      param = param,
-    }
-
-    -- cached the result for further render
-    M.set_state({ val = val }, false)
-
-    -- render the active parameter
-    M.virtual_hint(ctx, val)
-  end)
+  else
+    M.clear_state()
+    M.cleanup()
+  end
 end
 
 M.retrive_ctx = function()
@@ -231,6 +282,17 @@ M.retrive_ctx = function()
     pos = pos,
     line_to_cursor = line_to_cursor,
   }
+end
+
+M.parameter_hints = function()
+  local ctx = M.retrive_ctx()
+  local tr = {
+    is_triggered = true,
+    pos = ctx.pos,
+    trigger_char = nil,
+  }
+  M.set_state({ tr = tr, ctx = ctx }, false)
+  M.trigger_signature(ctx, tr)
 end
 
 M.setup = function(client, bufnr)
@@ -250,29 +312,28 @@ M.setup = function(client, bufnr)
     end,
   })
 
-  vim.api.nvim_create_autocmd("CursorMovedI", {
+  vim.api.nvim_create_autocmd({ "InsertEnter", "CursorMovedI" }, {
     group = group,
     buffer = bufnr,
     callback = function()
       local ctx = M.retrive_ctx()
       M.set_state({ ctx = ctx }, false)
 
-      local rt = M.check_trigger_char(ctx, M.state.rt, trigger_chars, retrigger_chars)
-      M.set_state({ rt = rt }, false)
+      local tr = M.check_trigger_char(ctx, M.state.tr, trigger_chars, retrigger_chars)
+      M.set_state({ tr = tr }, false)
+      -- print(vim.inspect(tr))
 
-      if rt.is_triggered then
-        -- if current char is trigger char, request new signature state
-        if rt.pos[2] == ctx.pos[2] then
-          M.parameter_hints(ctx)
-        else -- else keep the current signature state and re-render
-          M.virtual_hint(ctx, M.state.val)
-        end
-      else
-        M.clear_state()
-        M.cleanup()
-      end
+      M.trigger_signature(ctx, tr)
     end,
   })
+
+  -- vim.api.nvim_create_autocmd("ModeChanged", {
+  --   group = group,
+  --   buffer = bufnr,
+  --   callback = function(event)
+  --     print(vim.inspect(event))
+  --   end,
+  -- })
 end
 
 return M

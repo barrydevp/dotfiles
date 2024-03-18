@@ -52,6 +52,11 @@ M.signature = function()
   vim.lsp.buf.signature_help()
 end
 
+M.parameter_hints = function()
+  vim.lsp.buf.signature_help()
+  require("plugins.lsp.ui.signature").parameter_hints()
+end
+
 M.on_init = function(client, _)
   if client.supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = nil
