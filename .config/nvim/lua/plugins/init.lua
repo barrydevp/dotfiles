@@ -2,7 +2,7 @@ local config = require("core.utils").load_config()
 
 -- All plugins have lazy=true by default,to load a plugin on startup just lazy=false
 -- List of all default plugins & their definitions
-local default_plugins = {
+local plugins = {
   "nvim-lua/plenary.nvim",
 
   {
@@ -17,7 +17,7 @@ local default_plugins = {
 
   {
     "nvim-lualine/lualine.nvim",
-    lazy = false,
+    event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("plugins.configs.lualine")
@@ -103,7 +103,8 @@ local default_plugins = {
   -- syntax analyzer and parser
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
+    -- event = { "BufReadPost", "BufNewFile" },
+    event = { "VeryLazy" },
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     dependencies = {
@@ -133,6 +134,15 @@ local default_plugins = {
         end,
       },
     },
+    -- init = function(plugin)
+    --   -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+    --   -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+    --   -- no longer trigger the **nvim-treesitter** module to be loaded in time.
+    --   -- Luckily, the only things that those plugins need are the custom queries, which we make available
+    --   -- during startup.
+    --   require("lazy.core.loader").add_to_rtp(plugin)
+    --   require("nvim-treesitter.query_predicates")
+    -- end,
     config = function()
       require("plugins.configs.treesitter")
     end,
@@ -145,9 +155,6 @@ local default_plugins = {
     opts = function()
       return require("plugins.configs.bqf")
     end,
-    -- config = function(_, opts)
-    --   require("bqf").setup(opts)
-    -- end,
   },
 
   -- git stuff
@@ -246,10 +253,10 @@ local default_plugins = {
   },
 
   -- editorconfig
-  {
-    "editorconfig/editorconfig-vim",
-    lazy = false,
-  },
+  -- {
+  --   "editorconfig/editorconfig-vim",
+  --   lazy = false,
+  -- },
   -- auto detect indent
   {
     "tpope/vim-sleuth",
@@ -275,10 +282,10 @@ local default_plugins = {
     end,
   },
 
-  {
-    "tpope/vim-repeat",
-    event = "InsertEnter",
-  },
+  -- {
+  --   "tpope/vim-repeat",
+  --   event = "InsertEnter",
+  -- },
 
   -- folding
   {
@@ -299,14 +306,15 @@ local default_plugins = {
     end,
   },
   -- highlights characters to navigate
-  {
-    "unblevable/quick-scope",
-    event = "BufRead",
-    init = function()
-      -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
-      vim.cmd([[ source ~/.config/nvim/configs/quickscope.vim ]])
-    end,
-  },
+  -- {
+  --   "unblevable/quick-scope",
+  --   -- event = "BufRead",
+  --   event = "VeryLazy",
+  --   init = function()
+  --     -- vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
+  --     vim.cmd([[ source ~/.config/nvim/configs/quickscope.vim ]])
+  --   end,
+  -- },
 
   -- lsp stuff
   {
@@ -331,7 +339,8 @@ local default_plugins = {
 
   {
     "stevearc/conform.nvim",
-    event = { "BufWritePre" },
+    -- event = { "BufWritePre" },
+    cmd = "ConformInfo",
     config = function()
       require("plugins.configs.conform")
     end,
@@ -342,6 +351,25 @@ local default_plugins = {
   --   event = "BufReadPre",
   --   config = function()
   --     require("plugins.configs.conform")
+  --   end,
+  -- },
+
+  -- {
+  --   "ray-x/lsp_signature.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     hint_prefix = "",
+  --     hint_scheme = "LspSignatureActiveParameter",
+  --     hint_inline = function()
+  --       return false
+  --     end,
+  --     floating_window = false,
+  --     floating_window_above_cur_line = false,
+  --     bind = true,
+  --     hi_parameter = "LspSignatureActiveParameter",
+  --   },
+  --   config = function(_, opts)
+  --     require("lsp_signature").setup(opts)
   --   end,
   -- },
 
@@ -428,21 +456,21 @@ local default_plugins = {
   },
 
   -- winbar for showing code context in status bar
-  {
-    "Bekaboo/dropbar.nvim",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    -- lazy = false,
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-    },
-    opts = function()
-      return require("plugins.configs.dropbar")
-    end,
-    -- config = function(_, opts)
-    --   require("dropbar").setup(opts)
-    -- end,
-  },
+  -- {
+  --   "Bekaboo/dropbar.nvim",
+  --   event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+  --   -- lazy = false,
+  --   -- optional, but required for fuzzy finder support
+  --   dependencies = {
+  --     "nvim-telescope/telescope-fzf-native.nvim",
+  --   },
+  --   opts = function()
+  --     return require("plugins.configs.dropbar")
+  --   end,
+  --   -- config = function(_, opts)
+  --   --   require("dropbar").setup(opts)
+  --   -- end,
+  -- },
 
   -- discord rich presence
   -- use "andweeb/presence.nvim"
@@ -483,7 +511,6 @@ local default_plugins = {
   {
     "github/copilot.vim",
     event = "InsertEnter",
-    -- lazy = false,
     cond = config.code.ai == "copilotvim",
     init = function()
       return require("plugins.configs.copilotvim")
@@ -494,7 +521,6 @@ local default_plugins = {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
-    -- lazy = false,
     cond = config.code.ai == "copilot",
     opts = function()
       return require("plugins.configs.copilot")
@@ -543,4 +569,4 @@ local default_plugins = {
   -- },
 }
 
-require("lazy").setup(default_plugins, config.lazy_nvim)
+require("lazy").setup(plugins, config.lazy_nvim)

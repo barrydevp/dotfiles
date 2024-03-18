@@ -40,8 +40,8 @@ bindkey -r "^[l"
 # bindkey '^f' forward-word
 # bindkey '^[[1;5D' backward-word
 # bindkey '^[[1;5C' forward-word
-bindkey "^H" backward-char
-bindkey "^L" forward-char
+# bindkey "^H" backward-char
+# bindkey "^L" forward-char
 #
 # # ctrl+backspace: delete word before
 # bindkey '^H' backward-kill-word

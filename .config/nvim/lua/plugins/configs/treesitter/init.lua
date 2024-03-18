@@ -1,6 +1,6 @@
 local ts_config = require("nvim-treesitter.configs")
 
-local default = {
+local opts = {
   ensure_installed = {
     "vimdoc",
     "lua",
@@ -38,20 +38,20 @@ local default = {
         end
       end
 
-      return lang == "json" and vim.api.nvim_buf_line_count(bufnr) > 2000
+      return lang == "json" and vim.api.nvim_buf_line_count(bufnr) > 4000
     end,
   },
   indent = {
     enable = true,
   },
-  matchup = {
-    enable = true,
-  },
+  -- matchup = { -- this cause very lagging when typing large file
+  --   enable = true,
+  -- },
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<C-space>",
-      node_incremental = "<C-space>",
+      init_selection = "<CR>",
+      node_incremental = "<CR>",
       scope_incremental = false,
       node_decremental = "<bs>",
     },
@@ -108,4 +108,4 @@ local default = {
   },
 }
 
-ts_config.setup(default)
+ts_config.setup(opts)

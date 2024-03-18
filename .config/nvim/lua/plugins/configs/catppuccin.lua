@@ -35,9 +35,14 @@ require("catppuccin").setup {
       -- WinBar = { bg = colors.mantle },
       -- WinBarNC = { bg = colors.mantle },
 
-      LineNrAbove = { fg = C.surface1 },
-      LineNrBelow = { fg = C.surface1 },
+      LineNrAbove = { fg = C.surface2 },
+      LineNrBelow = { fg = C.surface2 },
       LineNr = { fg = C.lavender },
+
+      -- lsp signature
+      -- LspSignatureActiveParameter = { fg = C.yellow },
+      -- LspSignatureHintParameter = { fg = C.text, bg = C.crust },
+      LspSignatureHintParameter = { fg = C.peach, bg = C.mantle },
 
       -- AI suggestion
       AIAnnotation = {

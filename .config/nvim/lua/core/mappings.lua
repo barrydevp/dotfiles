@@ -113,19 +113,22 @@ M.default = {
     { "<C-x>", termcodes("<C-\\><C-N>"), { desc = "escape terminal mode" } },
     -- {"<esc><esc>", termcodes("<C-\\><C-N>"), {desc="escape terminal mode"} },
     { "<C-w>", termcodes("<C-\\><C-N><C-w>"), { desc = "window command mode" } },
-    { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
-    { "<C-l>", termcodes("<C-\\><C-N><C-w>l"), { desc = "terminal window right" } },
-    { "<C-j>", termcodes("<C-\\><C-N><C-w>j"), { desc = "terminal window down" } },
-    { "<C-k>", termcodes("<C-\\><C-N><C-w>k"), { desc = "terminal window up" } },
+    -- { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
+    -- { "<C-l>", termcodes("<C-\\><C-N><C-w>l"), { desc = "terminal window right" } },
+    -- { "<C-j>", termcodes("<C-\\><C-N><C-w>j"), { desc = "terminal window down" } },
+    -- { "<C-k>", termcodes("<C-\\><C-N><C-w>k"), { desc = "terminal window up" } },
   },
 
   -- insert and command mode
   [{ "i", "c" }] = {
     -- navigate within insert mode
-    { "<C-h>", "<Left>", { desc = "move left" } },
-    { "<C-l>", "<Right>", { desc = "move right" } },
+    { "<C-b>", "<Left>", { desc = "move left" } },
+    { "<C-f>", "<Right>", { desc = "move right" } },
+    -- { "<C-h>", "<Left>", { desc = "move left" } },
+    -- { "<C-l>", "<Right>", { desc = "move right" } },
     -- { "<C-j>", "<Down>", { desc = "move down" } },
     -- { "<C-k>", "<Up>", { desc = "move up" } },
+    { "<C-d>", "<Del>", { desc = "<Del>" } },
   },
 
   [{ "n", "v" }] = {
@@ -245,9 +248,9 @@ M.lspconfig = {
     },
 
     {
-      "gk",
+      "S",
       function()
-        vim.lsp.buf.signature_help()
+        require("plugins.lsp.core").signature()
       end,
       { desc = "lsp signature_help" },
     },
@@ -272,7 +275,7 @@ M.lspconfig = {
 
     -- {"<leader>D",
     {
-      "gt",
+      "gy",
       function()
         vim.lsp.buf.type_definition()
       end,
@@ -282,7 +285,7 @@ M.lspconfig = {
     {
       "<leader>ra",
       function()
-        require("core.ui.lsp.renamer").open()
+        require("plugins.lsp.core").renamer()
       end,
       { desc = "lsp rename" },
     },
@@ -290,7 +293,7 @@ M.lspconfig = {
     {
       "<leader>lr",
       function()
-        require("core.ui.lsp.renamer").open()
+        require("plugins.lsp.core").renamer()
       end,
       { desc = "lsp rename" },
     },
@@ -354,7 +357,7 @@ M.lspconfig = {
     {
       "<leader>lf",
       function()
-        require("plugins.lsp.core").lsp_formatting()
+        require("plugins.lsp.core").format()
       end,
       { desc = "lsp formatting" },
     },
@@ -402,11 +405,11 @@ M.lspconfig = {
 
   ["i"] = {
     {
-      "<C-\\>",
+      "<C-s>",
       function()
-        vim.lsp.buf.signature_help()
+        require("plugins.lsp.core").signature()
       end,
-      { desc = "lsp hover" },
+      { desc = "lsp signature_help" },
     },
   },
 

@@ -35,13 +35,21 @@ M.formatters = {
   "gofumpt",
 }
 
-M.lsp_formatting = function(bufnr)
+M.format = function(bufnr)
   local conform = require("conform")
   conform.format {
     lsp_fallback = true,
     async = true,
     timeout_ms = 500,
   }
+end
+
+M.renamer = function()
+  require("plugins.lsp.ui.renamer").open()
+end
+
+M.signature = function()
+  vim.lsp.buf.signature_help()
 end
 
 M.on_init = function(client, _)
@@ -54,11 +62,10 @@ M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
   if client.server_capabilities.signatureHelpProvider then
-    require("core.ui.lsp.signature").setup(client)
+    require("plugins.lsp.ui.signature").setup(client)
   end
 end
 
--- M.capabilities = require("cmp_nvim_lsp").default_capabilities()
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
 M.capabilities.textDocument.completion.completionItem = {

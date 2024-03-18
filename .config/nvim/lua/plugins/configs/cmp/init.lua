@@ -56,7 +56,7 @@ local options = {
 
   window = {
     completion = cmp.config.window.bordered {
-      side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
+      -- side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
       -- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
       -- scrollbar = false,
     },
@@ -74,11 +74,42 @@ local options = {
   formatting = formatting_style,
 
   mapping = cmp.mapping.preset.insert {
-    ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-    ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-p>"] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
+      else
+        cmp.complete()
+      end
+    end, {
+      "i",
+    }),
+    ["<C-n>"] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+      else
+        cmp.complete()
+      end
+    end, {
+      "i",
+    }),
+    -- ["<C-n>"] = cmp.mapping(function(fallback)
+    --   -- if completion menu is visible, select next item
+    --   if not cmp.select_next_item { behavior = cmp.SelectBehavior.Select } then
+    --     if not cmp.complete() then -- else open it
+    --       local release = require("cmp").core:suspend()
+    --       fallback() -- fallback if not
+    --       vim.schedule(release)
+    --     end
+    --   end
+    -- end, {
+    --   "i",
+    --   "s",
+    -- }),
+    -- ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+    -- ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+    -- ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    -- ["<C-u>"] = cmp.mapping.scroll_docs(4),
+    -- ["<C-Space>"] = cmp.mapping.complete(), -- <C-Space> is used for tmux prefix
     ["<C-e>"] = cmp.mapping(
       --- Integrated with copilot, tabnine
       function(fallback)
@@ -169,7 +200,6 @@ end
 require("cmp").setup(options)
 
 local cmdline_mapping = cmp.mapping.preset.cmdline {
-  ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "c" }),
   -- ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "c" }),
   -- ["<CR>"] = cmp.mapping.confirm {
   --   -- behavior = cmp.ConfirmBehavior.Insert,
@@ -184,9 +214,6 @@ local cmdline_mapping = cmp.mapping.preset.cmdline {
       end
     else
       cmp.complete()
-      if #cmp.get_entries() == 1 then
-        cmp.confirm { select = true }
-      end
     end
   end, { "c" }),
 }

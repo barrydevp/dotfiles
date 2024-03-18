@@ -1,7 +1,7 @@
 local core = require("plugins.lsp.core")
 
 -- load UI
-require("core.ui.lsp")
+require("plugins.lsp.ui")
 
 -- these langs require same lspconfig so put em all in a table and loop through!
 local servers = core.servers
