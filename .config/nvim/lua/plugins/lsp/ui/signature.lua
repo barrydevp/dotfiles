@@ -196,7 +196,7 @@ M.virtual_hint = function(ctx, val)
   local width = api.nvim_win_get_width(0)
 
   local hint_text = hint_prefix .. hint .. hint_postfix
-  -- we use this because some UTF code only have 1 width
+  -- use dwidth() because UTF char occupies 1 col
   local dw_hint_text = dwidth(hint_text)
   -- 6 is the margin (sign + number col)
   local margin = 6
@@ -205,7 +205,7 @@ M.virtual_hint = function(ctx, val)
   local offset = (ctx.pos[2] - 1) % (width - margin) + 1 -- 1-index based
   -- if hint is overflow the screen, we move the hint to the left
   -- we minus 1 in the left hand side of comparision because extmarks is 1 more
-  -- than buffer line
+  -- colunm than buffer line
   if (offset + dw_hint_text) > (width - margin + 1) then
     offset = width - margin - dw_hint_text + 1
   end
