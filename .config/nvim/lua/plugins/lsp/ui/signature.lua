@@ -103,7 +103,7 @@ end
 -- modified of:
 -- https://github.com/neovim/neovim/blob/e3bd04f2aff738722c06276cc926d4bdd4501402/runtime/lua/vim/lsp/util.lua#L896
 M.parse_signature = function(signature_help)
-  if not signature_help.signatures then
+  if not (signature_help and signature_help.signatures) then
     return
   end
 
@@ -238,11 +238,11 @@ M.trigger_signature = function(ctx, tr)
           return
         end
 
-        if not (result and result.signatures and result.signatures[1]) then
-          M.clear_state()
-          M.cleanup()
-          return
-        end
+        -- if not (result and result.signatures and result.signatures[1]) then
+        --   M.clear_state()
+        --   M.cleanup()
+        --   return
+        -- end
 
         local sign, param = M.parse_signature(result)
         if not param then

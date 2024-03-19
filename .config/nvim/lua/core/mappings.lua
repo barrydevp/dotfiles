@@ -41,6 +41,8 @@ M.default = {
     { "<leader>_", ":split<CR>", { desc = "h-split" } },
     { '<leader>"', ":vsplit<CR>", { desc = "v-split" } },
     { "<leader>%", ":split<CR>", { desc = "h-split" } },
+    { '<C-w>"', ":vsplit<CR>", { desc = "v-split" } },
+    { "<C-w>%", ":split<CR>", { desc = "h-split" } },
 
     -- save
     -- { "<C-s>", "<cmd> w <CR>", { desc = "save file" } },
