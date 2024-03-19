@@ -6,10 +6,10 @@ bindkey "^[" vi-cmd-mode
 
 # default binding
 # unbind fuckin idiot map
-bindkey -r "^[h"
-bindkey -r "^[i"
-bindkey -r "^[j"
-bindkey -r "^[l"
+# bindkey -r "^[h"
+# bindkey -r "^[i"
+# bindkey -r "^[j"
+# bindkey -r "^[l"
 
 # Standard and additional keybindings
 #
