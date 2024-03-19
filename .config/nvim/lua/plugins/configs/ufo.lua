@@ -1,4 +1,5 @@
 local ufo = require("ufo")
+local set_keymaps = require("core.utils").set_keymaps
 
 local ftMap = {
   vim = "indent",
@@ -58,14 +59,22 @@ ufo.setup {
   fold_virt_text_handler = fold_virt_text_handler,
 }
 
-vim.keymap.set("n", "zR", ufo.openAllFolds)
-vim.keymap.set("n", "zM", ufo.closeAllFolds)
-vim.keymap.set("n", "zr", ufo.openFoldsExceptKinds)
-vim.keymap.set("n", "zm", ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
-vim.keymap.set("n", "K", function()
-  local winid = ufo.peekFoldedLinesUnderCursor()
-  if not winid then
-    vim.lsp.buf.hover()
-    -- vim.cmd([[ Lspsaga hover_doc ]])
-  end
-end)
+set_keymaps {
+  ["n"] = {
+    { "zR", ufo.openAllFolds, { desc = "open all folds" } },
+    { "zM", ufo.closeAllFolds, { desc = "close all folds" } },
+    { "zr", ufo.openFoldsExceptKinds, { desc = "open folds except kinds" } },
+    { "zm", ufo.closeFoldsWith, { desc = "close folds with" } }, -- closeAllFolds == closeFoldsWith(0)
+    {
+      "K",
+      function()
+        local winid = ufo.peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+          -- vim.cmd([[ Lspsaga hover_doc ]])
+        end
+      end,
+      { desc = "hover" },
+    },
+  },
+}

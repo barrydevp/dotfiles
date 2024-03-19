@@ -1,4 +1,5 @@
-local autocmd = vim.api.nvim_create_autocmd
+local api = vim.api
+local autocmd = api.nvim_create_autocmd
 
 -- dont list quickfix buffers
 autocmd("FileType", {
@@ -35,7 +36,7 @@ autocmd("FileType", {
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.api.nvim_buf_set_keymap(event.buf, "n", "q", "<CMD>close<CR>", { silent = true })
+    api.nvim_buf_set_keymap(event.buf, "n", "q", "<CMD>close<CR>", { silent = true })
   end,
 })
 
@@ -51,4 +52,22 @@ autocmd("FileType", {
     -- do the rest of the callback
   end,
   -- command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o",
+})
+
+-- disable some keymap on the CmdWin (q:)
+autocmd("CmdwinEnter", {
+  pattern = "[:>]",
+  callback = function()
+    api.nvim_buf_del_keymap(0, "n", "<CR>")
+    api.nvim_buf_del_keymap(0, "x", "<CR>")
+    -- api.nvim_buf_del_keymap(0, "n", "<C-C>")
+    -- local nmaps = api.nvim_buf_get_keymap(0, "n")
+    --
+    -- for _, map in pairs(nmaps) do
+    --     api.nvim_buf_del_keymap(0, "n", map.lhs)
+    --   -- if map.lhs == "<CR>" or map.lhs == "<C-c>" then
+    --     api.nvim_buf_del_keymap(0, "n", map.lhs)
+    --   -- end
+    -- end
+  end,
 })

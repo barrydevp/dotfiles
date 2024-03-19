@@ -103,7 +103,6 @@ local plugins = {
   -- syntax analyzer and parser
   {
     "nvim-treesitter/nvim-treesitter",
-    -- event = { "BufReadPost", "BufNewFile" },
     event = { "VeryLazy" },
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
@@ -134,15 +133,15 @@ local plugins = {
         end,
       },
     },
-    -- init = function(plugin)
-    --   -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
-    --   -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
-    --   -- no longer trigger the **nvim-treesitter** module to be loaded in time.
-    --   -- Luckily, the only things that those plugins need are the custom queries, which we make available
-    --   -- during startup.
-    --   require("lazy.core.loader").add_to_rtp(plugin)
-    --   require("nvim-treesitter.query_predicates")
-    -- end,
+    init = function(plugin)
+      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
+      -- Luckily, the only things that those plugins need are the custom queries, which we make available
+      -- during startup.
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
     config = function()
       require("plugins.configs.treesitter")
     end,
@@ -253,10 +252,10 @@ local plugins = {
   },
 
   -- editorconfig
-  -- {
-  --   "editorconfig/editorconfig-vim",
-  --   lazy = false,
-  -- },
+  {
+    "editorconfig/editorconfig-vim",
+    lazy = false,
+  },
   -- auto detect indent
   {
     "tpope/vim-sleuth",
@@ -480,18 +479,18 @@ local plugins = {
   },
 
   -- key mapping
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
-    init = function()
-      require("core.utils").load_mappings("whichkey")
-    end,
-    cmd = "WhichKey",
-    config = function(_, opts)
-      require("which-key").setup(opts)
-    end,
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
+  --   init = function()
+  --     require("core.utils").load_mappings("whichkey")
+  --   end,
+  --   cmd = "WhichKey",
+  --   config = function(_, opts)
+  --     require("which-key").setup(opts)
+  --   end,
+  -- },
 
   -- AI code generation
   {

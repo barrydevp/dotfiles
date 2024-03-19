@@ -18,7 +18,7 @@ M.default = {
 
   ["n"] = {
     -- Use control-c instead of escape
-    { "<C-c>", "<Esc>", { desc = "Esc" } },
+    -- { "<C-c>", "<Esc>", { desc = "Esc" } },
 
     -- Turn of search highlight
     { "<ESC>", "<cmd> noh <CR>", { desc = "no highlight" } },
@@ -43,7 +43,7 @@ M.default = {
     { "<leader>%", ":split<CR>", { desc = "h-split" } },
 
     -- save
-    { "<C-s>", "<cmd> w <CR>", { desc = "save file" } },
+    -- { "<C-s>", "<cmd> w <CR>", { desc = "save file" } },
 
     -- Copy all
     -- {"<C-c>", "<cmd> %y+ <CR>", {desc="copy whole file"} },
@@ -410,6 +410,13 @@ M.lspconfig = {
         require("plugins.lsp.core").parameter_hints()
       end,
       { desc = "lsp parameter_hints" },
+    },
+    {
+      "<C-l>",
+      function()
+        vim.lsp.buf.hover()
+      end,
+      { desc = "lsp hover" },
     },
   },
 

@@ -67,6 +67,7 @@ lualine.setup {
       -- },
       -- { session_status },
       "encoding",
+      "lsp_progress",
       "fileformat",
       "filetype",
     },
