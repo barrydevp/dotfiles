@@ -1,11 +1,8 @@
 local opt = vim.opt
 local g = vim.g
-local config = require("core.utils").load_config()
+local config = require("core.config")
 
 -------------------------------------- globals -----------------------------------------
-g.nvchad_theme = config.ui.theme
-g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
-g.toggle_theme_icon = "   "
 g.transparency = config.ui.transparency
 
 -- general
@@ -18,7 +15,7 @@ opt.showmode = false
 -- opt.title = true
 opt.clipboard = "unnamedplus"
 opt.cmdheight = 1
-opt.cursorline = false
+opt.cursorline = true
 
 -- Indenting
 opt.expandtab = true

@@ -5,7 +5,6 @@ M.code = {
 }
 
 M.ui = {
-  theme_toggle = { "onedark", "one_light" },
   theme = "catppuccin", -- default theme
   transparency = false,
   lsp_semantic_tokens = true, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens

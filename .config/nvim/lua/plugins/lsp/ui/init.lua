@@ -18,7 +18,7 @@ vim.diagnostic.config {
 }
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
+  border = "single",
   relative = "cursor",
   -- max_height = 12, -- max height of signature floating_window
   max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
@@ -26,7 +26,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "rounded",
+  border = "single",
   focusable = false,
   relative = "cursor",
   -- silent = true,
@@ -36,11 +36,13 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 })
 
 -- Borders for LspInfo winodw
-local win = require("lspconfig.ui.windows")
-local _default_opts = win.default_opts
+-- local win = require("lspconfig.ui.windows")
+-- local _default_opts = win.default_opts
+--
+-- win.default_opts = function(options)
+--   local opts = _default_opts(options)
+--   opts.border = "single"
+--   return opts
+-- end
 
-win.default_opts = function(options)
-  local opts = _default_opts(options)
-  opts.border = "rounded"
-  return opts
-end
+return {}

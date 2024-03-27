@@ -148,7 +148,7 @@ M.tabufline = {
     {
       "<A-.>",
       function()
-        require("core.ui.tabufline").tabuflineNext()
+        require("plugins.ui.tabufline.core").tabuflineNext()
       end,
       { desc = "goto next buffer" },
     },
@@ -156,7 +156,7 @@ M.tabufline = {
     {
       "<A-,>",
       function()
-        require("core.ui.tabufline").tabuflinePrev()
+        require("plugins.ui.tabufline.core").tabuflinePrev()
       end,
       { desc = "goto prev buffer" },
     },
@@ -165,21 +165,21 @@ M.tabufline = {
     {
       "<leader>x",
       function()
-        require("core.ui.tabufline").close_buffer()
+        require("plugins.ui.tabufline.core").close_buffer()
       end,
       { desc = "close buffer" },
     },
     {
       "<A-c>",
       function()
-        require("core.ui.tabufline").close_buffer()
+        require("plugins.ui.tabufline.core").close_buffer()
       end,
       { desc = "close buffer" },
     },
     {
       "<C-w><C-w>",
       function()
-        require("core.ui.tabufline").close_buffer()
+        require("plugins.ui.tabufline.core").close_buffer()
       end,
       { desc = "close buffer" },
     },
@@ -252,7 +252,7 @@ M.lspconfig = {
     {
       "S",
       function()
-        require("plugins.lsp.core").signature()
+        require("plugins.lsp.utils.fn").signature()
       end,
       { desc = "lsp signature_help" },
     },
@@ -287,7 +287,7 @@ M.lspconfig = {
     {
       "<leader>ra",
       function()
-        require("plugins.lsp.core").renamer()
+        require("plugins.lsp.utils.fn").renamer()
       end,
       { desc = "lsp rename" },
     },
@@ -295,7 +295,7 @@ M.lspconfig = {
     {
       "<leader>lr",
       function()
-        require("plugins.lsp.core").renamer()
+        require("plugins.lsp.utils.fn").renamer()
       end,
       { desc = "lsp rename" },
     },
@@ -325,19 +325,51 @@ M.lspconfig = {
     },
 
     {
+      "[d",
+      function()
+        require("plugins.lsp.utils.fn").diagnostic_goto(false)
+      end,
+      { desc = "goto prev diagnostic" },
+    },
+
+    {
+      "]d",
+      function()
+        require("plugins.lsp.utils.fn").diagnostic_goto(true)
+      end,
+      { desc = "goto next diagnostic" },
+    },
+
+    {
       "[e",
       function()
-        vim.diagnostic.goto_prev()
+        require("plugins.lsp.utils.fn").diagnostic_goto(false, "ERROR")
       end,
-      { desc = "goto prev" },
+      { desc = "goto prev error" },
     },
 
     {
       "]e",
       function()
-        vim.diagnostic.goto_next()
+        require("plugins.lsp.utils.fn").diagnostic_goto(true, "ERROR")
       end,
-      { desc = "goto_next" },
+      { desc = "goto next error" },
+    },
+
+    {
+      "[w",
+      function()
+        require("plugins.lsp.utils.fn").diagnostic_goto(false, "WARN")
+      end,
+      { desc = "goto prev warning" },
+    },
+
+    {
+      "]w",
+      function()
+        require("plugins.lsp.utils.fn").diagnostic_goto(true, "WARN")
+      end,
+      { desc = "goto next warning" },
     },
 
     {
@@ -359,7 +391,7 @@ M.lspconfig = {
     {
       "<leader>lf",
       function()
-        require("plugins.lsp.core").format()
+        require("plugins.lsp.utils.fn").format()
       end,
       { desc = "lsp formatting" },
     },
@@ -409,7 +441,7 @@ M.lspconfig = {
     {
       "<C-s>",
       function()
-        require("plugins.lsp.core").parameter_hints()
+        require("plugins.lsp.utils.fn").parameter_hints()
       end,
       { desc = "lsp parameter_hints" },
     },
@@ -458,7 +490,7 @@ M.telescope = {
       { desc = "Files" },
     },
     {
-      "<C-n>",
+      "<C-b>",
       function()
         local builtin = require("telescope.builtin")
 
@@ -474,12 +506,9 @@ M.telescope = {
       function()
         local builtin = require("telescope.builtin")
 
-        builtin.buffers {
-          sort_mru = true,
-          ignore_current_buffer = true,
-        }
+        builtin.resume {}
       end,
-      { desc = "Buffers" },
+      { desc = "Resume search" },
     },
     {
       "<C-\\>",
@@ -488,7 +517,7 @@ M.telescope = {
 
         builtin.resume {}
       end,
-      { desc = "Grep" },
+      { desc = "Resume search" },
     },
     {
       "<C-/>",
@@ -558,7 +587,7 @@ M.telescope = {
     { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
     { "<leader>p", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
     {
-      "<D-p>",
+      "<leader><space>",
       function()
         local builtin = require("telescope.builtin")
 
@@ -774,10 +803,10 @@ M.git = {
 
     -- Navigation through hunks
     {
-      "]c",
+      "]h",
       function()
         if vim.wo.diff then
-          return "]c"
+          return "]h"
         end
         vim.schedule(function()
           require("gitsigns").next_hunk()
@@ -788,10 +817,10 @@ M.git = {
     },
 
     {
-      "[c",
+      "[h",
       function()
         if vim.wo.diff then
-          return "[c"
+          return "[h"
         end
         vim.schedule(function()
           require("gitsigns").prev_hunk()

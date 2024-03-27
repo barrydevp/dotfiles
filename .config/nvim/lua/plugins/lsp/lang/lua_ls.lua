@@ -1,22 +1,51 @@
-local core = require("plugins.lsp.core")
-
-require("lspconfig").lua_ls.setup {
-  on_init = core.on_init,
-  on_attach = core.on_attach,
-  capabilities = core.capabilities,
-
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
+return {
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "stylua",
       },
-      workspace = {
-        library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+      },
+    },
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              codeLens = {
+                enable = true,
+              },
+              completion = {
+                callSnippet = "Replace",
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
+              workspace = {
+                library = {
+                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                  [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+                  checkThirdParty = false,
+                },
+                maxPreload = 100000,
+                preloadFileSize = 10000,
+              },
+            },
+          },
         },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
       },
     },
   },
