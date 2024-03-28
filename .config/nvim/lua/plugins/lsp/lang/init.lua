@@ -10,12 +10,9 @@ return {
         pyright = {},
         bashls = {},
 
-        stylua = {},
         prettierd = {},
         isort = {},
         shfmt = {},
-        goimports = {},
-        gofumpt = {},
       },
     },
   },
@@ -29,11 +26,7 @@ return {
         bib = { "bibclean" },
         tex = { "latexindent" },
         -- Use a sub-list to run only the first available formatter
-        javascript = { { "prettierd", "prettier" } },
         json = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
         markdown = { { "prettierd", "prettier" } },
         html = { { "prettierd", "prettier" } },
         css = { { "prettierd", "prettier" } },
@@ -43,7 +36,6 @@ return {
         graphql = { { "prettierd", "prettier" } },
         ["markdown.mdx"] = { { "prettierd", "prettier" } },
         sh = { "shfmt" },
-        go = { "goimports", "gofumpt" },
       },
 
       formatters = {
@@ -84,4 +76,8 @@ return {
   -- other language servers
   { import = "plugins.lsp.lang.lua_ls" },
   { import = "plugins.lsp.lang.clangd" },
+  { import = "plugins.lsp.lang.go" },
+  { import = "plugins.lsp.lang.rust" },
+  { import = "plugins.lsp.lang.tsserver" },
+  { import = "plugins.lsp.lang.java" },
 }

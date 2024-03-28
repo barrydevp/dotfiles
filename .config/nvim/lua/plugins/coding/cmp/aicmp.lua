@@ -40,7 +40,7 @@ end
 
 -- set AI code generation completion
 M.accept = (function()
-  return (M[config.code.ai] or M.default)["accept"]
+  return (M[config.coding.ai] or M.default)["accept"]
 end)()
 
 return M

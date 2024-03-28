@@ -1,42 +1,67 @@
-local core = require("plugins.lsp.core")
+return {
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        tsserver = {},
+      },
+    },
+  },
 
--- tsserver
-require("lspconfig").tsserver.setup {
-  on_init = core.on_init,
-  keys = {
-    {
-      "<leader>co",
-      function()
-        vim.lsp.buf.code_action {
-          apply = true,
-          context = {
-            only = { "source.organizeImports.ts" },
-            diagnostics = {},
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        tsserver = {
+          ---@diagnostic disable: assign-type-mismatch
+          keys = {
+            {
+              "<leader>co",
+              function()
+                vim.lsp.buf.code_action {
+                  apply = true,
+                  context = {
+                    only = { "source.organizeImports.ts" },
+                    diagnostics = {},
+                  },
+                }
+              end,
+              desc = "Organize Imports",
+            },
+            {
+              "<leader>cR",
+              function()
+                vim.lsp.buf.code_action {
+                  apply = true,
+                  context = {
+                    only = { "source.removeUnused.ts" },
+                    diagnostics = {},
+                  },
+                }
+              end,
+              desc = "Remove Unused Imports",
+            },
           },
-        }
-      end,
-      desc = "Organize Imports",
-    },
-    {
-      "<leader>cR",
-      function()
-        vim.lsp.buf.code_action {
-          apply = true,
-          context = {
-            only = { "source.removeUnused.ts" },
-            diagnostics = {},
+          ---@diagnostic disable-next-line: missing-fields
+          settings = {
+            completions = {
+              completeFunctionCalls = true,
+            },
           },
-        }
-      end,
-      desc = "Remove Unused Imports",
+        },
+      },
     },
   },
-  ---@diagnostic disable-next-line: missing-fields
-  settings = {
-    completions = {
-      completeFunctionCalls = true,
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        javascript = { { "prettierd", "prettier" } },
+        javascriptreact = { { "prettierd", "prettier" } },
+        typescript = { { "prettierd", "prettier" } },
+        typescriptreact = { { "prettierd", "prettier" } },
+      },
     },
   },
-  on_attach = core.on_attach,
-  capabilities = core.capabilities,
 }

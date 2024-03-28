@@ -71,3 +71,9 @@ autocmd("CmdwinEnter", {
     -- end
   end,
 })
+
+-- config file
+autocmd("BufWritePost", {
+  pattern = { "*tmux.conf" },
+  command = "execute 'silent !tmux source <afile> --silent'",
+})

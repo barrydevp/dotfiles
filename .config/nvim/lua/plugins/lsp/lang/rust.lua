@@ -1,16 +1,29 @@
-local core = require("plugins.lsp.core")
+return {
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        rust_analyzer = {},
 
-require("lspconfig").rust_analyzer.setup {
-  on_init = core.on_init,
-  on_attach = core.on_attach,
-  capabilities = core.capabilities,
+        codelldb = {},
+      },
+    },
+  },
 
-  cmd = { "rust-analyzer" },
-  settings = {
-    {
-      ["rust-analyzer"] = {
-        -- ["rust-analyzer.cargo.target"] = "",
-        ["rust-analyzer.checkOnSave.allTargets"] = false,
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        rust_analyzer = {
+          settings = {
+            {
+              ["rust-analyzer"] = {
+                -- ["rust-analyzer.cargo.target"] = "",
+                ["rust-analyzer.checkOnSave.allTargets"] = false,
+              },
+            },
+          },
+        },
       },
     },
   },

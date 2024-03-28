@@ -50,12 +50,12 @@ M.tabuflinePrev = function()
   vim.cmd(curbufIndex == 1 and "b" .. bufs[#bufs] or "b" .. bufs[curbufIndex - 1])
 end
 
-M.close_buffer = function(bufnr)
+M.close_buffer = function(bufnr, quit)
   if vim.bo.buftype == "terminal" then
     vim.cmd(vim.bo.buflisted and "set nobl | enew" or "hide")
   else
     if not vim.t.bufs then
-      vim.cmd "bd"
+      vim.cmd("bd")
       return
     end
 
@@ -65,7 +65,7 @@ M.close_buffer = function(bufnr)
 
     -- force close floating wins
     if bufhidden == "wipe" then
-      vim.cmd "bw"
+      vim.cmd("bw")
       return
 
       -- handle listed bufs
@@ -84,7 +84,11 @@ M.close_buffer = function(bufnr)
       vim.cmd("b" .. tmpbufnr .. " | bw" .. bufnr)
       return
     else
-      vim.cmd "enew"
+      if quit then
+        vim.cmd("q")
+      else
+        vim.cmd("enew")
+      end
     end
 
     if not (bufhidden == "delete") then
@@ -92,7 +96,7 @@ M.close_buffer = function(bufnr)
     end
   end
 
-  vim.cmd "redrawtabline"
+  vim.cmd("redrawtabline")
 end
 
 -- closes tab + all of its buffers
@@ -100,7 +104,7 @@ M.closeAllBufs = function(action)
   local bufs = vim.t.bufs
 
   if action == "closeTab" then
-    vim.cmd "tabclose"
+    vim.cmd("tabclose")
   end
 
   for _, buf in ipairs(bufs) do
@@ -108,7 +112,7 @@ M.closeAllBufs = function(action)
   end
 
   if action ~= "closeTab" then
-    vim.cmd "enew"
+    vim.cmd("enew")
   end
 end
 
@@ -120,7 +124,7 @@ M.closeOtherBufs = function()
     end
   end
 
-  vim.cmd "redrawtabline"
+  vim.cmd("redrawtabline")
 end
 
 -- closes all other buffers right or left
@@ -150,7 +154,7 @@ M.move_buf = function(n)
   end
 
   vim.t.bufs = bufs
-  vim.cmd "redrawtabline"
+  vim.cmd("redrawtabline")
 end
 
 return M

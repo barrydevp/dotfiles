@@ -46,8 +46,9 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.colorcolumn = "80"
-opt.timeoutlen = 400
+opt.timeoutlen = 300
 opt.undofile = true
+opt.smoothscroll = true
 
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250

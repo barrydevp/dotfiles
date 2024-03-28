@@ -10,7 +10,7 @@ return {
         light = "latte",
         dark = "mocha",
       },
-      transparent_background = false, -- disables setting the background color.
+      transparent_background = true, -- disables setting the background color.
       show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
       term_colors = true, -- sets terminal colors (e.g. `g:terminal_color_0`)
       dim_inactive = {
@@ -48,6 +48,16 @@ return {
           -- lsp signature
           -- LspSignatureActiveParameter = { fg = C.yellow },
           LspSignatureHintParameter = { fg = C.peach, bg = C.mantle },
+
+          -- misc
+          CurSearch = { bg = C.yellow },
+
+          -- Telescope
+          TelescopeSelection = {
+            fg = C.flamingo or C.text,
+            bg = C.surface0,
+            style = { "bold" },
+          },
 
           -- AI suggestion
           AIAnnotation = {
@@ -143,7 +153,7 @@ return {
         ufo = true,
         rainbow_delimiters = false,
         semantic_tokens = true,
-        telescope = { enabled = true, style = "nvchad" },
+        telescope = { enabled = true },
         barbecue = false,
         illuminate = true,
         indent_blankline = {

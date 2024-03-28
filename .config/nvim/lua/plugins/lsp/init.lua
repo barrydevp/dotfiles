@@ -3,43 +3,13 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     dependencies = { "williamboman/mason.nvim" },
-    opts = {
-      -- add any global capabilities here
-      capabilities = {},
-      -- LSP Server Settings
-      servers = {
-        -- example setup lua_ls
-        -- lua_ls = {
-        --   settings = {
-        --     Lua = {
-        --       workspace = {
-        --         checkThirdParty = false,
-        --       },
-        --     },
-        --   },
-        -- },
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
-        -- end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-    config = function(_, opts)
-      local servers = opts.servers
+    opts = function()
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local capabilities = vim.tbl_deep_extend(
         "force",
         {},
         vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-        opts.capabilities or {}
+        has_cmp and cmp_nvim_lsp.default_capabilities() or {}
       )
 
       capabilities.textDocument.completion.completionItem = {
@@ -60,21 +30,55 @@ return {
         },
       }
 
+      return {
+        on_init = function(client, _)
+          if client.supports_method("textDocument/semanticTokens") then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
+        end,
+        on_attach = function(client, bufnr)
+          require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
+
+          if client.server_capabilities.signatureHelpProvider then
+            require("plugins.lsp.ui.signature").setup(client, bufnr)
+          end
+        end,
+        -- add any global capabilities here
+        capabilities = capabilities,
+        -- LSP Server Settings
+        servers = {
+          -- example setup lua_ls
+          -- lua_ls = {
+          --   settings = {
+          --     Lua = {
+          --       workspace = {
+          --         checkThirdParty = false,
+          --       },
+          --     },
+          --   },
+          -- },
+        },
+        -- you can do any additional lsp server setup here
+        -- return true if you don't want this server to be setup with lspconfig
+        setup = {
+          -- example to setup with typescript.nvim
+          -- tsserver = function(_, opts)
+          --   require("typescript").setup({ server = opts })
+          --   return true
+          -- end,
+          -- Specify * to use this function as a fallback for any server
+          -- ["*"] = function(server, opts) end,
+        },
+      }
+    end,
+    config = function(_, opts)
+      local servers = opts.servers
+
       local function setup(server, server_opts)
         server_opts = vim.tbl_deep_extend("force", {
-          on_init = function(client, _)
-            if client.supports_method("textDocument/semanticTokens") then
-              client.server_capabilities.semanticTokensProvider = nil
-            end
-          end,
-          on_attach = function(client, bufnr)
-            require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
-
-            if client.server_capabilities.signatureHelpProvider then
-              require("plugins.lsp.ui.signature").setup(client)
-            end
-          end,
-          capabilities = vim.deepcopy(capabilities),
+          capabilities = vim.deepcopy(opts.capabilities),
+          on_init = opts.on_init,
+          on_attach = opts.on_attach,
         }, server_opts or {})
 
         if opts.setup[server] then

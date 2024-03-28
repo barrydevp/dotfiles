@@ -22,8 +22,8 @@ alias \
 
 ### Dotfiles ###
 alias \
-  dotfile='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME' \
-  dotfilec='cd $MYCONFIG && $EDITOR ../README.md'
+  dot='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME' \
+  dotc='cd $MYCONFIG && $EDITOR ../README.md'
   
 
 ### Neovim ###
@@ -34,6 +34,11 @@ alias \
 ### TMUX ###
 alias \
   tmuxc="cd ~ && $EDITOR .tmux.conf"
+
+### ZOXIDE ###
+alias \
+  za="zoxide add" \
+  zad="/bin/ls -d */ | xargs -I {} zoxide add {}"
 
 ### Obsidian ###
 # alias \

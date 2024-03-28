@@ -6,7 +6,7 @@ return {
     -- dir = "/Users/apple/Dev/github.com/barrydevp/tabnine-nvim",
     build = "./dl_binaries.sh",
     lazy = false,
-    cond = config.code.ai == "tabnine",
+    cond = config.coding.ai == "tabnine",
     opts = {
       disable_auto_comment = false, -- already have an autocmd for this
       accept_keymap = "<A-]>",
@@ -22,7 +22,7 @@ return {
   {
     "github/copilot.vim",
     event = "InsertEnter",
-    cond = config.code.ai == "copilotvim",
+    cond = config.coding.ai == "copilotvim",
     init = function()
       vim.g.copilot_no_tab_map = true
     end,
@@ -32,7 +32,7 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
-    cond = config.code.ai == "copilot",
+    cond = config.coding.ai == "copilot",
     opts = {
       panel = {
         enabled = false,

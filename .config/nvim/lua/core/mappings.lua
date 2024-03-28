@@ -1,3 +1,4 @@
+local lsp_fn = require("plugins.lsp.utils.fn")
 -- n, v, i, t = mode names
 
 local function termcodes(str)
@@ -32,10 +33,10 @@ M.default = {
     -- {"<C-j>", "<C-w>j", {desc="window down"} },
     -- {"<C-k>", "<C-w>k", {desc="window up"} },
     -- resize windows
-    { "<M-h>", ":vertical resize -2<CR>", { desc = "v-resize left" } },
-    { "<M-l>", ":vertical resize +2<CR>", { desc = "v-resize right" } },
-    { "<M-j>", ":resize -2<CR>", { desc = "h-resize down" } },
-    { "<M-k>", ":resize +2<CR>", { desc = "h-resize up" } },
+    { "<C-w>H", ":vertical resize -2<CR>", { desc = "v-resize left" } },
+    { "<C-w>L>", ":vertical resize +2<CR>", { desc = "v-resize right" } },
+    { "<C-w>J", ":resize -2<CR>", { desc = "h-resize down" } },
+    { "<C-w>K", ":resize +2<CR>", { desc = "h-resize up" } },
     -- better split
     { "<leader>-", ":vsplit<CR>", { desc = "v-split" } },
     { "<leader>_", ":split<CR>", { desc = "h-split" } },
@@ -146,7 +147,7 @@ M.tabufline = {
   ["n"] = {
     -- cycle through buffers
     {
-      "<A-.>",
+      "<A-]>",
       function()
         require("plugins.ui.tabufline.core").tabuflineNext()
       end,
@@ -154,7 +155,7 @@ M.tabufline = {
     },
 
     {
-      "<A-,>",
+      "<A-[>",
       function()
         require("plugins.ui.tabufline.core").tabuflinePrev()
       end,
@@ -170,16 +171,16 @@ M.tabufline = {
       { desc = "close buffer" },
     },
     {
-      "<A-c>",
+      "<A-x>",
       function()
         require("plugins.ui.tabufline.core").close_buffer()
       end,
       { desc = "close buffer" },
     },
     {
-      "<C-w><C-w>",
+      "<C-w>W",
       function()
-        require("plugins.ui.tabufline.core").close_buffer()
+        require("plugins.ui.tabufline.core").close_buffer(nil, true)
       end,
       { desc = "close buffer" },
     },
@@ -219,17 +220,13 @@ M.lspconfig = {
   ["n"] = {
     {
       "gD",
-      function()
-        vim.lsp.buf.declaration()
-      end,
+      vim.lsp.buf.declaration,
       { desc = "lsp declaration" },
     },
 
     {
       "gd",
-      function()
-        vim.lsp.buf.definition()
-      end,
+      vim.lsp.buf.definition,
       { desc = "lsp definition" },
     },
 
@@ -243,17 +240,13 @@ M.lspconfig = {
 
     {
       "L",
-      function()
-        vim.diagnostic.open_float { border = "rounded" }
-      end,
+      vim.diagnostic.open_float,
       { desc = "lsp diagnostic hover" },
     },
 
     {
       "S",
-      function()
-        require("plugins.lsp.utils.fn").signature()
-      end,
+      lsp_fn.signature,
       { desc = "lsp signature_help" },
     },
 
@@ -261,154 +254,104 @@ M.lspconfig = {
 
     {
       "gi",
-      function()
-        vim.lsp.buf.implementation()
-      end,
+      vim.lsp.buf.implementation,
       { desc = "lsp implementation" },
     },
 
     {
       "gr",
-      function()
-        vim.lsp.buf.references()
-      end,
+      vim.lsp.buf.references,
       { desc = "lsp references" },
     },
 
     -- {"<leader>D",
     {
       "gy",
-      function()
-        vim.lsp.buf.type_definition()
-      end,
+      vim.lsp.buf.type_definition,
       { desc = "lsp definition type" },
     },
 
     {
       "<leader>ra",
-      function()
-        require("plugins.lsp.utils.fn").renamer()
-      end,
+      lsp_fn.renamer,
       { desc = "lsp rename" },
     },
 
     {
       "<leader>lr",
-      function()
-        require("plugins.lsp.utils.fn").renamer()
-      end,
+      lsp_fn.renamer,
       { desc = "lsp rename" },
     },
 
     {
-      "<leader>la",
-      function()
-        vim.lsp.buf.code_action()
-      end,
-      { desc = "lsp code_action" },
-    },
-
-    {
-      "<leader>ca",
-      function()
-        vim.lsp.buf.code_action()
-      end,
-      { desc = "lsp code_action" },
-    },
-
-    {
       "<leader>lo",
-      function()
-        vim.diagnostic.open_float()
-      end,
+      vim.diagnostic.open_float,
       { desc = "floating diagnostic" },
     },
 
     {
       "[d",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(false)
-      end,
+      lsp_fn.diagnostic_goto(false),
       { desc = "goto prev diagnostic" },
     },
 
     {
       "]d",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(true)
-      end,
+      lsp_fn.diagnostic_goto(true),
       { desc = "goto next diagnostic" },
     },
 
     {
       "[e",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(false, "ERROR")
-      end,
+      lsp_fn.diagnostic_goto(false, "ERROR"),
       { desc = "goto prev error" },
     },
 
     {
       "]e",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(true, "ERROR")
-      end,
+      lsp_fn.diagnostic_goto(true, "ERROR"),
       { desc = "goto next error" },
     },
 
     {
       "[w",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(false, "WARN")
-      end,
+      lsp_fn.diagnostic_goto(false, "WARN"),
       { desc = "goto prev warning" },
     },
 
     {
       "]w",
-      function()
-        require("plugins.lsp.utils.fn").diagnostic_goto(true, "WARN")
-      end,
+      lsp_fn.diagnostic_goto(true, "WARN"),
       { desc = "goto next warning" },
     },
 
     {
       "<leader>ll",
-      function()
-        vim.diagnostic.setloclist()
-      end,
+      vim.diagnostic.setloclist,
       { desc = "diagnostic setloclist (document)" },
     },
 
     {
       "<leader>lq",
-      function()
-        vim.diagnostic.setqflist()
-      end,
+      vim.diagnostic.setqflist,
       { desc = "diagnostic setqflist (workspace)" },
     },
 
     {
       "<leader>lf",
-      function()
-        require("plugins.lsp.utils.fn").format()
-      end,
+      lsp_fn.format,
       { desc = "lsp formatting" },
     },
 
     {
       "<leader>wa",
-      function()
-        vim.lsp.buf.add_workspace_folder()
-      end,
+      vim.lsp.buf.add_workspace_folder,
       { desc = "add workspace folder" },
     },
 
     {
       "<leader>wr",
-      function()
-        vim.lsp.buf.remove_workspace_folder()
-      end,
+      vim.lsp.buf.remove_workspace_folder,
       { desc = "remove workspace folder" },
     },
 
@@ -440,26 +383,26 @@ M.lspconfig = {
   ["i"] = {
     {
       "<C-s>",
-      function()
-        require("plugins.lsp.utils.fn").parameter_hints()
-      end,
+      lsp_fn.parameter_hints,
       { desc = "lsp parameter_hints" },
     },
     {
       "<C-l>",
-      function()
-        vim.lsp.buf.hover()
-      end,
+      vim.lsp.buf.hover,
       { desc = "lsp hover" },
     },
   },
 
-  ["v"] = {
+  [{ "n", "v" }] = {
+    {
+      "<leader>la",
+      vim.lsp.buf.code_action,
+      { desc = "lsp code_action" },
+    },
+
     {
       "<leader>ca",
-      function()
-        vim.lsp.buf.range_code_action()
-      end,
+      vim.lsp.buf.code_action,
       { desc = "lsp code_action" },
     },
   },
@@ -651,7 +594,7 @@ M.nvterm = {
       { desc = "Toggle floating term" },
     },
     {
-      "<A-i>",
+      "<M-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -659,7 +602,7 @@ M.nvterm = {
     },
 
     {
-      "<A-h>",
+      "<M-h>",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -679,7 +622,7 @@ M.nvterm = {
     -- },
 
     {
-      "<A-v>",
+      "<M-v>",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
@@ -704,7 +647,7 @@ M.nvterm = {
       { desc = "Toggle floating term" },
     },
     {
-      "<A-i>",
+      "<M-i>",
       function()
         require("nvterm.terminal").toggle("float")
       end,
@@ -712,7 +655,7 @@ M.nvterm = {
     },
 
     {
-      "<A-h>",
+      "<M-h>",
       function()
         require("nvterm.terminal").toggle("horizontal")
       end,
@@ -734,12 +677,13 @@ M.nvterm = {
     },
 
     {
-      "<A-v>",
+      "<M-v>",
       function()
         require("nvterm.terminal").toggle("vertical")
       end,
       { desc = "Toggle vertical term" },
     },
+
     {
       "<leader>tv",
       function()

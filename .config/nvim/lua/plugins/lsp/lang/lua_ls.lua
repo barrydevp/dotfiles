@@ -3,8 +3,8 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "lua_ls",
-        "stylua",
+        lua_ls = {},
+        stylua = {},
       },
     },
   },
