@@ -2,6 +2,7 @@
 export MYCONFIG=$HOME/.config
 export MYLOCAL=$HOME/.local
 export __ARCH=$(uname)
+export XDG_CONFIG_HOME=$HOME/.config
 
 ### DECLARE ###
 source $MYCONFIG/zsh/declare.zsh
