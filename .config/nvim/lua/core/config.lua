@@ -6,7 +6,7 @@ M.coding = {
 
 M.ui = {
   theme = "catppuccin", -- default theme
-  transparency = false,
+  transparency = true,
   lsp_semantic_tokens = true, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens
 
   -- lazyload it when there are 1+ buffers
