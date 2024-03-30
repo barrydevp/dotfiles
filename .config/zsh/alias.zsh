@@ -16,24 +16,24 @@ alias \
 
 ### ZSH ###
 alias \
-  zshc="cd $__ZSH_CONFIG_DIR && $EDITOR $HOME/.zshrc" \
   zshs="exec zsh"
+  # zshc="cd $__ZSH_CONFIG_DIR && $EDITOR $HOME/.zshrc" \
   # zshs="source $ZSHC/init.zsh"
 
 ### Dotfiles ###
 alias \
-  dot='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME' \
-  dotc='cd $MYCONFIG && $EDITOR ../README.md'
+  dot='/usr/bin/git --git-dir=$HOME/dotfiles --work-tree=$HOME'
+  # dotc='cd $MYCONFIG && $EDITOR ../README.md'
   
 
 ### Neovim ###
 alias \
-  n="nvim" \
-  nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
+  n="nvim"
+  # nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
 
 ### TMUX ###
-alias \
-  tmuxc="cd ~ && $EDITOR .tmux.conf"
+# alias \
+#   tmuxc="cd ~ && $EDITOR .tmux.conf"
 
 ### ZOXIDE ###
 alias \

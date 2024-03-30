@@ -11,6 +11,7 @@ g.mapleader = " "
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
+opt.winblend = 16
 
 -- opt.title = true
 opt.clipboard = "unnamedplus"
@@ -64,6 +65,9 @@ opt.wrap = true -- display long lines as just one line
 -- opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- indentblankline
-vim.opt.list = true
-vim.opt.listchars:append("leadmultispace:⋅")
-vim.opt.listchars:append("eol:↴")
+opt.list = true
+opt.listchars:append("leadmultispace:⋅")
+opt.listchars:append("eol:↴")
+
+-- obsidian
+opt.conceallevel = 2

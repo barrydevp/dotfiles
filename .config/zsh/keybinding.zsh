@@ -3,6 +3,36 @@
 # bindkey -v
 # bindkey "^F" vi-cmd-mode
 bindkey "^[" vi-cmd-mode
+bindkey "^X" vi-cmd-mode
+bindkey -r "^X^B"
+bindkey -r "^X^E"
+bindkey -r "^X^F"
+bindkey -r "^X^J"
+bindkey -r "^X^K"
+bindkey -r "^X^N"
+bindkey -r "^X^O"
+bindkey -r "^X^R"
+bindkey -r "^X^U"
+bindkey -r "^X^V"
+bindkey -r "^X^X"
+bindkey -r "^X*"
+bindkey -r "^X="
+bindkey -r "^X?"
+bindkey -r "^XC"
+bindkey -r "^XG"
+bindkey -r "^Xa"
+bindkey -r "^Xc"
+bindkey -r "^Xd"
+bindkey -r "^Xe"
+bindkey -r "^Xg"
+bindkey -r "^Xh"
+bindkey -r "^Xm"
+bindkey -r "^Xn"
+bindkey -r "^Xr"
+bindkey -r "^Xs"
+bindkey -r "^Xt"
+bindkey -r "^Xu"
+bindkey -r "^X~"
 
 # default binding
 # unbind fuckin idiot map

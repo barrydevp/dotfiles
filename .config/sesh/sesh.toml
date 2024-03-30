@@ -1,0 +1,59 @@
+# import = ["~/.config/sesh/other.toml"]
+
+[default_session]
+startup_command = "nvim +GoToFile"
+
+[[session]]
+name = "tmuxc"
+path = "~/.config"
+startup_command = "tmuxc"
+
+[[session]]
+name = "nvimc"
+path = "~/.config/nvim"
+startup_command = "nvimc"
+
+[[session]]
+name = "zshc"
+path = "~/.config/zsh"
+startup_command = "zshc"
+
+[[session]]
+name = "dotc"
+path = "~/.config"
+startup_command = "dotc"
+
+[[session]]
+name = "wezterm config"
+path = "~/.config/wezterm"
+startup_command = "nvim wezterm.lua"
+
+[[session]]
+name = "sesh config"
+path = "~/.config/sesh"
+startup_command = "nvim sesh.toml"
+
+[[session]]
+name = "second brain 🧠"
+path = "~"
+startup_command = "nn"
+
+[[session]]
+name = "my custom binaries"
+path = "~/.config/bin"
+
+[[session]]
+name = "update nvim"
+path = "/tmp"
+startup_command = "brew upgrade neovim --fetch-HEAD"
+
+[[session]]
+name = "update all"
+path = "/tmp"
+startup_command = "brew update && brew upgrade"
+
+[[session]]
+name = "Downloads 📥"
+path = "~/Downloads"
+startup_command = "yazi"
+

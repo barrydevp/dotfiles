@@ -47,9 +47,12 @@ return {
           -- LineNrBelow = { fg = C.surface2 },
           -- LineNr = { fg = C.lavender },
 
+          -- cmp
+          Pmenu = { bg = C.mantle },
+
           -- lsp signature
           -- LspSignatureActiveParameter = { fg = C.yellow },
-          LspSignatureHintParameter = { fg = C.peach, bg = C.mantle },
+          LspSignatureHintParameter = { fg = C.maroon, bg = C.mantle },
 
           -- misc
           CurSearch = { bg = C.yellow },

@@ -116,10 +116,10 @@ M.default = {
     { "<C-x>", termcodes("<C-\\><C-N>"), { desc = "escape terminal mode" } },
     -- {"<esc><esc>", termcodes("<C-\\><C-N>"), {desc="escape terminal mode"} },
     { "<C-w>", termcodes("<C-\\><C-N><C-w>"), { desc = "window command mode" } },
-    -- { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
-    -- { "<C-l>", termcodes("<C-\\><C-N><C-w>l"), { desc = "terminal window right" } },
-    -- { "<C-j>", termcodes("<C-\\><C-N><C-w>j"), { desc = "terminal window down" } },
-    -- { "<C-k>", termcodes("<C-\\><C-N><C-w>k"), { desc = "terminal window up" } },
+    { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
+    { "<C-l>", termcodes("<C-\\><C-N><C-w>l"), { desc = "terminal window right" } },
+    { "<C-j>", termcodes("<C-\\><C-N><C-w>j"), { desc = "terminal window down" } },
+    { "<C-k>", termcodes("<C-\\><C-N><C-w>k"), { desc = "terminal window up" } },
   },
 
   -- insert and command mode
@@ -131,7 +131,9 @@ M.default = {
     -- { "<C-l>", "<Right>", { desc = "move right" } },
     -- { "<C-j>", "<Down>", { desc = "move down" } },
     -- { "<C-k>", "<Up>", { desc = "move up" } },
+    { "<C-k>", "<C-O>D", { desc = "delete line to end" } },
     { "<C-d>", "<Del>", { desc = "<Del>" } },
+    { "<C-h>", "<Del>", { desc = "<Del>" } },
   },
 
   [{ "n", "v" }] = {
