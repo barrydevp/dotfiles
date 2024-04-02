@@ -190,7 +190,8 @@ M.virtual_hint = function(ctx, val)
   end
 
   local prev_line = api.nvim_buf_get_lines(0, ctx.pos[1] - 2, ctx.pos[1] - 1, false)[1]
-  local prev_x = dwidth(prev_line)
+  -- local prev_x = dwidth(prev_line)
+  local prev_x = #prev_line
   local width = api.nvim_win_get_width(0)
 
   local hint_text = hint_prefix .. hint .. hint_postfix
@@ -220,6 +221,7 @@ M.virtual_hint = function(ctx, val)
   -- print(vim.inspect(vts))
   -- print(pad_len .. "," .. offset)
 
+  -- print("col: " .. col .. ", ctx.pos[1]: " .. ctx.pos[1])
   vim.api.nvim_buf_set_extmark(0, M.vt_ns, ctx.pos[1] - 2, col, {
     virt_text = vts,
     virt_text_pos = hint_mode,

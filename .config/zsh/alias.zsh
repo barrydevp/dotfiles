@@ -38,6 +38,7 @@ alias \
 ### ZOXIDE ###
 alias \
   za="zoxide add" \
+  zrm="zoxide remove" \
   zad="/bin/ls -d */ | xargs -I {} zoxide add {}"
 
 ### Obsidian ###

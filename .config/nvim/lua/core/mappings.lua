@@ -133,7 +133,7 @@ M.default = {
     -- { "<C-k>", "<Up>", { desc = "move up" } },
     { "<C-k>", "<C-O>D", { desc = "delete line to end" } },
     { "<C-d>", "<Del>", { desc = "<Del>" } },
-    { "<C-h>", "<Del>", { desc = "<Del>" } },
+    { "<C-h>", "<BS>", { desc = "<BS>" } },
   },
 
   [{ "n", "v" }] = {
