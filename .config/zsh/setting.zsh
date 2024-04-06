@@ -16,8 +16,10 @@ export FZF_DEFAULT_OPTS="\
 export FZF_TMUX_OPTS="-p 55%,60%"
 export FZF_CTRL_R_OPTS="--border-label=' history ' \
 --prompt='  '"
-# zoxide bootstrap
+# zoxide(alternative cd for frequently used path) bootstrap
 eval "$(_exec_safe zoxide init zsh)"
+# atuin(history search) bootstrap
+eval "$(_exec_safe atuin init zsh)"
 
 ### Utilities Func ###
 #____________________#

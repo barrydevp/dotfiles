@@ -5,8 +5,8 @@ startup_command = "nvim +GoToFile"
 
 [[session]]
 name = "tmuxc"
-path = "~/.config"
-startup_command = "tmuxc"
+path = "~/.config/tmux"
+startup_command = "tmuxc && exit"
 
 [[session]]
 name = "nvimc"
@@ -16,7 +16,7 @@ startup_command = "nvimc"
 [[session]]
 name = "zshc"
 path = "~/.config/zsh"
-startup_command = "zshc"
+startup_command = "zshc && exit"
 
 [[session]]
 name = "dotc"
@@ -26,17 +26,22 @@ startup_command = "dotc"
 [[session]]
 name = "wezterm config"
 path = "~/.config/wezterm"
-startup_command = "nvim wezterm.lua"
+startup_command = "nvim wezterm.lua && exit"
 
 [[session]]
 name = "sesh config"
 path = "~/.config/sesh"
-startup_command = "nvim sesh.toml"
+startup_command = "nvim sesh.toml && exit"
+
+[[session]]
+name = "atuin config"
+path = "~/.config/atuin"
+startup_command = "nvim config.toml && exit"
 
 [[session]]
 name = "second brain 🧠"
 path = "~"
-startup_command = "nn"
+startup_command = "nn && exit"
 
 [[session]]
 name = "my custom binaries"
@@ -45,12 +50,12 @@ path = "~/.config/bin"
 [[session]]
 name = "update nvim"
 path = "/tmp"
-startup_command = "brew upgrade neovim --fetch-HEAD"
+startup_command = "brew upgrade neovim --fetch-HEAD && exit"
 
 [[session]]
 name = "update all"
 path = "/tmp"
-startup_command = "brew update && brew upgrade"
+startup_command = "brew update && brew upgrade && exit"
 
 [[session]]
 name = "Downloads 📥"

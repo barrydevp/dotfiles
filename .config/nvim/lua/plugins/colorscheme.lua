@@ -150,7 +150,7 @@ return {
         dap = true,
         dap_ui = true,
         dashboard = false,
-        flash = false,
+        flash = true,
         leap = false,
         mason = true,
         markdown = true,

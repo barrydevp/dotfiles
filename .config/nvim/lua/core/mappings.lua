@@ -54,10 +54,11 @@ M.default = {
     -- jumping
     { "[g", "<C-o>", { desc = "go backward" } },
     { "]g", "<C-i>", { desc = "go forward" } },
-    { "<C-d>", "<C-d>zz" },
     { "<C-u>", "<C-u>zz" },
+    { "<C-d>", "<C-d>zz" },
     { "n", "nzzzv" },
     { "N", "Nzzzv" },
+    { "*", "*zzzv" },
 
     -- quicklist movement
     { "[q", ":cprev<CR>", { desc = "quick list prev" } },
@@ -149,7 +150,7 @@ M.tabufline = {
   ["n"] = {
     -- cycle through buffers
     {
-      "<A-]>",
+      "<A-}>",
       function()
         require("plugins.ui.tabufline.core").tabuflineNext()
       end,
@@ -157,7 +158,7 @@ M.tabufline = {
     },
 
     {
-      "<A-[>",
+      "<A-{>",
       function()
         require("plugins.ui.tabufline.core").tabuflinePrev()
       end,
