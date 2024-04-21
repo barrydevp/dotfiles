@@ -1,8 +1,7 @@
 local M = {}
 
 M.format = function(bufnr)
-  local conform = require("conform")
-  conform.format {
+  require("conform").format {
     lsp_fallback = true,
     async = true,
     timeout_ms = 500,

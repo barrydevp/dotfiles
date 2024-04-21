@@ -25,6 +25,9 @@ return {
     cond = config.coding.ai == "copilotvim",
     init = function()
       vim.g.copilot_no_tab_map = true
+
+      vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)")
+      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-previous)")
     end,
   },
 
@@ -48,6 +51,7 @@ return {
           -- next = "<M-]>",
           -- prev = "<M-[>",
           next = "<C-l>",
+          prev = "<C-j>",
           dismiss = "<C-]>",
         },
       },
@@ -72,5 +76,19 @@ return {
       vim.api.nvim_command("highlight link CopilotAnnotation AIAnnotation")
       vim.api.nvim_command("highlight link CopilotSuggestion AISuggestion")
     end,
+  },
+
+  {
+    "sourcegraph/sg.nvim",
+    lazy = false,
+    cond = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim", --[[ "nvim-telescope/telescope.nvim ]]
+    },
+    -- If you have a recent version of lazy.nvim, you don't need to add this!
+    build = "nvim -l build/init.lua",
+    opts = {
+      enable_cody = false,
+    },
   },
 }

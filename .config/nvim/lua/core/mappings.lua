@@ -217,7 +217,24 @@ M.comment = {
   },
 }
 
+M.format = {
+  ["n"] = {
+    {
+      "<leader>lf",
+      lsp_fn.format,
+      { desc = "lsp formatting" },
+    },
+  },
+}
+
+-- for lsp config non-attach
 M.lspconfig = {
+  ["n"] = {
+    { "<leader>lz", "<cmd>LspInfo<cr>", { desc = "lsp info" } },
+  },
+}
+
+M.lspconfig_attach = {
 
   -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
   ["n"] = {
@@ -341,12 +358,6 @@ M.lspconfig = {
     },
 
     {
-      "<leader>lf",
-      lsp_fn.format,
-      { desc = "lsp formatting" },
-    },
-
-    {
       "<leader>wa",
       vim.lsp.buf.add_workspace_folder,
       { desc = "add workspace folder" },
@@ -366,7 +377,6 @@ M.lspconfig = {
       { desc = "list workspace folders" },
     },
 
-    { "<leader>lz", "<cmd>LspInfo<cr>", { desc = "lsp info" } },
     -- L = {"<cmd>Lspsaga show_line_diagnostics<cr>", {desc="Line Diagnostics"}},
     -- p = {"<cmd>Lspsaga preview_definition<cr>", {desc="Preview Definition"}},
     -- {"<leader>lq",
@@ -389,11 +399,11 @@ M.lspconfig = {
       lsp_fn.parameter_hints,
       { desc = "lsp parameter_hints" },
     },
-    {
-      "<C-l>",
-      vim.lsp.buf.hover,
-      { desc = "lsp hover" },
-    },
+    -- {
+    --   "<C-l>",
+    --   vim.lsp.buf.hover,
+    --   { desc = "lsp hover" },
+    -- },
   },
 
   [{ "n", "v" }] = {
@@ -443,6 +453,7 @@ M.telescope = {
         builtin.buffers {
           sort_mru = true,
           ignore_current_buffer = true,
+          sort_lastused = true,
         }
       end,
       { desc = "Buffers" },
@@ -525,6 +536,7 @@ M.telescope = {
         builtin.buffers {
           sort_mru = true,
           ignore_current_buffer = true,
+          sort_lastused = true,
         }
       end,
       { desc = "find buffers" },
@@ -575,9 +587,8 @@ M.telescope = {
 
     -- git
     { "<leader>cm", "<cmd> Telescope git_commits <CR>", { desc = "git commits" } },
-    { "<leader>gt", "<cmd> Telescope git_status <CR>", { desc = "git status" } },
-    { "<leader>fg", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
-    { "<leader>gf", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
+    { "<leader>gts", "<cmd> Telescope git_status <CR>", { desc = "git status" } },
+    { "<leader>gtf", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
 
     -- pick a hidden term
     -- { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
@@ -664,20 +675,20 @@ M.nvterm = {
       end,
       { desc = "Toggle horizontal term" },
     },
-    {
-      "<leader>th",
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      { desc = "Toggle horizontal term" },
-    },
-    {
-      "<leader>tt",
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      { desc = "Toggle horizontal term" },
-    },
+    -- {
+    --   "<leader>th",
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   { desc = "Toggle horizontal term" },
+    -- },
+    -- {
+    --   "<leader>tt",
+    --   function()
+    --     require("nvterm.terminal").toggle("horizontal")
+    --   end,
+    --   { desc = "Toggle horizontal term" },
+    -- },
 
     {
       "<M-v>",
@@ -687,13 +698,13 @@ M.nvterm = {
       { desc = "Toggle vertical term" },
     },
 
-    {
-      "<leader>tv",
-      function()
-        require("nvterm.terminal").toggle("vertical")
-      end,
-      { desc = "Toggle vertical term" },
-    },
+    -- {
+    --   "<leader>tv",
+    --   function()
+    --     require("nvterm.terminal").toggle("vertical")
+    --   end,
+    --   { desc = "Toggle vertical term" },
+    -- },
   },
 }
 
@@ -779,7 +790,7 @@ M.git = {
 
     -- Actions
     {
-      "<leader>hr",
+      "<leader>ghr",
       function()
         require("gitsigns").reset_hunk()
       end,
@@ -787,7 +798,7 @@ M.git = {
     },
 
     {
-      "<leader>hs",
+      "<leader>ghs",
       function()
         require("gitsigns").stage_buffer()
       end,
@@ -795,7 +806,7 @@ M.git = {
     },
 
     {
-      "<leader>hu",
+      "<leader>ghu",
       function()
         require("gitsigns").undo_stage_hunk()
       end,
@@ -803,7 +814,7 @@ M.git = {
     },
 
     {
-      "<leader>hp",
+      "<leader>ghp",
       function()
         require("gitsigns").preview_hunk()
       end,
@@ -819,7 +830,7 @@ M.git = {
     },
 
     {
-      "<leader>hd",
+      "<leader>ghd",
       function()
         require("gitsigns").diffthis("~")
       end,
@@ -827,7 +838,7 @@ M.git = {
     },
 
     {
-      "<leader>hb",
+      "<leader>ghb",
       function()
         package.loaded.gitsigns.blame_line()
       end,
@@ -835,7 +846,7 @@ M.git = {
     },
 
     {
-      "<leader>tb",
+      "<leader>gtb",
       function()
         require("gitsigns").toggle_current_line_blame()
       end,
@@ -843,7 +854,7 @@ M.git = {
     },
 
     {
-      "<leader>td",
+      "<leader>gtd",
       function()
         require("gitsigns").toggle_deleted()
       end,
@@ -1032,5 +1043,39 @@ M.illuminate = {
     },
   },
 }
+
+M.harpoon = function()
+  local keys = {
+    ["n"] = {
+      {
+        "<leader>a",
+        function()
+          require("harpoon"):list():add()
+        end,
+        { desc = "Harpoon File" },
+      },
+      {
+        "<leader>h",
+        function()
+          local harpoon = require("harpoon")
+          harpoon.ui:toggle_quick_menu(harpoon:list())
+        end,
+        { desc = "Harpoon Quick Menu" },
+      },
+    },
+  }
+
+  for i = 1, 5 do
+    table.insert(keys["n"], {
+      "<leader>" .. i,
+      function()
+        require("harpoon"):list():select(i)
+      end,
+      desc = "Harpoon to File " .. i,
+    })
+  end
+
+  return keys
+end
 
 return M

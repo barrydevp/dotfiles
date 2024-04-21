@@ -13,7 +13,9 @@ local k = require("utils/key")
 local act = wezterm.action
 
 local config = {
+  -- max_fps = 120,
   -- default_prog = { "/opt/homebrew/bin/sesh" },
+  colors = {},
   background = {
     {
       source = {
@@ -23,9 +25,10 @@ local config = {
       },
       width = "100%",
       height = "100%",
-      opacity = 0.8,
+      opacity = 0.85,
     },
   },
+  bold_brightens_ansi_colors = "BrightOnly",
 
   font_size = 15,
 
@@ -39,9 +42,9 @@ local config = {
   -- color_scheme = "Catppuccin Mocha",
 
   window_padding = {
-    left = 30,
-    right = 30,
-    top = 20,
+    left = 10,
+    right = 10,
+    top = 10,
     bottom = 10,
   },
 
@@ -78,9 +81,11 @@ local config = {
     k.cmd_to_tmux_prefix("o", "O"),
     k.cmd_to_tmux_prefix("k", "K"),
     k.cmd_to_tmux_prefix("l", "L"),
-    k.cmd_to_tmux_prefix("w", "x"),
+    k.cmd_to_tmux_prefix("w", "W"),
+    k.cmd_to_tmux_prefix("t", "T"),
     k.cmd_to_tmux_prefix("z", "Z"),
     k.cmd_to_tmux_prefix("q", "Q"),
+    k.cmd_to_tmux_prefix("p", "P"),
 
     k.cmd_key(
       "s",
@@ -94,16 +99,16 @@ local config = {
       mods = "CMD|SHIFT",
       key = "}",
       action = act.Multiple {
-        act.SendKey(k.TmuxPrefix),
-        act.SendKey { key = "n" },
+        act.SendKey { key = "\x1b" }, -- alt
+        act.SendKey { key = "\x7d" },
       },
     },
     {
       mods = "CMD|SHIFT",
       key = "{",
       action = act.Multiple {
-        act.SendKey(k.TmuxPrefix),
-        act.SendKey { key = "p" },
+        act.SendKey { key = "\x1b" }, -- alt
+        act.SendKey { key = "\x7b" },
       },
     },
   },

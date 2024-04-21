@@ -2,7 +2,21 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = {
+      -- Binary management for language servers.
+      { "williamboman/mason.nvim" },
+      -- Neovim notifications and LSP progress messages.
+      {
+        "j-hui/fidget.nvim",
+        opts = {
+          -- options
+        },
+      },
+    },
+    init = function()
+      -- load all lspconfig
+      require("core.utils").load_mappings("lspconfig")
+    end,
     opts = function()
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local capabilities = vim.tbl_deep_extend(
@@ -35,9 +49,11 @@ return {
           if client.supports_method("textDocument/semanticTokens") then
             client.server_capabilities.semanticTokensProvider = nil
           end
+
+          -- client.server_capabilities.document_formatting = false
         end,
         on_attach = function(client, bufnr)
-          require("core.utils").load_mappings("lspconfig", { buffer = bufnr })
+          require("core.utils").load_mappings("lspconfig_attach", { buffer = bufnr })
 
           if client.server_capabilities.signatureHelpProvider then
             require("plugins.lsp.ui.signature").setup(client, bufnr)
@@ -110,7 +126,7 @@ return {
       require("mason").setup(opts)
 
       local ensure_installed = {}
-      for _, binary in ipairs(opts.ensure_installed) do
+      for binary, _ in pairs(opts.ensure_installed) do
         table.insert(ensure_installed, require("plugins.lsp.utils.mason").server_maps[binary] or binary)
       end
 

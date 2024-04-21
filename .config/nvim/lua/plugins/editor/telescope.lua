@@ -29,7 +29,21 @@ return {
           },
           prompt_prefix = "   ",
           selection_caret = "  ",
+          -- selection_caret = " ",
           entry_prefix = "  ",
+          -- open files in the first window that is an actual file.
+          -- use the current window if no other window is available.
+          get_selection_window = function()
+            local wins = vim.api.nvim_list_wins()
+            table.insert(wins, 1, vim.api.nvim_get_current_win())
+            for _, win in ipairs(wins) do
+              local buf = vim.api.nvim_win_get_buf(win)
+              if vim.bo[buf].buftype == "" then
+                return win
+              end
+            end
+            return 0
+          end,
           initial_mode = "insert",
           selection_strategy = "reset",
           sorting_strategy = "ascending",
@@ -43,7 +57,7 @@ return {
             prompt_position = "top",
           },
           file_sorter = require("telescope.sorters").get_fuzzy_file,
-          file_ignore_patterns = { "node_modules", ".git/" },
+          file_ignore_patterns = { "node_modules", ".git/", "zig%-cache" },
           generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
           path_display = { "truncate" },
           winblend = 0,
@@ -67,7 +81,6 @@ return {
         },
 
         extensions_list = { "terms", "fzf" },
-        -- extensions_list = { "themes", "terms", "fzf" },
         extensions = {
           fzf = {
             fuzzy = true,

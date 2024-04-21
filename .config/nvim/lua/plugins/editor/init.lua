@@ -7,9 +7,36 @@ return {
     cmd = "WhichKey",
     init = function()
       require("core.utils").load_mappings("whichkey")
+      vim.keymap.set("n", "<leader>sp", function()
+        vim.cmd([[
+          :profile start /tmp/nvim-profile.log
+          :profile func *
+          :profile file *
+        ]])
+      end, { desc = "Profile Start" })
+
+      vim.keymap.set("n", "<leader>se", function()
+        vim.cmd([[
+          :profile stop
+          :e /tmp/nvim-profile.log
+        ]])
+      end, { desc = "Profile End" })
     end,
     opts = {
-      plugins = { spelling = true },
+      plugins = {
+        spelling = {
+          enabled = false,
+        },
+        presets = {
+          operators = false, -- adds help for operators like d, y, ...
+          motions = false, -- adds help for motions
+          text_objects = false, -- help for text objects triggered after entering an operator
+          windows = true, -- default bindings on <c-w>
+          nav = false, -- misc bindings to work with windows
+          z = true, -- bindings for folds, spelling and others prefixed with z
+          g = true, -- bindings for prefixed with g
+        },
+      },
     },
   },
 
@@ -20,15 +47,15 @@ return {
   },
 
   -- terminal
-  {
-    "barrydevp/nvterm",
-    init = function()
-      require("core.utils").load_mappings("nvterm")
-    end,
-    config = function(_, opts)
-      require("nvterm").setup(opts)
-    end,
-  },
+  -- {
+  --   "barrydevp/nvterm",
+  --   init = function()
+  --     require("core.utils").load_mappings("nvterm")
+  --   end,
+  --   config = function(_, opts)
+  --     require("nvterm").setup(opts)
+  --   end,
+  -- },
 
   -- winbar for showing code context in status bar
   -- {
@@ -182,4 +209,17 @@ return {
     --   { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     -- },
   },
+
+  -- {
+  --   "ThePrimeagen/harpoon",
+  --   branch = "harpoon2",
+  --   init = function()
+  --     require("core.utils").load_mappings("harpoon")
+  --   end,
+  --   opts = {
+  --     menu = {
+  --       width = vim.api.nvim_win_get_width(0) - 4,
+  --     },
+  --   },
+  -- },
 }

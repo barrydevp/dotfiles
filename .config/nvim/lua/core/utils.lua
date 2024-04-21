@@ -13,10 +13,14 @@ end
 M.load_mappings = function(section, opts)
   local mappings = config.mappings
   local sects = mappings[section or "default"]
+  if type(sects) == "function" then
+    sects = sects()
+  end
 
   M.set_keymaps(sects, opts)
 end
 
+-- the plugins should be loaded before they could be called
 M.plugin_opts = function(name)
   local plugin = require("lazy.core.config").plugins[name]
   if not plugin then

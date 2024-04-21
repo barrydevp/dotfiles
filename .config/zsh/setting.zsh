@@ -19,7 +19,9 @@ export FZF_CTRL_R_OPTS="--border-label=' history ' \
 # zoxide(alternative cd for frequently used path) bootstrap
 eval "$(_exec_safe zoxide init zsh)"
 # atuin(history search) bootstrap
-eval "$(_exec_safe atuin init zsh)"
+eval "$(_exec_safe atuin init zsh --disable-up-arrow)"
+# GH copilot CLI
+eval "$(_exec_safe gh copilot alias -- zsh)"
 
 ### Utilities Func ###
 #____________________#

@@ -1,6 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    -- enabled = false,
     event = { "VeryLazy" },
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
@@ -47,6 +48,8 @@ return {
         "vim",
         "markdown",
         "markdown_inline",
+        "ninja",
+        "rst",
         "yaml",
         "toml",
         "json",

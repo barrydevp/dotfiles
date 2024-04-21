@@ -29,6 +29,11 @@ path = "~/.config/wezterm"
 startup_command = "nvim wezterm.lua && exit"
 
 [[session]]
+name = "ssh config"
+path = "~/.ssh"
+startup_command = "nvim config && exit"
+
+[[session]]
 name = "sesh config"
 path = "~/.config/sesh"
 startup_command = "nvim sesh.toml && exit"
@@ -40,8 +45,13 @@ startup_command = "nvim config.toml && exit"
 
 [[session]]
 name = "second brain 🧠"
+path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/vault"
+startup_command = "source nn"
+
+[[session]]
+name = "freedom"
 path = "~"
-startup_command = "nn && exit"
+startup_command = "clear"
 
 [[session]]
 name = "my custom binaries"

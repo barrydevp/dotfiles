@@ -20,14 +20,20 @@ require("lazy").setup {
   },
   install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
   -- checker = { enabled = true }, -- automatically check for plugin updates
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = false,
+    notify = false, -- get a notification when changes are found
+  },
+
   performance = {
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",

@@ -27,10 +27,10 @@ return {
   },
 
   -- editorconfig
-  {
-    "editorconfig/editorconfig-vim",
-    lazy = false,
-  },
+  -- {
+  --   "editorconfig/editorconfig-vim",
+  --   lazy = false,
+  -- },
 
   -- auto detect indent
   {
@@ -87,10 +87,4 @@ return {
     --   }
     -- end,
   },
-
-  -- repeat action
-  -- {
-  --   "tpope/vim-repeat",
-  --   event = "InsertEnter",
-  -- },
 }

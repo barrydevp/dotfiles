@@ -6,12 +6,14 @@ return {
       require("core.utils").load_mappings("nvimtree")
     end,
     opts = function()
+      vim.g.nvimtree_side = "left"
+
       return {
         on_attach = require("plugins.editor.nvimtree.utils").on_attach,
         disable_netrw = true,
         hijack_netrw = true,
         hijack_cursor = true,
-        hijack_unnamed_buffer_when_opening = false,
+        hijack_unnamed_buffer_when_opening = true,
         sync_root_with_cwd = true,
         update_focused_file = {
           enable = true,
@@ -25,7 +27,7 @@ return {
         },
         view = {
           adaptive_size = false,
-          side = "left",
+          side = vim.g.nvimtree_side,
           width = 30,
           preserve_window_proportions = true,
         },
@@ -45,7 +47,7 @@ return {
         },
         renderer = {
           root_folder_label = false,
-          highlight_git = false,
+          highlight_git = true,
           highlight_opened_files = "none",
 
           indent_markers = {

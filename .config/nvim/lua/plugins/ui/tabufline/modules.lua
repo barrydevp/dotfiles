@@ -199,12 +199,12 @@ M.run = function()
     M.NvimTreeOverlay(),
     M.bufferlist(),
     M.tablist(),
-    M.buttons(),
+    -- M.buttons(),
   }
 
-  if tabufline_config.overriden_modules then
-    tabufline_config.overriden_modules(modules)
-  end
+  -- if tabufline_config.overriden_modules then
+  --   tabufline_config.overriden_modules(modules)
+  -- end
 
   return table.concat(modules)
 end

@@ -1,7 +1,7 @@
 local M = {}
 
 M.coding = {
-  ai = "copilot", -- tabnine/copilotvim/copilot
+  ai = "copilotvim", -- tabnine/copilotvim/copilot
 }
 
 M.ui = {

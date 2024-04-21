@@ -7,11 +7,9 @@ return {
         vls = {},
         html = {},
         cssls = {},
-        pyright = {},
         bashls = {},
 
         prettierd = {},
-        isort = {},
         shfmt = {},
       },
     },
@@ -21,8 +19,6 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "isort", "black" },
-        htmldjango = { "djhtml" },
         bib = { "bibclean" },
         tex = { "latexindent" },
         -- Use a sub-list to run only the first available formatter
@@ -39,14 +35,6 @@ return {
       },
 
       formatters = {
-        djhtml = {
-          command = "djhtml",
-          args = {
-            "-",
-          },
-          stdin = true,
-          require_cwd = false,
-        },
         bibclean = {
           command = "bibclean",
           args = {
@@ -67,7 +55,6 @@ return {
         vls = {},
         html = {},
         cssls = {},
-        pyright = {},
         bashls = {},
       },
     },
@@ -80,4 +67,6 @@ return {
   { import = "plugins.lsp.lang.rust" },
   { import = "plugins.lsp.lang.tsserver" },
   { import = "plugins.lsp.lang.java" },
+  { import = "plugins.lsp.lang.python" },
+  { import = "plugins.lsp.lang.zig" },
 }

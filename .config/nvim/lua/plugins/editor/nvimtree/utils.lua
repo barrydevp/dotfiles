@@ -79,6 +79,10 @@ function M.on_attach(bufnr)
   vim.keymap.set("n", "[h", api.node.navigate.git.prev, opts("Prev Git"))
   vim.keymap.set("n", "]h", api.node.navigate.git.next, opts("Next Git"))
 
+  -- Directory
+  vim.keymap.set("n", "gd", api.tree.change_root_to_node, opts("cd"))
+  vim.keymap.set("n", "go", api.tree.change_root_to_parent, opts("cd .."))
+
   -- File
   vim.keymap.set("n", '"', api.node.open.vertical, opts("Open vertical"))
   vim.keymap.set("n", "%", api.node.open.horizontal, opts("Open horizontal"))

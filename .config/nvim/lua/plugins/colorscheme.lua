@@ -151,6 +151,7 @@ return {
         dap_ui = true,
         dashboard = false,
         flash = true,
+        fidget = true,
         leap = false,
         mason = true,
         markdown = true,
