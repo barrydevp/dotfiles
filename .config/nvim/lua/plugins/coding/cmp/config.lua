@@ -22,9 +22,12 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local options = {
+local defaults = require("cmp.config.default")()
+
+local opts = {
   completion = {
-    completeopt = "menu,menuone",
+    -- completeopt = "menu,menuone",
+    completeopt = "menu,menuone,noinsert",
   },
   -- window = {
   --   completion = cmp.config.window.bordered {},
@@ -57,24 +60,16 @@ local options = {
     end, {
       "i",
     }),
-    -- ["<C-n>"] = cmp.mapping(function(fallback)
-    --   -- if completion menu is visible, select next item
-    --   if not cmp.select_next_item { behavior = cmp.SelectBehavior.Select } then
-    --     if not cmp.complete() then -- else open it
-    --       local release = require("cmp").core:suspend()
-    --       fallback() -- fallback if not
-    --       vim.schedule(release)
-    --     end
-    --   end
-    -- end, {
-    --   "i",
-    --   "s",
-    -- }),
-    -- ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-    -- ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-    -- ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    -- ["<C-u>"] = cmp.mapping.scroll_docs(4),
-    -- ["<C-Space>"] = cmp.mapping.complete(), -- <C-Space> is used for tmux prefix
+    ["<C-c>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.abort()
+      else
+        fallback()
+      end
+    end, {
+      "i",
+      "s",
+    }),
     ["<C-e>"] = cmp.mapping(
       --- Integrated with copilot, tabnine
       function(fallback)
@@ -90,10 +85,7 @@ local options = {
           fallback()
         end
       end,
-      {
-        "i",
-        "s",
-      }
+      { "i", "s" }
     ),
     ["<CR>"] = cmp.mapping(
       -- If nothing is selected (including preselections) add a newline as usual.
@@ -122,34 +114,24 @@ local options = {
       else
         fallback()
       end
-    end, {
-      "i",
-      "s",
-    }),
+    end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
         fallback()
       end
-    end, {
-      "i",
-      "s",
-    }),
+    end, { "i", "s" }),
   },
   sources = cmp.config.sources({
-    -- { name = "copilot", option = {
-    --   event = { "InsertEnter", "LspAttach" },
-    --   fix_pairs = true,
-    -- } },
     { name = "nvim_lsp" },
-    { name = "nvim_lua" },
-    { name = "calc" },
-    { name = "luasnip" },
+    -- { name = "nvim_lua" },
     { name = "path" },
+    { name = "luasnip" },
   }, {
     { name = "buffer" },
   }),
+  sorting = defaults.sorting,
   experimental = {
     -- ghost_text = true,
     -- ghost_text = {
@@ -158,16 +140,23 @@ local options = {
   },
 }
 
-require("cmp").setup(options)
+require("cmp").setup(opts)
 
-local cmdline_mapping = cmp.mapping.preset.cmdline {
-  ["<Tab>"] = cmp.mapping(function(callback)
+local cmdline_mapping = {
+  ["<Tab>"] = cmp.mapping(function()
     if cmp.visible() then
       if #cmp.get_entries() == 1 then
         cmp.confirm { select = true }
       else
         cmp.select_next_item()
       end
+    else
+      cmp.complete()
+    end
+  end, { "c" }),
+  ["<S-Tab>"] = cmp.mapping(function()
+    if cmp.visible() then
+      cmp.select_prev_item()
     else
       cmp.complete()
     end
@@ -198,4 +187,4 @@ cmp.setup.cmdline(":", {
   }),
 })
 
-return options
+return opts

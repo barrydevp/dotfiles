@@ -27,10 +27,10 @@ return {
   },
 
   -- editorconfig
-  -- {
-  --   "editorconfig/editorconfig-vim",
-  --   lazy = false,
-  -- },
+  {
+    "editorconfig/editorconfig-vim",
+    lazy = false,
+  },
 
   -- auto detect indent
   {
@@ -55,13 +55,6 @@ return {
   },
 
   -- surround
-  -- {
-  --   "echasnovski/mini.surround",
-  --   event = "BufReadPost",
-  --   config = function()
-  --     require("mini.surround").setup()
-  --   end,
-  -- },
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -81,10 +74,5 @@ return {
         change_line = "cS",
       },
     },
-    -- config = function()
-    --   require("nvim-surround").setup {
-    --     -- Configuration here, or leave empty to use defaults
-    --   }
-    -- end,
   },
 }

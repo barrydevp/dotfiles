@@ -54,6 +54,10 @@ return {
           -- LspSignatureActiveParameter = { fg = C.yellow },
           LspSignatureHintParameter = { fg = C.maroon, bg = C.mantle },
 
+          -- snippet
+          SnippetActive = { bg = C.overlay0 },
+          SnippetPassive = { bg = C.overlay0 },
+
           -- misc
           CurSearch = { bg = C.yellow },
 
