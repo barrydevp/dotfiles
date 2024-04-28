@@ -139,8 +139,14 @@ return {
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     ft = { "gitcommit", "diff" },
     dependencies = {
-      "tpope/vim-fugitive",
-      cmd = { "G", "Git" },
+      {
+        "tpope/vim-fugitive",
+        cmd = { "G", "Git" },
+        keys = {
+          { "<leader>gg", "<cmd> Git <CR>", desc = "Git" },
+          { "<leader>G", "<cmd> Git <CR>", desc = "Git" },
+        },
+      },
     },
     opts = {
       signs = {

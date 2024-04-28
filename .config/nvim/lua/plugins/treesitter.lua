@@ -72,10 +72,12 @@ return {
         "gosum",
 
         "java",
+        "c_sharp",
+
         "c",
         "cpp",
-        "c_sharp",
         "rust",
+        "zig",
       },
       highlight = {
         enable = true,

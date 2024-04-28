@@ -432,17 +432,31 @@ M.nvimtree = {
   },
 }
 
+local find_project_files = (function()
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+
+  if vim.v.shell_error == 0 then
+    return function()
+      local builtin = require("telescope.builtin")
+
+      builtin.git_files {}
+    end
+  else
+    return function()
+      local builtin = require("telescope.builtin")
+
+      builtin.find_files {}
+    end
+  end
+end)()
+
 M.telescope = {
 
   ["n"] = {
     -- find
     {
       "<C-p>",
-      function()
-        local builtin = require("telescope.builtin")
-
-        builtin.find_files {}
-      end,
+      find_project_files,
       { desc = "Files" },
     },
     {
@@ -513,7 +527,15 @@ M.telescope = {
       end,
       { desc = "Grep by word" },
     },
-    { "<leader>ff", "<cmd> Telescope find_files <CR>", { desc = "find files" } },
+    {
+      "<leader>ff",
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.find_files {}
+      end,
+      { desc = "find files" },
+    },
     -- {"<leader>ft", "<cmd> Telescope grep_string <CR>", {desc="find cursor string"} },
     {
       "<leader>fa",
@@ -543,7 +565,15 @@ M.telescope = {
     },
     { "<leader>fB", "<cmd> Telescope file_browser <CR>", { desc = "find file browser" } },
     { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
-    { "<leader>p", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
+    {
+      "<leader>p",
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.commands {}
+      end,
+      { desc = "find commands" },
+    },
     {
       "<leader><space>",
       function()
@@ -565,13 +595,13 @@ M.telescope = {
       { desc = "find oldfiles" },
     },
     {
-      "<D-f>",
+      "<D-F>",
       function()
         local builtin = require("telescope.builtin")
 
         builtin.current_buffer_fuzzy_find {}
       end,
-      { desc = "find oldfiles" },
+      { desc = "Find in current buffer" },
     },
     { "<leader>fm", "<cmd> Telescope marks <CR>", { desc = "find marks" } },
     -- {"<leader>fr", "<cmd> Telescope oldfiles <CR>", {desc="find recent files"} },
@@ -588,7 +618,15 @@ M.telescope = {
     -- git
     { "<leader>cm", "<cmd> Telescope git_commits <CR>", { desc = "git commits" } },
     { "<leader>gts", "<cmd> Telescope git_status <CR>", { desc = "git status" } },
-    { "<leader>gtf", "<cmd> Telescope git_files <CR>", { desc = "git files" } },
+    {
+      "<leader>fg",
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.git_files {}
+      end,
+      { desc = "git files" },
+    },
 
     -- pick a hidden term
     -- { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
@@ -756,9 +794,6 @@ M.blankline = {
 M.git = {
 
   ["n"] = {
-    -- vim fugitive
-    { "<leader>gs", vim.cmd.Git, { desc = "Git status" } },
-
     -- Navigation through hunks
     {
       "]h",
