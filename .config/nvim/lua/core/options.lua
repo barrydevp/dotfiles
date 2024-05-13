@@ -37,7 +37,9 @@ opt.number = true
 opt.numberwidth = 2
 opt.ruler = false
 opt.relativenumber = true
-opt.scrolloff = 5
+-- opt.scrolloff = 5
+opt.scrolloff = 8 -- scroll page when cursor is 8 lines from top/bottom
+opt.sidescrolloff = 8 -- scroll page when cursor is 8 spaces from left/rig
 
 -- disable nvim intro
 opt.shortmess:append("sI")
@@ -57,7 +59,8 @@ opt.updatetime = 250
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
-opt.wrap = true -- display long lines as just one line
+-- opt.wrap = true -- display long lines as just one line
+opt.wrap = false -- display long lines as just one line
 
 -- fold
 -- opt.foldlevel = 20

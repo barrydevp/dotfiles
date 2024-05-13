@@ -33,10 +33,10 @@ M.default = {
     -- {"<C-j>", "<C-w>j", {desc="window down"} },
     -- {"<C-k>", "<C-w>k", {desc="window up"} },
     -- resize windows
-    { "<C-w>H", ":vertical resize -2<CR>", { desc = "v-resize left" } },
-    { "<C-w>L>", ":vertical resize +2<CR>", { desc = "v-resize right" } },
-    { "<C-w>J", ":resize -2<CR>", { desc = "h-resize down" } },
-    { "<C-w>K", ":resize +2<CR>", { desc = "h-resize up" } },
+    { "<leader>H", ":vertical resize -2<CR>", { desc = "v-resize left" } },
+    { "<leader>L>", ":vertical resize +2<CR>", { desc = "v-resize right" } },
+    { "<leader>J", ":resize -2<CR>", { desc = "h-resize down" } },
+    { "<leader>K", ":resize +2<CR>", { desc = "h-resize up" } },
     -- better split
     { "<leader>-", ":vsplit<CR>", { desc = "v-split" } },
     { "<leader>_", ":split<CR>", { desc = "h-split" } },
@@ -86,6 +86,7 @@ M.default = {
     -- go to  beginning and end
     { "<C-a>", "<Home>", { desc = "beginning of line" } },
     { "<C-e>", "<End>", { desc = "end of line" } },
+    -- { "q1", "q!", { desc = "force quit" } },
   },
 
   ["v"] = {
@@ -114,7 +115,7 @@ M.default = {
   },
 
   ["t"] = {
-    { "<C-x>", termcodes("<C-\\><C-N>"), { desc = "escape terminal mode" } },
+    { "<ESC><ESC>", termcodes("<C-\\><C-N>"), { desc = "escape terminal mode" } },
     -- {"<esc><esc>", termcodes("<C-\\><C-N>"), {desc="escape terminal mode"} },
     { "<C-w>", termcodes("<C-\\><C-N><C-w>"), { desc = "window command mode" } },
     { "<C-h>", termcodes("<C-\\><C-N><C-w>h"), { desc = "terminal window left" } },
