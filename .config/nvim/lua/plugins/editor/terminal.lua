@@ -15,9 +15,9 @@ return {
     opts = {--[[ things you want to change go here]]
       open_mapping = [[<c-\>]],
       shade_filetypes = {},
-      direction = "horizontal",
+      direction = "vertical",
       autochdir = true,
-      persist_mode = true,
+      persist_mode = false,
       insert_mappings = false,
       start_in_insert = true,
       -- winbar = { enabled = true },
@@ -33,7 +33,7 @@ return {
         if term.direction == "horizontal" then
           return 20
         elseif term.direction == "vertical" then
-          return math.floor(vim.o.columns * 0.4)
+          return math.floor(vim.o.columns * 0.45)
         end
       end,
     },

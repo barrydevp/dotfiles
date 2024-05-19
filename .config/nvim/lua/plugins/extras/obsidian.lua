@@ -8,7 +8,7 @@ return {
       -- Required.
       "nvim-lua/plenary.nvim",
     },
-    ft = "markdown",
+    -- ft = "markdown",
     event = {
       "BufReadPre " .. vim.fn.expand("$OBSIDIAN_VAULT_PATH") .. "/**.md",
       "BufNewFile " .. vim.fn.expand("$OBSIDIAN_VAULT_PATH") .. "/**.md",

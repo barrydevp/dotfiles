@@ -87,7 +87,7 @@ M.close_buffer = function(bufnr, quit)
       if quit then
         vim.cmd("q")
       else
-        vim.cmd("enew")
+        vim.cmd("bw")
       end
     end
 

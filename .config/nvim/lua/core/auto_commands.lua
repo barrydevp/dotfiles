@@ -77,3 +77,11 @@ autocmd("BufWritePost", {
   pattern = { "*tmux.conf" },
   command = "execute 'silent !tmux source <afile> --silent'",
 })
+
+-- auto enter insert mode when swithing to terminal
+-- autocmd({ "BufEnter" }, {
+--   callback = function()
+--     vim.cmd("startinsert")
+--   end,
+--   pattern = { "term://*" },
+-- })
