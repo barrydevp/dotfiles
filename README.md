@@ -35,9 +35,9 @@ curl -fsSL https://fnm.vercel.app/install | bash
 
 # clone dotfiles and setup alias
 git clone --bare git@github.com:barrydevp/dotfiles.git $HOME/dotfiles
-alias dotfile='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-dotfile config --local status.showUntrackedFiles no
-dotfile checkout
+alias dot='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+dot config --local status.showUntrackedFiles no
+dot checkout
 
 # install nvim
 
