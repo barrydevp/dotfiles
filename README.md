@@ -18,7 +18,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 # oh my tmux
 git clone https://github.com/gpakosz/.tmux.git
 ln -s -f .tmux/.tmux.conf
-cp .tmux/.tmux.conf.local .
+# cp .tmux/.tmux.conf.local .
 
 # rust and cargo
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -40,6 +40,9 @@ dotfile config --local status.showUntrackedFiles no
 dotfile checkout
 
 # install nvim
+
+# install font
+brew tap homebrew/cask-fonts && brew install --cask font-jetbrains-mono-nerd-font
 
 # nvim lsp
 npm install --global typescript typescript-language-server prettier @fsouza/prettierd eslint_d vscode-html-languageserver-bin vscode-css-languageserver-bin bash-language-server
