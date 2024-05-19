@@ -16,3 +16,6 @@
     process = git-lfs filter-process
     required = true
 
+[user]
+	name = barrydevp
+	email = barrydevp@gmail.com
