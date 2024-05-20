@@ -799,29 +799,30 @@ M.git = {
     {
       "]h",
       function()
-        if vim.wo.diff then
-          return "]h"
-        end
-        vim.schedule(function()
-          require("gitsigns").next_hunk()
-        end)
-        return "<Ignore>"
+        require("gitsigns").nav_hunk("next")
       end,
-      { desc = "Jump to next hunk", expr = true },
+      { desc = "Next hunk" },
     },
-
     {
       "[h",
       function()
-        if vim.wo.diff then
-          return "[h"
-        end
-        vim.schedule(function()
-          require("gitsigns").prev_hunk()
-        end)
-        return "<Ignore>"
+        require("gitsigns").nav_hunk("prev")
       end,
-      { desc = "Jump to prev hunk", expr = true },
+      { desc = "Prev hunk" },
+    },
+    {
+      "[H",
+      function()
+        require("gitsigns").nav_hunk("first")
+      end,
+      { desc = "First hunk" },
+    },
+    {
+      "]H",
+      function()
+        require("gitsigns").nav_hunk("last")
+      end,
+      { desc = "Last hunk" },
     },
 
     -- Actions
@@ -836,9 +837,9 @@ M.git = {
     {
       "<leader>ghs",
       function()
-        require("gitsigns").stage_buffer()
+        require("gitsigns").stage_hunk()
       end,
-      { desc = "stage buffer" },
+      { desc = "stage hunk" },
     },
 
     {
@@ -847,6 +848,22 @@ M.git = {
         require("gitsigns").undo_stage_hunk()
       end,
       { desc = "undo stage hunk" },
+    },
+
+    {
+      "<leader>ghS",
+      function()
+        require("gitsigns").stage_buffer()
+      end,
+      { desc = "stage buffer" },
+    },
+
+    {
+      "<leader>ghR",
+      function()
+        require("gitsigns").reset_buffer()
+      end,
+      { desc = "Reset buffer" },
     },
 
     {
@@ -868,6 +885,14 @@ M.git = {
     {
       "<leader>ghd",
       function()
+        require("gitsigns").diffthis()
+      end,
+      { desc = "diff hunk" },
+    },
+
+    {
+      "<leader>ghD",
+      function()
         require("gitsigns").diffthis("~")
       end,
       { desc = "diff hunk" },
@@ -876,7 +901,7 @@ M.git = {
     {
       "<leader>ghb",
       function()
-        package.loaded.gitsigns.blame_line()
+        require("gitsigns").blame_line()
       end,
       { desc = "Blame line" },
     },

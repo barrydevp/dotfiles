@@ -1,20 +1,37 @@
-local function lspSymbol(name, icon)
-  local hl = "DiagnosticSign" .. name
-  vim.fn.sign_define(hl, { text = icon, numhl = hl, texthl = hl })
-end
-
-lspSymbol("Error", "󰅙")
-lspSymbol("Info", "󰋼")
-lspSymbol("Hint", "󰌵")
-lspSymbol("Warn", "")
+local icons = {
+  diagnostics = {
+    Error = " ",
+    Warn = " ",
+    Hint = " ",
+    Info = " ",
+  },
+}
 
 vim.diagnostic.config {
-  virtual_text = {
-    prefix = "",
-  },
-  signs = true,
   underline = true,
   update_in_insert = false,
+  severity_sort = true,
+  virtual_text = {
+    spacing = 2,
+    source = "if_many",
+    prefix = function(diagnostic)
+      for d, icon in pairs(icons.diagnostics) do
+        if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+          return icon
+        end
+      end
+      return " "
+    end,
+  },
+  signs = false,
+  -- signs = {
+  --   text = {
+  --     [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+  --     [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+  --     [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+  --     [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+  --   },
+  -- },
 }
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
