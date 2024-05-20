@@ -47,4 +47,9 @@ brew tap homebrew/cask-fonts && brew install --cask font-jetbrains-mono-nerd-fon
 # nvim lsp
 npm install --global typescript typescript-language-server prettier @fsouza/prettierd eslint_d vscode-html-languageserver-bin vscode-css-languageserver-bin bash-language-server
 
+# icloud link
+ln -s "/Users/$USER/Library/Mobile Documents/com~apple~CloudDocs" iCloud
+## books
+ln -s "/Users/$USER/Library/Mobile Documents/iCloud~com~apple~iBooks/Documents" Books
+
 ```
