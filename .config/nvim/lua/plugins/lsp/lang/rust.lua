@@ -13,23 +13,24 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      servers = {
-        rust_analyzer = {
-          settings = {
-            {
-              ["rust-analyzer"] = {
-                -- ["rust-analyzer.cargo.target"] = "",
-                ["rust-analyzer.checkOnSave.allTargets"] = false,
-              },
-            },
-          },
-        },
-      },
-      setup = {
-        rust_analyzer = function()
-          return true
-        end,
-      },
+      -- Let's rustaceanvim handle the setup
+      -- servers = {
+      --   rust_analyzer = {
+      --     settings = {
+      --       {
+      --         ["rust-analyzer"] = {
+      --           -- ["rust-analyzer.cargo.target"] = "",
+      --           ["rust-analyzer.checkOnSave.allTargets"] = false,
+      --         },
+      --       },
+      --     },
+      --   },
+      -- },
+      -- setup = {
+      --   rust_analyzer = function()
+      --     return true
+      --   end,
+      -- },
     },
   },
 
@@ -42,11 +43,7 @@ return {
     },
     opts = {
       server = {
-        on_attach = function(client, bufnr)
-          local lsp_opts = require("core.utils").plugin_opts("nvim-lspconfig") or {}
-          lsp_opts.on_init(client, bufnr)
-          lsp_opts.on_attach(client, bufnr)
-
+        on_attach = function(_, bufnr)
           -- vim.keymap.set("n", "<leader>la", function()
           --   vim.cmd.RustLsp("codeAction")
           -- end, { desc = "Code Action", buffer = bufnr })
@@ -60,7 +57,9 @@ return {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
-              runBuildScripts = true,
+              buildScripts = {
+                enable = true,
+              },
             },
             -- Add clippy lints for Rust.
             checkOnSave = {

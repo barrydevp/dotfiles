@@ -79,6 +79,7 @@ return {
               init_options = {
                 bundles = bundles,
               },
+              settings = opts.settings,
               -- enable CMP capabilities
               capabilities = opts.capabilities,
               on_init = opts.on_init,

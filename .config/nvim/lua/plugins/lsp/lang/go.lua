@@ -65,8 +65,6 @@ return {
       },
       setup = {
         gopls = function(_, opts)
-          local on_attach = opts.on_attach
-
           -- workaround for gopls not supporting semanticTokensProvider
           -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
           opts.on_attach = function(client, bufnr)
@@ -83,7 +81,6 @@ return {
                 }
               end
             end
-            return on_attach(client, bufnr)
           end
         end,
       },

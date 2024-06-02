@@ -145,6 +145,7 @@ return {
         gitsigns = true,
         nvimtree = true,
         treesitter = true,
+        treesitter_context = true,
         notify = false,
         mini = {
           enabled = true,
@@ -172,6 +173,15 @@ return {
         },
         lsp_saga = false,
         lsp_trouble = false,
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
         navic = {
           enabled = false,
           custom_bg = "NONE",
@@ -180,6 +190,7 @@ return {
           enabled = false,
           color_mode = false,
         },
+        which_key = true,
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
       },
     },

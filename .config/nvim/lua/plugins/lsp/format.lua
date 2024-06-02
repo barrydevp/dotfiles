@@ -26,12 +26,6 @@ return {
         quiet = false, -- not recommended to change
         lsp_fallback = true, -- not recommended to change
       },
-
-      -- format_on_save = {
-      --   -- These options will be passed to conform.format()
-      --   timeout_ms = 500,
-      --   lsp_fallback = true,
-      -- },
     },
   },
 }

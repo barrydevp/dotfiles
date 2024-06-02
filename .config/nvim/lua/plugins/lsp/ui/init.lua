@@ -24,14 +24,6 @@ vim.diagnostic.config {
     end,
   },
   signs = false,
-  -- signs = {
-  --   text = {
-  --     [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-  --     [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-  --     [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-  --     [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-  --   },
-  -- },
 }
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {

@@ -1,3 +1,6 @@
+local LspFn = require("plugins.lsp.utils.fn")
+local LspMason = require("plugins.lsp.utils.mason")
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -18,52 +21,11 @@ return {
       require("core.utils").load_mappings("lspconfig")
     end,
     opts = function()
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {}
-      )
-
-      capabilities.textDocument.completion.completionItem = {
-        documentationFormat = { "markdown", "plaintext" },
-        snippetSupport = true,
-        preselectSupport = true,
-        insertReplaceSupport = true,
-        labelDetailsSupport = true,
-        deprecatedSupport = true,
-        commitCharactersSupport = true,
-        tagSupport = { valueSet = { 1 } },
-        resolveSupport = {
-          properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
-          },
-        },
-      }
-
       return {
-        on_init = function(client, _)
-          if client.supports_method("textDocument/semanticTokens") then
-            client.server_capabilities.semanticTokensProvider = nil
-          end
-
-          -- client.server_capabilities.document_formatting = false
-        end,
-        on_attach = function(client, bufnr)
-          require("core.utils").load_mappings("lspconfig_attach", { buffer = bufnr })
-
-          if client.server_capabilities.signatureHelpProvider then
-            require("plugins.lsp.ui.signature").setup(client, bufnr)
-          end
-        end,
         -- add any global capabilities here
-        capabilities = capabilities,
+        capabilities = {},
         -- LSP Server Settings
-        servers = {
-          -- example setup lua_ls
+        servers = { -- example setup lua_ls
           -- lua_ls = {
           --   settings = {
           --     Lua = {
@@ -76,6 +38,7 @@ return {
         },
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
+        -- return false if you want this server to be setup with lspconfig
         setup = {
           -- example to setup with typescript.nvim
           -- tsserver = function(_, opts)
@@ -88,13 +51,30 @@ return {
       }
     end,
     config = function(_, opts)
+      -- Setup Attach
+      LspFn.on_attach(function(client, buffer)
+        if client then
+          require("core.utils").load_mappings("lspconfig_attach", { buffer = buffer })
+
+          if client.server_capabilities.signatureHelpProvider then
+            require("plugins.lsp.ui.signature").setup(client, buffer)
+          end
+        end
+      end)
+
       local servers = opts.servers
+      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+        opts.capabilities or {}
+      )
 
       local function setup(server, server_opts)
         server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(opts.capabilities),
-          on_init = opts.on_init,
-          on_attach = opts.on_attach,
+          capabilities = vim.deepcopy(capabilities),
         }, server_opts or {})
 
         if opts.setup[server] then
@@ -109,6 +89,7 @@ return {
         require("lspconfig")[server].setup(server_opts)
       end
 
+      -- Call setup for all register LSP servers
       for server, server_opts in pairs(servers) do
         setup(server, server_opts)
       end
@@ -127,7 +108,7 @@ return {
 
       local ensure_installed = {}
       for binary, _ in pairs(opts.ensure_installed) do
-        table.insert(ensure_installed, require("plugins.lsp.utils.mason").server_maps[binary] or binary)
+        table.insert(ensure_installed, LspMason.server_maps[binary] or binary)
       end
 
       vim.api.nvim_create_user_command("MasonInstallAll", function()
