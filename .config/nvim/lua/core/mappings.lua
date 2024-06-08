@@ -1,4 +1,4 @@
-local lsp_fn = require("plugins.lsp.utils.fn")
+local LspFn = require("plugins.lsp.utils.fn")
 -- n, v, i, t = mode names
 
 local function termcodes(str)
@@ -222,7 +222,7 @@ M.format = {
   ["n"] = {
     {
       "<leader>lf",
-      lsp_fn.format,
+      LspFn.format,
       { desc = "lsp formatting" },
     },
   },
@@ -240,15 +240,14 @@ M.lspconfig_attach = {
   -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
   ["n"] = {
     {
-      "gD",
-      vim.lsp.buf.declaration,
-      { desc = "lsp declaration" },
-    },
-
-    {
       "gd",
       vim.lsp.buf.definition,
-      { desc = "lsp definition" },
+      { desc = "[g]oto [d]efinition" },
+    },
+    {
+      "gD",
+      vim.lsp.buf.declaration,
+      { desc = "[g]oto [D]eclaration" },
     },
 
     -- disabled because of already setup for nvim.UFO
@@ -262,13 +261,13 @@ M.lspconfig_attach = {
     {
       "L",
       vim.diagnostic.open_float,
-      { desc = "lsp diagnostic hover" },
+      { desc = "Diagnostic f[L]oat" },
     },
 
     {
       "S",
-      lsp_fn.signature,
-      { desc = "lsp signature_help" },
+      LspFn.signature,
+      { desc = "[S]ignature help" },
     },
 
     { "go", "<cmd>pop<CR>", { desc = "go back" } },
@@ -276,73 +275,66 @@ M.lspconfig_attach = {
     {
       "gi",
       vim.lsp.buf.implementation,
-      { desc = "lsp implementation" },
+      { desc = "[g]oto [i]mplementation" },
     },
 
     {
       "gr",
       vim.lsp.buf.references,
-      { desc = "lsp references" },
+      { desc = "[g]oto [r]eferences" },
     },
 
-    -- {"<leader>D",
     {
       "gy",
       vim.lsp.buf.type_definition,
-      { desc = "lsp definition type" },
+      { desc = "[g]oto T[y]pe Definition" },
     },
 
     {
       "<leader>ra",
-      lsp_fn.renamer,
-      { desc = "lsp rename" },
+      LspFn.renamer,
+      { desc = "lsp [r]en[a]me" },
     },
 
     {
       "<leader>lr",
-      lsp_fn.renamer,
-      { desc = "lsp rename" },
-    },
-
-    {
-      "<leader>lo",
-      vim.diagnostic.open_float,
-      { desc = "floating diagnostic" },
+      LspFn.renamer,
+      { desc = "[l]lsp [r]ename" },
     },
 
     {
       "[d",
-      lsp_fn.diagnostic_goto(false),
+      LspFn.diagnostic_goto(false),
       { desc = "goto prev diagnostic" },
     },
 
     {
       "]d",
-      lsp_fn.diagnostic_goto(true),
+      LspFn.diagnostic_goto(true),
       { desc = "goto next diagnostic" },
     },
 
     {
       "[e",
-      lsp_fn.diagnostic_goto(false, "ERROR"),
+      LspFn.diagnostic_goto(false, "ERROR"),
       { desc = "goto prev error" },
     },
 
     {
       "]e",
-      lsp_fn.diagnostic_goto(true, "ERROR"),
+      LspFn.diagnostic_goto(true, "ERROR"),
       { desc = "goto next error" },
     },
 
     {
       "[w",
-      lsp_fn.diagnostic_goto(false, "WARN"),
+      LspFn.diagnostic_goto(false, "WARN"),
       { desc = "goto prev warning" },
     },
 
     {
       "]w",
-      lsp_fn.diagnostic_goto(true, "WARN"),
+      LspFn.diagnostic_goto(true, "WARN"),
       { desc = "goto next warning" },
     },
 
@@ -397,27 +389,22 @@ M.lspconfig_attach = {
   ["i"] = {
     {
       "<C-s>",
-      lsp_fn.parameter_hints,
+      LspFn.parameter_hints,
       { desc = "lsp parameter_hints" },
     },
-    -- {
-    --   "<C-l>",
-    --   vim.lsp.buf.hover,
-    --   { desc = "lsp hover" },
-    -- },
   },
 
   [{ "n", "v" }] = {
     {
       "<leader>la",
       vim.lsp.buf.code_action,
-      { desc = "lsp code_action" },
+      { desc = "[l]sp code [a]ction" },
     },
 
     {
       "<leader>ca",
       vim.lsp.buf.code_action,
-      { desc = "lsp code_action" },
+      { desc = "lsp [c]ode [a]ction" },
     },
   },
 }

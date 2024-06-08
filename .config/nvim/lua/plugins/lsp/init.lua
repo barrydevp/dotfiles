@@ -22,8 +22,28 @@ return {
     end,
     opts = function()
       return {
+        -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+        -- Be aware that you also will need to properly configure your LSP server to
+        -- provide the inlay hints.
+        inlay_hints = {
+          enabled = false,
+          exclude = {}, -- filetypes for which you don't want to enable inlay hints
+        },
+        -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+        -- Be aware that you also will need to properly configure your LSP server to
+        -- provide the code lenses.
+        codelens = {
+          enabled = false,
+        },
         -- add any global capabilities here
-        capabilities = {},
+        capabilities = {
+          workspace = {
+            fileOperations = {
+              didRename = true,
+              willRename = true,
+            },
+          },
+        },
         -- LSP Server Settings
         servers = { -- example setup lua_ls
           -- lua_ls = {
@@ -58,6 +78,24 @@ return {
 
           if client.server_capabilities.signatureHelpProvider then
             require("plugins.lsp.ui.signature").setup(client, buffer)
+          end
+
+          -- check supported method
+          local on_supports_method = function(method, fn)
+            if client.supports_method(method, buffer) then
+              fn()
+            end
+          end
+
+          -- codelens
+          if opts.codelens.enabled and vim.lsp.codelens then
+            on_supports_method("textDocument/codeLens", function()
+              vim.lsp.codelens.refresh()
+              vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                buffer = buffer,
+                callback = vim.lsp.codelens.refresh,
+              })
+            end)
           end
         end
       end)
