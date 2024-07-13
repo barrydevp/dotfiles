@@ -1,0 +1,55 @@
+set relativenumber
+set surround
+set commentary
+set number
+
+let mapleader = ','
+
+if has('unnamedplus')
+    " set clipboard=unnamed,unnamedplus
+endif
+
+" noremap YY "+y<CR>
+noremap <C-c> "+y<CR>
+" noremap <leader>p "+gP<CR>
+" noremap <C-v>p "+gP<CR>
+" noremap XX "+x<CR>
+noremap <C-x> "+d<CR>
+
+" my setting
+set scrolloff=5
+
+" my map
+nmap gr :action FindUsages<CR>
+nmap gD :action GotoTypeDeclaration<CR>
+nmap H :action QuickJavaDoc<CR>
+nmap gs :action QuickJavaDoc<CR>
+nmap gi :action GotoImplementation<CR>
+nmap <leader>lr :action RenameElement<CR>
+nmap <leader>lf :action ReformatCode<CR>
+
+nmap <leader>ff :action GotoFile<CR>
+nmap <leader>ft :action FindInPath<CR>
+
+nmap <leader>gd :action Compare.SameVersion<CR>
+nmap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
+vmap <leader>gh :action Vcs.ShowHistoryForBlock<CR>
+
+nmap <C-t> gt
+nmap T gT
+
+nmap <leader>dt :action ToggleLineBreakpoint<CR>
+nmap <leader>dd :action ToggleLineBreakpoint<CR>
+nmap <leader>ds :action Debug<CR>
+nmap <leader>dr :action Rerun<CR>
+nmap <leader>dc :action Resume<CR>
+nmap <leader>dn :action RunToCursor<CR>
+nmap <leader>dq :action Stop<CR>
+nmap <leader>dD :action Stop<CR>
+
+nmap <leader>do :action StepOut<CR>
+
+" don't copy the replace text after pasting in visual mode
+vmap p "_dP
+
+nmap <leader>c :q<CR>
