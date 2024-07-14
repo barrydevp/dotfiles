@@ -85,3 +85,11 @@ autocmd("BufWritePost", {
 --   end,
 --   pattern = { "term://*" },
 -- })
+
+autocmd("User", {
+  pattern = { "PersistenceSavePre" },
+  callback = function()
+    -- close nvim tree before saving
+    vim.cmd("NvimTreeClose")
+  end,
+})

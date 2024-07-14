@@ -217,4 +217,31 @@ return {
   --     },
   --   },
   -- },
+
+  -- session management
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    },
+    keys = {
+      {
+        "<leader>ss",
+        mode = { "n" },
+        function()
+          require("persistence").load()
+        end,
+        desc = "load session",
+      },
+      {
+        "<leader>sS",
+        mode = { "n" },
+        function()
+          require("persistence").select()
+        end,
+        desc = "select session",
+      },
+    },
+  },
 }

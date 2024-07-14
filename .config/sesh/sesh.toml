@@ -1,7 +1,7 @@
 # import = ["~/.config/sesh/other.toml"]
 
 [default_session]
-startup_command = "nvim +GoToFile"
+startup_command = "nvim"
 
 [[session]]
 name = "tmuxc"
