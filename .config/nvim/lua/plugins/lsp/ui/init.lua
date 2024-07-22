@@ -1,11 +1,4 @@
-local icons = {
-  diagnostics = {
-    Error = " ",
-    Warn = " ",
-    Hint = " ",
-    Info = " ",
-  },
-}
+local icons = require("core.icons")
 
 vim.diagnostic.config {
   underline = true,

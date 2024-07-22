@@ -73,7 +73,7 @@ M.default = {
     { "<leader>rn", "<cmd> set rnu! <CR>", { desc = "toggle relative number" } },
 
     -- new buffer
-    { "<leader>b", "<cmd> enew <CR>", { desc = "new buffer" } },
+    -- { "<leader>b", "<cmd> enew <CR>", { desc = "new buffer" } },
   },
 
   ["i"] = {
@@ -447,8 +447,21 @@ M.telescope = {
       find_project_files,
       { desc = "Files" },
     },
+    -- {
+    --   "<C-b>",
+    --   function()
+    --     local builtin = require("telescope.builtin")
+    --
+    --     builtin.buffers {
+    --       sort_mru = true,
+    --       ignore_current_buffer = true,
+    --       sort_lastused = true,
+    --     }
+    --   end,
+    --   { desc = "Buffers" },
+    -- },
     {
-      "<C-b>",
+      "<leader>fb",
       function()
         local builtin = require("telescope.builtin")
 
@@ -458,7 +471,7 @@ M.telescope = {
           sort_lastused = true,
         }
       end,
-      { desc = "Buffers" },
+      { desc = "find buffers" },
     },
     {
       "<leader>fp",
@@ -496,15 +509,15 @@ M.telescope = {
       end,
       { desc = "Grep" },
     },
-    {
-      "<leader>fs",
-      function()
-        local builtin = require("telescope.builtin")
-
-        builtin.live_grep {}
-      end,
-      { desc = "Grep" },
-    },
+    -- {
+    --   "<leader>fs",
+    --   function()
+    --     local builtin = require("telescope.builtin")
+    --
+    --     builtin.live_grep {}
+    --   end,
+    --   { desc = "Grep" },
+    -- },
     {
       "<leader>fw",
       function()
@@ -538,19 +551,6 @@ M.telescope = {
       end,
       { desc = "find all file" },
     },
-    {
-      "<leader>fb",
-      function()
-        local builtin = require("telescope.builtin")
-
-        builtin.buffers {
-          sort_mru = true,
-          ignore_current_buffer = true,
-          sort_lastused = true,
-        }
-      end,
-      { desc = "find buffers" },
-    },
     { "<leader>fB", "<cmd> Telescope file_browser <CR>", { desc = "find file browser" } },
     { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
     {
@@ -578,7 +578,7 @@ M.telescope = {
       function()
         local builtin = require("telescope.builtin")
 
-        builtin.oldfiles {}
+        builtin.oldfiles { only_cwd = true }
       end,
       { desc = "find oldfiles" },
     },
@@ -590,6 +590,15 @@ M.telescope = {
         builtin.current_buffer_fuzzy_find {}
       end,
       { desc = "Find in current buffer" },
+    },
+    {
+      "<leader>fs",
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.git_status {}
+      end,
+      { desc = "git status" },
     },
     { "<leader>fm", "<cmd> Telescope marks <CR>", { desc = "find marks" } },
     -- {"<leader>fr", "<cmd> Telescope oldfiles <CR>", {desc="find recent files"} },

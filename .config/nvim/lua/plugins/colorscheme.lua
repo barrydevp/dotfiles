@@ -147,10 +147,7 @@ return {
         treesitter = true,
         treesitter_context = true,
         notify = false,
-        mini = {
-          enabled = true,
-          indentscope_color = "",
-        },
+        mini = true,
         alpha = false,
         dap = true,
         dap_ui = true,
