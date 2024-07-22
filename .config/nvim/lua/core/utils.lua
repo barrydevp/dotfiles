@@ -20,9 +20,19 @@ M.load_mappings = function(section, opts)
   M.set_keymaps(sects, opts)
 end
 
--- the plugins should be loaded before they could be called
-M.plugin_opts = function(name)
-  local plugin = require("lazy.core.config").plugins[name]
+---@param name string
+function M.get_plugin(name)
+  return require("lazy.core.config").spec.plugins[name]
+end
+
+function M.is_loaded(name)
+  local Config = require("lazy.core.config")
+  return Config.plugins[name] and Config.plugins[name]._.loaded
+end
+
+---@param name string
+function M.opts(name)
+  local plugin = M.get_plugin(name)
   if not plugin then
     return {}
   end
@@ -71,6 +81,21 @@ function M.bufremove(buf)
   if vim.api.nvim_buf_is_valid(buf) then
     pcall(vim.cmd, "bdelete! " .. buf)
   end
+end
+
+---@generic T
+---@param list T[]
+---@return T[]
+function M.dedup(list)
+  local ret = {}
+  local seen = {}
+  for _, v in ipairs(list) do
+    if not seen[v] then
+      table.insert(ret, v)
+      seen[v] = true
+    end
+  end
+  return ret
 end
 
 return M

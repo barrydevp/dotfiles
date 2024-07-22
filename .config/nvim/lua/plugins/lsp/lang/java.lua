@@ -44,7 +44,7 @@ return {
       },
       setup = {
         jdtls = function(_, opts)
-          local jdtls_opts = require("core.utils").plugin_opts("nvim-jdtls") or {}
+          local jdtls_opts = require("core.utils").opts("nvim-jdtls") or {}
           -- Find the extra bundles that should be passed on the jdtls command-line
           -- if nvim-dap is enabled with java debug/test.
           local mason_registry = require("mason-registry")

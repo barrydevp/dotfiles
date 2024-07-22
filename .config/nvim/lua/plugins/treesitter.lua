@@ -1,9 +1,15 @@
+local utils = require("core.utils")
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
     -- enabled = false,
     event = { "VeryLazy" },
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    keys = {
+      { "<CR>", desc = "Increment Selection" },
+      { "<bs>", desc = "Decrement Selection", mode = "x" },
+    },
     build = ":TSUpdate",
     init = function(plugin)
       -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
@@ -133,11 +139,11 @@ return {
       },
     },
     config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        opts.ensure_installed = utils.dedup(opts.ensure_installed)
+      end
+
       require("nvim-treesitter.configs").setup(opts)
-      -- TODO: remove this after plugin is fixed
-      vim.schedule(function()
-        require("lazy").load { plugins = { "nvim-treesitter-textobjects" } }
-      end)
     end,
   },
 
@@ -145,6 +151,12 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     lazy = true,
     config = function()
+      -- If treesitter is already loaded, we need to run config again for textobjects
+      if utils.is_loaded("nvim-treesitter") then
+        local opts = utils.opts("nvim-treesitter")
+        require("nvim-treesitter.configs").setup { textobjects = opts.textobjects }
+      end
+
       -- When in diff mode, we want to use the default
       -- vim text objects c & C instead of the treesitter ones.
       local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
