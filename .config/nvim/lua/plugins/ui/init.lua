@@ -88,7 +88,8 @@ return {
       { "<C-b>H", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
       { "<C-b>L", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
       { "<leader>x", utils.bufremove, desc = "close buffer" },
-      { "<C-w>W", utils.bufremove, desc = "close buffer" },
+      -- { "<C-w>W", utils.bufremove, desc = "close buffer" },
+      { "<C-b>w", utils.bufremove, desc = "close buffer" },
     },
     opts = {
       options = {
@@ -98,10 +99,12 @@ return {
         right_mouse_command = function(n) utils.bufremove(n) end,
         diagnostics = "nvim_lsp",
         always_show_bufferline = true,
+        show_close_icon = false,
+        show_buffer_close_icons = false,
         indicator = {
           style = "underline",
         },
-        highlights = require("catppuccin.groups.integrations.bufferline").get(),
+        -- highlights = require("catppuccin.groups.integrations.bufferline").get(),
         diagnostics_indicator = function(_, _, diag)
           local diagnostics_icons = icons.diagnostics
           local ret = (diag.error and diagnostics_icons.Error .. diag.error .. " " or "")

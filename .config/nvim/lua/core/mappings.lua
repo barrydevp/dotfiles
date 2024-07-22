@@ -236,7 +236,6 @@ M.lspconfig = {
 }
 
 M.lspconfig_attach = {
-
   -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
   ["n"] = {
     {
@@ -249,8 +248,24 @@ M.lspconfig_attach = {
       vim.lsp.buf.declaration,
       { desc = "[g]oto [D]eclaration" },
     },
+    {
+      "gi",
+      vim.lsp.buf.implementation,
+      { desc = "[g]oto [i]mplementation" },
+    },
+    {
+      "gr",
+      vim.lsp.buf.references,
+      { desc = "[g]oto [r]eferences", nowait = true },
+    },
+    {
+      "gy",
+      vim.lsp.buf.type_definition,
+      { desc = "[g]oto T[y]pe Definition" },
+    },
+    { "go", "<cmd>pop<CR>", { desc = "go back" } },
 
-    -- disabled because of already setup for nvim.UFO
+    -- Already setup in nvim.UFO
     -- {"K",
     --   function()
     --     vim.lsp.buf.hover()
@@ -268,26 +283,6 @@ M.lspconfig_attach = {
       "S",
       LspFn.signature,
       { desc = "[S]ignature help" },
-    },
-
-    { "go", "<cmd>pop<CR>", { desc = "go back" } },
-
-    {
-      "gi",
-      vim.lsp.buf.implementation,
-      { desc = "[g]oto [i]mplementation" },
-    },
-
-    {
-      "gr",
-      vim.lsp.buf.references,
-      { desc = "[g]oto [r]eferences" },
-    },
-
-    {
-      "gy",
-      vim.lsp.buf.type_definition,
-      { desc = "[g]oto T[y]pe Definition" },
     },
 
     {
