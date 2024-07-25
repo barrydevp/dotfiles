@@ -1,18 +1,5 @@
 return {
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "prettierd",
-        "isort",
-        "shfmt",
-        "goimports",
-        "gofumpt",
-      },
-    },
-  },
-
-  {
     "stevearc/conform.nvim",
     -- event = { "BufWritePre" },
     cmd = "ConformInfo",

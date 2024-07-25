@@ -18,6 +18,6 @@ M.ui = {
   },
 }
 
-M.mappings = require("core.mappings")
+M.keymaps = require("core.keymaps")
 
 return M

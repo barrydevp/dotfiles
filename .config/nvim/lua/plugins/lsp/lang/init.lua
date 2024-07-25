@@ -4,13 +4,18 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
+        -- lang-servers
         vls = {},
         html = {},
         cssls = {},
         bashls = {},
 
+        -- formatters
         prettierd = {},
         shfmt = {},
+        isort = {},
+
+        -- linters
       },
     },
   },

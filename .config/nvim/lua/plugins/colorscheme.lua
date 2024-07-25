@@ -47,6 +47,9 @@ return {
           -- LineNrBelow = { fg = C.surface2 },
           -- LineNr = { fg = C.lavender },
 
+          -- Some of the Trouble highlight that is missing
+          TroubleNormalNC = { fg = C.text, bg = config.ui.transparency and C.none or C.crust },
+
           -- cmp
           Pmenu = { bg = C.mantle },
 
@@ -169,7 +172,7 @@ return {
           -- colored_indent_levels = false,
         },
         lsp_saga = false,
-        lsp_trouble = false,
+        lsp_trouble = true,
         native_lsp = {
           enabled = true,
           underlines = {

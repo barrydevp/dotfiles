@@ -11,7 +11,7 @@ M.set_keymaps = function(mappings, opts)
 end
 
 M.load_mappings = function(section, opts)
-  local mappings = config.mappings
+  local mappings = config.keymaps
   local sects = mappings[section or "default"]
   if type(sects) == "function" then
     sects = sects()

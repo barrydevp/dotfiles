@@ -90,6 +90,7 @@ return {
       { "<leader>x", utils.bufremove, desc = "close buffer" },
       -- { "<C-w>W", utils.bufremove, desc = "close buffer" },
       { "<C-b>w", utils.bufremove, desc = "close buffer" },
+      { "<C-b>W", utils.bufremove, desc = "close others" },
     },
     opts = {
       options = {
