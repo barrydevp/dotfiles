@@ -1,3 +1,5 @@
+require("core.utils").load_keymaps("lazy")
+
 require("lazy").setup {
   spec = {
     { import = "plugins.base" },

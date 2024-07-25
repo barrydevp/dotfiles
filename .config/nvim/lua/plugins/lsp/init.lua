@@ -18,7 +18,7 @@ return {
     },
     init = function()
       -- load all lspconfig
-      require("core.utils").load_mappings("lspconfig")
+      require("core.utils").load_keymaps("lspconfig")
     end,
     opts = function()
       return {
@@ -74,7 +74,7 @@ return {
       -- Setup Attach
       LspFn.on_attach(function(client, buffer)
         if client then
-          require("core.utils").load_mappings("lspconfig_attach", { buffer = buffer })
+          require("core.utils").load_keymaps("lspconfig_attach", { buffer = buffer })
 
           if client.server_capabilities.signatureHelpProvider then
             require("plugins.lsp.ui.signature").setup(client, buffer)

@@ -12,9 +12,40 @@ return {
     cmd = "Telescope",
     init = function()
       -- load mapping
-      require("core.utils").load_mappings("telescope")
+      require("core.utils").load_keymaps("telescope")
     end,
     opts = function()
+      local builtin = require("telescope.builtin")
+      local actions = require("telescope.actions")
+
+      local open_with_trouble = function(...)
+        return require("trouble.sources.telescope").open(...)
+      end
+      local find_files_no_ignore = function()
+        local action_state = require("telescope.actions.state")
+        local line = action_state.get_current_line()
+        builtin.find_files { no_ignore = true, default_text = line }
+      end
+      local find_files_with_hidden = function()
+        local action_state = require("telescope.actions.state")
+        local line = action_state.get_current_line()
+        builtin.find_files { hidden = true, default_text = line }
+      end
+
+      local function find_command()
+        if 1 == vim.fn.executable("rg") then
+          return { "rg", "--files", "--color", "never", "-g", "!.git" }
+        elseif 1 == vim.fn.executable("fd") then
+          return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
+        elseif 1 == vim.fn.executable("fdfind") then
+          return { "fdfind", "--type", "f", "--color", "never", "-E", ".git" }
+        elseif 1 == vim.fn.executable("find") and vim.fn.has("win32") == 0 then
+          return { "find", ".", "-type", "f" }
+        elseif 1 == vim.fn.executable("where") then
+          return { "where", "/r", ".", "*" }
+        end
+      end
+
       return {
         defaults = {
           vimgrep_arguments = {
@@ -71,12 +102,32 @@ return {
           -- Developer configurations: Not meant for general override
           buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
           mappings = {
-            n = { ["q"] = require("telescope.actions").close },
             i = {
+              ["<C-t>"] = open_with_trouble,
+              ["<C-i>"] = find_files_no_ignore,
+              ["<C-h>"] = find_files_with_hidden,
+              ["<C-s>"] = actions.cycle_history_next,
+              ["<C-r>"] = actions.cycle_history_prev,
+              ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+              ["<tab>"] = actions.toggle_selection + actions.move_selection_next,
+              ["<S-tab>"] = actions.drop_all,
+              ["<esc>"] = actions.close,
+              ["<C-c>"] = false,
               ["<C-u>"] = false,
-              ["<C-d>"] = require("telescope.actions").delete_buffer + require("telescope.actions").move_to_top,
-              ["<esc>"] = require("telescope.actions").close,
+              ["<C-d>"] = false,
             },
+            n = {
+              ["q"] = actions.close,
+              ["p"] = actions.toggle_selection + actions.move_selection_next,
+              ["P"] = actions.drop_all,
+            },
+          },
+        },
+
+        pickers = {
+          find_files = {
+            find_command = find_command,
+            hidden = true,
           },
         },
 

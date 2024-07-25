@@ -4,4 +4,4 @@ require("core.auto_commands")
 -- require("core.indents")
 
 -- set general mapping
-require("core.utils").load_mappings()
+require("core.utils").load_keymaps()

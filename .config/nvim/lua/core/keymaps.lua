@@ -394,6 +394,13 @@ M.lspconfig_attach = {
   },
 }
 
+M.lazy = {
+  -- lazy
+  ["n"] = {
+    { "<leader>lu", "<cmd>Lazy update<CR>", { desc = "update lazy" } },
+  },
+}
+
 M.nvimtree = {
 
   ["n"] = {

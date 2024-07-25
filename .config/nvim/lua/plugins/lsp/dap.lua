@@ -2,7 +2,7 @@ return {
   {
     "mfussenegger/nvim-dap",
     init = function()
-      require("core.utils").load_mappings("dap")
+      require("core.utils").load_keymaps("dap")
     end,
     config = function()
       vim.fn.sign_define("DapBreakpoint", {

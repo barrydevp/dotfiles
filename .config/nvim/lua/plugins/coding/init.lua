@@ -17,7 +17,7 @@ return {
       { "gb", mode = "v" },
     },
     init = function()
-      require("core.utils").load_mappings("comment")
+      require("core.utils").load_keymaps("comment")
     end,
     opts = function()
       return {
