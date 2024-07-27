@@ -1,3 +1,4 @@
+local icons = require("core.icons")
 local LspFn = require("plugins.lsp.utils.fn")
 local LspMason = require("plugins.lsp.utils.mason")
 
@@ -22,6 +23,38 @@ return {
     end,
     opts = function()
       return {
+        -- options for vim.diagnostic.config()
+        ---@type vim.diagnostic.Opts
+        diagnostics = {
+          underline = true,
+          update_in_insert = false,
+          virtual_text = {
+            spacing = 2,
+            source = "if_many",
+            prefix = "●",
+            -- prefix = function(diagnostic)
+            --   for d, icon in pairs(icons.diagnostics) do
+            --     if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+            --       return icon
+            --     end
+            --   end
+            --   return " "
+            -- end,
+            -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+            -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+            -- prefix = "icons",
+          },
+          severity_sort = true,
+          signs = false,
+          -- signs = {
+          --   text = {
+          --     [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+          --     [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+          --     [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+          --     [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+          --   },
+          -- },
+        },
         -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
         -- Be aware that you also will need to properly configure your LSP server to
         -- provide the inlay hints.
@@ -71,6 +104,27 @@ return {
       }
     end,
     config = function(_, opts)
+      -- General
+      vim.diagnostic.config(opts)
+
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        -- border = "single",
+        relative = "cursor",
+        -- max_height = 12, -- max height of signature floating_window
+        -- max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+        wrap = true,
+      })
+
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        -- border = "single",
+        focusable = false,
+        relative = "cursor",
+        -- silent = true,
+        -- max_height = 12, -- max height of signature floating_window
+        -- max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+        wrap = true,
+      })
+
       -- Setup Attach
       LspFn.on_attach(function(client, buffer)
         if client then

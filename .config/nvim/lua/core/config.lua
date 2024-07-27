@@ -20,4 +20,6 @@ M.ui = {
 
 M.keymaps = require("core.keymaps")
 
+M.icons = require("core.icons")
+
 return M
