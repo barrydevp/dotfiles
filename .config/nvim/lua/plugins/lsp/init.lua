@@ -45,7 +45,7 @@ return {
             -- prefix = "icons",
           },
           severity_sort = true,
-          signs = false,
+          -- signs = false,
           -- signs = {
           --   text = {
           --     [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
@@ -105,7 +105,7 @@ return {
     end,
     config = function(_, opts)
       -- General
-      vim.diagnostic.config(opts)
+      vim.diagnostic.config(opts.diagnostics)
 
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         -- border = "single",
