@@ -3,7 +3,6 @@
 ## INSTALL
 
 ```bash
-
 # install zsh first
 
 # oh my zsh
@@ -16,8 +15,8 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 # install tmux first and using tmux for futher installing (cargo is very slow :()
 
 # oh my tmux
-git clone https://github.com/gpakosz/.tmux.git
-ln -s -f .tmux/.tmux.conf
+# git clone https://github.com/gpakosz/.tmux.git
+# ln -s -f .tmux/.tmux.conf
 # cp .tmux/.tmux.conf.local .
 
 # rust and cargo
@@ -27,8 +26,15 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install exa
 cargo install fd-find
 
+# ripgrep
+brew install ripgrep
+
+# fzf
+brew install fzf
+
 # starship
-curl -sS https://starship.rs/install.sh | sh
+# curl -sS https://starship.rs/install.sh | sh
+brew install starship
 
 # fnm
 curl -fsSL https://fnm.vercel.app/install | bash
@@ -39,13 +45,11 @@ alias dot='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 dot config --local status.showUntrackedFiles no
 dot checkout
 
-# install nvim
-
 # install font
 brew tap homebrew/cask-fonts && brew install --cask font-jetbrains-mono-nerd-font
 
-# nvim lsp
-npm install --global typescript typescript-language-server prettier @fsouza/prettierd eslint_d vscode-html-languageserver-bin vscode-css-languageserver-bin bash-language-server
+# install nvim
+brew install neovim --HEAD
 
 # icloud link
 ln -s "/Users/$USER/Library/Mobile Documents/com~apple~CloudDocs" iCloud
