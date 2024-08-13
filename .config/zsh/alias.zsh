@@ -7,8 +7,8 @@ alias \
 alias \
   k="kubectl" \
   kfwd="sudo kubefwd" \
-  kx="kubectx" \
-  kn="kubens"
+  kx="kubectl ctx" \
+  kn="kubectl ns"
 
 ### SSH ###
 alias \

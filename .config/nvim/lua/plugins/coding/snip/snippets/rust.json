@@ -13,6 +13,7 @@
             "    // read test",
             "    for _ in 0..nt {",
             "        let (m, n) = scan!(usize, usize);",
+            "        $0",
             "        println!(\"{} {}\", m, n);",
             "    }",
             "}"
@@ -68,6 +69,7 @@
             "    let nt = scan.next::<usize>();",
             "    for _ in 0..nt {",
             "        let n = scan.next::<usize>();",
+            "        $0",
             "        writeln!(out, \"{}\", n).ok();",
             "    }",
             "}"
@@ -99,5 +101,20 @@
             "}"
         ],
         "description": "Competitive Programming Template for codeforces contest"
+    },
+    "wriyn": {
+        "prefix": "wriyn",
+        "body": [
+            "writeln!(out, \"{}\", if ${1:ans} { \"YES\" } else { \"NO\" }).ok();"
+        ]
+    },
+    "wrivec": {
+        "prefix": "wrivec",
+        "body": [
+            "${1:a}.iter().for_each(|x| {",
+            "    write!(out, \"{} \", x).ok();",
+            "});",
+            "writeln!(out).ok();"
+        ]
     }
 }

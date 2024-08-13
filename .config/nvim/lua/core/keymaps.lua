@@ -436,22 +436,27 @@ M.telescope = {
     -- find
     {
       "<C-p>",
-      find_project_files,
+      -- find_project_files,
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.find_files {}
+      end,
       { desc = "Files" },
     },
-    -- {
-    --   "<C-b>",
-    --   function()
-    --     local builtin = require("telescope.builtin")
-    --
-    --     builtin.buffers {
-    --       sort_mru = true,
-    --       ignore_current_buffer = true,
-    --       sort_lastused = true,
-    --     }
-    --   end,
-    --   { desc = "Buffers" },
-    -- },
+    {
+      "<leader>,",
+      function()
+        local builtin = require("telescope.builtin")
+
+        builtin.buffers {
+          sort_mru = true,
+          -- ignore_current_buffer = true,
+          sort_lastused = true,
+        }
+      end,
+      { desc = "Switch Buffer" },
+    },
     {
       "<leader>fb",
       function()
@@ -474,15 +479,15 @@ M.telescope = {
       end,
       { desc = "Resume search" },
     },
-    {
-      "<C-\\>",
-      function()
-        local builtin = require("telescope.builtin")
-
-        builtin.resume {}
-      end,
-      { desc = "Resume search" },
-    },
+    -- {
+    --   "<C-\\>",
+    --   function()
+    --     local builtin = require("telescope.builtin")
+    --
+    --     builtin.resume {}
+    --   end,
+    --   { desc = "Resume search" },
+    -- },
     {
       "<C-/>",
       function()

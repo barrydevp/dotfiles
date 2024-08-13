@@ -14,11 +14,7 @@ function M.on_attach(on_attach)
 end
 
 M.format = function(bufnr)
-  require("conform").format {
-    lsp_fallback = true,
-    async = true,
-    timeout_ms = 500,
-  }
+  require("conform").format {}
 end
 
 M.renamer = function()

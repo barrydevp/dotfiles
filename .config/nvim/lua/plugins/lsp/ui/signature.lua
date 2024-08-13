@@ -206,7 +206,12 @@ M.virtual_hint = function(ctx, val)
   -- we minus 1 in the left hand side of comparision because extmarks is 1 more
   -- colunm than buffer line
   if (offset + dw_hint_text) > (width - margin + 1) then
-    offset = width - margin - dw_hint_text + 1
+    if dw_hint_text > width - margin then
+      -- if hint is longer than the screen width, we show the hint from the beginning
+      offset = 1
+    else
+      offset = width - margin - dw_hint_text + 1
+    end
   end
 
   local pad_len = offset - prev_x
