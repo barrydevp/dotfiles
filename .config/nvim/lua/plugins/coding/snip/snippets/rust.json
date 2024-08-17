@@ -116,5 +116,33 @@
             "});",
             "writeln!(out).ok();"
         ]
+    },
+    "cpat": {
+        "prefix": "cpat",
+        "body": [
+            "// https://atcoder.jp/contests/$1/tasks/$1_$2",
+            "",
+            "#[allow(unused_imports)]",
+            "use proconio::input;",
+            "#[allow(unused_imports)]",
+            "use std::cmp::{max, min};",
+            "",
+            "fn solve() {",
+            "    input! {",
+            "        n: usize",
+            "    };",
+            "    $0",
+            "    println!(\"{}\", n);",
+            "}",
+            "",
+            "fn main() {",
+            "    // input! {tc: usize};",
+            "    let tc = 1;",
+            "    for _ in 0..tc {",
+            "        solve();",
+            "    }",
+            "}"
+        ],
+        "description": "Competitive Programming Template for codeforces contest"
     }
 }
