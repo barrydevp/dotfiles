@@ -1,0 +1,147 @@
+[
+    {
+        "bindings": {
+            "ctrl-[": ["workspace::SendKeystrokes", "escape"]
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            // telescope
+            "ctrl-p": "file_finder::Toggle",
+            "ctrl-/": "workspace::NewSearch"
+        }
+    },
+    {
+        "context": "Dock || Terminal || Editor && vim_mode == normal && !menu",
+        "bindings": {
+            "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+            "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+            "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+            "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+
+            // workspace
+            "ctrl-\\": "workspace::ToggleBottomDock",
+
+            // telescope
+            "ctrl-p": "file_finder::Toggle",
+            "ctrl-/": "workspace::NewSearch"
+        }
+    },
+    {
+        // cmp for copilot like our nvim setting
+        "context": "Editor && inline_completion && !showing_completions",
+        "bindings": {
+            "ctrl-e": "editor::AcceptInlineCompletion"
+        }
+    },
+    {
+        "context": "Dock || Editor && !Terminal && vim_mode == normal && !menu",
+        "bindings": {
+            // workspace
+            "space e": "workspace::ToggleLeftDock",
+            "cmd-r": "workspace::ToggleRightDock",
+            "space o": "tab_switcher::Toggle"
+        }
+    },
+    {
+        // nvimtree compatibility
+        "context": "ProjectPanel && not_editing",
+        "bindings": {
+            "a": "project_panel::NewFile",
+            "A": "project_panel::NewDirectory",
+            "escape": null,
+            "l": "project_panel::ExpandSelectedEntry",
+            "o": "project_panel::OpenPermanent",
+            "d": "project_panel::Delete",
+            "r": "project_panel::Rename",
+            "P": "project_panel::SelectParent",
+            "c": "project_panel::Copy",
+            "p": "project_panel::Paste"
+        }
+    },
+    {
+        "context": "VimControl && !menu",
+        "bindings": {
+            // general
+
+            // jumping
+            "ctrl-shift-u": "vim::ScrollUp",
+            "ctrl-u": ["workspace::SendKeystrokes", "ctrl-shift-u z z"],
+            "ctrl-shift-d": "vim::ScrollDown",
+            "ctrl-d": ["workspace::SendKeystrokes", "ctrl-shift-d z z"],
+            // "n": ["workspace::SendKeystrokes", "cmd- z z"],
+            // "shift-n": ["workspace::SendKeystrokes", "g shift-n z z"],
+
+            // window
+            "ctrl-w W": ["workspace::SendKeystrokes", "cmd-w"],
+            "ctrl-w \"": "pane::SplitVertical",
+            "ctrl-w %": "pane::SplitHorizontal",
+            "space x": ["workspace::SendKeystrokes", "cmd-w"],
+
+            // lsp
+            "g i": "editor::GoToImplementation",
+            "g r": "editor::FindAllReferences",
+            "shift-s": "editor::ShowSignatureHelp",
+            "shift-k": "editor::Hover",
+            "shift-l": "editor::Hover",
+
+            "space l a": "editor::ToggleCodeActions",
+            "space c a": "editor::ToggleCodeActions",
+            "space l f": "editor::Format",
+            "space l r": "editor::Rename",
+            "space r a": "editor::Rename",
+
+            // trouble
+            "space l s": "outline::Toggle",
+            "space l d": "diagnostics::Deploy",
+
+            // git
+            "space b": "editor::ToggleGitBlame"
+        }
+    },
+    {
+        "context": "Editor && VimControl && !menu",
+        "bindings": {}
+    },
+    {
+        "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
+        "bindings": {
+            "shift-j": "editor::MoveLineDown",
+            "shift-k": "editor::MoveLineUp"
+        }
+    },
+    {
+        "context": "vim_mode == insert",
+        "bindings": {
+            // basic
+            "ctrl-k": "editor::CutToEndOfLine",
+            "ctrl-d": "editor::Delete",
+
+            // lsp
+            "ctrl-s": "editor::ShowSignatureHelp"
+        }
+    },
+    {
+        "context": "Editor && vim_mode == insert && (!showing_code_actions && !showing_completions)",
+        "bindings": {
+            // cmp
+            "ctrl-p": "editor::ShowCompletions",
+            "ctrl-n": "editor::ShowCompletions"
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-~": "workspace::NewTerminal",
+            "ctrl-z": "workspace::ToggleZoom",
+            "cmd-k": [
+                "projects::OpenRecent",
+                {
+                    "create_new_window": false
+                }
+            ],
+            "ctrl-x": "tab_switcher::CloseSelectedItem"
+        }
+    }
+]
