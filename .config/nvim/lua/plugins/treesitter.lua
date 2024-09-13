@@ -118,22 +118,22 @@ return {
           goto_next_start = {
             ["]b"] = "@block.outer",
             ["]f"] = "@function.outer",
-            ["]c"] = "@class.outer",
+            -- ["]c"] = "@class.outer",
           },
           goto_next_end = {
             ["]B"] = "@block.outer",
             ["]F"] = "@function.outer",
-            ["]C"] = "@class.outer",
+            -- ["]C"] = "@class.outer",
           },
           goto_previous_start = {
             ["[b"] = "@block.outer",
             ["[f"] = "@function.outer",
-            ["[c"] = "@class.outer",
+            -- ["[c"] = "@class.outer",
           },
           goto_previous_end = {
             ["[B"] = "@block.outer",
             ["[F"] = "@function.outer",
-            ["[C"] = "@class.outer",
+            -- ["[C"] = "@class.outer",
           },
         },
       },

@@ -36,11 +36,11 @@
         }
     },
     {
-        "context": "Dock || Editor && !Terminal && vim_mode == normal && !menu",
+        "context": "(Dock || Editor) && !Terminal && vim_mode == normal && !menu",
         "bindings": {
             // workspace
             "space e": "workspace::ToggleLeftDock",
-            "cmd-r": "workspace::ToggleRightDock",
+            "space a a": "workspace::ToggleRightDock",
             "space o": "tab_switcher::Toggle"
         }
     },
@@ -59,6 +59,16 @@
             "c": "project_panel::Copy",
             "p": "project_panel::Paste"
         }
+    },
+    {
+      "context": "AssistantPanel",
+      "bindings": {
+        "space a c": "search::SelectNextMatch",
+        "space a shift-c": "search::SelectPrevMatch",
+        "space a m": "assistant::ToggleModelSelector",
+        "space a h": "assistant::DeployHistory",
+        "space a l": "assistant::DeployPromptLibrary"
+      }
     },
     {
         "context": "VimControl && !menu",

@@ -7,6 +7,13 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+    "assistant": {
+        "default_model": {
+            "provider": "copilot_chat",
+            "model": "gpt-4o"
+        },
+        "version": "2"
+    },
     "theme": "Catppuccin Mocha",
     "pane_split_direction_horizontal": "down",
     "pane_split_direction_vertical": "right",
@@ -20,7 +27,15 @@
     },
     "terminal": {
         "font_family": "JetBrainsMono Nerd Font",
-        "font_size": 15
+        "font_size": 15,
+        "env": {
+            "ENV": "local"
+        }
+    },
+    "ensure_final_newline_on_save": false,
+    "languages": {
+        "Plain Text": {
+        }
     },
     "lsp": {
         "clangd": {
@@ -54,6 +69,17 @@
                     "async-trait": ["async_trait"],
                     "napi-derive": ["napi"],
                     "async-recursion": ["async_recursion"]
+                }
+            }
+        },
+        "pyright": {
+            "settings": {
+                "python.analysis": {
+                    "diagnosticMode": "workspace",
+                    "typeCheckingMode": "strict"
+                },
+                "python": {
+                    "pythonPath": ".venv/bin/python"
                 }
             }
         }

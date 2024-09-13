@@ -790,28 +790,32 @@ M.git = {
   ["n"] = {
     -- Navigation through hunks
     {
-      "]h",
+      -- "]h",
+      "]c",
       function()
         require("gitsigns").nav_hunk("next")
       end,
       { desc = "Next hunk" },
     },
     {
-      "[h",
+      -- "[h",
+      "[c",
       function()
         require("gitsigns").nav_hunk("prev")
       end,
       { desc = "Prev hunk" },
     },
     {
-      "[H",
+      -- "[H",
+      "[C",
       function()
         require("gitsigns").nav_hunk("first")
       end,
       { desc = "First hunk" },
     },
     {
-      "]H",
+      -- "]H",
+      "]C",
       function()
         require("gitsigns").nav_hunk("last")
       end,
