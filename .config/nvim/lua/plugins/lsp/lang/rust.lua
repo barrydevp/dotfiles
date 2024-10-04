@@ -3,7 +3,7 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        rust_analyzer = {},
+        -- rust_analyzer = {},
 
         codelldb = {},
       },
@@ -36,7 +36,7 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = "^4", -- Recommended
+    version = '^5', -- Recommended
     ft = { "rust" },
     dependencies = {
       { "neovim/nvim-lspconfig" },

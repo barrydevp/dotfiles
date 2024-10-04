@@ -52,11 +52,11 @@ alias w="webstorm ."
 
 ### fnm ###
 
-### exa, the Change Directory (cd) alternative ###
+### eza, the Change Directory (cd) alternative ###
 alias \
-  ls="exa --icons --group-directories-first" \
-  ll="exa -lgh --icons --group-directories-first" \
-  la="exa -lgha --icons --group-directories-first"
+  ls="eza --icons --group-directories-first" \
+  ll="eza -lgh --icons --group-directories-first" \
+  la="eza -lgha --icons --group-directories-first"
 
 ### lazygit ###
 alias \

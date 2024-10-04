@@ -107,52 +107,77 @@ return {
               local client = vim.lsp.get_client_by_id(args.data.client_id)
               if client and client.name == "jdtls" then
                 local wk = require("which-key")
-                wk.register({
-                  ["<leader>cx"] = { name = "+extract" },
-                  ["<leader>cxv"] = { require("jdtls").extract_variable_all, "Extract Variable" },
-                  ["<leader>cxc"] = { require("jdtls").extract_constant, "Extract Constant" },
-                  ["gs"] = { require("jdtls").super_implementation, "Goto Super" },
-                  ["gS"] = { require("jdtls.tests").goto_subjects, "Goto Subjects" },
-                  ["<leader>co"] = { require("jdtls").organize_imports, "Organize Imports" },
-                }, { mode = "n", buffer = args.buf })
-                wk.register({
-                  ["<leader>c"] = { name = "+code" },
-                  ["<leader>cx"] = { name = "+extract" },
-                  ["<leader>cxm"] = {
-                    [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
-                    "Extract Method",
+                wk.add {
+                  {
+                    mode = "n",
+                    buffer = args.buf,
+                    { "<leader>cx", group = "extract" },
+                    { "<leader>cxv", require("jdtls").extract_variable_all, desc = "Extract Variable" },
+                    { "<leader>cxc", require("jdtls").extract_constant, desc = "Extract Constant" },
+                    { "gs", require("jdtls").super_implementation, desc = "Goto Super" },
+                    { "gS", require("jdtls.tests").goto_subjects, desc = "Goto Subjects" },
+                    { "<leader>co", require("jdtls").organize_imports, desc = "Organize Imports" },
                   },
-                  ["<leader>cxv"] = {
-                    [[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]],
-                    "Extract Variable",
+                }
+                wk.add {
+                  {
+                    mode = "v",
+                    buffer = args.buf,
+                    { "<leader>cx", group = "extract" },
+                    {
+                      "<leader>cxm",
+                      [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
+                      desc = "Extract Method",
+                    },
+                    {
+                      "<leader>cxv",
+                      [[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]],
+                      desc = "Extract Variable",
+                    },
+                    {
+                      "<leader>cxc",
+                      [[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
+                      desc = "Extract Constant",
+                    },
                   },
-                  ["<leader>cxc"] = {
-                    [[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
-                    "Extract Constant",
+                }
+
+                require("jdtls").setup_dap(jdtls_opts.dap)
+                require("jdtls.dap").setup_dap_main_class_configs(jdtls_opts.dap_main)
+
+                -- Java Test require Java debugger to work
+                -- custom keymaps for Java test runner (not yet compatible with neotest)
+                wk.add {
+                  {
+                    mode = "n",
+                    buffer = args.buf,
+                    { "<leader>t", group = "test" },
+                    {
+                      "<leader>tt",
+                      function()
+                        require("jdtls.dap").test_class {
+                          config_overrides = type(opts.test) ~= "boolean" and opts.test.config_overrides or nil,
+                        }
+                      end,
+                      desc = "Run All Test",
+                    },
+                    {
+                      "<leader>tr",
+                      function()
+                        require("jdtls.dap").test_nearest_method {
+                          config_overrides = type(opts.test) ~= "boolean" and opts.test.config_overrides or nil,
+                        }
+                      end,
+                      desc = "Run Nearest Test",
+                    },
+                    { "<leader>tT", require("jdtls.dap").pick_test, desc = "Run Test" },
                   },
-                }, { mode = "v", buffer = args.buf })
+                }
+              end
 
-                if jdtls_opts.dap and mason_registry.is_installed("java-debug-adapter") then
-                  -- custom init for Java debugger
-                  require("jdtls").setup_dap(jdtls_opts.dap)
-                  require("jdtls.dap").setup_dap_main_class_configs(jdtls_opts.dap_main)
-
-                  -- Java Test require Java debugger to work
-                  if jdtls_opts.test and mason_registry.is_installed("java-test") then
-                    -- custom keymaps for Java test runner (not yet compatible with neotest)
-                    wk.register({
-                      ["<leader>t"] = { name = "+test" },
-                      ["<leader>tt"] = { require("jdtls.dap").test_class, "Run All Test" },
-                      ["<leader>tr"] = { require("jdtls.dap").test_nearest_method, "Run Nearest Test" },
-                      ["<leader>tT"] = { require("jdtls.dap").pick_test, "Run Test" },
-                    }, { mode = "n", buffer = args.buf })
-                  end
-                end
-
-                -- User can set additional keymaps in opts.on_attach
-                if jdtls_opts.on_attach then
-                  jdtls_opts.on_attach(args)
-                end
+              -- User can set additional keymaps in opts.on_attach
+              if jdtls_opts.on_attach then
+                jdtls_opts.on_attach(args)
               end
             end,
           })
@@ -171,10 +196,13 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = java_filetypes,
     opts = function()
+      local mason_registry = require("mason-registry")
+      local lombok_jar = mason_registry.get_package("jdtls"):get_install_path() .. "/lombok.jar"
+
       return {
         -- How to find the root dir for a given filename. The default comes from
         -- lspconfig which provides a function specifically for java projects.
-        root_dir = require("lspconfig.server_configurations.jdtls").default_config.root_dir,
+        root_dir = require("lspconfig.configs.jdtls").default_config.root_dir,
 
         -- How to find the project name for a given root dir.
         project_name = function(root_dir)
@@ -191,7 +219,10 @@ return {
 
         -- How to run jdtls. This can be overridden to a full java command-line
         -- if the Python wrapper script doesn't suffice.
-        cmd = { vim.fn.exepath("jdtls") },
+        cmd = {
+          vim.fn.exepath("jdtls"),
+          string.format("--jvm-arg=-javaagent:%s", lombok_jar),
+        },
         full_cmd = function(opts)
           local fname = vim.api.nvim_buf_get_name(0)
           local root_dir = opts.root_dir(fname)
@@ -212,6 +243,15 @@ return {
         dap = { hotcodereplace = "auto", config_overrides = {} },
         dap_main = {},
         test = true,
+        settings = {
+          java = {
+            inlayHints = {
+              parameterNames = {
+                enabled = "all",
+              },
+            },
+          },
+        },
       }
     end,
     config = function()
