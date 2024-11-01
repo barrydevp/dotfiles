@@ -19,24 +19,37 @@ autocmd("FileType", {
 -- auto close some filetype with <q>
 autocmd("FileType", {
   pattern = {
-    "qf",
+    "PlenaryTestPopup",
+    "grug-far",
     "help",
-    "man",
-    "notify",
-    "nofile",
     "lspinfo",
-    "terminal",
+    "notify",
+    "qf",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+    "neotest-output",
+    "checkhealth",
+    "neotest-summary",
+    "neotest-output-panel",
+    "dbout",
+    "gitsigns-blame",
     "prompt",
     "toggleterm",
     "fugitive",
     "copilot",
-    "startuptime",
-    "tsplayground",
-    "PlenaryTestPopup",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    api.nvim_buf_set_keymap(event.buf, "n", "q", "<CMD>close<CR>", { silent = true })
+    vim.schedule(function()
+      vim.keymap.set("n", "q", function()
+        vim.api.nvim_buf_delete(event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = "Quit buffer",
+      })
+    end)
   end,
 })
 
