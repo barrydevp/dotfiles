@@ -28,7 +28,8 @@ alias \
 
 ### Neovim ###
 alias \
-  n="nvim"
+  n="nvim" \
+  v="nvim -u $HOME/.config/nvim/minit.lua" # pure neovim
   # nvimc="cd $__NVIM_CONFIG_DIR && $EDITOR init.lua"
 
 ### TMUX ###
