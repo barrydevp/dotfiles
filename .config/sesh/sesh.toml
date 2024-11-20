@@ -58,6 +58,16 @@ name = "my custom binaries"
 path = "~/.config/bin"
 
 [[session]]
+name = "my nix shell"
+path = "~/.config/nix"
+
+[[session]]
+name = "python"
+path = "~/python"
+# startup_command = "nix-shell ~/.config/nix/python.nix"
+startup_command = "pwd"
+
+[[session]]
 name = "update nvim"
 path = "/tmp"
 startup_command = "brew upgrade neovim --fetch-HEAD && exit"

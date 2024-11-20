@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "Running...."
+random=0
+count=0
+while :
+do
+        dt=$(date '+%d/%m/%Y %H:%M:%S')
+        ssh "$@"
+        echo "Total fails: " $count
+        random=$[ ( $RANDOM % 10 )  + 10 ]
+        echo "Failed! Try again in " $random " seconds!... $dt"
+        sleep $random
+        count=$((count + 1))
+done

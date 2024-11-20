@@ -2,6 +2,9 @@ local opt = vim.opt
 local g = vim.g
 local map = vim.keymap.set
 
+---- COLOR
+vim.cmd.colorscheme("slate")
+
 ---- OPTIONS
 -------------------------------------- globals -----------------------------------------
 -- general
