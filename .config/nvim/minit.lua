@@ -1,15 +1,23 @@
 local opt = vim.opt
 local g = vim.g
 local map = vim.keymap.set
+local api = vim.api
+local cmd = vim.cmd
+
+---- FEATURES
+-- fzf
+opt.runtimepath:append("/usr/local/opt/fzf")
 
 ---- COLOR
-vim.cmd.colorscheme("slate")
+cmd.colorscheme("slate")
 
 ---- OPTIONS
 -------------------------------------- globals -----------------------------------------
 -- general
-opt.iskeyword:append("-") -- treat dash separated words as a word text object"
 g.mapleader = " "
+g.editorconfig = true
+
+opt.iskeyword:append("-") -- treat dash separated words as a word text object"
 
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
@@ -32,6 +40,7 @@ opt.fillchars = { eob = " " }
 opt.ignorecase = true
 opt.smartcase = true
 opt.mouse = "a"
+opt.inccommand = "split"
 -- opt.hidden = true
 
 -- Numbers
@@ -65,44 +74,70 @@ opt.whichwrap:append("<>[]hl")
 opt.wrap = false -- display long lines as just one line
 
 -- fold
--- opt.foldlevel = 20
--- opt.foldmethod = "expr"
--- opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevel = 20
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- indentblankline
 opt.list = true
 opt.listchars:append("leadmultispace:⋅")
 opt.listchars:append("eol:↴")
 
+-- completion
+opt.completeopt = "menu,menuone,popup,fuzzy"
+
+local triggers = {"."}
+vim.api.nvim_create_autocmd("InsertCharPre", {
+  buffer = vim.api.nvim_get_current_buf(),
+  callback = function()
+    if vim.fn.pumvisible() == 1 or vim.fn.state("m") == "m" then
+      return
+    end
+    local char = vim.v.char
+    if vim.list_contains(triggers, char) then
+      local key = vim.keycode("<C-x><C-n>")
+      vim.api.nvim_feedkeys(key, "m", false)
+    end
+  end
+})
+
+
 -- obsidian
-opt.conceallevel = 2
+-- opt.conceallevel = 2
 
 ---- INDENT
 
 -- python
-vim.cmd([[autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+cmd([[autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 -- golang
-vim.cmd([[autocmd Filetype go setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+cmd([[autocmd Filetype go setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 -- js, ts
-vim.cmd([[autocmd Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
-vim.cmd([[autocmd Filetype jsx setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
-vim.cmd([[autocmd Filetype typescript setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
-vim.cmd([[autocmd Filetype tsx setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype javascript setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype jsx setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype typescript setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype tsx setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
 -- lua
-vim.cmd([[autocmd Filetype lua setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype lua setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
 -- c/c++
-vim.cmd([[autocmd Filetype c setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
-vim.cmd([[autocmd Filetype h setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
-vim.cmd([[autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype c setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype h setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
+cmd([[autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2]])
 --java
-vim.cmd([[autocmd Filetype java setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+cmd([[autocmd Filetype java setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
 -- asm
-vim.cmd([[autocmd Filetype asm setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+cmd([[autocmd Filetype asm setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4]])
+
+---- TREESITTER
+api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end
+})
 
 ---- KEY MAPS
 
 local function termcodes(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
+  return api.nvim_replace_termcodes(str, true, true, true)
 end
 
 -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down> http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/ empty mode is same as using <cmd> :map
