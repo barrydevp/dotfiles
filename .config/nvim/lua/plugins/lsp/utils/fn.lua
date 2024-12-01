@@ -22,7 +22,25 @@ M.renamer = function()
 end
 
 M.signature = function()
-  vim.lsp.buf.signature_help()
+  vim.lsp.buf.signature_help {
+    -- border = "single",
+    focusable = false,
+    relative = "cursor",
+    -- silent = true,
+    -- max_height = 12, -- max height of signature floating_window
+    -- max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+    wrap = true,
+  }
+end
+
+M.hover = function()
+  vim.lsp.buf.hover {
+    -- border = "single",
+    relative = "cursor",
+    -- max_height = 12, -- max height of signature floating_window
+    -- max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+    wrap = true,
+  }
 end
 
 M.parameter_hints = function()

@@ -1,3 +1,4 @@
+local LspFn = require("plugins.lsp.utils.fn")
 local set_keymaps = require("core.utils").set_keymaps
 
 local ftMap = {
@@ -86,7 +87,7 @@ return {
             function()
               local winid = ufo.peekFoldedLinesUnderCursor()
               if not winid then
-                vim.lsp.buf.hover()
+                LspFn.hover()
                 -- vim.cmd([[ Lspsaga hover_doc ]])
               end
             end,

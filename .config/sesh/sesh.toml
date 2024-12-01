@@ -49,7 +49,7 @@ path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/vault"
 startup_command = "source nn"
 
 [[session]]
-name = "freedom"
+name = "home"
 path = "~"
 startup_command = "clear"
 

@@ -11,6 +11,8 @@ local hint_scheme = "LspSignatureHintParameter"
 
 local M = {
   vt_ns = vim.api.nvim_create_namespace("lsp_signature_vt"),
+  -- TODO: support multiple clients
+  client = nil, -- lsp signature capabilities enabled client => it'll get overrided by the last client
   state = {},
 }
 
@@ -238,8 +240,8 @@ M.trigger_signature = function(ctx, tr)
   if tr.is_triggered then
     -- if current char is trigger char, request new signature state
     if tr.pos[2] == ctx.pos[2] then
-      local params = util.make_position_params()
-      vim.lsp.buf_request(0, ms.textDocument_signatureHelp, params, function(_, result, rctx, _)
+      local params = util.make_position_params(ctx.win, M.client.offset_encoding)
+      vim.lsp.buf_request(0, ms.textDocument_signatureHelp, params, function(_, result, rctx)
         if api.nvim_get_current_buf() ~= rctx.bufnr then
           -- Ignore result since buffer changed. This happens for slow language servers.
           return
@@ -279,10 +281,12 @@ M.trigger_signature = function(ctx, tr)
 end
 
 M.retrive_ctx = function()
+  local win = api.nvim_get_current_win()
   local pos = api.nvim_win_get_cursor(0)
   local line = api.nvim_get_current_line()
   local line_to_cursor = line:sub(1, pos[2])
   return {
+    win = win,
     line = line,
     pos = pos,
     line_to_cursor = line_to_cursor,
@@ -301,6 +305,7 @@ M.parameter_hints = function()
 end
 
 M.setup = function(client, bufnr)
+  M.client = client
   local group = vim.api.nvim_create_augroup("LspSignature", { clear = false })
   vim.api.nvim_clear_autocmds { group = group, buffer = bufnr }
 

@@ -30,7 +30,7 @@ M.open = function()
 end
 
 M.apply = function(curr, win)
-  local newName = vim.trim(vim.fn.getline("."))
+  local newName = vim.trim(vim.api.nvim_get_current_line())
   vim.api.nvim_win_close(win, true)
 
   if #newName > 0 and newName ~= curr then

@@ -84,7 +84,7 @@ opt.listchars:append("leadmultispace:⋅")
 opt.listchars:append("eol:↴")
 
 -- completion
-opt.completeopt = "menu,menuone,popup,fuzzy"
+-- opt.completeopt = "menu,menuone,popup,fuzzy"
 
 local triggers = {"."}
 vim.api.nvim_create_autocmd("InsertCharPre", {
