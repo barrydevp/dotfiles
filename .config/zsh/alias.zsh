@@ -7,6 +7,10 @@ alias \
 alias \
   k="kubectl" \
   kfwd="sudo kubefwd" \
+  kpfw="kubectl port-forward" \
+  kg="kubectl get" \
+  ke="kubectl edit" \
+  kd="kubectl describe" \
   kx="kubectl ctx" \
   kn="kubectl ns"
 

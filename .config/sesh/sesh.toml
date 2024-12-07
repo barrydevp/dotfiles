@@ -54,6 +54,16 @@ path = "~"
 startup_command = "clear"
 
 [[session]]
+name = "kube"
+path = "~/.kube"
+startup_command = "clear"
+
+[[session]]
+name = "ets-oran"
+path = "~/ets"
+startup_command = "ssh daovm"
+
+[[session]]
 name = "my custom binaries"
 path = "~/.config/bin"
 

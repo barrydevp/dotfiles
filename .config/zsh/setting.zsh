@@ -38,9 +38,3 @@ function _add_fpath() {
 }
 #____________________#
 
-### autocompletions ###
-fpath+=$__ZSH_CONFIG_DIR/completions
-autoload -Uz compinit
-compinit -u
-# _add_fpath $ZSHC/completions/*
-

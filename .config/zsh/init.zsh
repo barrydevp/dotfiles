@@ -25,6 +25,9 @@ source $__ZSH_CONFIG_DIR/alias.zsh
 ### SETTING ###
 source $__ZSH_CONFIG_DIR/setting.zsh
 
+### AUTOCOMPLETE ###
+source $__ZSH_CONFIG_DIR/completion.zsh
+
 ### KEYBINDING ###
 source $__ZSH_CONFIG_DIR/keybinding.zsh
 

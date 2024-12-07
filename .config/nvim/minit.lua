@@ -84,22 +84,22 @@ opt.listchars:append("leadmultispace:⋅")
 opt.listchars:append("eol:↴")
 
 -- completion
--- opt.completeopt = "menu,menuone,popup,fuzzy"
+opt.completeopt = "menu,menuone,popup,fuzzy"
 
-local triggers = {"."}
-vim.api.nvim_create_autocmd("InsertCharPre", {
-  buffer = vim.api.nvim_get_current_buf(),
-  callback = function()
-    if vim.fn.pumvisible() == 1 or vim.fn.state("m") == "m" then
-      return
-    end
-    local char = vim.v.char
-    if vim.list_contains(triggers, char) then
-      local key = vim.keycode("<C-x><C-n>")
-      vim.api.nvim_feedkeys(key, "m", false)
-    end
-  end
-})
+-- local triggers = {"."}
+-- vim.api.nvim_create_autocmd("InsertCharPre", {
+--   buffer = vim.api.nvim_get_current_buf(),
+--   callback = function()
+--     if vim.fn.pumvisible() == 1 or vim.fn.state("m") == "m" then
+--       return
+--     end
+--     local char = vim.v.char
+--     if vim.list_contains(triggers, char) then
+--       local key = vim.keycode("<C-x><C-n>")
+--       vim.api.nvim_feedkeys(key, "m", false)
+--     end
+--   end
+-- })
 
 
 -- obsidian
