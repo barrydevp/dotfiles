@@ -1,14 +1,4 @@
 return {
-  -- terminal
-  -- {
-  --   "barrydevp/nvterm",
-  --   init = function()
-  --     require("core.utils").load_keymaps("nvterm")
-  --   end,
-  --   config = function(_, opts)
-  --     require("nvterm").setup(opts)
-  --   end,
-  -- },
   {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",

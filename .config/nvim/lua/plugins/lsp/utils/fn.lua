@@ -18,7 +18,9 @@ M.format = function(bufnr)
 end
 
 M.renamer = function()
-  require("plugins.lsp.ui.renamer").open()
+  -- require("plugins.lsp.ui.renamer").open()
+  local inc_rename = require("inc_rename")
+  return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
 end
 
 M.signature = function()

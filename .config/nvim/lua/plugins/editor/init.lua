@@ -159,34 +159,34 @@ return {
   -- Automatically highlights other instances of the word under your cursor.
   -- This works with LSP, Treesitter, and regexp matching to find the other
   -- instances.
-  {
-    "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    keys = {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
-    },
-    opts = {
-      delay = 200,
-      large_file_cutoff = 2000,
-      large_file_overrides = {
-        providers = { "lsp" },
-      },
-    },
-    config = function(_, opts)
-      require("illuminate").configure(opts)
-
-      require("core.utils").load_keymaps("illuminate")
-
-      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          local buffer = vim.api.nvim_get_current_buf()
-          require("core.utils").load_keymaps("illuminate", { buffer = buffer })
-        end,
-      })
-    end,
-  },
+  -- {
+  --   "RRethy/vim-illuminate",
+  --   event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+  --   keys = {
+  --     { "]]", desc = "Next Reference" },
+  --     { "[[", desc = "Prev Reference" },
+  --   },
+  --   opts = {
+  --     delay = 200,
+  --     large_file_cutoff = 2000,
+  --     large_file_overrides = {
+  --       providers = { "lsp" },
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     require("illuminate").configure(opts)
+  --
+  --     require("core.utils").load_keymaps("illuminate")
+  --
+  --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       callback = function()
+  --         local buffer = vim.api.nvim_get_current_buf()
+  --         require("core.utils").load_keymaps("illuminate", { buffer = buffer })
+  --       end,
+  --     })
+  --   end,
+  -- },
 
   -- Enhanced character motions, search and more
   {
@@ -221,31 +221,4 @@ return {
   --     },
   --   },
   -- },
-
-  -- session management
-  {
-    "folke/persistence.nvim",
-    event = "BufReadPre", -- this will only start session saving when an actual file was opened
-    opts = {
-      -- add any custom options here
-    },
-    keys = {
-      {
-        "<leader>ss",
-        mode = { "n" },
-        function()
-          require("persistence").load()
-        end,
-        desc = "load session",
-      },
-      {
-        "<leader>sS",
-        mode = { "n" },
-        function()
-          require("persistence").select()
-        end,
-        desc = "select session",
-      },
-    },
-  },
 }

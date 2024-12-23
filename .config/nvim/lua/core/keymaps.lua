@@ -146,51 +146,6 @@ M.default = {
   },
 }
 
-M.tabufline = {
-
-  ["n"] = {
-    -- cycle through buffers
-    {
-      "<A-}>",
-      function()
-        require("plugins.ui.tabufline.core").tabuflineNext()
-      end,
-      { desc = "goto next buffer" },
-    },
-
-    {
-      "<A-{>",
-      function()
-        require("plugins.ui.tabufline.core").tabuflinePrev()
-      end,
-      { desc = "goto prev buffer" },
-    },
-
-    -- close buffer + hide terminal buffer
-    {
-      "<leader>x",
-      function()
-        require("plugins.ui.tabufline.core").close_buffer()
-      end,
-      { desc = "close buffer" },
-    },
-    {
-      "<A-x>",
-      function()
-        require("plugins.ui.tabufline.core").close_buffer()
-      end,
-      { desc = "close buffer" },
-    },
-    {
-      "<C-w>W",
-      function()
-        require("plugins.ui.tabufline.core").close_buffer(nil, true)
-      end,
-      { desc = "close buffer" },
-    },
-  },
-}
-
 M.comment = {
 
   -- toggle comment in both modes
@@ -288,13 +243,13 @@ M.lspconfig_attach = {
     {
       "<leader>ra",
       LspFn.renamer,
-      { desc = "lsp [r]en[a]me" },
+      { desc = "lsp [r]en[a]me", expr = true },
     },
 
     {
       "<leader>lr",
       LspFn.renamer,
-      { desc = "[l]lsp [r]ename" },
+      { desc = "[l]lsp [r]ename", expr = true },
     },
 
     {
@@ -331,6 +286,21 @@ M.lspconfig_attach = {
       "]w",
       LspFn.diagnostic_goto(true, "WARN"),
       { desc = "goto next warning" },
+    },
+
+    {
+      "]]",
+      function()
+        Snacks.words.jump(vim.v.count1, true)
+      end,
+      desc = "Next Reference",
+    },
+    {
+      "[[",
+      function()
+        Snacks.words.jump(-vim.v.count1, true)
+      end,
+      desc = "Prev Reference",
     },
 
     -- {
@@ -625,118 +595,6 @@ M.telescope = {
     -- pick a hidden term
     -- { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
     { "<leader>ft", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
-  },
-}
-
-M.nvterm = {
-
-  ["t"] = {
-    -- toggle in terminal mode
-    {
-      "<D-i>",
-      function()
-        require("nvterm.terminal").toggle("float")
-      end,
-      { desc = "Toggle floating term" },
-    },
-    {
-      "<M-i>",
-      function()
-        require("nvterm.terminal").toggle("float")
-      end,
-      { desc = "Toggle floating term" },
-    },
-
-    {
-      "<M-h>",
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      { desc = "Toggle horizontal term" },
-    },
-    -- {"<leader>h",
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --    {desc="Toggle horizontal term"}
-    -- },
-    -- {"<C-t>",
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --    {desc="Toggle horizontal term"}
-    -- },
-
-    {
-      "<M-v>",
-      function()
-        require("nvterm.terminal").toggle("vertical")
-      end,
-      { desc = "Toggle vertical term" },
-    },
-    {
-      "<C-v>",
-      function()
-        require("nvterm.terminal").toggle("vertical")
-      end,
-      { desc = "Toggle vertical term" },
-    },
-  },
-
-  ["n"] = {
-    -- toggle in normal mode
-    {
-      "<D-i>",
-      function()
-        require("nvterm.terminal").toggle("float")
-      end,
-      { desc = "Toggle floating term" },
-    },
-    {
-      "<M-i>",
-      function()
-        require("nvterm.terminal").toggle("float")
-      end,
-      { desc = "Toggle floating term" },
-    },
-
-    {
-      "<M-h>",
-      function()
-        require("nvterm.terminal").toggle("horizontal")
-      end,
-      { desc = "Toggle horizontal term" },
-    },
-    -- {
-    --   "<leader>th",
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --   { desc = "Toggle horizontal term" },
-    -- },
-    -- {
-    --   "<leader>tt",
-    --   function()
-    --     require("nvterm.terminal").toggle("horizontal")
-    --   end,
-    --   { desc = "Toggle horizontal term" },
-    -- },
-
-    {
-      "<M-v>",
-      function()
-        require("nvterm.terminal").toggle("vertical")
-      end,
-      { desc = "Toggle vertical term" },
-    },
-
-    -- {
-    --   "<leader>tv",
-    --   function()
-    --     require("nvterm.terminal").toggle("vertical")
-    --   end,
-    --   { desc = "Toggle vertical term" },
-    -- },
   },
 }
 

@@ -1,6 +1,6 @@
 ### GOLANG ###
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go # don't forget to change your path correctly!
+# export GOROOT=/usr/local/go
+# export GOPATH=$HOME/go # don't forget to change your path correctly!
 
 ### RustLang ###
 export CARGO_PATH="$HOME/.cargo"

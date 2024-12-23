@@ -80,67 +80,6 @@ return {
             fg = "#808080",
             ctermfg = 244,
           },
-
-          -- Tabufline
-          TblineFill = {
-            bg = C.crust,
-          },
-          TbLineBufOn = {
-            fg = C.lavender,
-            bg = C.crust,
-          },
-          TbLineBufOff = {
-            fg = C.surface1,
-            bg = C.mantle,
-          },
-          TbLineBufOnModified = {
-            fg = C.green,
-            bg = C.crust,
-          },
-          TbLineBufOffModified = {
-            fg = C.red,
-            bg = C.mantle,
-          },
-          TbLineBufOnClose = {
-            fg = C.red,
-            bg = C.crust,
-          },
-          TbLineBufOffClose = {
-            fg = C.surface1,
-            bg = C.mantle,
-          },
-          TblineTabNewBtn = {
-            fg = C.lavender,
-            bg = C.overlay2,
-            bold = true,
-          },
-          TbLineTabOn = {
-            fg = C.crust,
-            bg = C.blue,
-            bold = true,
-          },
-          TbLineTabOff = {
-            fg = C.lavender,
-            bg = C.overlay2,
-          },
-          TbLineTabCloseBtn = {
-            fg = C.crust,
-            bg = C.blue,
-          },
-          TBTabTitle = {
-            fg = C.crust,
-            bg = C.lavender,
-          },
-          TbLineThemeToggleBtn = {
-            bold = true,
-            fg = C.lavender,
-            bg = C.overlay2,
-          },
-          TbLineCloseAllBufsBtn = {
-            bold = true,
-            bg = C.red,
-            fg = C.crust,
-          },
         }
       end,
       integrations = {
@@ -166,7 +105,7 @@ return {
         semantic_tokens = true,
         telescope = { enabled = true },
         barbecue = false,
-        illuminate = true,
+        -- illuminate = true,
         indent_blankline = {
           enabled = true,
           -- colored_indent_levels = false,
@@ -190,6 +129,7 @@ return {
           enabled = false,
           color_mode = false,
         },
+        snacks = true,
         which_key = true,
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
       },

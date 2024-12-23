@@ -2,7 +2,7 @@ require("core.utils").load_keymaps("lazy")
 
 require("lazy").setup {
   spec = {
-    { import = "plugins.base" },
+    { import = "plugins.util" },
     { import = "plugins.colorscheme" },
     { import = "plugins.ui" },
     { import = "plugins.treesitter" },

@@ -71,7 +71,7 @@ return {
   { import = "plugins.lsp.lang.clangd" },
   { import = "plugins.lsp.lang.go" },
   { import = "plugins.lsp.lang.rust" },
-  { import = "plugins.lsp.lang.tsserver" },
+  { import = "plugins.lsp.lang.typescript" },
   { import = "plugins.lsp.lang.java" },
   { import = "plugins.lsp.lang.python" },
   { import = "plugins.lsp.lang.zig" },

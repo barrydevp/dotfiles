@@ -1,4 +1,3 @@
-local icons = require("core.icons")
 local LspFn = require("plugins.lsp.utils.fn")
 local LspMason = require("plugins.lsp.utils.mason")
 

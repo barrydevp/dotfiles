@@ -30,6 +30,27 @@ function M.is_loaded(name)
   return Config.plugins[name] and Config.plugins[name]._.loaded
 end
 
+--- Gets a path to a package in the Mason registry.
+--- Prefer this to `get_package`, since the package might not always be
+--- available yet and trigger errors.
+---@param pkg string
+---@param path? string
+---@param opts? { warn?: boolean }
+function M.get_pkg_path(pkg, path, opts)
+  pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+  local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+  opts = opts or {}
+  opts.warn = opts.warn == nil and true or opts.warn
+  path = path or ""
+  local ret = root .. "/packages/" .. pkg .. "/" .. path
+  if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
+    M.warn(
+      ("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(pkg, path)
+    )
+  end
+  return ret
+end
+
 ---@param name string
 function M.opts(name)
   local plugin = M.get_plugin(name)
@@ -96,6 +117,24 @@ function M.dedup(list)
     end
   end
   return ret
+end
+
+---@param opts WantsOpts
+---@return boolean
+function M.wants(opts)
+  if opts.ft then
+    opts.ft = type(opts.ft) == "string" and { opts.ft } or opts.ft
+    for _, f in ipairs(opts.ft) do
+      if vim.bo[M.buf].filetype == f then
+        return true
+      end
+    end
+  end
+  if opts.root then
+    opts.root = type(opts.root) == "string" and { opts.root } or opts.root
+    return #LazyVim.root.detectors.pattern(M.buf, opts.root) > 0
+  end
+  return false
 end
 
 return M

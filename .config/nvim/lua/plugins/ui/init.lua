@@ -85,11 +85,29 @@ return {
       { "<C-t>l", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
       { "<C-t>H", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
       { "<C-t>L", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
-      { "<C-t>w", utils.bufremove, desc = "close buffer" },
-      { "<C-t>W", utils.bufremove, desc = "close others" },
+      {
+        "<C-t>w",
+        function()
+          Snacks.bufdelete()
+        end,
+        desc = "close buffer",
+      },
+      {
+        "<C-t>W",
+        function()
+          Snacks.bufdelete.other()
+        end,
+        desc = "close others",
+      },
       { "<A-{>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { "<A-}>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-      { "<leader>x", utils.bufremove, desc = "close buffer" },
+      {
+        "<leader>x",
+        function()
+          Snacks.bufdelete()
+        end,
+        desc = "close buffer",
+      },
       -- { "<C-w>W", utils.bufremove, desc = "close buffer" },
     },
     opts = {
