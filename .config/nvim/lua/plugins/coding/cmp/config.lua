@@ -1,16 +1,35 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local icons = require("core.icons").lspkind
+local icons = require("core.icons").kinds
 
 local formatting_style = {
-  -- default fields order i.e completion word + item.kind + item.kind icons
-  fields = { "abbr", "kind", "menu" },
-
+  -- -- default fields order i.e completion word + item.kind + item.kind icons
+  -- fields = { "abbr", "kind", "menu" },
+  --
+  -- format = function(_, item)
+  --   local icon = icons[item.kind] or ""
+  --
+  --   item.menu = nil
+  --   item.kind = icon .. " " .. item.kind
+  --
+  --   return item
+  -- end,
+  fields = { "kind", "abbr", "menu" },
   format = function(_, item)
-    local icon = icons[item.kind] or ""
+    if icons[item.kind] then
+      item.kind = icons[item.kind]
+    end
 
-    item.menu = nil
-    item.kind = icon .. " " .. item.kind
+    local widths = {
+      abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
+      menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+    }
+
+    for key, width in pairs(widths) do
+      if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+        item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+      end
+    end
 
     return item
   end,
@@ -29,10 +48,14 @@ local opts = {
     -- completeopt = "menu,menuone",
     completeopt = "menu,menuone,noinsert",
   },
-  -- window = {
-  --   completion = cmp.config.window.bordered {},
-  --   documentation = cmp.config.window.bordered {},
-  -- },
+  window = {
+    completion = {
+      col_offset = -2,
+      side_padding = 0,
+    },
+    -- completion = cmp.config.window.bordered {},
+    -- documentation = cmp.config.window.bordered {},
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)

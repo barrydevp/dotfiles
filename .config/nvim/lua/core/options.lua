@@ -59,8 +59,7 @@ opt.updatetime = 250
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append("<>[]hl")
--- opt.wrap = true -- display long lines as just one line
-opt.wrap = false -- display long lines as just one line
+opt.wrap = true -- display long lines as just one line
 
 -- fold
 -- opt.foldlevel = 20

@@ -86,7 +86,7 @@ M.git = {
   removed = " ",
 }
 
-M.lspkind = {
+M.kinds = {
   Array = " ",
   Boolean = "󰨙 ",
   Class = " ",
@@ -117,9 +117,10 @@ M.lspkind = {
   Package = " ",
   Property = " ",
   Reference = " ",
-  Snippet = " ",
+  Snippet = "󱄽 ",
   String = " ",
   Struct = "󰆼 ",
+  Supermaven = " ",
   TabNine = "󰏚 ",
   Text = " ",
   TypeParameter = " ",

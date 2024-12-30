@@ -1,7 +1,7 @@
 # import = ["~/.config/sesh/other.toml"]
 
 [default_session]
-startup_command = "nvim"
+# startup_command = "nvim"
 
 [[session]]
 name = "tmuxc"
@@ -61,7 +61,10 @@ startup_command = "clear"
 [[session]]
 name = "ets-oran"
 path = "~/ets"
-startup_command = "ssh daovm"
+
+[[session]]
+name = "dev"
+path = "~/Dev"
 
 [[session]]
 name = "my custom binaries"
