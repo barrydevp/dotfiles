@@ -22,6 +22,9 @@ return {
       ensure_installed = {
         -- lsp
         vtsls = {},
+
+        -- debug
+        ["js-debug-adapter"] = {},
       },
     },
   },
@@ -205,15 +208,6 @@ return {
   {
     "mfussenegger/nvim-dap",
     optional = true,
-    dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = function(_, opts)
-          opts.ensure_installed = opts.ensure_installed or {}
-          table.insert(opts.ensure_installed, "js-debug-adapter")
-        end,
-      },
-    },
     opts = function()
       local dap = require("dap")
       if not dap.adapters["pwa-node"] then
