@@ -6,7 +6,7 @@ return {
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     cmd = "WhichKey",
     init = function()
-      require("core.utils").load_keymaps("whichkey")
+      require("utils").load_keymaps("whichkey")
       vim.keymap.set("n", "<leader>sp", function()
         vim.cmd([[
           :profile start /tmp/nvim-profile.log
@@ -151,7 +151,7 @@ return {
         untracked = { text = "▎" },
       },
       on_attach = function(bufnr)
-        require("core.utils").load_keymaps("git", { buffer = bufnr })
+        require("utils").load_keymaps("git", { buffer = bufnr })
       end,
     },
   },
@@ -176,13 +176,13 @@ return {
   --   config = function(_, opts)
   --     require("illuminate").configure(opts)
   --
-  --     require("core.utils").load_keymaps("illuminate")
+  --     require("utils").load_keymaps("illuminate")
   --
   --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
   --     vim.api.nvim_create_autocmd("FileType", {
   --       callback = function()
   --         local buffer = vim.api.nvim_get_current_buf()
-  --         require("core.utils").load_keymaps("illuminate", { buffer = buffer })
+  --         require("utils").load_keymaps("illuminate", { buffer = buffer })
   --       end,
   --     })
   --   end,
@@ -205,7 +205,7 @@ return {
       { "S", mode = { "n" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       -- { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
 
@@ -213,7 +213,7 @@ return {
   --   "ThePrimeagen/harpoon",
   --   branch = "harpoon2",
   --   init = function()
-  --     require("core.utils").load_keymaps("harpoon")
+  --     require("utils").load_keymaps("harpoon")
   --   end,
   --   opts = {
   --     menu = {

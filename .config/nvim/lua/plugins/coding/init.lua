@@ -1,30 +1,35 @@
 return {
-  -- comment
+  -- comments
   {
-    "numToStr/Comment.nvim",
-    dependencies = {
-      {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        opts = {
-          enable_autocmd = false,
-        },
-      },
-    },
-    keys = {
-      { "gcc", mode = "n" },
-      { "gc", mode = "v" },
-      { "gbc", mode = "n" },
-      { "gb", mode = "v" },
-    },
-    init = function()
-      require("core.utils").load_keymaps("comment")
-    end,
-    opts = function()
-      return {
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      }
-    end,
+    "folke/ts-comments.nvim",
+    event = "VeryLazy",
+    opts = {},
   },
+  -- {
+  --   "numToStr/Comment.nvim",
+  --   dependencies = {
+  --     {
+  --       "JoosepAlviste/nvim-ts-context-commentstring",
+  --       opts = {
+  --         enable_autocmd = false,
+  --       },
+  --     },
+  --   },
+  --   keys = {
+  --     { "gcc", mode = "n" },
+  --     { "gc", mode = "v" },
+  --     { "gbc", mode = "n" },
+  --     { "gb", mode = "v" },
+  --   },
+  --   init = function()
+  --     require("utils").load_keymaps("comment")
+  --   end,
+  --   opts = function()
+  --     return {
+  --       pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+  --     }
+  --   end,
+  -- },
 
   -- editorconfig
   {

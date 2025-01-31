@@ -1,4 +1,5 @@
-require("core.utils").load_keymaps("lazy")
+require("utils.lazy").lazy_file()
+require("utils").load_keymaps("lazy")
 
 require("lazy").setup {
   spec = {

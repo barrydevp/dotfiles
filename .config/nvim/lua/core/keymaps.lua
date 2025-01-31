@@ -1,4 +1,4 @@
-local LspFn = require("plugins.lsp.utils.fn")
+local LspFn = require("utils.lsp")
 -- n, v, i, t = mode names
 
 local function termcodes(str)

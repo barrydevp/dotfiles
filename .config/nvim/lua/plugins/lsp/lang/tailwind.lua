@@ -1,8 +1,8 @@
-local lspExtras = require("plugins.lsp.utils.extras")
+local lsputils = require("utils.lsp")
 
 return {
   recommended = function()
-    return require("core.utils").wants {
+    return require("utils").wants {
       root = {
         "tailwind.config.js",
         "tailwind.config.cjs",
@@ -41,7 +41,7 @@ return {
       },
       setup = {
         tailwindcss = function(_, opts)
-          local tw = lspExtras.get_raw_config("tailwindcss")
+          local tw = lsputils.get_raw_config("tailwindcss")
           opts.filetypes = opts.filetypes or {}
 
           -- Add default filetypes

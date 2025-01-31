@@ -4,7 +4,7 @@ return {
     -- event = { "BufWritePre" },
     cmd = "ConformInfo",
     init = function()
-      require("core.utils").load_keymaps("format")
+      require("utils").load_keymaps("format")
     end,
     opts = {
       default_format_opts = {

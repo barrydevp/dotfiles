@@ -1,5 +1,5 @@
-local utils = require("core.utils")
-local lspExtra = require("plugins.lsp.utils.extras")
+local utils = require("utils")
+local lsputils = require("utils.lsp")
 
 return {
   recommended = function()
@@ -86,7 +86,7 @@ return {
               "gD",
               function()
                 local params = vim.lsp.util.make_position_params()
-                lspExtra.execute {
+                lsputils.execute {
                   command = "typescript.goToSourceDefinition",
                   arguments = { params.textDocument.uri, params.position },
                   open = true,
@@ -97,7 +97,7 @@ return {
             {
               "gR",
               function()
-                lspExtra.execute {
+                lsputils.execute {
                   command = "typescript.findAllFileReferences",
                   arguments = { vim.uri_from_bufnr(0) },
                   open = true,
@@ -107,28 +107,28 @@ return {
             },
             {
               "<leader>co",
-              lspExtra.action["source.organizeImports"],
+              lsputils.action["source.organizeImports"],
               desc = "Organize Imports",
             },
             {
               "<leader>cM",
-              lspExtra.action["source.addMissingImports.ts"],
+              lsputils.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
             },
             {
               "<leader>cu",
-              lspExtra.action["source.removeUnused.ts"],
+              lsputils.action["source.removeUnused.ts"],
               desc = "Remove unused imports",
             },
             {
               "<leader>cD",
-              lspExtra.action["source.fixAll.ts"],
+              lsputils.action["source.fixAll.ts"],
               desc = "Fix all diagnostics",
             },
             {
               "<leader>cV",
               function()
-                lspExtra.execute { command = "typescript.selectTypeScriptVersion" }
+                lsputils.execute { command = "typescript.selectTypeScriptVersion" }
               end,
               desc = "Select TS workspace version",
             },
@@ -147,7 +147,7 @@ return {
           return true
         end,
         vtsls = function(_, opts)
-          lspExtra.on_attach(function(client, buffer)
+          lsputils.on_attach(function(client, buffer)
             client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)
               ---@type string, string, lsp.Range
               local action, uri, range = unpack(command.arguments)

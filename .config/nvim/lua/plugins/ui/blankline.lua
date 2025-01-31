@@ -28,7 +28,7 @@ return {
     },
     config = function(_, opts)
       require("ibl").setup(opts)
-      -- require("core.utils").load_keymaps("blankline")
+      -- require("utils").load_keymaps("blankline")
     end,
   },
 }

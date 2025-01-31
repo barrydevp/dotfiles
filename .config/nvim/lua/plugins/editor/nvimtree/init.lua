@@ -3,7 +3,7 @@ return {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     init = function()
-      require("core.utils").load_keymaps("nvimtree")
+      require("utils").load_keymaps("nvimtree")
     end,
     opts = function()
       vim.g.nvimtree_side = "left"

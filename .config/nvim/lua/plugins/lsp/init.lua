@@ -1,5 +1,5 @@
-local LspFn = require("plugins.lsp.utils.fn")
-local LspMason = require("plugins.lsp.utils.mason")
+local LspFn = require("utils.lsp")
+local LspMason = require("utils.mason")
 
 return {
   {
@@ -18,7 +18,7 @@ return {
     },
     init = function()
       -- load all lspconfig
-      require("core.utils").load_keymaps("lspconfig")
+      require("utils").load_keymaps("lspconfig")
     end,
     opts = function()
       return {
@@ -109,7 +109,7 @@ return {
       -- Setup Attach
       LspFn.on_attach(function(client, buffer)
         if client then
-          require("core.utils").load_keymaps("lspconfig_attach", { buffer = buffer })
+          require("utils").load_keymaps("lspconfig_attach", { buffer = buffer })
 
           if client.server_capabilities.signatureHelpProvider then
             -- print(vim.inspect(client))

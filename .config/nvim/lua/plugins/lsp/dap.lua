@@ -23,7 +23,7 @@ return {
       },
     },
     -- init = function()
-    --   require("core.utils").load_keymaps("dap")
+    --   require("utils").load_keymaps("dap")
     -- end,
     -- stylua: ignore
     keys = {

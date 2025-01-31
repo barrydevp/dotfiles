@@ -1,4 +1,4 @@
-local utils = require("core.utils")
+local utils = require("utils")
 local icons = require("core.icons")
 
 return {

@@ -58,7 +58,7 @@ return {
       },
       setup = {
         jdtls = function(_, opts)
-          local jdtls_opts = require("core.utils").opts("nvim-jdtls") or {}
+          local jdtls_opts = require("utils.lazy").opts("nvim-jdtls") or {}
           -- Find the extra bundles that should be passed on the jdtls command-line
           -- if nvim-dap is enabled with java debug/test.
           local mason_registry = require("mason-registry")
@@ -125,12 +125,12 @@ return {
                   {
                     mode = "n",
                     buffer = args.buf,
-                    { "<leader>cx", group = "extract" },
+                    { "<leader>cx",  group = "extract" },
                     { "<leader>cxv", require("jdtls").extract_variable_all, desc = "Extract Variable" },
-                    { "<leader>cxc", require("jdtls").extract_constant, desc = "Extract Constant" },
-                    { "gs", require("jdtls").super_implementation, desc = "Goto Super" },
-                    { "gS", require("jdtls.tests").goto_subjects, desc = "Goto Subjects" },
-                    { "<leader>co", require("jdtls").organize_imports, desc = "Organize Imports" },
+                    { "<leader>cxc", require("jdtls").extract_constant,     desc = "Extract Constant" },
+                    { "gs",          require("jdtls").super_implementation, desc = "Goto Super" },
+                    { "gS",          require("jdtls.tests").goto_subjects,  desc = "Goto Subjects" },
+                    { "<leader>co",  require("jdtls").organize_imports,     desc = "Organize Imports" },
                   },
                 }
                 wk.add {
@@ -165,7 +165,7 @@ return {
                   {
                     mode = "n",
                     buffer = args.buf,
-                    { "<leader>t", group = "test" },
+                    { "<leader>t",  group = "test" },
                     {
                       "<leader>tt",
                       function()

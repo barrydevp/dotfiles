@@ -12,7 +12,7 @@ return {
     cmd = "Telescope",
     init = function()
       -- load mapping
-      require("core.utils").load_keymaps("telescope")
+      require("utils").load_keymaps("telescope")
     end,
     opts = function()
       local builtin = require("telescope.builtin")

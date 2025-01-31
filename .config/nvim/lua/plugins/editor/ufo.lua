@@ -1,5 +1,5 @@
-local LspFn = require("plugins.lsp.utils.fn")
-local set_keymaps = require("core.utils").set_keymaps
+local LspFn = require("utils.lsp")
+local set_keymaps = require("utils").set_keymaps
 
 local ftMap = {
   vim = "indent",
