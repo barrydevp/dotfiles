@@ -1,0 +1,7 @@
+#compdef haidao
+
+_haidao() {
+  echo "fuck"
+}
+
+_haidao "$@"

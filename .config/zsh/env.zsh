@@ -1,6 +1,7 @@
 ### GOLANG ###
-# export GOROOT=/usr/local/go
-# export GOPATH=$HOME/go # don't forget to change your path correctly!
+# export GOROOT= # the goroot path is setup in the local.zsh file due to different machines
+export GOPATH=$HOME/go # don't forget to change your path correctly!
+export PATH=$PATH:$GOPATH/bin
 
 ### RustLang ###
 export CARGO_PATH="$HOME/.cargo"
