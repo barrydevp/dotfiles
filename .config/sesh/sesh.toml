@@ -60,7 +60,7 @@ startup_command = "clear"
 
 [[session]]
 name = "ets-oran"
-path = "~/ets"
+path = "~/Dev/ets"
 
 [[session]]
 name = "dev"

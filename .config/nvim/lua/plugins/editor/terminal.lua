@@ -44,9 +44,19 @@ return {
         on_open = on_open,
       }
 
+      local float_term = Terminal:new {
+        hidden = true,
+        direction = "float",
+        on_open = on_open,
+      }
+
       vim.keymap.set("n", "<leader>tv", function()
         vert_term:toggle()
       end, { desc = "Toggle vertical terminal" })
+
+      vim.keymap.set("n", "<leader>tt", function()
+        float_term:toggle()
+      end, { desc = "Toggle float terminal" })
     end,
   },
 }
