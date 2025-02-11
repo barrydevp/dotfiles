@@ -5,7 +5,7 @@ return {
     opts = {--[[ things you want to change go here]]
       open_mapping = [[<c-\>]],
       shade_filetypes = {},
-      direction = "vertical",
+      direction = "float",
       autochdir = true,
       persist_mode = false,
       insert_mappings = false,
