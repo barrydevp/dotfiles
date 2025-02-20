@@ -86,11 +86,11 @@ function M.format(opts)
     lazyutils.opts("nvim-lspconfig").format or {},
     lazyutils.opts("conform.nvim").format or {}
   )
+  -- print(vim.inspect(opts))
   local ok, conform = pcall(require, "conform")
   -- use conform for formatting with LSP when available,
   -- since it has better format diffing
   if ok then
-    opts.formatters = {}
     conform.format(opts)
   else
     vim.lsp.buf.format(opts)
@@ -101,6 +101,10 @@ M.renamer = function()
   -- require("plugins.lsp.ui.renamer").open()
   local inc_rename = require("inc_rename")
   return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
+end
+
+M.open_line_diagnostics = function()
+  vim.diagnostic.open_float()
 end
 
 M.signature = function()
@@ -123,6 +127,11 @@ M.hover = function()
     -- max_width = 80, -- max_width of signature floating_window, line will be wrapped if exceed max_width
     wrap = true,
   }
+end
+
+M.jump_reference = function(next)
+  local step = next and vim.v.count1 or -vim.v.count1
+  Snacks.words.jump(step, true)
 end
 
 M.parameter_hints = function()

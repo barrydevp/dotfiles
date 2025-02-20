@@ -1,11 +1,17 @@
+local LspFn = require("utils.lsp")
+
 return {
   {
     "stevearc/conform.nvim",
     -- event = { "BufWritePre" },
     cmd = "ConformInfo",
-    init = function()
-      require("utils").load_keymaps("format")
-    end,
+    keys = {
+      {
+        "<leader>lf",
+        LspFn.format,
+        { desc = "lsp formatting" },
+      },
+    },
     opts = {
       default_format_opts = {
         timeout_ms = 3000,

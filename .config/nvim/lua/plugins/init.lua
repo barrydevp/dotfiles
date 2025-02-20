@@ -1,16 +1,17 @@
 require("utils.lazy").lazy_file()
-require("utils").load_keymaps("lazy")
+vim.keymap.set("n", "<leader>lu", "<cmd>Lazy update<CR>", { desc = "update lazy" })
 
 require("lazy").setup {
   spec = {
-    { import = "plugins.util" },
-    { import = "plugins.colorscheme" },
-    { import = "plugins.ui" },
-    { import = "plugins.treesitter" },
-    { import = "plugins.editor" },
-    { import = "plugins.coding" },
-    { import = "plugins.lsp" },
-    { import = "plugins.extras" },
+    { import = "plugins.util", cond = not vim.g.vscode },
+    { import = "plugins.colorscheme", cond = not vim.g.vscode },
+    { import = "plugins.ui", cond = not vim.g.vscode },
+    { import = "plugins.treesitter", cond = not vim.g.vscode },
+    { import = "plugins.editor", cond = not vim.g.vscode },
+    { import = "plugins.coding", cond = not vim.g.vscode },
+    { import = "plugins.lsp", cond = not vim.g.vscode },
+    { import = "plugins.extras", cond = not vim.g.vscode },
+    { import = "vs_code.plugins", cond = vim.g.vscode },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

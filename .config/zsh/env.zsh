@@ -7,15 +7,21 @@ export PATH=$GOPATH/bin:$PATH
 export CARGO_PATH="$HOME/.cargo"
 export PATH=$CARGO_PATH/bin:$PATH
 
-### FNM PATH ###
-export FNM_LEGACY_PATH=$HOME/.fnm
-export FNM_PATH=$HOME/.local/share/fnm
+# ### FNM PATH ###
+# export FNM_LEGACY_PATH=$HOME/.fnm
+# export FNM_PATH=$HOME/.local/share/fnm
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
 
 ### System ###
 export USRLOCAL_PATH=/usr/local/bin
 
 ### PATH ###
-export PATH=$USRLOCAL_PATH:$MYCONFIG/bin:$MYLOCAL/bin:$GOROOT/bin:$GOPATH/bin:$FNM_PATH:$FNM_LEGACY_PATH:$PATH
+export PATH=$USRLOCAL_PATH:$MYCONFIG/bin:$MYLOCAL/bin:$PATH
 
 ### EDITOR ###
 if [[ -n $SSH_CONNECTION ]]; then

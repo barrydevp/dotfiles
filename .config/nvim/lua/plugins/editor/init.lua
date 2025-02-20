@@ -6,7 +6,6 @@ return {
     keys = { "<leader>", '"', "'", "`", "c", "v", "g" },
     cmd = "WhichKey",
     init = function()
-      require("utils").load_keymaps("whichkey")
       vim.keymap.set("n", "<leader>sp", function()
         vim.cmd([[
           :profile start /tmp/nvim-profile.log
@@ -151,7 +150,46 @@ return {
         untracked = { text = "▎" },
       },
       on_attach = function(bufnr)
-        require("utils").load_keymaps("git", { buffer = bufnr })
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+        end
+
+        -- stylua: ignore start
+        map("n", "]c", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          else
+            gs.nav_hunk("next")
+          end
+        end, "Next hunk")
+        map("n", "[c", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          else
+            gs.nav_hunk("prev")
+          end
+        end, "Prev hunk")
+        map("n", "[C", function() gs.nav_hunk("first") end, "First hunk")
+        map("n", "]C", function() gs.nav_hunk("last") end, "Last hunk")
+
+        -- Actions
+        map("n", "<leader>ghr", function() gs.reset_hunk() end, "Reset hunk")
+        map("n", "<leader>ghs", function() gs.stage_hunk() end, "Stage hunk")
+        map("n", "<leader>ghu", function() gs.undo_stage_hunk() end, "Undo stage hunk")
+        map("n", "<leader>ghS", function() gs.stage_buffer() end, "Stage buffer")
+        map("n", "<leader>ghR", function() gs.reset_buffer() end, "Reset buffer")
+        map("n", "<leader>ghp", function() gs.preview_hunk() end, "Preview hunk")
+        map("n", "H", function() gs.preview_hunk() end, "Preview hunk")
+        map("n", "<leader>ghd", function() gs.diffthis() end, "Diff hunk")
+        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff hunk ~")
+        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame line")
+        map("n", "<leader>ghB", function() gs.blame() end, "Blame buffer")
+        map("n", "<leader>gtb", function() gs.toggle_current_line_blame() end, "Toggle current line blame")
+        map("n", "<leader>gtd", function() gs.toggle_deleted() end, "Toggle deleted")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+        -- stylua: ignore end
       end,
     },
   },
@@ -176,13 +214,21 @@ return {
   --   config = function(_, opts)
   --     require("illuminate").configure(opts)
   --
-  --     require("utils").load_keymaps("illuminate")
+  --     local function map(key, dir, buffer)
+  --       vim.keymap.set("n", key, function()
+  --         require("illuminate")["goto_" .. dir .. "_reference"](false)
+  --       end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+  --     end
+  --
+  --     map("]]", "next")
+  --     map("[[", "prev")
   --
   --     -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
   --     vim.api.nvim_create_autocmd("FileType", {
   --       callback = function()
   --         local buffer = vim.api.nvim_get_current_buf()
-  --         require("utils").load_keymaps("illuminate", { buffer = buffer })
+  --         map("]]", "next", buffer)
+  --         map("[[", "prev", buffer)
   --       end,
   --     })
   --   end,
@@ -208,17 +254,4 @@ return {
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
-
-  -- {
-  --   "ThePrimeagen/harpoon",
-  --   branch = "harpoon2",
-  --   init = function()
-  --     require("utils").load_keymaps("harpoon")
-  --   end,
-  --   opts = {
-  --     menu = {
-  --       width = vim.api.nvim_win_get_width(0) - 4,
-  --     },
-  --   },
-  -- },
 }

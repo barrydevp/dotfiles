@@ -29,7 +29,8 @@ return {
                 enable = true,
               },
               completion = {
-                callSnippet = "Replace",
+                -- callSnippet = "Replace",
+                callSnippet = 'Disable',
               },
               diagnostics = {
                 globals = { "vim" },

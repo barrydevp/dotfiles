@@ -5,37 +5,15 @@ return {
     build = "make install_jsregexp",
     dependencies = { "rafamadriz/friendly-snippets" },
 
-    opts = function()
-      -- local types = require("luasnip.util.types")
-
-      return {
-        -- ext_opts = {
-        --   [types.insertNode] = {
-        --     active = {
-        --       hl_group = "SnippetActive",
-        --     },
-        --     passive = {
-        --       hl_group = "SnippetPassive",
-        --     },
-        --   },
-        --   [types.choiceNode] = {
-        --     active = {
-        --       hl_group = "SnippetActive",
-        --     },
-        --     passive = {
-        --       hl_group = "SnippetPassive",
-        --     },
-        --   },
-        -- },
-        history = true,
-        updateevents = "TextChanged,TextChangedI",
-      }
-    end,
+    opts = {
+      history = true,
+      updateevents = "TextChanged,TextChangedI",
+    },
     config = function(_, opts)
       require("luasnip").setup(opts)
 
       -- vscode format
-      require("luasnip.loaders.from_vscode").lazy_load()
+      -- require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_vscode").lazy_load { paths = { "./lua/plugins/coding/snip/snippets" } }
       -- require("luasnip.loaders.from_vscode").lazy_load { exclude = vim.g.vscode_snippets_exclude or {} }
       -- require("luasnip.loaders.from_vscode").lazy_load { paths = "your path!" }
@@ -48,6 +26,13 @@ return {
       -- lua format
       -- require("luasnip.loaders.from_lua").load()
       -- require("luasnip.loaders.from_lua").lazy_load { paths = vim.g.lua_snippets_path or "" }
+
+      Core.snippet_stop = function()
+        if require("luasnip").expand_or_jumpable() then -- or just jumpable(1) is fine?
+          require("luasnip").unlink_current()
+          return true
+        end
+      end
     end,
   },
 }

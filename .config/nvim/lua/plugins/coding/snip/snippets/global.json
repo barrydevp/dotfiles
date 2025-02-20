@@ -1,1 +1,7 @@
-{}
+{
+    "time": {
+        "prefix": "time",
+        "body": ["os.time()"],
+        "description": "Get current time in seconds"
+    }
+}

@@ -1,3 +1,5 @@
+local aicmpFn = require("plugins.coding.cmp.aicmp")
+local config = require("core.config")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local icons = require("core.icons").kinds
@@ -35,13 +37,49 @@ local formatting_style = {
   end,
 }
 
+-- local has_words_before = function()
+--   unpack = unpack or table.unpack
+--   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+--   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+-- end
+
 local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+    return false
+  end
   unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 end
 
 local defaults = require("cmp.config.default")()
+
+local comparators = {
+  -- Below is the default comparitor list and order for nvim-cmp
+  cmp.config.compare.offset,
+  -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+  cmp.config.compare.exact,
+  cmp.config.compare.score,
+  cmp.config.compare.recently_used,
+  cmp.config.compare.locality,
+  cmp.config.compare.kind,
+  cmp.config.compare.sort_text,
+  cmp.config.compare.length,
+  cmp.config.compare.order,
+}
+
+local sources = {
+  { name = "nvim_lsp", group_index = 2 },
+  -- { name = "nvim_lua", group_index = 2 },
+  { name = "path", group_index = 2 },
+  { name = "luasnip", group_index = 2 },
+  { name = "buffer", group_index = 2 },
+}
+
+-- if config.coding.ai == "copilot" then
+--   table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)
+--   table.insert(sources, 1, { name = "copilot" })
+-- end
 
 local opts = {
   completion = {
@@ -51,10 +89,10 @@ local opts = {
   window = {
     completion = {
       col_offset = -2,
-      side_padding = 0,
+      -- side_padding = 0,
     },
     -- completion = cmp.config.window.bordered {},
-    -- documentation = cmp.config.window.bordered {},
+    documentation = cmp.config.window.bordered {},
   },
   snippet = {
     expand = function(args)
@@ -97,9 +135,9 @@ local opts = {
       --- Integrated with copilot, tabnine
       function(fallback)
         -- execute AI Code generation
-        if require("plugins.coding.cmp.aicmp").accept() then
-          return
-        end
+        -- if require("plugins.coding.cmp.aicmp").accept() then
+        --   return
+        -- end
 
         -- usual close completion menu
         if cmp.visible() then
@@ -123,17 +161,19 @@ local opts = {
       { "i", "s" }
     ),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
+      if cmp.visible() and has_words_before() then
         local entry = cmp.get_selected_entry()
         if not entry then
           cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
         else
-          cmp.confirm {}
+          cmp.confirm { }
         end
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
         -- elseif has_words_before() then
         --   cmp.complete()
+      elseif aicmpFn.accept() then
+        return
       else
         fallback()
       end
@@ -141,24 +181,22 @@ local opts = {
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
+      elseif aicmpFn.next() then
+        return
       else
         fallback()
       end
     end, { "i", "s" }),
   },
-  sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    -- { name = "nvim_lua" },
-    { name = "path" },
-    { name = "luasnip" },
-  }, {
-    { name = "buffer" },
-  }),
-  sorting = defaults.sorting,
+  sources = sources,
+  sorting = {
+    priority_weight = 2,
+    comparators = comparators,
+  },
   experimental = {
     -- ghost_text = true,
     -- ghost_text = {
-    --   hl_group = "Comment",
+    --   hl_group = "AISuggestion",
     -- },
   },
 }

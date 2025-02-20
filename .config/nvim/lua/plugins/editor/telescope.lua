@@ -1,3 +1,21 @@
+local find_project_files = (function()
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+
+  if vim.v.shell_error == 0 then
+    return function()
+      local builtin = require("telescope.builtin")
+
+      builtin.git_files {}
+    end
+  else
+    return function()
+      local builtin = require("telescope.builtin")
+
+      builtin.find_files {}
+    end
+  end
+end)()
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -10,10 +28,199 @@ return {
       },
     },
     cmd = "Telescope",
-    init = function()
-      -- load mapping
-      require("utils").load_keymaps("telescope")
-    end,
+    keys = {
+      {
+        "<C-p>",
+        -- find_project_files,
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.find_files {}
+        end,
+        { desc = "Files" },
+      },
+      {
+        "<leader>,",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.buffers {
+            sort_mru = true,
+            -- ignore_current_buffer = true,
+            sort_lastused = true,
+          }
+        end,
+        { desc = "Switch Buffer" },
+      },
+      {
+        "<leader>fb",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.buffers {
+            sort_mru = true,
+            ignore_current_buffer = true,
+            sort_lastused = true,
+          }
+        end,
+        { desc = "find buffers" },
+      },
+      {
+        "<leader>fp",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.resume {}
+        end,
+        { desc = "Resume search" },
+      },
+      -- {
+      --   "<C-\\>",
+      --   function()
+      --     local builtin = require("telescope.builtin")
+      --
+      --     builtin.resume {}
+      --   end,
+      --   { desc = "Resume search" },
+      -- },
+      {
+        "<C-/>",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.live_grep {}
+        end,
+        { desc = "Grep" },
+      },
+      {
+        "<C-_>", -- tmux regconize <C-/> with this
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.live_grep {}
+        end,
+        { desc = "Grep" },
+      },
+      -- {
+      --   "<leader>fs",
+      --   function()
+      --     local builtin = require("telescope.builtin")
+      --
+      --     builtin.live_grep {}
+      --   end,
+      --   { desc = "Grep" },
+      -- },
+      {
+        "<leader>fw",
+        function()
+          local builtin = require("telescope.builtin")
+          local word = vim.fn.expand("<cword>")
+
+          builtin.grep_string { search = word }
+        end,
+        { desc = "Grep by word" },
+      },
+      {
+        "<leader>ff",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.find_files {}
+        end,
+        { desc = "find files" },
+      },
+      -- {"<leader>ft", "<cmd> Telescope grep_string <CR>", {desc="find cursor string"} },
+      {
+        "<leader>fa",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.find_files {
+            follow = true,
+            no_ignore = true,
+            hidden = true,
+          }
+        end,
+        { desc = "find all file" },
+      },
+      { "<leader>fB", "<cmd> Telescope file_browser <CR>", { desc = "find file browser" } },
+      { "<leader>fc", "<cmd> Telescope commands <CR>", { desc = "find commands" } },
+      {
+        "<leader>p",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.commands {}
+        end,
+        { desc = "find commands" },
+      },
+      {
+        "<leader><space>",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.commands {}
+        end,
+        { desc = "find commands" },
+      },
+      { "<leader>;", "<cmd> Telescope command_history <CR>", { desc = "find command history" } },
+      { "<leader>fh", "<cmd> Telescope help_tags <CR>", { desc = "help page" } },
+      {
+        "<leader>fo",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.oldfiles { only_cwd = true }
+        end,
+        { desc = "find oldfiles" },
+      },
+      {
+        "<D-F>",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.current_buffer_fuzzy_find {}
+        end,
+        { desc = "Find in current buffer" },
+      },
+      {
+        "<leader>fs",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.git_status {}
+        end,
+        { desc = "git status" },
+      },
+      { "<leader>fm", "<cmd> Telescope marks <CR>", { desc = "find marks" } },
+      -- {"<leader>fr", "<cmd> Telescope oldfiles <CR>", {desc="find recent files"} },
+      { "<leader>fr", "<cmd> Telescope registers <CR>", { desc = "find registers" } },
+      -- {"<leader>fr", "<cmd> Telescope resume <CR>", {desc="resume last search"} },
+      { "<leader>fk", "<cmd> Telescope keymaps <CR>", { desc = "show keys" } },
+      { "<leader>fz", "<cmd> Telescope current_buffer_fuzzy_find <CR>", { desc = "Find in current buffer" } },
+
+      -- lsp
+      { "<leader>fi", "<cmd>Telescope lsp_implementations<cr>", { desc = "search lsp implementation" } },
+      { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "Document Symbols" } },
+      { "<leader>lS", "<cmd>Telescope lsp_workspace_symbols<cr>", { desc = "Workspace Symbols" } },
+
+      -- git
+      { "<leader>cm", "<cmd> Telescope git_commits <CR>", { desc = "git commits" } },
+      { "<leader>gts", "<cmd> Telescope git_status <CR>", { desc = "git status" } },
+      {
+        "<leader>fg",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.git_files {}
+        end,
+        { desc = "git files" },
+      },
+
+      -- pick a hidden term
+      -- { "<leader>pt", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
+      -- { "<leader>ft", "<cmd> Telescope terms <CR>", { desc = "pick hidden term" } },
+    },
     opts = function()
       local builtin = require("telescope.builtin")
       local actions = require("telescope.actions")
@@ -96,11 +303,11 @@ return {
           borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
           color_devicons = true,
           set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-          file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-          grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-          qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-          -- Developer configurations: Not meant for general override
-          buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+          -- file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+          -- grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+          -- qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+          -- -- Developer configurations: Not meant for general override
+          -- buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
           mappings = {
             i = {
               ["<C-t>"] = open_with_trouble,

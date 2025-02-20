@@ -2,7 +2,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",
-    opts = {--[[ things you want to change go here]]
+    opts = { --[[ things you want to change go here]]
       open_mapping = [[<c-\>]],
       shade_filetypes = {},
       direction = "float",
@@ -43,6 +43,13 @@ return {
         direction = "vertical",
         on_open = on_open,
       }
+      
+      local horizontal = Terminal:new {
+        hidden = true,
+        direction = "horizontal",
+        on_open = on_open,
+        size = 20,
+      }
 
       local float_term = Terminal:new {
         hidden = true,
@@ -53,6 +60,10 @@ return {
       vim.keymap.set("n", "<leader>tv", function()
         vert_term:toggle()
       end, { desc = "Toggle vertical terminal" })
+
+      vim.keymap.set("n", "<leader>th", function()
+        horizontal:toggle()
+      end, { desc = "Toggle horizontal terminal" })
 
       vim.keymap.set("n", "<leader>tt", function()
         float_term:toggle()

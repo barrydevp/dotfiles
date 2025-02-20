@@ -45,7 +45,7 @@ return {
           ---@diagnostic disable-next-line: missing-fields
           settings = {
             completions = {
-              completeFunctionCalls = true,
+              completeFunctionCalls = false,
             },
           },
         },

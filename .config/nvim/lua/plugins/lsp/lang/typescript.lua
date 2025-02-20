@@ -1,4 +1,5 @@
 local utils = require("utils")
+local lazyutils = require("utils.lazy")
 local lsputils = require("utils.lsp")
 
 return {
@@ -55,7 +56,7 @@ return {
             "typescript.tsx",
           },
           settings = {
-            complete_function_calls = true,
+            complete_function_calls = false,
             vtsls = {
               enableMoveToFileCodeAction = true,
               autoUseWorkspaceTsdk = true,
@@ -69,7 +70,7 @@ return {
             typescript = {
               updateImportsOnFileMove = { enabled = "always" },
               suggest = {
-                completeFunctionCalls = true,
+                completeFunctionCalls = false,
               },
               inlayHints = {
                 enumMemberValues = { enabled = true },
@@ -219,7 +220,7 @@ return {
             command = "node",
             -- 💀 Make sure to update this path to point to your installation
             args = {
-              utils.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
+              lazyutils.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
               "${port}",
             },
           },
@@ -266,6 +267,19 @@ return {
         end
       end
     end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+      },
+    },
   },
 
   -- Filetype icons

@@ -11,3 +11,7 @@ require("core")
 
 -- load plugins
 require("plugins")
+
+if vim.g.vscode then
+  require("vs_code")
+end

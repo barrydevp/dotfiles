@@ -22,9 +22,6 @@ return {
         opts = {},
       },
     },
-    -- init = function()
-    --   require("utils").load_keymaps("dap")
-    -- end,
     -- stylua: ignore
     keys = {
       { "<leader>d", "", desc = "+debug", mode = {"n", "v"} },

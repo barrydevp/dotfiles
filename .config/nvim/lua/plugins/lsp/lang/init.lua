@@ -11,7 +11,7 @@ return {
         bashls = {},
 
         -- formatters
-        prettierd = {},
+        prettier = {},
         shfmt = {},
         isort = {},
 
@@ -27,15 +27,15 @@ return {
         bib = { "bibclean" },
         tex = { "latexindent" },
         -- Use a sub-list to run only the first available formatter
-        json = { "prettierd", "prettier" },
-        markdown = { "prettierd", "prettier" },
-        html = { "prettierd", "prettier" },
-        css = { "prettierd", "prettier" },
-        handlebars = { "prettierd", "prettier" },
-        less = { "prettierd", "prettier" },
-        yaml = { "prettierd", "prettier" },
-        graphql = { "prettierd", "prettier" },
-        ["markdown.mdx"] = { "prettierd", "prettier" },
+        json = { "prettier" },
+        markdown = { "prettier" },
+        html = { "prettier" },
+        css = { "prettier" },
+        handlebars = { "prettier" },
+        less = { "prettier" },
+        yaml = { "prettier" },
+        graphql = { "prettier" },
+        ["markdown.mdx"] = { "prettier" },
         sh = { "shfmt" },
       },
 

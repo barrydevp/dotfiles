@@ -1,7 +1,13 @@
+_G.Core = {
+  snippet_stop = function() end,
+}
+
 require("core.options")
 require("core.cmds")
-require("core.auto_commands")
+if not vim.g.vscode then
+  require("core.auto_commands")
+end
 -- require("core.indents")
 
 -- set general mapping
-require("utils").load_keymaps()
+require("core.keymaps")

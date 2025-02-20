@@ -1,5 +1,6 @@
 local LspFn = require("utils.lsp")
 local LspMason = require("utils.mason")
+local keys = require("core.lsp").keys
 
 return {
   {
@@ -16,10 +17,9 @@ return {
         },
       },
     },
-    init = function()
-      -- load all lspconfig
-      require("utils").load_keymaps("lspconfig")
-    end,
+    keys = {
+      { "<leader>lz", "<cmd>LspInfo<cr>", { desc = "lsp info" } },
+    },
     opts = function()
       return {
         -- options for vim.diagnostic.config()
@@ -109,7 +109,7 @@ return {
       -- Setup Attach
       LspFn.on_attach(function(client, buffer)
         if client then
-          require("utils").load_keymaps("lspconfig_attach", { buffer = buffer })
+          require("utils").set_keymaps(keys, { buffer = buffer })
 
           if client.server_capabilities.signatureHelpProvider then
             -- print(vim.inspect(client))
@@ -138,11 +138,13 @@ return {
 
       local servers = opts.servers
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local has_blink, blink = pcall(require, "blink.cmp")
       local capabilities = vim.tbl_deep_extend(
         "force",
         {},
         vim.lsp.protocol.make_client_capabilities(),
         has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+        has_blink and blink.get_lsp_capabilities() or {},
         opts.capabilities or {}
       )
 

@@ -2,9 +2,9 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    init = function()
-      require("utils").load_keymaps("nvimtree")
-    end,
+    keys = {
+      { "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "toggle nvimtree" } },
+    },
     opts = function()
       vim.g.nvimtree_side = "left"
 
