@@ -25,16 +25,40 @@ return {
 
         ["<C-p>"] = { "show", "select_prev", "fallback" },
         ["<C-n>"] = { "show", "select_next", "fallback" },
-
-        ["<C-e>"] = { "hide", "fallback" },
       },
 
       cmdline = {
         enabled = true,
         keymap = {
-          preset = "default",
-          ["<Tab>"] = { "select_next", "fallback" },
-          ["<S-Tab>"] = { "select_prev", "fallback" },
+          -- preset = "cmdline",
+          ["<Tab>"] = {
+            function(cmp)
+              if cmp.is_ghost_text_visible() and not cmp.is_menu_visible() then
+                return cmp.accept()
+              end
+            end,
+            "show_and_insert",
+            "select_next",
+          },
+          ["<S-Tab>"] = { "show_and_insert", "select_prev" },
+        },
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          -- Search forward and backward
+          if type == "/" or type == "?" then
+            return { "buffer" }
+          end
+          -- Commands
+          if type == ":" or type == "@" then
+            return { "cmdline" }
+          end
+          return {}
+        end,
+        completion = {
+          trigger = { show_on_blocked_trigger_characters = {}, show_on_x_blocked_trigger_characters = {} },
+          list = { selection = { preselect = true, auto_insert = true } },
+          menu = { auto_show = false },
+          ghost_text = { enabled = true },
         },
       },
 
@@ -89,8 +113,14 @@ return {
             return cmp.select_and_accept()
           end
         end,
-        aicmpFn.accept,
+        -- aicmpFn.accept,
         "snippet_forward",
+        "fallback",
+      }
+
+      opts.keymap["<C-e>"] = {
+        aicmpFn.accept,
+        "hide",
         "fallback",
       }
 
