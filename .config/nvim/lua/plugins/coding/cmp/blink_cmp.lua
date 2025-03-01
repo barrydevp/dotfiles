@@ -5,6 +5,7 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
       { "L3MON4D3/LuaSnip" },
+      { "fang2hou/blink-copilot" },
     },
 
     -- use a release tag to download pre-built binaries
@@ -15,6 +16,20 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
+      -- Default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, due to `opts_extend`
+      sources = {
+        default = { "copilot", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
+
       snippets = { preset = "luasnip" },
 
       keymap = {
@@ -87,19 +102,13 @@ return {
           auto_show_delay_ms = 500,
         },
         ghost_text = {
-          enabled = false,
+          enabled = true,
         },
       },
 
       appearance = {
         use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
-      },
-
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
       },
     },
     config = function(_, opts)
@@ -113,7 +122,7 @@ return {
             return cmp.select_and_accept()
           end
         end,
-        -- aicmpFn.accept,
+        aicmpFn.accept,
         "snippet_forward",
         "fallback",
       }

@@ -41,7 +41,7 @@ return {
         enabled = false,
       },
       suggestion = {
-        enabled = true,
+        enabled = false,
         auto_trigger = true,
         debounce = 150,
         keymap = {
@@ -56,7 +56,7 @@ return {
         },
       },
       filetypes = {
-        yaml = false,
+        yaml = true,
         markdown = true,
         help = false,
         gitcommit = false,
