@@ -93,6 +93,15 @@ return {
         { desc = "Grep" },
       },
       {
+        "<C-f>",
+        function()
+          local builtin = require("telescope.builtin")
+
+          builtin.live_grep {}
+        end,
+        { desc = "Grep" },
+      },
+      {
         "<C-_>", -- tmux regconize <C-/> with this
         function()
           local builtin = require("telescope.builtin")
