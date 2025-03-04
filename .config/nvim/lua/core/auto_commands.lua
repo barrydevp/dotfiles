@@ -8,6 +8,7 @@ autocmd("FileType", {
     "packer",
     "fugitive",
     "NvimTree",
+    "neo-tree",
     "Trouble",
     "spectre_panel",
   },
@@ -103,6 +104,6 @@ autocmd("User", {
   pattern = { "PersistenceSavePre" },
   callback = function()
     -- close nvim tree before saving
-    vim.cmd("NvimTreeClose")
+    vim.cmd("Neotree close")
   end,
 })

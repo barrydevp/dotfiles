@@ -113,9 +113,13 @@ return {
     opts = {
       options = {
         -- stylua: ignore
-        close_command = function(n) utils.bufremove(n) end,
+        close_command = function(n) Snacks.bufdelete(n) end,
         -- stylua: ignore
-        right_mouse_command = function(n) utils.bufremove(n) end,
+        right_mouse_command = function(n) Snacks.bufdelete(n) end,
+        -- -- stylua: ignore
+        -- close_command = function(n) utils.bufremove(n) end,
+        -- -- stylua: ignore
+        -- right_mouse_command = function(n) utils.bufremove(n) end,
         diagnostics = "nvim_lsp",
         always_show_bufferline = true,
         show_close_icon = false,

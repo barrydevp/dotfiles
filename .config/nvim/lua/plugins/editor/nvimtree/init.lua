@@ -1,6 +1,7 @@
 return {
   {
     "nvim-tree/nvim-tree.lua",
+    enabled = false,
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     keys = {
       { "<leader>e", "<cmd> NvimTreeToggle <CR>", { desc = "toggle nvimtree" } },

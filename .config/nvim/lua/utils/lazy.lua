@@ -51,4 +51,9 @@ function M.opts(name)
   return Plugin.values(plugin, "opts", false)
 end
 
+---@param plugin string
+function M.has(plugin)
+  return M.get_plugin(plugin) ~= nil
+end
+
 return M
