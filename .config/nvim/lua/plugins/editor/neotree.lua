@@ -1,3 +1,11 @@
+local function get_dir_path(node)
+  local path = node:get_id()
+  if node.type == "file" then
+    path = node:get_parent_id()
+  end
+  return path
+end
+
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -76,7 +84,8 @@ return {
         },
       },
       window = {
-        width = 30,
+        auto_expand_width = false,
+        width = 35,
         mappings = {
           ["<space>"] = "none",
           ["c"] = "copy_to_clipboard",
@@ -132,13 +141,11 @@ return {
       commands = {
         fzf_find = function(state)
           local node = state.tree:get_node()
-          local path = node:get_id()
-          require("fzf-lua").files { cwd = path }
+          require("fzf-lua").files { cwd = get_dir_path(node) }
         end,
         fzf_grep = function(state)
           local node = state.tree:get_node()
-          local path = node:get_id()
-          require("fzf-lua").live_grep { cwd = path }
+          require("fzf-lua").live_grep { cwd = get_dir_path(node) }
         end,
       },
     },
