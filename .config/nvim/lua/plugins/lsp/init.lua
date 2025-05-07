@@ -8,7 +8,7 @@ return {
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     dependencies = {
       -- Binary management for language servers.
-      { "williamboman/mason.nvim" },
+      { "mason-org/mason.nvim" },
       -- Neovim notifications and LSP progress messages.
       {
         "j-hui/fidget.nvim",
@@ -173,7 +173,8 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
+    version = "^1",
     cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
     opts = {
       ensure_installed = {}, -- not an option from mason.nvim

@@ -89,8 +89,9 @@ return {
         mappings = {
           ["<space>"] = "none",
           ["c"] = "copy_to_clipboard",
-          ["z"] = "close_all_nodes",
-          ["Z"] = "expand_all_nodes",
+          ["z"] = "close_node",
+          -- ["z"] = "expand_all_nodes",
+          ["Z"] = "close_all_nodes",
           ["y"] = {
             function(state)
               local node = state.tree:get_node()

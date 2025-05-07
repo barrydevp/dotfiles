@@ -3,7 +3,7 @@ return {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",
     opts = { --[[ things you want to change go here]]
-      open_mapping = [[<c-\>]],
+      -- open_mapping = [[<c-\>]],
       shade_filetypes = {},
       direction = "float",
       autochdir = true,
@@ -31,11 +31,13 @@ return {
       require("toggleterm").setup(opts)
 
       local Terminal = require("toggleterm.terminal").Terminal
+      local _current_term = nil
 
       local on_open = function(term)
-        vim.keymap.set("t", "<C-\\>", function()
-          term:toggle()
-        end, { desc = "Toggle terminal (t)", buffer = term.bufnr })
+        -- vim.keymap.set("t", "<C-\\>", function()
+        --   term:toggle()
+        -- end, { desc = "Toggle terminal", buffer = term.bufnr })
+        _current_term = term
       end
 
       local vert_term = Terminal:new {
@@ -43,8 +45,8 @@ return {
         direction = "vertical",
         on_open = on_open,
       }
-      
-      local horizontal = Terminal:new {
+
+      local hori_term = Terminal:new {
         hidden = true,
         direction = "horizontal",
         on_open = on_open,
@@ -57,12 +59,20 @@ return {
         on_open = on_open,
       }
 
+      _current_term = hori_term
+
+      vim.keymap.set({ "n", "t" }, "<C-\\>", function()
+        if _current_term then
+          _current_term:toggle()
+        end
+      end, { desc = "Toggle terminal" })
+
       vim.keymap.set("n", "<leader>tv", function()
         vert_term:toggle()
       end, { desc = "Toggle vertical terminal" })
 
       vim.keymap.set("n", "<leader>th", function()
-        horizontal:toggle()
+        hori_term:toggle()
       end, { desc = "Toggle horizontal terminal" })
 
       vim.keymap.set("n", "<leader>tt", function()

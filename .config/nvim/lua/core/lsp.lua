@@ -23,7 +23,7 @@ M.keys = {
     {
       "gr",
       vim.lsp.buf.references,
-      { desc = "[g]oto [r]eferences", nowait = true },
+      { desc = "[g]oto [r]eferences" },
     },
     {
       "gy",
@@ -175,6 +175,5 @@ M.keys = {
     },
   },
 }
-
 
 return M

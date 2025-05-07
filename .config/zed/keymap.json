@@ -9,49 +9,102 @@
         "bindings": {
             // telescope
             "ctrl-p": "file_finder::Toggle",
-            "ctrl-/": "workspace::NewSearch"
+            "ctrl-f": "workspace::NewSearch"
         }
     },
     {
-        "context": "Dock || Terminal || Editor && vim_mode == normal && !menu",
+        "context": "Terminal || Editor && (vim_mode == normal) && !VimWaiting && !menu",
         "bindings": {
-            "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-            "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-            "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-            "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-l": "workspace::ActivatePaneRight",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-j": "workspace::ActivatePaneDown",
 
             // workspace
             "ctrl-\\": "workspace::ToggleBottomDock",
+            "space e": "workspace::ToggleLeftDock",
 
             // telescope
             "ctrl-p": "file_finder::Toggle",
-            "ctrl-/": "workspace::NewSearch"
+            "ctrl-f": "workspace::NewSearch",
+            "space f p": "projects::OpenRecent"
         }
     },
+    // Empty pane, set of keybindings that are available when there is no active editor
     {
-        // cmp for copilot like our nvim setting
-        "context": "Editor && inline_completion && !showing_completions",
+        "context": "EmptyPane || SharedScreen && !AssistantPanel",
         "bindings": {
-            "ctrl-e": "editor::AcceptInlineCompletion"
+            // Open file finder
+            "ctrl-p": "file_finder::Toggle",
+            "ctrl-f": "workspace::NewSearch",
+            "space f p": "projects::OpenRecent"
+        }
+    },
+    // {
+    //     // cmp like our nvim setting
+    //     "context": "Editor && edit_prediction && !showing_completions",
+    //     "bindings": {
+    //         "tab": "editor::AcceptEditPrediction"
+    //     }
+    // },
+    {
+        "context": "Editor && mode == full && edit_prediction",
+        "bindings": {
+            "tab": "editor::AcceptEditPrediction",
+            "alt-shift-tab": "editor::PreviousEditPrediction",
+            "ctrl-cmd-right": "editor::AcceptPartialEditPrediction"
         }
     },
     {
-        "context": "(Dock || Editor) && !Terminal && vim_mode == normal && !menu",
+        "context": "Editor || Terminal && vim_mode == normal && !VimWaiting && !menu",
+        "bindings": {
+            "cmd-l": "workspace::ToggleRightDock",
+            "cmd-i": "assistant::ToggleFocus",
+            "cmd-k": "assistant::InlineAssist"
+        }
+    },
+    {
+        "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+        "bindings": {
+            "cmd-l": "assistant::QuoteSelection",
+            "cmd-i": "assistant::QuoteSelection",
+            "cmd-k": "assistant::InlineAssist"
+        }
+    },
+    {
+        "context": "Editor && (vim_mode == normal) && !VimWaiting && !menu",
         "bindings": {
             // workspace
-            "space e": "workspace::ToggleLeftDock",
-            "space a a": "workspace::ToggleRightDock",
-            "space o": "tab_switcher::Toggle"
+            "space o": "tab_switcher::Toggle",
+
+            // Toggle inlay hints
+            "space t i": "editor::ToggleInlayHints",
+
+            // Open markdown preview
+            "space m p": "markdown::OpenPreview",
+            "space m P": "markdown::OpenPreviewToTheSide",
+
+            // Assistant
+            "space a k": "assistant::InlineAssist"
+            // "space a a": "assistant::QuoteSelection"
         }
     },
     {
-        // nvimtree compatibility
+        // File explorer compatibility
         "context": "ProjectPanel && not_editing",
         "bindings": {
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-l": "workspace::ActivatePaneRight",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-j": "workspace::ActivatePaneDown",
+
+            "space e": "workspace::ToggleLeftDock",
             "a": "project_panel::NewFile",
             "A": "project_panel::NewDirectory",
             "escape": null,
             "l": "project_panel::ExpandSelectedEntry",
+            "z": "project_panel::CollapseSelectedEntry",
+            "Z": "project_panel::CollapseAllEntries",
             "o": "project_panel::OpenPermanent",
             "d": "project_panel::Delete",
             "r": "project_panel::Rename",
@@ -60,18 +113,30 @@
             "p": "project_panel::Paste"
         }
     },
+    // Sneak motion
     {
-      "context": "AssistantPanel",
-      "bindings": {
-        "space a c": "search::SelectNextMatch",
-        "space a shift-c": "search::SelectPrevMatch",
-        "space a m": "assistant::ToggleModelSelector",
-        "space a h": "assistant::DeployHistory",
-        "space a l": "assistant::DeployPromptLibrary"
-      }
+        "context": "vim_mode == normal || vim_mode == visual",
+        "bindings": {
+            "s": ["vim::PushSneak", {}],
+            "S": ["vim::PushSneakBackward", {}]
+        }
+    },
+    // AI
+    {
+        "context": "AgentPanel",
+        "bindings": {
+            // movement
+            "cmd-i": "workspace::ToggleRightDock"
+
+            // "space a c": "search::SelectNextMatch",
+            // "space a shift-c": "search::SelectPreviousMatch",
+            // "space a m": "assistant::ToggleModelSelector",
+            // "space a h": "assistant::DeployHistory",
+            // "space a l": "assistant::OpenPromptLibrary"
+        }
     },
     {
-        "context": "VimControl && !menu",
+        "context": "Editor && VimControl && !VimWaiting && !menu",
         "bindings": {
             // general
 
@@ -89,13 +154,18 @@
             "ctrl-w %": "pane::SplitHorizontal",
             "space x": ["workspace::SendKeystrokes", "cmd-w"],
 
-            // lsp
+            // tab
+            "ctrl-t p": "pane::TogglePinTab",
+            "ctrl-t P": "pane::CloseItemsToTheRight",
+
+            // lsp with all defaults from zed
             "g i": "editor::GoToImplementation",
             "g r": "editor::FindAllReferences",
             "shift-s": "editor::ShowSignatureHelp",
             "shift-k": "editor::Hover",
             "shift-l": "editor::Hover",
-
+            "] e": "editor::GoToDiagnostic",
+            "[ e": "editor::GoToPreviousDiagnostic",
             "space l a": "editor::ToggleCodeActions",
             "space c a": "editor::ToggleCodeActions",
             "space l f": "editor::Format",
@@ -104,10 +174,11 @@
 
             // trouble
             "space l s": "outline::Toggle",
+            "space l S": "project_symbols::Toggle",
             "space l d": "diagnostics::Deploy",
 
             // git
-            "space b": "editor::ToggleGitBlame"
+            "space b": "git::Blame"
         }
     },
     {

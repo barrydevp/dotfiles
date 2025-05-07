@@ -102,7 +102,8 @@ map("n", "<leader>n", "<cmd> set nu! <CR>", { desc = "toggle line number" })
 map("n", "<leader>rn", "<cmd> set rnu! <CR>", { desc = "toggle relative number" })
 
 -- go to  beginning and end
-map({ "i", "c" }, "<C-a>", "<ESC>^i", { desc = "beginning of line" })
+-- map({ "i", "c" }, "<C-a>", "<ESC>^i", { desc = "beginning of line" })
+map({ "i", "c" }, "<C-a>", "<Home>", { desc = "beginning of line" })
 map({ "i", "c" }, "<C-e>", "<End>", { desc = "end of line" })
 
 -- Don't copy the replaced text after pasting in visual mode
