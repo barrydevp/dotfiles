@@ -45,7 +45,7 @@ return {
       cmdline = {
         enabled = true,
         keymap = {
-          preset = "cmdline",
+          preset = "inherit",
           ["<C-b>"] = {},
           ["<C-f>"] = {},
           ["<C-k>"] = {},
