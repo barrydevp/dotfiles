@@ -42,12 +42,18 @@ return {
         return " " .. t[#t]
       end
 
+      local function isEmpty()
+        return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
+      end
+
       lualine.setup {
-        theme = "catppuccin",
         options = {
-          globalstatus = true,
+          theme = "auto",
+          globalstatus = vim.o.laststatus == 3,
           -- component_separators = { left = icons.ui.SeperatorLeft, right = icons.ui.SeperatorRight },
           -- section_separators = { left = icons.ui.SeperatorLeftFill, right = icons.ui.SeperatorRightFill },
+          section_separators = "",
+          component_separators = "",
           ignore_focus = {
             "NvimTree",
             "toggleterm",
@@ -59,7 +65,10 @@ return {
           lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = {
             { cwd_name },
-            { "filename", path = 1 },
+            { "filename", path = 0 },
+            -- { "filesize", cond = isEmpty },
+            { "location" },
+            { "progress" },
           },
           lualine_x = {
             -- {
@@ -77,12 +86,18 @@ return {
             "fileformat",
             "filetype",
           },
+          -- lualine_z = {
+          --   function()
+          --     return " " .. os.date("%R")
+          --   end,
+          -- },
         },
         extensions = {
           "fugitive",
           "nvim-tree",
           "symbols-outline",
           "quickfix",
+          "fzf",
           gitcommit,
         },
       }

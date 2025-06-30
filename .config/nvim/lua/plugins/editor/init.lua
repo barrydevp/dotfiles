@@ -1,3 +1,5 @@
+vim.g.tmux_navigator_no_mappings = 1
+
 return {
   -- key mapping
   {
@@ -42,7 +44,21 @@ return {
   -- tmux stuff
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false,
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+      "TmuxNavigatorProcessList",
+    },
+    keys = {
+      { "<c-h>", "<cmd>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd>TmuxNavigateRight<cr>" },
+      -- { "<c-\\>", "<cmd>TmuxNavigatePrevious<cr>" },
+    },
   },
 
   -- winbar for showing code context in status bar

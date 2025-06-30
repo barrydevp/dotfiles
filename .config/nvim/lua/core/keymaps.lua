@@ -46,8 +46,8 @@ map("n", "<leader>-", ":vsplit<CR>", { desc = "v-split" })
 map("n", "<leader>_", ":split<CR>", { desc = "h-split" })
 map("n", '<leader>"', ":vsplit<CR>", { desc = "v-split" })
 map("n", "<leader>%", ":split<CR>", { desc = "h-split" })
-map("n", '<C-w>"', ":vsplit<CR>", { desc = "v-split" })
-map("n", "<C-w>%", ":split<CR>", { desc = "h-split" })
+map("n", "<C-w>%", ":vsplit<CR>", { desc = "v-split" })
+map("n", '<C-w>"', ":split<CR>", { desc = "h-split" })
 
 -- buffers
 -- map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
