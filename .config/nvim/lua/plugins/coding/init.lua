@@ -80,4 +80,30 @@ return {
       },
     },
   },
+
+  --
+  {
+    "echasnovski/mini.ai",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      local spec_treesitter = require("mini.ai").gen_spec.treesitter
+      require("mini.ai").setup {
+        custom_textobjects = {
+          f = spec_treesitter {
+            a = "@function.outer",
+            i = "@function.inner",
+          },
+          c = spec_treesitter {
+            a = "@class.outer",
+            i = "@class.inner",
+          },
+          b = spec_treesitter {
+            a = "@block.outer",
+            i = "@block.inner",
+          },
+        },
+      }
+    end,
+  },
 }

@@ -15,3 +15,4 @@ require("plugins")
 if vim.g.vscode then
   require("vs_code")
 end
+

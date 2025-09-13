@@ -3,10 +3,7 @@ vim.keymap.set("n", "<leader>lu", "<cmd>Lazy update<CR>", { desc = "update lazy"
 
 require("lazy").setup {
   spec = {
-    { import = "plugins.util", cond = not vim.g.vscode },
-    { import = "plugins.colorscheme", cond = not vim.g.vscode },
     { import = "plugins.ui", cond = not vim.g.vscode },
-    { import = "plugins.treesitter", cond = not vim.g.vscode },
     { import = "plugins.editor", cond = not vim.g.vscode },
     { import = "plugins.coding", cond = not vim.g.vscode },
     { import = "plugins.lsp", cond = not vim.g.vscode },
