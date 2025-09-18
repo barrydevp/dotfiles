@@ -1,15 +1,18 @@
+
+
 return {
   {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        ["eslint-lsp"] = {},
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = {
+            "eslint",
+          },
+        },
       },
     },
-  },
-
-  {
-    "neovim/nvim-lspconfig",
     -- other settings removed for brevity
     opts = {
       ---@type lspconfig.options

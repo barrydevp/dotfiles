@@ -1,17 +1,41 @@
-return {
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- rust_analyzer = {},
+local Utils = require("utils")
 
-        codelldb = {},
-      },
-    },
+return {
+  recommended = function()
+    return Utils.wants {
+      ft = "rust",
+      root = { "Cargo.toml", "rust-project.json" },
+    }
+  end,
+
+  -- Add Rust & related to treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = { ensure_installed = { "rust", "ron" } },
   },
+
+  -- LSP for Cargo.toml
+  -- {
+  --   "Saecki/crates.nvim",
+  --   event = { "BufRead Cargo.toml" },
+  --   opts = {
+  --     completion = {
+  --       crates = {
+  --         enabled = true,
+  --       },
+  --     },
+  --     lsp = {
+  --       enabled = true,
+  --       actions = true,
+  --       completion = true,
+  --       hover = true,
+  --     },
+  --   },
+  -- },
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {},
     opts = {
       -- Let's rustaceanvim handle the setup
       -- servers = {
@@ -36,10 +60,18 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = '^6', -- Recommended
+    version = "^6", -- Recommended
     ft = { "rust" },
     dependencies = {
       { "neovim/nvim-lspconfig" },
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = {
+            "codelldb",
+          },
+        },
+      },
     },
     opts = {
       server = {
@@ -76,11 +108,30 @@ return {
                 ["async-recursion"] = { "async_recursion" },
               },
             },
+            files = {
+              excludeDirs = {
+                ".direnv",
+                ".git",
+                ".github",
+                ".gitlab",
+                "bin",
+                "node_modules",
+                "target",
+                "venv",
+                ".venv",
+              },
+            },
           },
         },
       },
     },
     config = function(_, opts)
+      local codelldb = vim.fn.exepath("codelldb")
+      local codelldb_lib_ext = io.popen("uname"):read("*l") == "Linux" and ".so" or ".dylib"
+      local library_path = vim.fn.expand("$MASON/opt/lldb/lib/liblldb" .. codelldb_lib_ext)
+      opts.dap = {
+        adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
+      }
       vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
     end,
   },

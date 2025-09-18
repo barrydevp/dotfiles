@@ -1,5 +1,5 @@
 local config = require("core.config")
-local rootutils = require("utils.root")
+local RootUtils = require("utils.root")
 local M = {}
 
 M.set_keymaps = function(mappings, opts)
@@ -82,7 +82,7 @@ function M.wants(opts)
   end
   if opts.root then
     opts.root = type(opts.root) == "string" and { opts.root } or opts.root
-    return rootutils.detectors.pattern(M.buf, opts.root) > 0
+    return RootUtils.detectors.pattern(M.buf, opts.root) > 0
   end
   return false
 end

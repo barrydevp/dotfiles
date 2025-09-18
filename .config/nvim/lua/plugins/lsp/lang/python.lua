@@ -1,12 +1,36 @@
+local Utils = require("utils")
+local LspUtils = require("utils.lsp")
+
+local lsp = vim.g.lazyvim_python_lsp or "pyright"
+local ruff = vim.g.lazyvim_python_ruff or "ruff"
+
 return {
+  recommended = function()
+    return Utils.wants {
+      ft = "python",
+      root = {
+        "pyproject.toml",
+        "setup.py",
+        "setup.cfg",
+        "requirements.txt",
+        "Pipfile",
+        "pyrightconfig.json",
+      },
+    }
+  end,
   {
     "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
-        pyright = {},
-        black = {},
+        "pyright",
+        "black",
       },
     },
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = { ensure_installed = { "ninja", "rst" } },
   },
 
   {
@@ -14,8 +38,43 @@ return {
     opts = {
       servers = {
         pyright = {},
+        ruff = {
+          cmd_env = { RUFF_TRACE = "messages" },
+          init_options = {
+            settings = {
+              logLevel = "error",
+            },
+          },
+          keys = {
+            {
+              "<leader>co",
+              LspUtils.action["source.organizeImports"],
+              desc = "Organize Imports",
+            },
+          },
+        },
+      },
+      setup = {
+        [ruff] = function()
+          LspUtils.on_attach(function(client, _)
+            -- Disable hover in favor of Pyright
+            client.server_capabilities.hoverProvider = false
+          end, ruff)
+        end,
       },
     },
+  },
+  {
+    "linux-cultist/venv-selector.nvim",
+    cmd = "VenvSelect",
+    opts = {
+      options = {
+        notify_user_on_venv_activation = true,
+      },
+    },
+    --  Call config for Python files and load the cached venv automatically
+    ft = "python",
+    keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" } },
   },
 
   {

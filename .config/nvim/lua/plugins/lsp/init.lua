@@ -1,6 +1,5 @@
-local LspFn = require("utils.lsp")
-local LspMason = require("utils.mason")
-local keys = require("core.lsp").keys
+local LspUtils = require("utils.lsp")
+local Keys = require("utils.lsp_keys")
 
 return {
   {
@@ -9,6 +8,7 @@ return {
     dependencies = {
       -- Binary management for language servers.
       { "mason-org/mason.nvim" },
+      { "mason-org/mason-lspconfig.nvim", config = function() end },
       -- Neovim notifications and LSP progress messages.
       {
         "j-hui/fidget.nvim",
@@ -67,6 +67,12 @@ return {
         codelens = {
           enabled = false,
         },
+        -- Enable this to enable the builtin LSP folding on Neovim.
+        -- Be aware that you also will need to properly configure your LSP server to
+        -- provide the folds.
+        folds = {
+          enabled = true,
+        },
         -- add any global capabilities here
         capabilities = {
           workspace = {
@@ -107,9 +113,9 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       -- Setup Attach
-      LspFn.on_attach(function(client, buffer)
+      LspUtils.on_attach(function(client, buffer)
         if client then
-          require("utils").set_keymaps(keys, { buffer = buffer })
+          require("utils").set_keymaps(Keys, { buffer = buffer })
 
           if client.server_capabilities.signatureHelpProvider then
             -- print(vim.inspect(client))
@@ -118,7 +124,7 @@ return {
 
           -- check supported method
           local on_supports_method = function(method, fn)
-            if client.supports_method(method, buffer) then
+            if client:supports_method(method, buffer) then
               fn()
             end
           end
@@ -133,20 +139,19 @@ return {
               })
             end)
           end
+
+          -- folds
+          if opts.folds.enabled then
+            on_supports_method("textDocument/foldingRange", function()
+              local win = vim.api.nvim_get_current_win()
+              vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+            end)
+          end
         end
       end)
 
       local servers = opts.servers
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local has_blink, blink = pcall(require, "blink.cmp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-        has_blink and blink.get_lsp_capabilities() or {},
-        opts.capabilities or {}
-      )
+      local capabilities = opts.capabilities
 
       local function setup(server, server_opts)
         server_opts = vim.tbl_deep_extend("force", {
@@ -155,13 +160,10 @@ return {
 
         if opts.setup[server] then
           if opts.setup[server](server, server_opts) then
-            return
-          end
-        elseif opts.setup["*"] then
-          if opts.setup["*"](server, server_opts) then
-            return
+            return true
           end
         end
+
         require("lspconfig")[server].setup(server_opts)
       end
 
@@ -169,13 +171,24 @@ return {
       for server, server_opts in pairs(servers) do
         setup(server, server_opts)
       end
+
+      -- -- ensure language servers are installed
+      -- require("mason-lspconfig").setup({
+      --   ensure_installed = vim.tbl_deep_extend(
+      --     "force",
+      --     {},
+      --     LazyUtils.opts("mason-lspconfig").ensure_installed or {}
+      --   ),
+      --   automatic_enable = false,
+      -- })
     end,
   },
 
   {
     "mason-org/mason.nvim",
-    version = "^1",
     cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
+    build = ":MasonUpdate",
+    opts_extend = { "ensure_installed" },
     opts = {
       ensure_installed = {}, -- not an option from mason.nvim
       max_concurrent_installers = 10,
@@ -183,18 +196,42 @@ return {
     config = function(_, opts)
       require("mason").setup(opts)
 
-      local ensure_installed = {}
-      for binary, _ in pairs(opts.ensure_installed) do
-        table.insert(ensure_installed, LspMason.server_maps[binary] or binary)
-      end
+      local _ = require "mason-core.functional"
+      local mr = require("mason-registry")
 
-      vim.api.nvim_create_user_command("MasonInstallAll", function()
-        if #ensure_installed > 0 then
-          vim.cmd("MasonInstall " .. table.concat(ensure_installed, " "))
+      local cached_specs = _.lazy(mr.get_all_package_specs)
+      local package_to_lspconfig = {}
+      for _, pkg_spec in ipairs(cached_specs()) do
+        local lspconfig = vim.tbl_get(pkg_spec, "neovim", "lspconfig")
+        if lspconfig then
+          package_to_lspconfig[pkg_spec.name] = lspconfig
         end
-      end, {})
+      end
+      local lspconfig_to_package = _.invert(package_to_lspconfig)
 
-      vim.g.mason_binaries_list = ensure_installed
+      mr:on("package:install:success", function()
+        vim.defer_fn(function()
+          -- trigger FileType event to possibly load this newly installed LSP server
+          require("lazy.core.handler.event").trigger({
+            event = "FileType",
+            buf = vim.api.nvim_get_current_buf(),
+          })
+        end, 100)
+      end)
+
+      mr.refresh(function()
+        for _, tool in ipairs(opts.ensure_installed) do
+          local pkg = tool
+          if lspconfig_to_package[tool] then
+            pkg = lspconfig_to_package[tool]
+          end
+
+          local p = mr.get_package(pkg)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end)
     end,
   },
 }

@@ -1,4 +1,3 @@
-local utils = require("utils")
 local icons = require("core.icons")
 
 return {
@@ -11,7 +10,7 @@ return {
   -- },
   -- icons
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     lazy = true,
     opts = {
       file = {

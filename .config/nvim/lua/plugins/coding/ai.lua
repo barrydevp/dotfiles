@@ -184,7 +184,7 @@ return {
       --- The below dependencies are optional,
       -- "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
       "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "echasnovski/mini.icons",
+      "nvim-mini/mini.icons",
       "zbirenbaum/copilot.lua", -- for providers='copilot'
       -- {
       --   -- support for image pasting

@@ -1,15 +1,7 @@
 return {
   {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        codelldb = {},
-      },
-    },
-  },
-
-  {
     "neovim/nvim-lspconfig",
+    -- dont need to install clangd via mason, we are in macos, it already there or you must install it
     opts = {
       servers = {
         clangd = {
@@ -53,6 +45,16 @@ return {
 
   {
     "mfussenegger/nvim-dap",
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = {
+            "codelldb",
+          },
+        },
+      },
+    },
     opts = function()
       local dap = require("dap")
       if not dap.adapters["codelldb"] then

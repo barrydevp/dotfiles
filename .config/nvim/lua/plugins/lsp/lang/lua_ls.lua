@@ -1,25 +1,23 @@
-return {
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        lua_ls = {},
-        stylua = {},
-      },
-    },
-  },
+local Utils = require("utils")
 
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-      },
-    },
-  },
+return {
+  recommended = function()
+    return Utils.wants {
+      ft = { "lua" },
+      root = { ".stylua.toml", ".luarc.json" },
+    }
+  end,
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = { "lua_ls" },
+        },
+      },
+    },
     opts = {
       servers = {
         lua_ls = {
@@ -30,7 +28,7 @@ return {
               },
               completion = {
                 -- callSnippet = "Replace",
-                callSnippet = 'Disable',
+                callSnippet = "Disable",
               },
               diagnostics = {
                 globals = { "vim" },
@@ -47,6 +45,23 @@ return {
             },
           },
         },
+      },
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = { "stylua" },
+        },
+      },
+    },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
       },
     },
   },

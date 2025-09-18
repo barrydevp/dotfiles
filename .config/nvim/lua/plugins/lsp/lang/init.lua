@@ -5,15 +5,15 @@ return {
     opts = {
       ensure_installed = {
         -- lang-servers
-        vls = {},
-        html = {},
-        cssls = {},
-        bashls = {},
+        -- "vls",
+        "html",
+        "cssls",
+        "bashls",
 
         -- formatters
-        prettier = {},
-        shfmt = {},
-        isort = {},
+        "prettier",
+        "shfmt",
+        "isort",
 
         -- linters
       },

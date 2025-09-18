@@ -7,7 +7,7 @@ return {
       { "L3MON4D3/LuaSnip" },
       { "fang2hou/blink-copilot" },
     },
-
+    event = { "VeryLazy" },
     -- use a release tag to download pre-built binaries
     version = "*",
 
@@ -51,6 +51,8 @@ return {
           ["<C-k>"] = {},
           ["<C-a>"] = {},
           ["<C-e>"] = {},
+          ["<C-p>"] = {},
+          ["<C-n>"] = {},
 
           ["<C-i>"] = {
             function(cmp)

@@ -1,10 +1,10 @@
-local utils = require("utils")
-local lazyutils = require("utils.lazy")
-local lsputils = require("utils.lsp")
+local Utils = require("utils")
+local LazyUtils = require("utils.lazy")
+local LspUtils = require("utils.lsp")
 
 return {
   recommended = function()
-    return utils.wants {
+    return Utils.wants {
       ft = {
         "javascript",
         "javascriptreact",
@@ -17,22 +17,17 @@ return {
     }
   end,
 
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- lsp
-        vtsls = {},
-
-        -- debug
-        ["js-debug-adapter"] = {},
-      },
-    },
-  },
-
   -- correctly setup lspconfig
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          ensure_installed = { "vtsls" },
+        },
+      },
+    },
     opts = {
       -- make sure mason installs the server
       servers = {
@@ -87,7 +82,7 @@ return {
               "gD",
               function()
                 local params = vim.lsp.util.make_position_params()
-                lsputils.execute {
+                LspUtils.execute {
                   command = "typescript.goToSourceDefinition",
                   arguments = { params.textDocument.uri, params.position },
                   open = true,
@@ -98,7 +93,7 @@ return {
             {
               "gR",
               function()
-                lsputils.execute {
+                LspUtils.execute {
                   command = "typescript.findAllFileReferences",
                   arguments = { vim.uri_from_bufnr(0) },
                   open = true,
@@ -108,28 +103,28 @@ return {
             },
             {
               "<leader>co",
-              lsputils.action["source.organizeImports"],
+              LspUtils.action["source.organizeImports"],
               desc = "Organize Imports",
             },
             {
               "<leader>cM",
-              lsputils.action["source.addMissingImports.ts"],
+              LspUtils.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
             },
             {
               "<leader>cu",
-              lsputils.action["source.removeUnused.ts"],
+              LspUtils.action["source.removeUnused.ts"],
               desc = "Remove unused imports",
             },
             {
               "<leader>cD",
-              lsputils.action["source.fixAll.ts"],
+              LspUtils.action["source.fixAll.ts"],
               desc = "Fix all diagnostics",
             },
             {
               "<leader>cV",
               function()
-                lsputils.execute { command = "typescript.selectTypeScriptVersion" }
+                LspUtils.execute { command = "typescript.selectTypeScriptVersion" }
               end,
               desc = "Select TS workspace version",
             },
@@ -148,7 +143,7 @@ return {
           return true
         end,
         vtsls = function(_, opts)
-          lsputils.on_attach(function(client, buffer)
+          LspUtils.on_attach(function(client, buffer)
             client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)
               ---@type string, string, lsp.Range
               local action, uri, range = unpack(command.arguments)
@@ -208,6 +203,12 @@ return {
 
   {
     "mfussenegger/nvim-dap",
+    dependencies = {
+      "mason-org/mason.nvim",
+      opts = {
+        ensure_installed = { "js-debug-adapter" },
+      },
+    },
     optional = true,
     opts = function()
       local dap = require("dap")
@@ -220,7 +221,7 @@ return {
             command = "node",
             -- 💀 Make sure to update this path to point to your installation
             args = {
-              lazyutils.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
+              LazyUtils.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
               "${port}",
             },
           },
@@ -284,7 +285,7 @@ return {
 
   -- Filetype icons
   -- {
-  --   "echasnovski/mini.icons",
+  --   "nvim-mini/mini.icons",
   --   opts = {
   --     file = {
   --       [".eslintrc.js"] = { glyph = "󰱺", hl = "MiniIconsYellow" },
