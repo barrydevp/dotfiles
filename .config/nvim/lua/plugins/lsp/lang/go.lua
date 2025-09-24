@@ -1,9 +1,8 @@
 local Utils = require("utils")
-local LspUtils = require("utils.lsp")
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = { "go", "gomod", "gowork", "gotmpl" },
       root = { "go.work", "go.mod" },
     }
@@ -75,7 +74,7 @@ return {
         gopls = function(_, _)
           -- workaround for gopls not supporting semanticTokensProvider
           -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-          LspUtils.on_attach(function(client, _)
+          Utils.lsp.on_attach(function(client, _)
             if not client.server_capabilities.semanticTokensProvider then
               local semantic = client.config.capabilities.textDocument.semanticTokens
               client.server_capabilities.semanticTokensProvider = {

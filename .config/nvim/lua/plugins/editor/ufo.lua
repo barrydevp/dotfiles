@@ -1,5 +1,4 @@
-local LspFn = require("utils.lsp")
-local set_keymaps = require("utils").set_keymaps
+local Utils = require("utils")
 
 local ftMap = {
   vim = "indent",
@@ -76,7 +75,7 @@ return {
       local ufo = require("ufo")
       ufo.setup(opts)
 
-      set_keymaps {
+      Utils.set_keymaps {
         ["n"] = {
           { "zR", ufo.openAllFolds, { desc = "open all folds" } },
           { "zM", ufo.closeAllFolds, { desc = "close all folds" } },
@@ -87,7 +86,7 @@ return {
             function()
               local winid = ufo.peekFoldedLinesUnderCursor()
               if not winid then
-                LspFn.hover()
+                Utils.lsp.hover()
                 -- vim.cmd([[ Lspsaga hover_doc ]])
               end
             end,

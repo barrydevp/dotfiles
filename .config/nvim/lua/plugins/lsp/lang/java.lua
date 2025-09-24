@@ -1,5 +1,4 @@
 local Utils = require("utils")
-local LazyUtils = require("utils.lazy")
 
 -- This is the same as in lspconfig.configs.jdtls, but avoids
 -- needing to require that when this module loads.
@@ -20,7 +19,7 @@ end
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = "java",
       root = {
         "build.gradle",
@@ -97,7 +96,7 @@ return {
     ft = java_filetypes,
     opts = function()
       local cmd = { vim.fn.exepath("jdtls") }
-      if LazyUtils.has("mason.nvim") then
+      if Utils.plugin.has("mason.nvim") then
         local lombok_jar = vim.fn.expand("$MASON/share/jdtls/lombok.jar")
         table.insert(cmd, string.format("--jvm-arg=-javaagent:%s", lombok_jar))
       end
@@ -156,9 +155,9 @@ return {
       -- Find the extra bundles that should be passed on the jdtls command-line
       -- if nvim-dap is enabled with java debug/test.
       local bundles = {} ---@type string[]
-      if LazyUtils.has("mason.nvim") then
+      if Utils.plugin.has("mason.nvim") then
         local mason_registry = require("mason-registry")
-        if opts.dap and LazyUtils.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
+        if opts.dap and Utils.plugin.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
           local jar_patterns = {
             vim.fn.expand("$MASON/share/java-debug-adapter/com.microsoft.java.debug.plugin-*.jar"),
           }
@@ -187,7 +186,7 @@ return {
           },
           settings = opts.settings,
           -- enable CMP capabilities
-          capabilities = LazyUtils.has("cmp-nvim-lsp") and require("cmp_nvim_lsp").default_capabilities() or nil,
+          capabilities = Utils.plugin.has("cmp-nvim-lsp") and require("cmp_nvim_lsp").default_capabilities() or nil,
         }, opts.jdtls)
 
         -- Existing server will be reused if the root_dir matches.
@@ -246,9 +245,9 @@ return {
               },
             }
 
-            if LazyUtils.has("mason.nvim") then
+            if Utils.plugin.has("mason.nvim") then
               local mason_registry = require("mason-registry")
-              if opts.dap and LazyUtils.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
+              if opts.dap and Utils.plugin.has("nvim-dap") and mason_registry.is_installed("java-debug-adapter") then
                 -- custom init for Java debugger
                 require("jdtls").setup_dap(opts.dap)
                 if opts.dap_main then

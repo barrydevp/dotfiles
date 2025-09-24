@@ -1,12 +1,11 @@
 local Utils = require("utils")
-local LspUtils = require("utils.lsp")
 
 local lsp = vim.g.lazyvim_python_lsp or "pyright"
 local ruff = vim.g.lazyvim_python_ruff or "ruff"
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = "python",
       root = {
         "pyproject.toml",
@@ -48,7 +47,7 @@ return {
           keys = {
             {
               "<leader>co",
-              LspUtils.action["source.organizeImports"],
+              Utils.lsp.action["source.organizeImports"],
               desc = "Organize Imports",
             },
           },
@@ -56,7 +55,7 @@ return {
       },
       setup = {
         [ruff] = function()
-          LspUtils.on_attach(function(client, _)
+          Utils.lsp.on_attach(function(client, _)
             -- Disable hover in favor of Pyright
             client.server_capabilities.hoverProvider = false
           end, ruff)

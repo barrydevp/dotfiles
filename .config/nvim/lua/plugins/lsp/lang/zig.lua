@@ -3,7 +3,7 @@ vim.g.zig_fmt_autosave = 0
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = { "zig", "zir" },
       root = { "zls.json", "build.zig" },
     }

@@ -1,10 +1,8 @@
 local Utils = require("utils")
-local LazyUtils = require("utils.lazy")
-local LspUtils = require("utils.lsp")
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = {
         "javascript",
         "javascriptreact",
@@ -82,7 +80,7 @@ return {
               "gD",
               function()
                 local params = vim.lsp.util.make_position_params()
-                LspUtils.execute {
+                Utils.lsp.execute {
                   command = "typescript.goToSourceDefinition",
                   arguments = { params.textDocument.uri, params.position },
                   open = true,
@@ -93,7 +91,7 @@ return {
             {
               "gR",
               function()
-                LspUtils.execute {
+                Utils.lsp.execute {
                   command = "typescript.findAllFileReferences",
                   arguments = { vim.uri_from_bufnr(0) },
                   open = true,
@@ -103,28 +101,28 @@ return {
             },
             {
               "<leader>co",
-              LspUtils.action["source.organizeImports"],
+              Utils.lsp.action["source.organizeImports"],
               desc = "Organize Imports",
             },
             {
               "<leader>cM",
-              LspUtils.action["source.addMissingImports.ts"],
+              Utils.lsp.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
             },
             {
               "<leader>cu",
-              LspUtils.action["source.removeUnused.ts"],
+              Utils.lsp.action["source.removeUnused.ts"],
               desc = "Remove unused imports",
             },
             {
               "<leader>cD",
-              LspUtils.action["source.fixAll.ts"],
+              Utils.lsp.action["source.fixAll.ts"],
               desc = "Fix all diagnostics",
             },
             {
               "<leader>cV",
               function()
-                LspUtils.execute { command = "typescript.selectTypeScriptVersion" }
+                Utils.lsp.execute { command = "typescript.selectTypeScriptVersion" }
               end,
               desc = "Select TS workspace version",
             },
@@ -143,20 +141,42 @@ return {
           return true
         end,
         vtsls = function(_, opts)
-          LspUtils.on_attach(function(client, buffer)
+          if vim.lsp.config.denols and vim.lsp.config.vtsls then
+            ---@param server string
+            local resolve = function(server)
+              local markers, root_dir = vim.lsp.config[server].root_markers, vim.lsp.config[server].root_dir
+              vim.lsp.config(server, {
+                root_dir = function(bufnr, on_dir)
+                  local is_deno = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" }) ~= nil
+                  if is_deno == (server == "denols") then
+                    if root_dir then
+                      return root_dir(bufnr, on_dir)
+                    elseif type(markers) == "table" then
+                      local root = vim.fs.root(bufnr, markers)
+                      return root and on_dir(root)
+                    end
+                  end
+                end,
+              })
+            end
+            resolve("denols")
+            resolve("vtsls")
+          end
+
+          Utils.lsp.on_attach(function(client, buffer)
             client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)
               ---@type string, string, lsp.Range
               local action, uri, range = unpack(command.arguments)
 
               local function move(newf)
-                client.request("workspace/executeCommand", {
+                client:request("workspace/executeCommand", {
                   command = command.command,
                   arguments = { action, uri, range, newf },
                 })
               end
 
               local fname = vim.uri_to_fname(uri)
-              client.request("workspace/executeCommand", {
+              client:request("workspace/executeCommand", {
                 command = "typescript.tsserverRequest",
                 arguments = {
                   "getMoveToRefactoringFileSuggestions",
@@ -221,7 +241,7 @@ return {
             command = "node",
             -- 💀 Make sure to update this path to point to your installation
             args = {
-              LazyUtils.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
+              Utils.plugin.get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
               "${port}",
             },
           },

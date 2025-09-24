@@ -1,4 +1,4 @@
-require("utils.lazy").lazy_file()
+require("utils.plugin").lazy_file()
 vim.keymap.set("n", "<leader>lu", "<cmd>Lazy update<CR>", { desc = "update lazy" })
 
 require("lazy").setup {

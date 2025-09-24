@@ -1,8 +1,8 @@
-local lsputils = require("utils.lsp")
+local Utils = require("utils")
 
 return {
   recommended = function()
-    return require("utils").wants {
+    return Utils.extras.wants({
       root = {
         "tailwind.config.js",
         "tailwind.config.cjs",
@@ -13,19 +13,8 @@ return {
         "postcss.config.mjs",
         "postcss.config.ts",
       },
-    }
+    })
   end,
-
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- lsp
-        "tailwindcss",
-      },
-    },
-  },
-
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -41,11 +30,10 @@ return {
       },
       setup = {
         tailwindcss = function(_, opts)
-          local tw = lsputils.get_raw_config("tailwindcss")
           opts.filetypes = opts.filetypes or {}
 
           -- Add default filetypes
-          vim.list_extend(opts.filetypes, tw.default_config.filetypes)
+          vim.list_extend(opts.filetypes, vim.lsp.config.tailwindcss.filetypes)
 
           -- Remove excluded filetypes
           --- @param ft string

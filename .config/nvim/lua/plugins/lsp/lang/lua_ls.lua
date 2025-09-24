@@ -2,7 +2,7 @@ local Utils = require("utils")
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = { "lua" },
       root = { ".stylua.toml", ".luarc.json" },
     }

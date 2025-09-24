@@ -1,5 +1,5 @@
-local LspUtils = require("utils.lsp")
-local Keys = require("utils.lsp_keys")
+local Utils = require("utils")
+local Keys = require("plugins.lsp.extras.keys")
 
 return {
   {
@@ -8,7 +8,7 @@ return {
     dependencies = {
       -- Binary management for language servers.
       { "mason-org/mason.nvim" },
-      { "mason-org/mason-lspconfig.nvim", config = function() end },
+      -- { "mason-org/mason-lspconfig.nvim", config = function() end },
       -- Neovim notifications and LSP progress messages.
       {
         "j-hui/fidget.nvim",
@@ -113,13 +113,13 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       -- Setup Attach
-      LspUtils.on_attach(function(client, buffer)
+      Utils.lsp.on_attach(function(client, buffer)
         if client then
-          require("utils").set_keymaps(Keys, { buffer = buffer })
+          Utils.set_keymaps(Keys, { buffer = buffer })
 
           if client.server_capabilities.signatureHelpProvider then
             -- print(vim.inspect(client))
-            require("plugins.lsp.ui.signature").setup(client, buffer)
+            require("plugins.lsp.extras.signature").setup(client, buffer)
           end
 
           -- check supported method
@@ -164,13 +164,16 @@ return {
           end
         end
 
-        require("lspconfig")[server].setup(server_opts)
+        vim.lsp.config(server, server_opts) -- configure the server
+        vim.lsp.enable(server)
       end
 
-      -- Call setup for all register LSP servers
-      for server, server_opts in pairs(servers) do
-        setup(server, server_opts)
-      end
+      (vim.schedule_wrap(function()
+        -- Call setup for all register LSP servers
+        for server, server_opts in pairs(servers) do
+          setup(server, server_opts)
+        end
+      end))()
 
       -- -- ensure language servers are installed
       -- require("mason-lspconfig").setup({
@@ -186,7 +189,7 @@ return {
 
   {
     "mason-org/mason.nvim",
-    cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
+    cmd = { "Mason", "MasonInstall", "MasonUpdate" },
     build = ":MasonUpdate",
     opts_extend = { "ensure_installed" },
     opts = {
@@ -196,7 +199,7 @@ return {
     config = function(_, opts)
       require("mason").setup(opts)
 
-      local _ = require "mason-core.functional"
+      local _ = require("mason-core.functional")
       local mr = require("mason-registry")
 
       local cached_specs = _.lazy(mr.get_all_package_specs)
@@ -212,10 +215,10 @@ return {
       mr:on("package:install:success", function()
         vim.defer_fn(function()
           -- trigger FileType event to possibly load this newly installed LSP server
-          require("lazy.core.handler.event").trigger({
+          require("lazy.core.handler.event").trigger {
             event = "FileType",
             buf = vim.api.nvim_get_current_buf(),
-          })
+          }
         end, 100)
       end)
 

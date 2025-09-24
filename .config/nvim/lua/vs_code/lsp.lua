@@ -1,13 +1,13 @@
 local map = vim.keymap.set
-local vscode = require("vscode")
-local LspFn = require("utils.lsp")
+-- local vscode = require("vscode")
+local Utils = require("utils")
 
-LspFn.format = vim.lsp.buf.format
-LspFn.renamer = vim.lsp.buf.rename
-LspFn.parameter_hints = vim.lsp.buf.signature_help
-LspFn.open_line_diagnostics = vim.lsp.buf.hover
+Utils.lsp.format = vim.lsp.buf.format
+Utils.lsp.renamer = vim.lsp.buf.rename
+Utils.lsp.parameter_hints = vim.lsp.buf.signature_help
+Utils.lsp.open_line_diagnostics = vim.lsp.buf.hover
 
-map("n", "<leader>lf", LspFn.format, { desc = "Lsp format" })
+map("n", "<leader>lf", Utils.lsp.format, { desc = "Lsp format" })
 
 local keys = require("core.lsp").keys
-require("utils").set_keymaps(keys)
+Utils.set_keymaps(keys)

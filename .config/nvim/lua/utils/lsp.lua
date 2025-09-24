@@ -1,15 +1,6 @@
-local lazyutils = require("utils.lazy")
+local plugin = require("utils.plugin")
 
 local M = {}
-
----@return {default_config:lspconfig.Config}
-function M.get_raw_config(server)
-  local ok, ret = pcall(require, "lspconfig.configs." .. server)
-  if ok then
-    return ret
-  end
-  return require("lspconfig.server_configurations." .. server)
-end
 
 ---@class LspCommand: lsp.ExecuteCommandParams
 ---@field open? boolean
@@ -45,7 +36,7 @@ M.action = setmetatable({}, {
   end,
 })
 
----@param opts? lsp.Client.filter
+---@param opts? vim.lsp.get_clients.Filter
 function M.get_clients(opts)
   local ret = {} ---@type vim.lsp.Client[]
   if vim.lsp.get_clients then
@@ -56,7 +47,7 @@ function M.get_clients(opts)
     if opts and opts.method then
       ---@param client vim.lsp.Client
       ret = vim.tbl_filter(function(client)
-        return client:supports_method(opts.method, { bufnr = opts.bufnr })
+        return client:supports_method(opts.method, opts.bufnr)
       end, ret)
     end
   end
@@ -77,14 +68,14 @@ function M.on_attach(on_attach, name)
   })
 end
 
----@param opts? lsp.Client.format
+---@param opts? vim.lsp.buf.format.Opts
 function M.format(opts)
   opts = vim.tbl_deep_extend(
     "force",
     {},
     opts or {},
-    lazyutils.opts("nvim-lspconfig").format or {},
-    lazyutils.opts("conform.nvim").format or {}
+    plugin.opts("nvim-lspconfig").format or {},
+    plugin.opts("conform.nvim").format or {}
   )
   -- print(vim.inspect(opts))
   local ok, conform = pcall(require, "conform")
@@ -136,14 +127,14 @@ end
 
 M.parameter_hints = function()
   vim.lsp.buf.signature_help()
-  require("plugins.lsp.ui.signature").parameter_hints()
+  require("plugins.lsp.extras.signature").parameter_hints()
 end
 
 M.diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  local count = next and 1 or -1
   severity = severity and vim.diagnostic.severity[severity] or nil
   return function()
-    go { severity = severity }
+    vim.diagnostic.jump { count = count, float = true, severity = severity }
   end
 end
 

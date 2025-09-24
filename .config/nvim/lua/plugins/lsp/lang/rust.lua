@@ -2,7 +2,7 @@ local Utils = require("utils")
 
 return {
   recommended = function()
-    return Utils.wants {
+    return Utils.extras.wants {
       ft = "rust",
       root = { "Cargo.toml", "rust-project.json" },
     }

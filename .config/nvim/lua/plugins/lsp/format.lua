@@ -1,4 +1,4 @@
-local LspFn = require("utils.lsp")
+local Utils = require("utils")
 
 return {
   {
@@ -8,7 +8,7 @@ return {
     keys = {
       {
         "<leader>lf",
-        LspFn.format,
+        Utils.lsp.format,
         { desc = "lsp formatting" },
       },
     },

@@ -41,18 +41,20 @@ return {
         enabled = false,
       },
       suggestion = {
-        enabled = false,
+        enabled = true,
         auto_trigger = true,
         debounce = 150,
         keymap = {
           accept = false,
+          -- accept = "<Tab>",
           accept_word = false,
           accept_line = false,
           -- next = "<M-]>",
           -- prev = "<M-[>",
           next = "<C-l>",
           prev = "<C-j>",
-          dismiss = "<C-]>",
+          dismiss = false,
+          -- dismiss = "<C-]>",
         },
       },
       filetypes = {

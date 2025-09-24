@@ -10,7 +10,7 @@ return {
       vim.g.nvimtree_side = "left"
 
       return {
-        on_attach = require("plugins.editor.nvimtree.utils").on_attach,
+        on_attach = require("utils").lsp.on_attach,
         disable_netrw = true,
         hijack_netrw = true,
         hijack_cursor = true,
