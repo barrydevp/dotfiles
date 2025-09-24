@@ -1,0 +1,13 @@
+{
+    "test": {
+        "prefix": "test",
+        "body": [
+            "local test1 = $1",
+            "",
+            "local test2 = $2",
+            "",
+            "local test3 = $3"
+        ],
+        "description": "test snippet"
+    }
+}
